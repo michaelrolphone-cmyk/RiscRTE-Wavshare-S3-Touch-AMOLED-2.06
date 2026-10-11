@@ -1,0 +1,47 @@
+name: Watch port source workspace
+on:
+  workflow_dispatch:
+  push:
+    paths: ['.github/workflows/source-workspace.yml']
+permissions:
+  contents: read
+jobs:
+  source-workspace:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-T-Watch-S3
+          ref: 851b8998e804c57b2c9f42d9f8fd0a69e79f2b41
+          path: workspace/twatch
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE
+          path: workspace/runtime
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-System-Apps
+          path: workspace/system
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-Drivers
+          path: workspace/drivers
+      - uses: actions/checkout@v4
+        with:
+          repository: waveshareteam/ESP32-S3-Touch-AMOLED-2.06
+          path: workspace/waveshare-reference
+          sparse-checkout: |
+            examples
+            Schematic
+            LICENSE
+            README.md
+      - name: Record source identities and archive
+        run: |
+          for d in workspace/*; do printf '%s ' "$(basename "$d")"; git -C "$d" rev-parse HEAD; done | tee workspace/SOURCES.txt
+          tar --exclude='.git' -czf watch-port-sources.tar.gz workspace
+      - uses: actions/upload-artifact@v4
+        with:
+          name: watch-port-sources
+          path: watch-port-sources.tar.gz
+          retention-days: 7
