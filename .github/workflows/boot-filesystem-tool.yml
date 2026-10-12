@@ -1,0 +1,22 @@
+name: First-boot filesystem tool
+on:
+  push:
+    branches: [feat/universal-watch]
+    paths: ['.github/workflows/boot-filesystem-tool.yml']
+permissions:
+  contents: read
+jobs:
+  tool:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          python3 -m pip install platformio==6.1.18
+          pio pkg install --global --tool 'platformio/tool-mkspiffs@2.230.0'
+          mkdir -p bundle
+          cp -r "$HOME/.platformio/packages/tool-mkspiffs" bundle/
+          ls -l bundle/tool-mkspiffs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: boot-filesystem-tool
+          path: bundle
+          retention-days: 14
