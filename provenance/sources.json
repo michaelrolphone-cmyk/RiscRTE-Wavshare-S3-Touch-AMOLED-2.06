@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "watch_source": {
+    "repository": "michaelrolphone-cmyk/RiscRTE-T-Watch-S3",
+    "commit": "851b8998e804c57b2c9f42d9f8fd0a69e79f2b41"
+  },
+  "vendor_reference": {
+    "repository": "waveshareteam/ESP32-S3-Touch-AMOLED-2.06",
+    "commit": "b099739ad0e33b34e5fbaae77f02bd84805d79a3"
+  },
+  "physical_verification": false
+}

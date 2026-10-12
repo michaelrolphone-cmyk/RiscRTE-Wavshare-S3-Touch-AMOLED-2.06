@@ -1,0 +1,44 @@
+{
+  "type": "driver",
+  "id": "waveshare-touch",
+  "version": "0.1.0",
+  "driver_abi": 2,
+  "architecture": "xtensa-esp32s3",
+  "file_name": "driver.elf",
+  "requires": [
+    {
+      "capability": "hardware.device",
+      "api": 1
+    },
+    {
+      "capability": "i2c.bus",
+      "api": 1
+    },
+    {
+      "capability": "gpio.bank",
+      "api": 1
+    },
+    {
+      "capability": "platform.clock",
+      "api": 1
+    }
+  ],
+  "provides": [
+    {
+      "capability": "input.touch.raw",
+      "api": 1
+    }
+  ],
+  "status": "development",
+  "hardware_compatibility": [
+    {
+      "compatible": "focaltech,ft3168",
+      "revisions": [
+        "unspecified"
+      ],
+      "config_type": "touch.i2c",
+      "config_version": 1
+    }
+  ],
+  "physical_verification": "pending"
+}
