@@ -1,0 +1,69 @@
+name: Waveshare watch providers
+on:
+  push:
+    branches: [feat/universal-watch, main]
+  pull_request:
+permissions:
+  contents: write
+jobs:
+  providers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-Watch
+          ref: ad92f4deaa49ec6e0f6e8a7bef9e684d2bb26970
+          path: .source/shared
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-T-Watch-S3
+          ref: 851b8998e804c57b2c9f42d9f8fd0a69e79f2b41
+          path: .source/twatch
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-System-Apps
+          ref: 14762601b3fa7bbeeac5ed565a6825534bf74dca
+          path: .source/system
+          persist-credentials: false
+      - name: Complete readable device source migration
+        run: |
+          if ! test -f provenance/sources.json; then
+            python3 provenance/import_i2c.py
+            python3 provenance/import_power.py
+          fi
+          python3 scripts/test_drivers.py --watch .source/shared
+          python3 scripts/test_drivers.py --watch .source/shared --sanitize
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add drivers include provenance
+          if ! git diff --cached --quiet; then
+            git commit -m 'Implement Waveshare RTC, touch and power providers with shared watch ABI'
+            git push origin HEAD:${{ github.head_ref || github.ref_name }}
+          fi
+      - name: Prepare pinned compiler
+        run: |
+          mkdir -p .source/toolchain
+          curl --fail --location --retry 2 --max-time 180 https://github.com/espressif/crosstool-NG/releases/download/esp-2021r2-patch5/xtensa-esp32s3-elf-gcc8_4_0-esp-2021r2-patch5-linux-amd64.tar.gz -o "$RUNNER_TEMP/toolchain.tar.gz"
+          echo "8aa17a6adf01efa5b1628c8ac578063a44d26ae9581d39486b92223a41ef262f  $RUNNER_TEMP/toolchain.tar.gz" | sha256sum --check
+          tar -xzf "$RUNNER_TEMP/toolchain.tar.gz" -C .source/toolchain
+          python3 -m pip install pyelftools==0.32
+      - name: Build driver ELFs and validate actual loader
+        run: |
+          python3 scripts/build_drivers.py --watch .source/shared --system .source/system --cc "$PWD/.source/toolchain/xtensa-esp32s3-elf/bin/xtensa-esp32s3-elf-gcc"
+          git rev-parse HEAD > dist/COMMIT.txt
+          git archive HEAD | gzip > dist/source.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: waveshare-watch-providers
+          path: |
+            dist/providers/**/driver.elf
+            dist/providers/**/manifest.json
+            dist/providers/build.json
+            dist/COMMIT.txt
+            dist/source.tar.gz
+          retention-days: 30
