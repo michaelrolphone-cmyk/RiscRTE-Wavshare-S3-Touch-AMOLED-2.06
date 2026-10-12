@@ -12,10 +12,10 @@ SIZE=0x800000
 FS_OFFSET=0x310000
 FS_SIZE=0x4f0000
 TOOL_SHA='4ddf79a1ab9a3baf502cdb979bea7ed173bbe46727a9902649cc09e6a28a5ad2'
-NAME='Waveshare-0.1.0-Home-0.14.2-boot-test-full-0x0.bin'
+NAME='Waveshare-0.1.1-Home-0.15.0-boot-test-full-0x0.bin'
 PINS={
  'runtime':'5323d1e834bdcc8e5e9fb0e8f76c383e46626801',
- 'shared':'1430ce9501c74c0e101720e665ea88da81c84849',
+ 'shared':'76aa47728192531ca9812f3e026057e0b174cb00',
  'controllers':'851b8998e804c57b2c9f42d9f8fd0a69e79f2b41',
  'generic':'422e1e81a498fb6bdab9abf086325afc05a532dc',
  'system':'14762601b3fa7bbeeac5ed565a6825534bf74dca',
@@ -77,7 +77,7 @@ def main():
  base=[('display.output',1,5),('board.battery',1,4),('rtc.clock',2,8),('input.touch.raw',1,6),('input.power-key',1,0),('runtime.realtime-control',1,0),('storage.key-value',1,1),('storage.key-value',1,5)]
  for role in ('default','clock'):
   manifest=json.loads((S/'apps/clock'/(role+'.json')).read_text())
-  if manifest['version']!='0.14.2':raise ValueError('First-boot Home fixes are absent')
+  if manifest['version']!='0.15.0':raise ValueError('First-boot Home fixes are absent')
   shutil.copy2(components/(role+'.elf'),store/(role+'.elf'))
   application(role,manifest,base+([('runtime.provider-promotion',1,0)] if role=='default' else []))
  build(S/'apps/bringup/main.c',store/'springboard.elf',[S/'sdk/app',S/'sdk/driver',S/'include'],'app_main',[S/'apps/clock/viewport.c'])
@@ -89,6 +89,13 @@ def main():
  shutil.copy2(store/'springboard.elf',store/'wifi_settings.elf')
  application('wifi_settings',{**diagnostics,'id':'watch-radio-not-in-test'},grants)
  json_write(store/'boot.json',boot)
+ # One canonical app build, consumed through the same stager as T-Watch.
+ # Board-specific support remains in this device profile, not app compilation.
+ from stage_product import app_bundle,stage
+ app_files,_=app_bundle(components)
+ staged,staging=stage(files(store),app_files,{},json.loads((device/'profiles/shared-home.json').read_bytes()),provider_capacity=40)
+ for name,raw in staged.items():(store/name).write_bytes(raw)
+ json_write(out/'shared-home-staging.json',staging)
  expected=files(store)
  if len(expected)!=28 or sum(n.endswith('.elf') for n in expected)!=13:raise ValueError('Unexpected boot inventory')
  if any(len(('/'+n).encode())>=32 for n in expected):raise ValueError('SPIFFS object path too long')
@@ -147,7 +154,7 @@ def main():
  full[FS_OFFSET:FS_OFFSET+FS_SIZE]=raw
  if full[0x9000:0xf000]!=b'\xff'*0x6000 or read_image(full[FS_OFFSET:],FS_SIZE)!=expected:raise ValueError('Merged flash readback failed')
  (out/NAME).write_bytes(full)
- receipt={'schema':1,'product':'Waveshare first-boot test','version':'0.1.0','shared_home':'0.14.2','image':NAME,'bytes':len(full),'sha256':digest(full),'write_address':0,'native_regions':records,'bootfs':{'offset':FS_OFFSET,'bytes':FS_SIZE,'sha256':digest(raw),'tool_sha256':TOOL_SHA},'source_pins':PINS,'device_commit':subprocess.check_output(['git','-C',str(device),'rev-parse','HEAD'],text=True).strip(),'store_files':{n:{'bytes':len(v),'sha256':digest(v)} for n,v in sorted(expected.items())},'validation':{'real_runtime_admission':True,'native_export_and_elf_checks':True,'sanitizers':True,'independent_and_implementation_readback':True,'negative_cases':list(refusals)},'physical_boot_verified':False,'automatic_sleep':False,'network_required':False,'sd_required':False,'erases_lower_8mib_including_nvs':True,'paired_update':False}
+ receipt={'schema':1,'product':'Waveshare first-boot test','version':'0.1.1','shared_home':'0.15.0','image':NAME,'bytes':len(full),'sha256':digest(full),'write_address':0,'native_regions':records,'bootfs':{'offset':FS_OFFSET,'bytes':FS_SIZE,'sha256':digest(raw),'tool_sha256':TOOL_SHA},'source_pins':PINS,'device_commit':subprocess.check_output(['git','-C',str(device),'rev-parse','HEAD'],text=True).strip(),'store_files':{n:{'bytes':len(v),'sha256':digest(v)} for n,v in sorted(expected.items())},'validation':{'real_runtime_admission':True,'native_export_and_elf_checks':True,'sanitizers':True,'independent_and_implementation_readback':True,'negative_cases':list(refusals)},'shared_home_staging':staging,'physical_boot_verified':False,'automatic_sleep':False,'network_required':False,'sd_required':False,'erases_lower_8mib_including_nvs':True,'paired_update':False}
  json_write(out/'build.json',receipt)
  (out/'SHA256SUMS.txt').write_text(receipt['sha256']+'  '+NAME+'\n')
  print('FLASH IMAGE READY:',NAME,len(full),'bytes',receipt['sha256'],flush=True)

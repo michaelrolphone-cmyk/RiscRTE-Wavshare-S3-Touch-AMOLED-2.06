@@ -1,0 +1,6 @@
+{
+  "schema": 1,
+  "name": "waveshare-boot-test",
+  "board_id": "waveshare-esp32-s3-touch-amoled-2.06",
+  "services": []
+}
