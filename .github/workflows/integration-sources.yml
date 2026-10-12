@@ -1,0 +1,41 @@
+name: Watch integration source bundle
+on:
+  push:
+    branches: [feat/universal-watch]
+    paths: ['.github/workflows/integration-sources.yml']
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: waveshare
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-T-Watch-S3
+          ref: fb01359770f457e410efe8cf7c7e0de5f3a43ebf
+          path: twatch
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-Drivers
+          ref: ce6ad2dfbcb78e367dd6b2d45c094e104f97932a
+          path: drivers
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE
+          ref: fe20777f374a7a93bc8e44019ebcb851c5584bb9
+          path: runtime
+      - name: Archive immutable source inputs
+        run: |
+          mkdir -p bundle
+          for name in waveshare twatch drivers runtime; do
+            git -C "$name" rev-parse HEAD > "bundle/$name.sha"
+            git -C "$name" archive HEAD | gzip > "bundle/$name.tar.gz"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: watch-integration-sources
+          path: bundle
+          retention-days: 14
