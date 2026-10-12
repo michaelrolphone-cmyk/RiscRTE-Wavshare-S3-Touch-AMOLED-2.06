@@ -4,25 +4,19 @@ on:
     branches: [feat/universal-watch, main]
   pull_request:
 permissions:
-  contents: write
+  contents: read
 jobs:
   providers:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref || github.ref_name }}
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - uses: actions/checkout@v4
         with:
           repository: michaelrolphone-cmyk/RiscRTE-Watch
-          ref: ad92f4deaa49ec6e0f6e8a7bef9e684d2bb26970
+          ref: 24e896cb4d60e8971bbbf7cc4ba4266d2b70e5ef
           path: .source/shared
-          persist-credentials: false
-      - uses: actions/checkout@v4
-        with:
-          repository: michaelrolphone-cmyk/RiscRTE-T-Watch-S3
-          ref: 851b8998e804c57b2c9f42d9f8fd0a69e79f2b41
-          path: .source/twatch
           persist-credentials: false
       - uses: actions/checkout@v4
         with:
@@ -30,21 +24,11 @@ jobs:
           ref: 14762601b3fa7bbeeac5ed565a6825534bf74dca
           path: .source/system
           persist-credentials: false
-      - name: Complete readable device source migration
+      - name: Test actual providers and generic capability contracts
         run: |
-          if ! test -f provenance/sources.json; then
-            python3 provenance/import_i2c.py
-            python3 provenance/import_power.py
-          fi
+          python3 .source/shared/scripts/check_capability_boundaries.py --provider-root "$PWD"
           python3 scripts/test_drivers.py --watch .source/shared
           python3 scripts/test_drivers.py --watch .source/shared --sanitize
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add drivers include provenance
-          if ! git diff --cached --quiet; then
-            git commit -m 'Implement Waveshare RTC, touch and power providers with shared watch ABI'
-            git push origin HEAD:${{ github.head_ref || github.ref_name }}
-          fi
       - name: Prepare pinned compiler
         run: |
           mkdir -p .source/toolchain
