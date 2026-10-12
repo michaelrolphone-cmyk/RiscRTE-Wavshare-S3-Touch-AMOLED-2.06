@@ -1,0 +1,125 @@
+name: Waveshare boot-test full image
+on:
+  push:
+    branches: [feat/universal-watch]
+    paths: ['.github/workflows/boot-test.yml', 'scripts/build_boot_test.py', 'scripts/validate_boot_test.py', 'docs/BOOT_TEST_0.1.0.md']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  firmware:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE
+          ref: 5323d1e834bdcc8e5e9fb0e8f76c383e46626801
+          path: .source/runtime
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-Watch
+          ref: 1430ce9501c74c0e101720e665ea88da81c84849
+          path: .source/shared
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-T-Watch-S3
+          ref: 851b8998e804c57b2c9f42d9f8fd0a69e79f2b41
+          path: .source/controllers
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-Drivers
+          ref: 422e1e81a498fb6bdab9abf086325afc05a532dc
+          path: .source/generic
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-System-Apps
+          ref: 14762601b3fa7bbeeac5ed565a6825534bf74dca
+          path: .source/system
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-Utilities
+          ref: fc0bdbbbc600ce891e60c44d091fce0586ade7d8
+          path: .source/utilities
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test actual shared Home and diagnostic entry points
+        run: |
+          mkdir -p evidence
+          python -m pip install platformio==6.1.18 pyelftools==0.32 esptool==4.11.0
+          python3 .source/shared/scripts/test_fast_wake_clock.py --system-apps .source/system --utilities .source/utilities | tee evidence/home-tests.txt
+          python3 .source/shared/scripts/test_capabilities.py --sanitize | tee evidence/capabilities.txt
+          python3 .source/shared/scripts/test_viewport.py --sanitize | tee evidence/viewport.txt
+          python3 .source/shared/scripts/check_capability_boundaries.py --provider-root "$PWD"
+          for flags in '' '-fsanitize=address,undefined -fno-sanitize-recover=all -fno-omit-frame-pointer -no-pie'; do
+            cc -std=c11 -Wall -Wextra -Werror -Wno-misleading-indentation $flags -I.source/shared/include -I.source/shared/sdk/app -I.source/shared/sdk/driver .source/shared/tests/bringup_test.c .source/shared/apps/clock/viewport.c -o /tmp/bringup-test
+            /tmp/bringup-test | tee -a evidence/diagnostics.txt
+          done
+      - name: Compile pinned native Runtime with standalone boot profile
+        run: |
+          cat > .source/runtime/boot-test.ini <<'INI'
+          [platformio]
+          extra_configs = platformio.ini
+          [env:esp32s3-16mb-boot-test]
+          extends = env:esp32s3-16mb-usb
+          lib_ignore = WiFiClientSecure
+          build_flags =
+            ${env:esp32s3.build_flags}
+            -DARDUINO_USB_MODE=1
+            -DARDUINO_USB_CDC_ON_BOOT=1
+            -DRISC_TARGET=\"esp32s3-16mb-boot-test\"
+            -DRISC_INSTALLED_APP_CAPACITY=64
+            -DRISC_PROVIDER_CAPACITY=40
+            -DRISC_APP_POLICY_ROWS=32
+            -DRISC_APP_REQUIREMENT_ROWS=32
+            -DRISC_STAGE_LOGS=1
+          INI
+          cd .source/runtime
+          pio run --project-conf boot-test.ini -e esp32s3-16mb-boot-test
+          pio pkg install --global --tool 'platformio/tool-mkspiffs@2.230.0'
+      - name: Assemble, admit, unpack and verify full image
+        run: |
+          python3 scripts/build_boot_test.py --runtime .source/runtime --shared .source/shared --controllers .source/controllers --generic .source/generic --system .source/system --utilities .source/utilities --native .source/runtime/.pio/build/esp32s3-16mb-boot-test --cc "$HOME/.platformio/packages/toolchain-xtensa-esp32s3/bin/xtensa-esp32s3-elf-gcc" --mkspiffs "$HOME/.platformio/packages/tool-mkspiffs/mkspiffs_espressif32_arduino" --output dist/boot-test | tee evidence/assembly.txt
+          python -m esptool --chip esp32s3 image_info .source/runtime/.pio/build/esp32s3-16mb-boot-test/firmware.bin | tee evidence/native-image-info.txt
+          cp docs/BOOT_TEST_0.1.0.md dist/boot-test/README.md
+          cp .source/runtime/boot-test.ini dist/boot-test/native-build.ini
+          cp .source/runtime/.pio/build/esp32s3-16mb-boot-test/firmware.elf dist/boot-test/native-firmware.elf
+          cp -r evidence dist/boot-test/evidence
+          git rev-parse HEAD > dist/boot-test/DEVICE_COMMIT.txt
+          git archive HEAD | gzip > dist/boot-test/device-source.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Waveshare-0.1.0-boot-test-full-image
+          path: |
+            dist/boot-test/*-full-0x0.bin
+            dist/boot-test/README.md
+            dist/boot-test/build.json
+            dist/boot-test/SHA256SUMS.txt
+            dist/boot-test/negative-admission.json
+            dist/boot-test/validation*.log
+            dist/boot-test/evidence/
+            dist/boot-test/native-build.ini
+            dist/boot-test/native-firmware.elf
+            dist/boot-test/DEVICE_COMMIT.txt
+            dist/boot-test/device-source.tar.gz
+          retention-days: 30
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: boot-test-failure-evidence
+          path: |
+            evidence/
+            dist/boot-test/validation*.log
+          retention-days: 7
