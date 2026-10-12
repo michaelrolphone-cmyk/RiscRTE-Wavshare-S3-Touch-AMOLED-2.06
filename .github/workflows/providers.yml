@@ -24,11 +24,28 @@ jobs:
           ref: 14762601b3fa7bbeeac5ed565a6825534bf74dca
           path: .source/system
           persist-credentials: false
-      - name: Test actual providers and generic capability contracts
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-Drivers
+          ref: ce6ad2dfbcb78e367dd6b2d45c094e104f97932a
+          path: .source/drivers
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE
+          ref: be6400926227e6eb2d36ec28cd8a3cdad9978c12
+          path: .source/runtime
+          persist-credentials: false
+      - name: Test actual providers and generic contracts
         run: |
+          cmp include/RiscAudioPcmV1.h .source/drivers/sdk/driver/RiscAudioPcmV1.h
+          cmp include/RiscI2sStandardV1.h .source/runtime/sdk/driver/RiscI2sStandardV1.h
+          cmp include/RiscI2sStandardConfigV1.h .source/runtime/sdk/hardware/RiscI2sStandardConfigV1.h
           python3 .source/shared/scripts/check_capability_boundaries.py --provider-root "$PWD"
           python3 scripts/test_drivers.py --watch .source/shared
           python3 scripts/test_drivers.py --watch .source/shared --sanitize
+          python3 .source/drivers/scripts/test_audio.py --wave "$PWD" --watch .source/shared
+          python3 .source/drivers/scripts/test_audio.py --wave "$PWD" --watch .source/shared --sanitize
       - name: Prepare pinned compiler
         run: |
           mkdir -p .source/toolchain
@@ -36,11 +53,16 @@ jobs:
           echo "8aa17a6adf01efa5b1628c8ac578063a44d26ae9581d39486b92223a41ef262f  $RUNNER_TEMP/toolchain.tar.gz" | sha256sum --check
           tar -xzf "$RUNNER_TEMP/toolchain.tar.gz" -C .source/toolchain
           python3 -m pip install pyelftools==0.32
-      - name: Build driver ELFs and validate actual loader
+      - name: Build physical and reusable audio provider ELFs
         run: |
-          python3 scripts/build_drivers.py --watch .source/shared --system .source/system --cc "$PWD/.source/toolchain/xtensa-esp32s3-elf/bin/xtensa-esp32s3-elf-gcc"
+          compiler="$PWD/.source/toolchain/xtensa-esp32s3-elf/bin/xtensa-esp32s3-elf-gcc"
+          python3 scripts/build_drivers.py --watch .source/shared --system .source/system --cc "$compiler"
+          python3 .source/drivers/scripts/build_audio.py --watch .source/shared --cc "$compiler" --validator dist/providers/validate-elf --output dist/audio
           git rev-parse HEAD > dist/COMMIT.txt
           git archive HEAD | gzip > dist/source.tar.gz
+          mkdir -p dist/licenses
+          cp /usr/share/common-licenses/Apache-2.0 dist/licenses/Apache-2.0.txt
+          cp THIRD_PARTY_NOTICES.md dist/licenses/
       - uses: actions/upload-artifact@v4
         with:
           name: waveshare-watch-providers
@@ -48,6 +70,10 @@ jobs:
             dist/providers/**/driver.elf
             dist/providers/**/manifest.json
             dist/providers/build.json
+            dist/audio/**/driver.elf
+            dist/audio/**/manifest.json
+            dist/audio/build.json
+            dist/licenses/*
             dist/COMMIT.txt
             dist/source.tar.gz
           retention-days: 30

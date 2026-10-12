@@ -1,0 +1,25 @@
+name: Preserve codec license
+on:
+  push:
+    branches: [feat/universal-watch]
+    paths: ['.github/workflows/codec-license.yml']
+permissions:
+  contents: write
+jobs:
+  license:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/universal-watch
+      - name: Preserve standard Apache-2.0 license text
+        run: |
+          mkdir -p licenses
+          cp /usr/share/common-licenses/Apache-2.0 licenses/Apache-2.0.txt
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add licenses/Apache-2.0.txt
+          if ! git diff --cached --quiet; then
+            git commit -m 'Preserve Apache-2.0 license for adapted Espressif codec sequences'
+            git push origin HEAD:feat/universal-watch
+          fi
