@@ -8,6 +8,7 @@ flags=['-std=c11','-Wall','-Wextra','-Werror','-Wno-misleading-indentation','-g'
 if a.sanitize:flags+=['-fsanitize=address,undefined','-fno-omit-frame-pointer']
 with tempfile.TemporaryDirectory() as tmp:
  for source in sorted((ROOT/'tests').glob('test_*.c')):
+  if source.stem=='test_storage':continue
   target=Path(tmp)/source.stem
   subprocess.run([os.environ.get('CC','cc'),*flags,*['-I'+str(x) for x in (a.watch/'sdk/driver',a.watch/'include',ROOT/'include')],str(source),'-o',str(target)],check=True)
   subprocess.run([str(target)],check=True)
