@@ -1,0 +1,64 @@
+name: Waveshare first-boot native substrate
+on:
+  push:
+    branches: [feat/universal-watch]
+    paths: ['.github/workflows/boot-test-substrate.yml']
+permissions:
+  contents: read
+jobs:
+  native:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE
+          ref: 5323d1e834bdcc8e5e9fb0e8f76c383e46626801
+          path: runtime
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-Drivers
+          ref: 422e1e81a498fb6bdab9abf086325afc05a532dc
+          path: generic
+          persist-credentials: false
+      - name: Configure standalone boot-test native build
+        run: |
+          cat >> runtime/platformio.ini <<'INI'
+
+          [env:esp32s3-16mb-boot-test]
+          extends = env:esp32s3-16mb-usb
+          build_flags =
+            ${env:esp32s3.build_flags}
+            -DARDUINO_USB_MODE=1
+            -DARDUINO_USB_CDC_ON_BOOT=1
+            -DRISC_TARGET=\"esp32s3-16mb-boot-test\"
+            -DRISC_INSTALLED_APP_CAPACITY=16
+            -DRISC_PROVIDER_CAPACITY=24
+            -DRISC_APP_POLICY_ROWS=32
+            -DRISC_APP_REQUIREMENT_ROWS=32
+            -DRISC_STAGE_LOGS=1
+          INI
+          python3 -m pip install platformio==6.1.18 pyelftools==0.32 esptool==4.11.0
+      - name: Compile real ESP32-S3 Runtime
+        working-directory: runtime
+        run: pio run -e esp32s3-16mb-boot-test
+      - name: Archive build and exact source inputs
+        if: always()
+        run: |
+          mkdir -p bundle
+          cp runtime/platformio.ini bundle/native-build.ini
+          git -C runtime rev-parse HEAD > bundle/RUNTIME_COMMIT.txt
+          git -C generic rev-parse HEAD > bundle/GENERIC_COMMIT.txt
+          git -C runtime archive HEAD | gzip > bundle/runtime-source.tar.gz
+          git -C generic archive HEAD | gzip > bundle/generic-source.tar.gz
+          cp runtime/.pio/build/esp32s3-16mb-boot-test/{firmware.elf,firmware.bin,bootloader.bin,partitions.bin} bundle/ || true
+          cp -r runtime/.pio/libdeps/esp32s3-16mb-boot-test bundle/libdeps || true
+          cp "$HOME/.platformio/packages/framework-arduinoespressif32/tools/gen_esp32part.py" bundle/ || true
+          cp "$HOME/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/bin/bootloader_qio_80m.elf" bundle/ || true
+          find "$HOME/.platformio" -name spiffsgen.py -exec cp {} bundle/ \;
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: waveshare-boot-substrate
+          path: bundle
+          retention-days: 14
