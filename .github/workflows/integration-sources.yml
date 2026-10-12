@@ -12,17 +12,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: michaelrolphone-cmyk/T5S3-Reader
-          ref: 3f599139
+          ref: 3f59913963840cb5ee8e2a65baa921f8d6af0b4d
           path: reference
           sparse-checkout: |
             Drivers
             lib
             test
+            sdk
       - name: Archive existing generic storage implementation
         run: |
           mkdir -p bundle
           git -C reference rev-parse HEAD > bundle/reader.sha
-          git -C reference archive HEAD Drivers lib test | gzip > bundle/storage-reference.tar.gz
+          git -C reference archive HEAD Drivers lib test sdk | gzip > bundle/storage-reference.tar.gz
       - uses: actions/upload-artifact@v4
         with:
           name: watch-storage-source
