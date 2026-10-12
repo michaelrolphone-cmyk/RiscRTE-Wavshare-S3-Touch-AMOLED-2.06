@@ -11,31 +11,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          path: waveshare
-      - uses: actions/checkout@v4
-        with:
-          repository: michaelrolphone-cmyk/RiscRTE-T-Watch-S3
-          ref: fb01359770f457e410efe8cf7c7e0de5f3a43ebf
-          path: twatch
-      - uses: actions/checkout@v4
-        with:
-          repository: michaelrolphone-cmyk/RiscRTE-Drivers
-          ref: ce6ad2dfbcb78e367dd6b2d45c094e104f97932a
-          path: drivers
-      - uses: actions/checkout@v4
-        with:
-          repository: michaelrolphone-cmyk/RiscRTE
-          ref: fe20777f374a7a93bc8e44019ebcb851c5584bb9
-          path: runtime
-      - name: Archive immutable source inputs
+          repository: michaelrolphone-cmyk/T5S3-Reader
+          ref: 3f599139
+          path: reference
+          sparse-checkout: |
+            Drivers
+            lib
+            test
+      - name: Archive existing generic storage implementation
         run: |
           mkdir -p bundle
-          for name in waveshare twatch drivers runtime; do
-            git -C "$name" rev-parse HEAD > "bundle/$name.sha"
-            git -C "$name" archive HEAD | gzip > "bundle/$name.tar.gz"
-          done
+          git -C reference rev-parse HEAD > bundle/reader.sha
+          git -C reference archive HEAD Drivers lib test | gzip > bundle/storage-reference.tar.gz
       - uses: actions/upload-artifact@v4
         with:
-          name: watch-integration-sources
+          name: watch-storage-source
           path: bundle
           retention-days: 14
