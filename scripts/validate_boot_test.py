@@ -7,6 +7,7 @@ for name in ('runtime','controllers','native-elf','store','output'):p.add_argume
 p.add_argument('--sanitize',action='store_true')
 p.add_argument('--cohort-store',type=Path,help='Validate this candidate against the admitted --store cohort')
 p.add_argument('--app-data',action='store_true',help='Successor admission with explicit app-data backend; no storage calls allowed')
+p.add_argument('--file-source',action='store_true',help='Require source ABI and native mount fences; admit modeled backend with zero I/O')
 p.add_argument('--sd',action='store_true',help='Require native SDMMC witness and expose modeled admission backend')
 p.add_argument('--updates',action='store_true',help='Admit update providers only with native HTTP and paired-bank witnesses')
 p.add_argument('--sharing',action='store_true',help='Admit sharing providers only with native TCP/entropy ABI witnesses')
@@ -45,6 +46,26 @@ s=s.replace('  RiscCpu::Hardware h{};','''  RiscCpu::Hardware h{};
 if args.sd:
     assert b'risc_sdmmc_host_abi' in args.native_elf.read_bytes(), 'Missing native SDMMC ABI witness'
     s=s.replace('  RiscCpu::Hardware h{};', '  RiscCpu::Hardware h{};\n  h.sdmmcOpen=[](uint8_t,uint8_t,uint8_t,uint32_t,risc_sdmmc_card_info_v1*){++hardwareCalls;return false;};\n  h.sdmmcRead=[](uint64_t,uint32_t,void*){++hardwareCalls;return false;};\n  h.sdmmcWrite=[](uint64_t,uint32_t,const void*){++hardwareCalls;return false;};\n  h.sdmmcSync=[](){++hardwareCalls;return false;};\n  h.sdmmcClose=[](){++hardwareCalls;return false;};')
+if args.file_source:
+    from elftools.elf.elffile import ELFFile
+    import struct
+    with args.native_elf.open('rb') as stream:
+        elf=ELFFile(stream);symbols=elf.get_section_by_name('.symtab')
+        rows=symbols.get_symbol_by_name('risc_file_source_abi');assert rows and len(rows)==1
+        symbol=rows[0];section=elf.get_section(symbol['st_shndx'])
+        assert struct.unpack_from('<I',section.data(),symbol['st_value']-section['sh_addr'])[0]==1
+        for name in ('esp_vfs_register','esp_vfs_unregister','esp_partition_read','esp_partition_write','esp_partition_erase_range','esp_littlefs_format','esp_littlefs_format_partition'):
+            assert symbols.get_symbol_by_name('__wrap_'+name),name
+    s=s.replace('  RiscBoot::Runtime runtime(runtimePort);',"""
+  static const RiscBoot::FileSourceBackend sourceBackend={nullptr,
+    [](void*,uint64_t)->int32_t{++storageCalls;return RISC_FILE_SOURCE_IO;},
+    [](void*,const void*,uint32_t,uint32_t*)->int32_t{++storageCalls;return RISC_FILE_SOURCE_IO;},
+    [](void*)->int32_t{++storageCalls;return RISC_FILE_SOURCE_IO;},
+    [](void*,uint64_t,void*,uint32_t,uint32_t*)->int32_t{++storageCalls;return RISC_FILE_SOURCE_IO;},
+    [](void*)->int32_t{++storageCalls;return RISC_FILE_SOURCE_IO;},
+    [](void*){return true;}};
+  runtimePort.fileSource=&sourceBackend;
+  RiscBoot::Runtime runtime(runtimePort);""")
 a=s.index('  // Runtime errors are constant diagnostics');b=s.index('#endif\n  return hardwareCalls',a)
 s=s[:a]+'''  unsigned admitted=0;
   const bool inspected=prepared && runtime.inspectImages(CohortElf::file,&admitted);
