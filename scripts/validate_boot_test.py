@@ -7,6 +7,7 @@ for name in ('runtime','controllers','native-elf','store','output'):p.add_argume
 p.add_argument('--sanitize',action='store_true')
 p.add_argument('--cohort-store',type=Path,help='Validate this candidate against the admitted --store cohort')
 p.add_argument('--app-data',action='store_true',help='Successor admission with explicit app-data backend; no storage calls allowed')
+p.add_argument('--sd',action='store_true',help='Require native SDMMC witness and expose modeled admission backend')
 p.add_argument('--updates',action='store_true',help='Admit update providers only with native HTTP and paired-bank witnesses')
 p.add_argument('--sharing',action='store_true',help='Admit sharing providers only with native TCP/entropy ABI witnesses')
 args=p.parse_args()
@@ -41,6 +42,9 @@ s=s.replace('  RiscCpu::Hardware h{};','''  RiscCpu::Hardware h{};
   h.spiOpenQuad=[](uint8_t,int16_t,int16_t,int16_t,int16_t,int16_t){++hardwareCalls;return false;};
   h.spiTransferFrame=[](uint8_t,const risc_spi_frame_v1*,const uint8_t*,size_t,uint32_t){++hardwareCalls;return false;};
   h.spiTransferQuad=[](uint8_t,const uint8_t*,size_t,uint32_t){++hardwareCalls;return false;};''')
+if args.sd:
+    assert b'risc_sdmmc_host_abi' in args.native_elf.read_bytes(), 'Missing native SDMMC ABI witness'
+    s=s.replace('  RiscCpu::Hardware h{};', '  RiscCpu::Hardware h{};\n  h.sdmmcOpen=[](uint8_t,uint8_t,uint8_t,uint32_t,risc_sdmmc_card_info_v1*){++hardwareCalls;return false;};\n  h.sdmmcRead=[](uint64_t,uint32_t,void*){++hardwareCalls;return false;};\n  h.sdmmcWrite=[](uint64_t,uint32_t,const void*){++hardwareCalls;return false;};\n  h.sdmmcSync=[](){++hardwareCalls;return false;};\n  h.sdmmcClose=[](){++hardwareCalls;return false;};')
 a=s.index('  // Runtime errors are constant diagnostics');b=s.index('#endif\n  return hardwareCalls',a)
 s=s[:a]+'''  unsigned admitted=0;
   const bool inspected=prepared && runtime.inspectImages(CohortElf::file,&admitted);

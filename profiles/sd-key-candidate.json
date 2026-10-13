@@ -1,0 +1,104 @@
+{
+  "schema": 1,
+  "home_source": "5815b5a354617f344ce19730a944f94fa0664660",
+  "home": {
+    "role": "home",
+    "file_name": "default.elf",
+    "bytes": 871088,
+    "sha256": "0fe9397556fb20d160a37facd5b241196cef5f8ac67d2abdb2a1bfae2e3eee79",
+    "imports": [
+      "free",
+      "malloc",
+      "memchr",
+      "memcmp",
+      "memcpy",
+      "memset",
+      "risc_runtime_get_api",
+      "strcmp",
+      "strncmp"
+    ],
+    "exports": [
+      "app_main"
+    ],
+    "compaction": {
+      "profile": "loader-metadata-v3",
+      "before_bytes": 941184,
+      "after_bytes": 871088,
+      "before_sha256": "b25f2293dda195f35abdaba60b43b540b91184d2217e3f8e5412f7c4d7f0f26a",
+      "after_sha256": "0fe9397556fb20d160a37facd5b241196cef5f8ac67d2abdb2a1bfae2e3eee79",
+      "removed_sections": [
+        ".debug_abbrev",
+        ".debug_aranges",
+        ".debug_info",
+        ".debug_line",
+        ".debug_str",
+        ".xt.lit",
+        ".xt.prop"
+      ],
+      "retained_loader_sections_symbols_relocations_unchanged": true,
+      "original_elf_retained": true,
+      "tool": "GNU objcopy (crosstool-NG esp-2021r2-patch5) 2.35.1.20201223",
+      "options": [
+        "--remove-section=.xt.lit",
+        "--remove-section=.xt.prop",
+        "--discard-all"
+      ]
+    },
+    "defines": [
+      "-DWATCH_FAST_WAKE",
+      "-DPORTABLE_WATCH_NATIVE_HEIGHT",
+      "-DPORTABLE_LOW_BATTERY",
+      "-DWATCH_RUNTIME_FEATURES",
+      "-DWATCH_BLE_BROADCAST",
+      "-DWATCH_CLOCK_LAUNCHER",
+      "-DWATCH_CLOCK_ALARMS",
+      "-DWATCH_CLOCK_POINTS",
+      "-DPORTABLE_RTC_UTC8_DENVER",
+      "-DWATCH_PAIRED_BOOT_CONFIRM",
+      "-DWATCH_QUICK_ACTIONS",
+      "-DWATCH_QUICK_RADIOS",
+      "-DWATCH_MOTION_WAKE",
+      "-DWATCH_ALARM_SLEEP_RESUME",
+      "-DWATCH_CONTEXTS_CLIENT",
+      "-flto",
+      "-Wl,--undefined=__udivdi3",
+      "-Wl,--undefined=__umoddi3",
+      "-Wl,--undefined=__divdi3",
+      "-Wl,--undefined=__moddi3"
+    ]
+  },
+  "sd_provider": {
+    "sha256": "06f5142b355a60abb929bc91764a5ad2ebc1bdda611e8dec0e24c602bf9386cf",
+    "bytes": 30516,
+    "imports": [
+      "memcmp",
+      "memcpy",
+      "memset",
+      "strchr",
+      "strcmp",
+      "strlen"
+    ],
+    "compaction": {
+      "profile": "loader-metadata-v3",
+      "before_bytes": 51424,
+      "after_bytes": 30516,
+      "before_sha256": "45b42e226e76bef3b99ca414a5f058be6087d3f5124914e552ea873b4059c717",
+      "after_sha256": "06f5142b355a60abb929bc91764a5ad2ebc1bdda611e8dec0e24c602bf9386cf",
+      "removed_sections": [
+        ".xt.lit",
+        ".xt.prop"
+      ],
+      "retained_loader_sections_symbols_relocations_unchanged": true,
+      "original_elf_retained": true,
+      "tool": "GNU objcopy (crosstool-NG esp-2021r2-patch5) 2.35.1.20201223",
+      "options": [
+        "--remove-section=.xt.lit",
+        "--remove-section=.xt.prop",
+        "--discard-all"
+      ]
+    },
+    "physical_verification": false
+  },
+  "hardware_verified": false,
+  "held_until": "2026-10-13T23:30:00Z"
+}

@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 static uint8_t *image_;static const uint32_t sectors_=131072;
-static bool owner_=true,locked_,created_,selected_,opened_,missing_,bad_info_,fail_release_,fail_unlock_,fail_destroy_,fail_select_;
+static bool owner_=true,locked_,created_,selected_,opened_,missing_,bad_info_,fail_release_,fail_unlock_,fail_destroy_,fail_select_,fail_read_;
 static unsigned calls_,reads_,writes_,cut_;
 static bool sync_owner(void*c){(void)c;return owner_;}
 static bool sync_create(void*c,uint64_t*t){(void)c;*t=0;if(!owner_||created_)return false;created_=true;*t=8;return true;}
@@ -22,7 +22,7 @@ static bool open_(void*c,uint8_t clk,uint8_t cmd,uint8_t d0,uint32_t hz,uint64_t
  (void)c;assert(clk==2&&cmd==1&&d0==3&&hz==20000000&&selected_&&locked_&&!opened_);calls_++;opened_=true;*t=99;
  *i=(risc_sdmmc_card_info_v1){sizeof(*i),bad_info_?1024:512,sectors_,20000000,0};return !missing_;
 }
-static bool read_(void*c,uint64_t t,uint64_t lba,uint32_t n,void*b){(void)c;assert(t==99&&opened_&&locked_&&n==1&&lba<sectors_);calls_++;reads_++;memcpy(b,image_+lba*512,512);return true;}
+static bool read_(void*c,uint64_t t,uint64_t lba,uint32_t n,void*b){(void)c;assert(t==99&&opened_&&locked_&&n==1&&lba<sectors_);calls_++;reads_++;if(fail_read_)return false;memcpy(b,image_+lba*512,512);return true;}
 static bool write_(void*c,uint64_t t,uint64_t lba,uint32_t n,const void*b){(void)c;assert(t==99&&opened_&&locked_&&n==1&&lba<sectors_);calls_++;writes_++;if(writes_==cut_)return false;memcpy(image_+lba*512,b,512);return true;}
 static bool sync_(void*c,uint64_t t){(void)c;assert(t==99&&opened_&&locked_);calls_++;return true;}
 static bool release_(void*c,uint64_t t){(void)c;assert(t==99&&opened_&&locked_);calls_++;if(fail_release_)return false;opened_=false;return true;}
@@ -55,7 +55,13 @@ int main(int argc,char**argv) {
  assert(t5_driver_get(2)&&!t5_driver_get(1));
  owner_=false;assert(!start(deps_,4)&&!calls_);owner_=true;
  fail_select_=true;assert(!start(deps_,4));clean();fail_select_=false;
- missing_=true;assert(start(deps_,4)&&!opened_&&!v->ready(NULL));clean();missing_=false;
+ missing_=true;assert(start(deps_,4)&&!opened_&&!v->ready(NULL));
+ unsigned media_writes=writes_;missing_=false;assert(v->refresh(NULL)&&v->ready(NULL));
+ missing_=true;assert(v->refresh(NULL)&&!v->ready(NULL)&&writes_==media_writes);clean();missing_=false;
+ uint8_t sector0[512];memcpy(sector0,image_,512);memset(image_,0,512);
+ assert(start(deps_,4)&&!v->ready(NULL)&&writes_==media_writes);clean();memcpy(image_,sector0,512);
+ fail_read_=true;assert(start(deps_,4)&&!v->ready(NULL)&&writes_==media_writes);clean();fail_read_=false;
+ assert(start(deps_,4)&&v->ready(NULL));clean();
  bad_info_=true;assert(start(deps_,4)&&!opened_&&!v->ready(NULL));clean();bad_info_=false;
  assert(start(deps_,4)&&v->ready(NULL));assert(!start(deps_,4));unsigned initial=calls_;
  owner_=false;assert(!v->ready(NULL)&&!v->refresh(NULL)&&!quiesce()&&calls_==initial);owner_=true;
