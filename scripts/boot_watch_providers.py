@@ -42,7 +42,7 @@ def stage_watch_providers(*, build, store, boot, device, shared, controllers,
              [utilities/'lib/Broadcast/include',system/'lib/PortableApps/include',generic/'sdk/driver'])
     provider('contexts',utilities/'Services/contexts/service.c',
              [utilities/'Apps',utilities/'lib/Contexts/include',temporal/'sdk/driver',system/'lib/PortableApps/include'],
-             extra=[system/'lib/NativeApps/src/SingleFloatDivisionCompat.c'])
+             extra=[system/'lib/NativeApps/src/SingleFloatDivisionCompat.c'],section_gc=False)
     # Chip-specific absence is expressed by the product graph, never fake
     # providers or model branches in shared applications.
     return {'physical_instances':[10,15,16],
