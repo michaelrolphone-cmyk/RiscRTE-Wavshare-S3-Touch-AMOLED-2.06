@@ -14,7 +14,7 @@ FS_SIZE=0x4f0000
 TOOL_SHA='4ddf79a1ab9a3baf502cdb979bea7ed173bbe46727a9902649cc09e6a28a5ad2'
 NAME='Waveshare-0.1.4-Home-0.15.0-boot-test-full-0x0.bin'
 PINS={
- 'runtime':'97336e63ce1eac40364893e0ddf5b9fe61b648b7',
+ 'runtime':'7c83c27a2fd71833013a599c19d2ddc95344d83e',
  'shared':'76aa47728192531ca9812f3e026057e0b174cb00',
  'controllers':'851b8998e804c57b2c9f42d9f8fd0a69e79f2b41',
  'generic':'422e1e81a498fb6bdab9abf086325afc05a532dc',
