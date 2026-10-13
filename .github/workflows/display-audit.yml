@@ -31,17 +31,26 @@ jobs:
             components/hal
             components/soc
             components/esp_rom
-      - name: Record source identities and run production native transport tests
+      - uses: actions/checkout@v4
+        with:
+          repository: waveshareteam/ESP32-S3-Touch-AMOLED-2.06
+          ref: b099739ad0e33b34e5fbaae77f02bd84805d79a3
+          persist-credentials: false
+          path: vendor
+          sparse-checkout: |
+            examples/arduino/libraries/Arduino_GFX
+      - name: Record source identities and native test outcome
         shell: bash
         run: |
-          set -u
           mkdir -p evidence
-          for d in device runtime idf; do printf '%s ' "$d"; git -C "$d" rev-parse HEAD; done > evidence/SOURCES.txt
-          set -o pipefail
-          bash runtime/test/run_native_spi_test.sh 2>&1 | tee evidence/native-test.txt
-          status=${PIPESTATUS[0]}
-          printf '%s\n' "$status" > evidence/native-test-exit.txt
-          tar --exclude='.git' -czf display-audit-sources.tar.gz device runtime idf evidence
+          for d in device runtime idf vendor; do printf '%s ' "$d"; git -C "$d" rev-parse HEAD; done > evidence/SOURCES.txt
+          set +e
+          bash runtime/test/run_native_spi_test.sh > evidence/native-test.txt 2>&1
+          printf '%s\n' "$?" > evidence/native-test-exit.txt
+          cat evidence/native-test.txt
+      - name: Archive sources and failure evidence
+        if: always()
+        run: tar --exclude='.git' -czf display-audit-sources.tar.gz device runtime idf vendor evidence
       - uses: actions/upload-artifact@v4
         if: always()
         with:
