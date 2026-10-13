@@ -6,7 +6,7 @@ and 49-ELF candidate admission pass. No display transport source was replaced.
 
 `scripts/stage_catalog_candidate.py` builds a separate, unsealed candidate from
 the existing storage composition. It selects System
-72f435fcee376ec62d17ece6180753385ea547d9, metadata helper source
+b580e32d5821d4a80e80c896bf7c085214f2b590 (Apps/lib identical to 72f435f), metadata helper source
 362537417c4f37bbb240879d5ba756686511fec1, generic bridges
 6e82fdcaec0b73ed700d2104cfb4d94f011c19d4 and unchanged Home source ec768c7.
 It rebuilds Settings, Springboard, Timecard and Audio Spectrum without any catalog
@@ -58,3 +58,10 @@ composition, cohort binding, paired image assembly and hardware qualification
 remain separate. No hardware or serial access, flashing, publication, or Drive
 upload was performed. Existing automatic approval-review publication blocks
 remain in force.
+
+The public self-contained proof at b580e32 also passes locally for both apps and
+both runtime inventories, with clean application and proof sources. Its hashes
+match the exact linked identities above. On macOS the default TMPDIR symlink
+caused its dependency-root validation to reject a canonical /private/var path;
+setting TMPDIR=/private/tmp fixes the environment path mismatch without editing
+the proof. This is a host proof-runner path issue, not an application defect.
