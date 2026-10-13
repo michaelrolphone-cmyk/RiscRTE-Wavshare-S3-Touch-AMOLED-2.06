@@ -2,7 +2,7 @@ name: Waveshare boot-test full image
 on:
   push:
     branches: [feat/universal-watch]
-    paths: ['.github/workflows/boot-test.yml', 'scripts/build_boot_test.py', 'scripts/validate_boot_test.py', 'profiles/shared-home.json', 'docs/BOOT_TEST_0.1.2.md', 'drivers/panel_co5300/**', 'tests/test_panel.c']
+    paths: ['.github/workflows/boot-test.yml', 'scripts/build_boot_test.py', 'scripts/validate_boot_test.py', 'profiles/shared-home.json', 'docs/BOOT_TEST_0.1.3.md', 'drivers/panel_co5300/**', 'drivers/display_rail_axp2101/**', 'drivers/power_axp2101/**', 'include/RiscPowerRailV1.h', 'include/ProviderLog.h', 'tests/test_panel.c', 'tests/test_rail.c', 'tests/test_power.c']
   workflow_dispatch:
 permissions:
   contents: read
@@ -68,11 +68,13 @@ jobs:
             cc -std=c11 -Wall -Wextra -Werror -Wno-misleading-indentation $flags -I.source/shared/include -I.source/shared/sdk/app -I.source/shared/sdk/driver .source/shared/tests/bringup_test.c .source/shared/apps/clock/viewport.c -o /tmp/bringup-test
             /tmp/bringup-test | tee -a evidence/diagnostics.txt
           done
-      - name: Test panel command framing and independent illumination probe
+      - name: Test rail readbacks, physical reset policy and display protocol
         run: |
           for flags in '' '-DCO5300_BOOT_PROBE=1' '-fsanitize=address,undefined -fno-sanitize-recover=all -fno-omit-frame-pointer -no-pie' '-DCO5300_BOOT_PROBE=1 -fsanitize=address,undefined -fno-sanitize-recover=all -fno-omit-frame-pointer -no-pie'; do
-            cc -std=c11 -Wall -Wextra -Werror -Wno-misleading-indentation $flags -I.source/shared/sdk/driver -I.source/shared/include -Iinclude tests/test_panel.c -o /tmp/co5300-test
-            /tmp/co5300-test | tee -a evidence/panel-protocol.txt
+            for test in test_rail test_panel test_power; do
+              cc -std=c11 -Wall -Wextra -Werror -Wno-misleading-indentation $flags -I.source/shared/sdk/driver -I.source/shared/sdk/app -I.source/shared/include -Iinclude tests/$test.c -o /tmp/$test
+              /tmp/$test | tee -a evidence/panel-power-protocol.txt
+            done
           done
       - name: Compile pinned native Runtime with standalone boot profile
         run: |
@@ -100,7 +102,7 @@ jobs:
         run: |
           python3 scripts/build_boot_test.py --runtime .source/runtime --shared .source/shared --controllers .source/controllers --generic .source/generic --system .source/system --utilities .source/utilities --native .source/runtime/.pio/build/esp32s3-16mb-boot-test --cc "$HOME/.platformio/packages/toolchain-xtensa-esp32s3/bin/xtensa-esp32s3-elf-gcc" --mkspiffs "$HOME/.platformio/packages/tool-mkspiffs/mkspiffs_espressif32_arduino" --output dist/boot-test | tee evidence/assembly.txt
           python -m esptool --chip esp32s3 image_info .source/runtime/.pio/build/esp32s3-16mb-boot-test/firmware.bin | tee evidence/native-image-info.txt
-          cp docs/BOOT_TEST_0.1.2.md dist/boot-test/README.md
+          cp docs/BOOT_TEST_0.1.3.md dist/boot-test/README.md
           cp .source/runtime/boot-test.ini dist/boot-test/native-build.ini
           cp .source/runtime/.pio/build/esp32s3-16mb-boot-test/firmware.elf dist/boot-test/native-firmware.elf
           cp -r evidence dist/boot-test/evidence
@@ -108,7 +110,7 @@ jobs:
           git archive HEAD | gzip > dist/boot-test/device-source.tar.gz
       - uses: actions/upload-artifact@v4
         with:
-          name: Waveshare-0.1.2-display-test-full-image
+          name: Waveshare-0.1.3-panel-power-full-image
           path: |
             dist/boot-test/*-full-0x0.bin
             dist/boot-test/README.md
