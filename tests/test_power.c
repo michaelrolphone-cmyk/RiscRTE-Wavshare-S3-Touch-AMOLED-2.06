@@ -42,6 +42,15 @@ int main(void) {
     assert(!prepare_sleep(NULL));pin_levels_[TEST_KEY_PIN]=!TEST_KEY_HIGH;tick_=200;assert(key_events(NULL,&events)&&!events);tick_=220;assert(key_events(NULL,&events)&&events==2);
     pin_levels_[TEST_KEY_PIN]=TEST_KEY_HIGH;tick_=300;assert(key_events(NULL,&events));tick_=320;assert(key_events(NULL,&events));tick_=920;assert(key_events(NULL,&events)&&events==1);
     pin_levels_[TEST_KEY_PIN]=!TEST_KEY_HIGH;tick_=950;assert(key_events(NULL,&events));tick_=970;assert(key_events(NULL,&events)&&!events);
+    // Completed press between application reads must survive scheduler sampling.
+    pin_levels_[TEST_KEY_PIN]=TEST_KEY_HIGH;tick_=1100;power_poll(1);tick_=1120;power_poll(1);
+    pin_levels_[TEST_KEY_PIN]=!TEST_KEY_HIGH;tick_=1180;power_poll(1);tick_=1200;power_poll(1);
+    tick_=1600;assert(key_events(NULL,&events)&&events==2);
+    assert(key_events(NULL,&events)&&!events);
+    // Long presses are latched once; their release is never a second short.
+    pin_levels_[TEST_KEY_PIN]=TEST_KEY_HIGH;tick_=1700;power_poll(1);tick_=1720;power_poll(1);tick_=2320;power_poll(1);
+    pin_levels_[TEST_KEY_PIN]=!TEST_KEY_HIGH;tick_=2350;power_poll(1);tick_=2370;power_poll(1);
+    assert(key_events(NULL,&events)&&events==1);assert(key_events(NULL,&events)&&!events);
     risc_light_sleep_result_v1 result={.struct_size=sizeof(result)};
     assert(light_for(NULL,100,&result)==RISC_LIGHT_SLEEP_INVALID);assert(prepare_sleep(NULL));
     assert(light_for(NULL,100,&result)==RISC_LIGHT_SLEEP_OK);assert(slept_token==TEST_KEY_PIN+1&&slept_high==!!TEST_KEY_HIGH&&slept_ms==100);

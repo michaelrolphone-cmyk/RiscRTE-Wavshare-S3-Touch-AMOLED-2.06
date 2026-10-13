@@ -35,6 +35,7 @@ static const risc_platform_clock_api_v1 *clock_api;
 static const tw_hw_i2c_device_v1 *config;
 static uint64_t claim, key_claim, edge_at, pressed_at;
 static bool started, prepared, retained, raw_key, stable_key, long_sent;
+static uint32_t pending_events;
 /* Register-level leases, not a lifetime claim on the whole PMIC. All calls
  * run synchronously on the provider owner. A failed release retains its token
  * and makes subsequent normal I/O refuse until cleanup succeeds. */
@@ -53,18 +54,27 @@ static bool pending(void *c,bool *out) {
     bool level;if(!gpio_api->read(gpio_api->context,key_claim,&level))return false;
     *out=level==!!config->irq_active_high;return true;
 }
-static bool key_events(void *c,uint32_t *events) {
-    if(!events)return false;*events=0;
+static bool sample_key(void *c) {
     bool value;if(!pending(c,&value))return false;
     uint64_t now=clock_api->monotonic_ms(clock_api->context);
     if(value!=raw_key){raw_key=value;edge_at=now;}
     if(stable_key!=raw_key && now-edge_at>=20) {
         stable_key=raw_key;
         if(stable_key){pressed_at=now;long_sent=false;}
-        else if(!long_sent)*events=2;
+        else if(!long_sent)pending_events|=2;
     }
-    if(stable_key && !long_sent && now-pressed_at>=600){long_sent=true;*events=1;}
+    if(stable_key && !long_sent && now-pressed_at>=600){long_sent=true;pending_events|=1;}
     return true;
+}
+static bool key_events(void *c,uint32_t *events) {
+    if(!events)return false;*events=0;
+    if(!sample_key(c))return false;
+    *events=pending_events;pending_events=0;return true;
+}
+// GPIO has no PMIC-style edge latch. Sample on owner scheduler polls as well
+// as event reads, and retain completed events until the consumer takes them.
+static void power_poll(uint32_t budget_ms) {
+    if(budget_ms && started && !prepared && !retained)(void)sample_key(NULL);
 }
 static bool prepare_sleep(void *c) {
     bool key;if(!pending(c,&key) || key)return false;prepared=true;return true;
@@ -168,10 +178,10 @@ static bool start(const risc_provider_dependency_v1 *deps,size_t n) {
     }
     raw_key=raw_key==!!config->irq_active_high;stable_key=raw_key;
     edge_at=pressed_at=clock_api->monotonic_ms(clock_api->context);long_sent=false;
-    prepared=false;started=true;return true;
+    pending_events=0;prepared=false;started=true;return true;
 }
 static void stop(void){(void)quiesce();}
 static const twatch_pmu_api_v1 api={
     {1,sizeof(api),NULL,read_sample},key_events,prepare_sleep,resume,light,deep,light_for,pending,deep_for,light_set,deep_set};
-static const risc_driver_v2 descriptor={2,sizeof(descriptor),"waveshare-power","board.battery",1,&api,start,stop,quiesce};
-__attribute__((visibility("default"))) const risc_driver_v2 *t5_driver_get(uint32_t version){return version==2?&descriptor:NULL;}
+static const risc_driver_poll_v2 descriptor={.streams={.driver={2,sizeof(descriptor),"waveshare-power","board.battery",1,&api,start,stop,quiesce}},.poll=power_poll};
+__attribute__((visibility("default"))) const risc_driver_v2 *t5_driver_get(uint32_t version){return version==2?&descriptor.streams.driver:NULL;}
