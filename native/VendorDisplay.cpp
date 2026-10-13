@@ -14,7 +14,7 @@
 namespace {
 Arduino_ESP32QSPI* bus=nullptr;
 Arduino_CO5300* panel=nullptr;
-uint16_t width=0,height=0;int16_t reset=-1;
+uint16_t width=0,height=0;int16_t reset=-1,cs=-1;
 uint16_t paired[820];uint32_t pendingRow=UINT32_MAX;
 bool accepts(const risc_hardware_device_v1& hw,uint8_t physical){
  if(physical!=2 || strcmp(hw.compatible,"chipone,co5300") || strcmp(hw.config_type,"display.spi") ||
@@ -33,21 +33,24 @@ bool closePanel(){
  // All vendor writes are synchronous. Keep objects and ownership on cleanup
  // refusal; caller retries without unloading its provider dependency.
  if(bus && !bus->riscClose())return false;
+ // Vendor uses manual CS, so spi_bus_free does not release this pad.
+ // Retain objects and remaining pin identities until every reset succeeds.
+ if(cs>=0){if(gpio_reset_pin(static_cast<gpio_num_t>(cs))!=ESP_OK)return false;cs=-1;}
+ if(reset>=0){if(gpio_reset_pin(static_cast<gpio_num_t>(reset))!=ESP_OK)return false;reset=-1;}
  delete panel;panel=nullptr;delete bus;bus=nullptr;
- if(reset>=0 && gpio_reset_pin(static_cast<gpio_num_t>(reset))!=ESP_OK)return false;
- reset=-1;width=height=0;pendingRow=UINT32_MAX;return true;
+ width=height=0;pendingRow=UINT32_MAX;return true;
 }
 bool openPanel(const risc_hardware_device_v1& hw,uint8_t physical){
  if(bus || panel || !accepts(hw,physical))return false;
  const auto& c=*static_cast<const risc_hw_spi_display_v2*>(hw.config);const auto& b=c.base;
- width=b.width;height=b.height;reset=b.reset;pendingRow=UINT32_MAX;
+ width=b.width;height=b.height;reset=b.reset;cs=b.cs;pendingRow=UINT32_MAX;
  pads("before-begin");
  bus=new(std::nothrow) Arduino_ESP32QSPI(b.cs,b.bus.sclk,b.bus.mosi,b.bus.miso,c.data2,c.data3);
  if(!bus)return false;
  panel=new(std::nothrow) Arduino_CO5300(bus,b.reset,b.rotation,b.width,b.height,b.offset_x,b.offset_y,0,0);
  if(!panel || !panel->begin(b.bus.frequency_hz))return false;
  // Same post-begin brightness as successful diagnostic A/B. Vendor begin
- // itself writes 0xD0 immediately after DISPON. No ALLPON/zero-brightness probe.
+ // itself writes 0xD0 immediately after DISPON; diagnostic phases follow.
  panel->setBrightness(80);
  pads("after-begin");
  Serial.println("PANEL_PROBE phase=all-pixels-on before-dependent-providers=1");

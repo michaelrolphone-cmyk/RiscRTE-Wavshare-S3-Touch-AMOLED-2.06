@@ -46,6 +46,8 @@ jobs:
           cmp include/RiscAudioPcmV1.h .source/drivers/sdk/driver/RiscAudioPcmV1.h
           cmp include/RiscI2sStandardV1.h .source/runtime/sdk/driver/RiscI2sStandardV1.h
           cmp include/RiscGpioSdmmcV1.h .source/runtime/sdk/driver/RiscGpioSdmmcV1.h
+          python3 tests/test_vendor_native.py
+          python3 tests/test_vendor_native.py --sanitize
           python3 scripts/test_board_profile.py
           bash .source/runtime/test/run_board_test.sh "$PWD/hardware/board.json"
           python3 .source/shared/scripts/check_capability_boundaries.py --provider-root "$PWD"
