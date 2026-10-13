@@ -4,12 +4,28 @@
 #include "twatch_caps.h"
 #include "DriverSupport.h"
 #include "twatch_calendar.h"
+#include "ProviderLog.h"
 #include <stddef.h>
+#include <stdio.h>
 static const risc_i2c_bus_api_v1 *bus;
 static uint64_t claim, irq_claim;
 static const risc_gpio_bank_api_v1 *gpio_api;
 static bool started;
 static const tw_hw_i2c_device_v1 *config;
+/* Log the first read and status transitions, plus the read after each write.
+ * A successful transfer is deliberately not described as clock persistence. */
+static unsigned last_read_status;
+static void log_read(unsigned status, const char *reason, const uint8_t *raw) {
+    if (last_read_status == status) return;
+    last_read_status = status;
+    char line[160];
+    if (raw)
+        snprintf(line,sizeof(line),"RTC_PCF85063 read=%s raw04_0a=%02x,%02x,%02x,%02x,%02x,%02x,%02x",
+                 reason,raw[0],raw[1],raw[2],raw[3],raw[4],raw[5],raw[6]);
+    else
+        snprintf(line,sizeof(line),"RTC_PCF85063 read=%s",reason);
+    provider_log(line);
+}
 static uint8_t bcd(uint8_t v) {
     return (uint8_t)(((v / 10u) << 4) | (v % 10u));
 }
@@ -33,16 +49,22 @@ static bool read_time(void *context, twatch_rtc_time_v1 *out) {
     if (!started || !out)
         return false;
     uint8_t raw[7] = {0};
-    if (!read_regs(0x04u, raw, 7))
+    if (!read_regs(0x04u, raw, 7)) {
+        log_read(1,"transfer-failed",NULL);
         return false;
-    if (raw[0] & 0x80u)
+    }
+    if (raw[0] & 0x80u) {
+        log_read(2,"oscillator-stop",raw);
         return false;
+    }
     for (size_t i = 0; i < 7; i++)
         if (i != 4 && !tw_valid_bcd(raw[i] & (i == 0 || i == 1   ? 0x7f
                                               : i == 2 || i == 3 ? 0x3f
                                               : i == 5           ? 0x1f
-                                                                 : 0xff)))
-            return false; /* VL: clock integrity lost */
+                                                                 : 0xff))) {
+            log_read(3,"invalid-bcd",raw);
+            return false;
+        }
     twatch_rtc_time_v1 value={0};
     value.second = dec(raw[0] & 0x7fu);
     value.minute = dec(raw[1] & 0x7fu);
@@ -51,7 +73,11 @@ static bool read_time(void *context, twatch_rtc_time_v1 *out) {
     value.weekday = raw[4] & 0x07u;
     value.month = dec(raw[5] & 0x1fu);
     value.year = (uint16_t)(2000u + dec(raw[6]));
-    if (!tw_valid_time(&value)) return false;
+    if (!tw_valid_time(&value)) {
+        log_read(4,"invalid-calendar",raw);
+        return false;
+    }
+    log_read(5,"valid-calendar",raw);
     *out=value;
     return true;
 }
@@ -66,7 +92,13 @@ static bool write_time(void *context, const twatch_rtc_time_v1 *in) {
                       in->weekday & 0x07u,
                       bcd(in->month),
                       bcd((uint8_t)(in->year - 2000u))};
-    return write_regs(0x04u, raw, 7);
+    bool ok=write_regs(0x04u, raw, 7);
+    char line[160];
+    snprintf(line,sizeof(line),"RTC_PCF85063 write=%s raw04_0a=%02x,%02x,%02x,%02x,%02x,%02x,%02x",
+             ok?"transfer-ok":"transfer-failed",raw[0],raw[1],raw[2],raw[3],raw[4],raw[5],raw[6]);
+    provider_log(line);
+    last_read_status=0;
+    return ok;
 }
 /* Keep rtc.clock@2 minute resolution: seconds are matched at 00, disabled fields use AE=1. */
 static bool alarm(void *c, uint8_t minute, uint8_t hour, uint8_t day, uint8_t weekday,
@@ -155,6 +187,7 @@ static bool start(const risc_provider_dependency_v1 *deps, size_t count) {
         (void)quiesce();
         return false;
     }
+    last_read_status=0;
     started = true;
     return true;
 }
