@@ -12,11 +12,13 @@ for name,instance in p['physical'].items():
  assert any(h['compatible']==d['compatible'] and h['config_type']==d['config_type'] and h['config_version']==d['config_version'] and d['chip']['revision'] in h['revisions'] for h in m['hardware_compatibility']),name
  for cap in m['provides']:
   assert cap['capability'] not in seen;seen.add(cap['capability'])
-assert len(p['physical'])==8
+assert len(p['physical'])==9
 assert devices[5]['config']['width']==devices[6]['config']['width']==410
 assert devices[5]['config']['height']==devices[6]['config']['height']==502
 assert devices[12]['config']['pins']==[2,1,3,17]
 assert devices[9]['config']['pins']==[18]
 assert devices[10]['config']['mclk']==16 and devices[10]['config']['enable']==46
 assert not set(p['absent_hardware_capabilities'])&seen
-print('Eight provider manifests match typed board configuration and generic capabilities')
+assert devices[5]['bindings']['power.rail']==13
+assert devices[13]['config']=={'parent_instance_id':4,'function_id':2}
+print('Nine provider manifests match typed board configuration and generic capabilities')

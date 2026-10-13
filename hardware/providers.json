@@ -9,11 +9,26 @@
     "rtc_pcf85063": 8,
     "haptic_gpio": 9,
     "codec_es83xx": 10,
-    "storage_sdmmc": 12
+    "storage_sdmmc": 12,
+    "display_rail_axp2101": 13
   },
-  "generic_controllers": {"gpio.bank": 1, "i2c.bus": 2, "net.wifi": 15, "bluetooth.hci": 16},
-  "generic_adapters": ["power.sleep", "input.power-key", "display.power", "audio.input", "audio.output"],
-  "absent_hardware_capabilities": ["radio.lora", "infrared.output"],
+  "generic_controllers": {
+    "gpio.bank": 1,
+    "i2c.bus": 2,
+    "net.wifi": 15,
+    "bluetooth.hci": 16
+  },
+  "generic_adapters": [
+    "power.sleep",
+    "input.power-key",
+    "display.power",
+    "audio.input",
+    "audio.output"
+  ],
+  "absent_hardware_capabilities": [
+    "radio.lora",
+    "infrared.output"
+  ],
   "native_source": "fe20777f374a7a93bc8e44019ebcb851c5584bb9",
   "native_environment": "esp32s3-16mb-appdata-universal",
   "physical_flash_bytes": 33554432,

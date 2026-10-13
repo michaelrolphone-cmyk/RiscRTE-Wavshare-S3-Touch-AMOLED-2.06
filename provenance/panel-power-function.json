@@ -1,0 +1,8 @@
+{
+  "runtime": "8aae8df4f9139bea06ff43888ed628c45ed8a057",
+  "parent_instance_id": 4,
+  "function_instance_id": 13,
+  "function_id": 2,
+  "capability": "power.rail",
+  "physical_verified": false
+}

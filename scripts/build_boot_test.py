@@ -14,7 +14,7 @@ FS_SIZE=0x4f0000
 TOOL_SHA='4ddf79a1ab9a3baf502cdb979bea7ed173bbe46727a9902649cc09e6a28a5ad2'
 NAME='Waveshare-0.1.3-Home-0.15.0-boot-test-full-0x0.bin'
 PINS={
- 'runtime':'5323d1e834bdcc8e5e9fb0e8f76c383e46626801',
+ 'runtime':'8aae8df4f9139bea06ff43888ed628c45ed8a057',
  'shared':'76aa47728192531ca9812f3e026057e0b174cb00',
  'controllers':'851b8998e804c57b2c9f42d9f8fd0a69e79f2b41',
  'generic':'422e1e81a498fb6bdab9abf086325afc05a532dc',
@@ -66,12 +66,12 @@ def main():
  source=device/'drivers/display_rail_axp2101'
  build(source/'driver.c',store/'rail/driver.elf',[S/'sdk/driver',S/'sdk/app',S/'include',device/'include'],'t5_driver_get')
  shutil.copy2(source/'manifest.json',store/'rail/manifest.json')
- boot['drivers'].append({'manifest':'rail/manifest.json'})
+ boot['drivers'].append({'manifest':'rail/manifest.json','instance_id':13})
  build(G/'Drivers/legacy_power_key/driver.c',store/'powerkey/driver.elf',[G/'sdk/driver',S/'sdk/driver'],'t5_driver_get')
  shutil.copy2(G/'Drivers/legacy_power_key/manifest.json',store/'powerkey/manifest.json')
  boot['drivers'].append({'manifest':'powerkey/manifest.json'})
  board=json.loads((device/'hardware/board.json').read_text())
- board['devices']=[d for d in board['devices'] if d['instance_id'] in (1,2,4,5,6,7,8,9)]
+ board['devices']=[d for d in board['devices'] if d['instance_id'] in (1,2,4,5,6,7,8,9,13)]
  json_write(store/'board.json',board)
  def application(name,manifest,grants):
   manifest['file_name']=name+'.elf'

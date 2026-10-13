@@ -8,6 +8,7 @@
  * provider can use the same PMIC without an undocumented combined API. */
 #include "DriverSupport.h"
 #include "RiscPowerRailV1.h"
+#include "RiscI2cFunctionV1.h"
 #include "ProviderLog.h"
 #include <stdio.h>
 #define PMIC_ADDRESS 0x34u
@@ -20,9 +21,10 @@
 static const risc_i2c_bus_api_v1 *bus;
 static const risc_platform_clock_api_v1 *clock_api;
 static uint64_t session;
+static const risc_hw_i2c_function_v1 *function;
 static bool active;
 static bool begin_session(void) {
-    return bus && !session && bus->claim_device(bus->context,PMIC_ADDRESS,&session) && session;
+    return bus && !session && bus->claim_device(bus->context,function->address,&session) && session;
 }
 static bool end_session(void) {
     if(!session)return true;
@@ -95,6 +97,10 @@ static void stop(void) {
 }
 static bool start(const risc_provider_dependency_v1 *deps,size_t n) {
     if(active || session)return false;
+    function=tw_config(deps,n,"x-powers,axp2101-aldo2","peripheral.i2c-function",sizeof(*function));
+    if(!function || !function->parent_instance_id || function->function_id!=2 ||
+       function->address!=PMIC_ADDRESS || function->chip_id!=PMIC_ID || function->reserved ||
+       !tw_bus_limit(&function->bus,RISC_HW_BUS_I2C,400000))return false;
     bus=tw_dep(deps,n,"i2c.bus",sizeof(*bus));
     clock_api=tw_dep(deps,n,"platform.clock",sizeof(*clock_api));
     if(!tw_i2c_valid(bus) || !tw_clock_valid(clock_api) || !begin_session())return false;
