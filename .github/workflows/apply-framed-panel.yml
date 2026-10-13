@@ -1,0 +1,51 @@
+name: Materialize framed panel transport
+on:
+  push:
+    branches: [feat/universal-watch]
+    paths: ['.github/workflows/apply-framed-panel.yml']
+permissions:
+  contents: write
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/universal-watch
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE
+          ref: 97336e63ce1eac40364893e0ddf5b9fe61b648b7
+          path: .source/runtime
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-Watch
+          ref: 76aa47728192531ca9812f3e026057e0b174cb00
+          path: .source/shared
+          persist-credentials: false
+      - name: Apply and test actual production driver changes
+        run: |
+          python3 provenance/apply_framed_panel.py
+          python3 scripts/test_drivers.py --watch .source/shared
+          python3 scripts/test_drivers.py --watch .source/shared --sanitize
+          cc -std=c11 -Wall -Wextra -Werror -Wno-misleading-indentation -DCO5300_BOOT_PROBE=1 -Iinclude -I.source/shared/sdk/driver -I.source/shared/sdk/app -I.source/shared/include tests/test_panel.c -o /tmp/panel-probe-test
+          /tmp/panel-probe-test
+      - name: Commit tested final source into existing PR branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add drivers include scripts tests hardware
+          if ! git diff --cached --quiet; then
+            git commit -m 'Use hardware-framed SPI for CO5300 commands and pixel transfers'
+            git push origin HEAD:feat/universal-watch
+          fi
+          git rev-parse HEAD > PANEL_FRAME_COMMIT.txt
+          git archive HEAD | gzip > framed-panel-source.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: framed-panel-source
+          path: |
+            framed-panel-source.tar.gz
+            PANEL_FRAME_COMMIT.txt
+          retention-days: 30
