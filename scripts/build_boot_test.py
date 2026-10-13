@@ -12,9 +12,9 @@ SIZE=0x800000
 FS_OFFSET=0x310000
 FS_SIZE=0x4f0000
 TOOL_SHA='4ddf79a1ab9a3baf502cdb979bea7ed173bbe46727a9902649cc09e6a28a5ad2'
-NAME='Waveshare-0.1.4-Home-0.15.0-boot-test-full-0x0.bin'
+NAME='Waveshare-0.1.5-Home-0.15.0-boot-test-full-0x0.bin'
 PINS={
- 'runtime':'cac46e468d7b415069e337b394068312afe7f75e',
+ 'runtime':'6a2354c3d5448bf9b040b176ec098a8a78c0c8a3',
  'shared':'76aa47728192531ca9812f3e026057e0b174cb00',
  'controllers':'851b8998e804c57b2c9f42d9f8fd0a69e79f2b41',
  'generic':'422e1e81a498fb6bdab9abf086325afc05a532dc',
@@ -58,7 +58,7 @@ def main():
   build(source,store/name/'driver.elf',[S/'sdk/driver',T/'include'],'t5_driver_get')
   shutil.copy2(source.parent/'manifest.json',store/name/'manifest.json')
   boot['drivers'].append({'manifest':name+'/manifest.json','instance_id':instance})
- for name,folder,instance in [('battery','power_axp2101',4),('display','panel_co5300',5),('touch','touch_ft3168',6),('motion','motion_qmi8658',7),('rtc','rtc_pcf85063',8),('haptic','haptic_gpio',9)]:
+ for name,folder,instance in [('battery','power_axp2101',4),('display','panel_vendor',5),('touch','touch_ft3168',6),('motion','motion_qmi8658',7),('rtc','rtc_pcf85063',8),('haptic','haptic_gpio',9)]:
   source=device/'drivers'/folder
   build(source/'driver.c',store/name/'driver.elf',[device/'include',S/'sdk/driver',S/'sdk/app',S/'include'],'t5_driver_get')
   shutil.copy2(source/'manifest.json',store/name/'manifest.json')
@@ -156,7 +156,7 @@ def main():
  (out/NAME).write_bytes(full)
  component_versions={key:json.loads(expected[path])['version'] for key,path in [
   ('panel_driver','display/manifest.json'),('power_rail','rail/manifest.json'),('battery_driver','battery/manifest.json')]}
- receipt={'schema':1,'product':'Waveshare first-boot test','version':'0.1.4','shared_home':'0.15.0','image':NAME,'bytes':len(full),'sha256':digest(full),'write_address':0,'native_regions':records,'bootfs':{'offset':FS_OFFSET,'bytes':FS_SIZE,'sha256':digest(raw),'tool_sha256':TOOL_SHA},'source_pins':PINS,'device_commit':subprocess.check_output(['git','-C',str(device),'rev-parse','HEAD'],text=True).strip(),'store_files':{n:{'bytes':len(v),'sha256':digest(v)} for n,v in sorted(expected.items())},'validation':{'real_runtime_admission':True,'native_export_and_elf_checks':True,'sanitizers':True,'independent_and_implementation_readback':True,'negative_cases':list(refusals)},'shared_home_staging':staging,**component_versions,'panel_boot_probe':'ALDO2 register verification then ALLPON 25 percent 750 ms; then normal-mode Home','physical_boot_verified':False,'automatic_sleep':False,'network_required':False,'sd_required':False,'erases_lower_8mib_including_nvs':True,'paired_update':False}
+ receipt={'schema':1,'product':'Waveshare first-boot test','version':'0.1.5','shared_home':'0.15.0','image':NAME,'bytes':len(full),'sha256':digest(full),'write_address':0,'native_regions':records,'bootfs':{'offset':FS_OFFSET,'bytes':FS_SIZE,'sha256':digest(raw),'tool_sha256':TOOL_SHA},'source_pins':PINS,'device_commit':subprocess.check_output(['git','-C',str(device),'rev-parse','HEAD'],text=True).strip(),'store_files':{n:{'bytes':len(v),'sha256':digest(v)} for n,v in sorted(expected.items())},'validation':{'real_runtime_admission':True,'native_export_and_elf_checks':True,'sanitizers':True,'independent_and_implementation_readback':True,'negative_cases':list(refusals)},'shared_home_staging':staging,**component_versions,'panel_boot_probe':'vendor begin brightness 0xD0 then 80; no ALLPON; PMIC read-only','physical_boot_verified':False,'automatic_sleep':False,'network_required':False,'sd_required':False,'erases_lower_8mib_including_nvs':True,'paired_update':False}
  json_write(out/'build.json',receipt)
  (out/'SHA256SUMS.txt').write_text(receipt['sha256']+'  '+NAME+'\n')
  print('FLASH IMAGE READY:',NAME,len(full),'bytes',receipt['sha256'],flush=True)

@@ -12,6 +12,13 @@ from verify_update_elf import cohort_admission_header
 s=(T/'tests/runtime_store_admission.cpp').read_text()
 s=s.replace('#include <cstdio>','#include <cstdio>\n#include "cohort_elf_admission.h"')
 s=s.replace('  RiscCpu::Hardware h{};','''  RiscCpu::Hardware h{};
+  static const RiscCpu::DisplayBackend displayBackend={
+    [](const risc_hardware_device_v1&,uint8_t){return true;},
+    [](const risc_hardware_device_v1&,uint8_t){++hardwareCalls;return false;},
+    [](uint32_t,const uint16_t*,size_t){++hardwareCalls;return false;},
+    [](uint8_t){++hardwareCalls;return false;},
+    [](){++hardwareCalls;return false;}};
+  h.displayBackend=&displayBackend;
   h.spiOpenQuad=[](uint8_t,int16_t,int16_t,int16_t,int16_t,int16_t){++hardwareCalls;return false;};
   h.spiTransferFrame=[](uint8_t,const risc_spi_frame_v1*,const uint8_t*,size_t,uint32_t){++hardwareCalls;return false;};
   h.spiTransferQuad=[](uint8_t,const uint8_t*,size_t,uint32_t){++hardwareCalls;return false;};''')

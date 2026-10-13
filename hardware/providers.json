@@ -3,14 +3,14 @@
   "board": "board.json",
   "physical": {
     "power_axp2101": 4,
-    "panel_co5300": 5,
     "touch_ft3168": 6,
     "motion_qmi8658": 7,
     "rtc_pcf85063": 8,
     "haptic_gpio": 9,
     "codec_es83xx": 10,
     "storage_sdmmc": 12,
-    "display_rail_axp2101": 13
+    "display_rail_axp2101": 13,
+    "panel_vendor": 5
   },
   "generic_controllers": {
     "gpio.bank": 1,
@@ -29,7 +29,7 @@
     "radio.lora",
     "infrared.output"
   ],
-  "native_source": "cac46e468d7b415069e337b394068312afe7f75e",
+  "native_source": "6a2354c3d5448bf9b040b176ec098a8a78c0c8a3",
   "native_environment": "esp32s3-16mb-appdata-universal",
   "physical_flash_bytes": 33554432,
   "allocated_flash_bytes": 16777216,

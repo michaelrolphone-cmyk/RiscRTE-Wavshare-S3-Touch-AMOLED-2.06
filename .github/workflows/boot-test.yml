@@ -2,7 +2,7 @@ name: Waveshare boot-test full image
 on:
   push:
     branches: [feat/universal-watch]
-    paths: ['.github/workflows/boot-test.yml', 'scripts/build_boot_test.py', 'scripts/validate_boot_test.py', 'profiles/shared-home.json', 'docs/BOOT_TEST_0.1.4.md', 'drivers/panel_co5300/**', 'drivers/display_rail_axp2101/**', 'drivers/power_axp2101/**', 'include/RiscSpiFrameV1.h', 'include/RiscSpiQuadV1.h', 'include/RiscI2cFunctionV1.h', 'hardware/**', 'scripts/test_boot_pins.py', 'include/RiscPowerRailV1.h', 'include/ProviderLog.h', 'tests/test_panel.c', 'tests/test_rail.c', 'tests/test_power.c']
+    paths: ['.github/workflows/boot-test.yml', 'scripts/build_boot_test.py', 'scripts/validate_boot_test.py', 'profiles/shared-home.json', 'docs/BOOT_TEST_0.1.5.md', 'drivers/panel_co5300/**', 'drivers/panel_vendor/**', 'native/**', 'scripts/stage_vendor_display.py', 'include/RiscDisplayBackendV1.h', 'drivers/display_rail_axp2101/**', 'drivers/power_axp2101/**', 'include/RiscSpiFrameV1.h', 'include/RiscSpiQuadV1.h', 'include/RiscI2cFunctionV1.h', 'hardware/**', 'scripts/test_boot_pins.py', 'include/RiscPowerRailV1.h', 'include/ProviderLog.h', 'tests/test_panel.c', 'tests/test_rail.c', 'tests/test_power.c']
   workflow_dispatch:
 permissions:
   contents: read
@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: michaelrolphone-cmyk/RiscRTE
-          ref: cac46e468d7b415069e337b394068312afe7f75e
+          ref: 6a2354c3d5448bf9b040b176ec098a8a78c0c8a3
           path: .source/runtime
           persist-credentials: false
       - uses: actions/checkout@v4
@@ -51,6 +51,13 @@ jobs:
           ref: fc0bdbbbc600ce891e60c44d091fce0586ade7d8
           path: .source/utilities
           persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: waveshareteam/ESP32-S3-Touch-AMOLED-2.06
+          ref: b099739ad0e33b34e5fbaae77f02bd84805d79a3
+          path: .source/vendor
+          persist-credentials: false
+          sparse-checkout: examples/arduino/libraries/Arduino_GFX
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -87,6 +94,12 @@ jobs:
               /tmp/$test | tee -a evidence/panel-power-protocol.txt
             done
           done
+      - name: Stage exact vendor display implementation
+        run: |
+          cmp include/RiscDisplayBackendV1.h .source/runtime/sdk/driver/RiscDisplayBackendV1.h
+          python3 scripts/stage_vendor_display.py --vendor .source/vendor --runtime .source/runtime
+          cp vendor-source-hashes.json evidence/
+          cc -std=c11 -Wall -Wextra -Werror -Wno-misleading-indentation -Iinclude -I.source/shared/sdk/driver -I.source/shared/sdk/app -I.source/shared/include -c drivers/panel_vendor/driver.c -o /tmp/vendor-provider.o
       - name: Compile pinned native Runtime with standalone boot profile
         run: |
           cat > .source/runtime/boot-test.ini <<'INI'
@@ -107,13 +120,13 @@ jobs:
             -DRISC_STAGE_LOGS=1
           INI
           cd .source/runtime
-          pio run --project-conf boot-test.ini -e esp32s3-16mb-boot-test
+          pio run --project-conf boot-test.ini -e esp32s3-16mb-boot-test -j 1
           pio pkg install --global --tool 'platformio/tool-mkspiffs@2.230.0'
       - name: Assemble, admit, unpack and verify full image
         run: |
           python3 scripts/build_boot_test.py --runtime .source/runtime --shared .source/shared --controllers .source/controllers --generic .source/generic --system .source/system --utilities .source/utilities --native .source/runtime/.pio/build/esp32s3-16mb-boot-test --cc "$HOME/.platformio/packages/toolchain-xtensa-esp32s3/bin/xtensa-esp32s3-elf-gcc" --mkspiffs "$HOME/.platformio/packages/tool-mkspiffs/mkspiffs_espressif32_arduino" --output dist/boot-test | tee evidence/assembly.txt
           python -m esptool --chip esp32s3 image_info .source/runtime/.pio/build/esp32s3-16mb-boot-test/firmware.bin | tee evidence/native-image-info.txt
-          cp docs/BOOT_TEST_0.1.4.md dist/boot-test/README.md
+          cp docs/BOOT_TEST_0.1.5.md dist/boot-test/README.md
           cp .source/runtime/boot-test.ini dist/boot-test/native-build.ini
           cp .source/runtime/.pio/build/esp32s3-16mb-boot-test/firmware.elf dist/boot-test/native-firmware.elf
           cp -r evidence dist/boot-test/evidence
@@ -121,7 +134,7 @@ jobs:
           git archive HEAD | gzip > dist/boot-test/device-source.tar.gz
       - uses: actions/upload-artifact@v4
         with:
-          name: Waveshare-0.1.4-framed-spi-full-image
+          name: Waveshare-0.1.5-vendor-display-full-image
           path: |
             dist/boot-test/*-full-0x0.bin
             dist/boot-test/README.md
