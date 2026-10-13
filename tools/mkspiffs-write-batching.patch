@@ -1,0 +1,36 @@
+diff --git a/main.cpp b/main.cpp
+index 46ff3a3..e6b313d 100644
+--- a/main.cpp
++++ b/main.cpp
+@@ -156,17 +156,18 @@ int addFile(char* name, const char* path)
+     }
+ 
+     size_t left = size;
+-    uint8_t data_byte;
++    uint8_t data_buffer[8192];
+     while (left > 0) {
+-        if (1 != fread(&data_byte, 1, 1, src)) {
++        const size_t count = left < sizeof(data_buffer) ? left : sizeof(data_buffer);
++        if (count != fread(data_buffer, 1, count, src)) {
+             std::cerr << "fread error!" << std::endl;
+ 
+             fclose(src);
+             SPIFFS_close(&s_fs, dst);
+             return 1;
+         }
+-        int res = SPIFFS_write(&s_fs, dst, &data_byte, 1);
+-        if (res < 0) {
++        int res = SPIFFS_write(&s_fs, dst, data_buffer, count);
++        if (res != static_cast<int>(count)) {
+             std::cerr << "SPIFFS_write error(" << s_fs.err_code << "): ";
+ 
+             if (s_fs.err_code == SPIFFS_ERR_FULL) {
+@@ -184,7 +185,7 @@ int addFile(char* name, const char* path)
+             SPIFFS_close(&s_fs, dst);
+             return 1;
+         }
+-        left -= 1;
++        left -= count;
+     }
+ 
+     SPIFFS_close(&s_fs, dst);

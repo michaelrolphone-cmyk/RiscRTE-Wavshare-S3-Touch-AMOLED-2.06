@@ -50,3 +50,7 @@ required; arithmetic fit is not physical image qualification.
 
 No hardware, flashing, partition resizing, app removal, GitHub publication or
 upload occurred. Existing earlier checkpoints remain available.
+
+The local packing blocker above was subsequently diagnosed and resolved with
+lossless offline write batching. See SPIFFS_PACKING.md for the preserved failure
+evidence, exact per-page accounting and successful full-image readback.
