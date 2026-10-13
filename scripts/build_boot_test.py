@@ -21,7 +21,8 @@ PINS={
  'system':'14762601b3fa7bbeeac5ed565a6825534bf74dca',
  'utilities':'fc0bdbbbc600ce891e60c44d091fce0586ade7d8',
  'service_utilities':'80efb298c9ca8d0f62f9a31840c9e51d380b40f6',
- 'watch_system':'269440c1a6b72407cc57f02f99dc4ec2c47402c0'}
+ 'watch_system':'269440c1a6b72407cc57f02f99dc4ec2c47402c0',
+ 'temporal':'aac1cb342696e96345d4546e2c69023834c6c8d4'}
 
 def digest(data):return hashlib.sha256(data).hexdigest()
 def json_write(path,value):
@@ -31,7 +32,7 @@ def files(root):return {p.relative_to(root).as_posix():p.read_bytes() for p in r
 def run(*command,**kw):return subprocess.run(list(map(str,command)),check=True,**kw)
 def main():
  p=argparse.ArgumentParser(description=__doc__)
- for name in ('runtime','shared','controllers','generic','system','utilities','service_utilities','watch_system','native','cc','mkspiffs','output'):
+ for name in ('runtime','shared','controllers','generic','system','utilities','service_utilities','watch_system','temporal','native','cc','mkspiffs','output'):
   p.add_argument('--'+name,required=True,type=Path)
  p.add_argument('--device',type=Path,default=ROOT)
  a=p.parse_args()
@@ -76,7 +77,7 @@ def main():
  boot['drivers'].append({'manifest':'powerkey/manifest.json'})
  from boot_watch_providers import stage_watch_providers
  closure=stage_watch_providers(build=build,store=store,boot=boot,device=device,shared=S,controllers=T,
-  generic=G,system=dirs['system'],utilities=dirs['service_utilities'],runtime=N)
+  generic=G,temporal=dirs['temporal'],system=dirs['system'],utilities=dirs['service_utilities'],runtime=N)
  board=json.loads((device/'hardware/board.json').read_text())
  board['devices']=[d for d in board['devices'] if d['instance_id'] in (1,2,4,5,6,7,8,9,10,13,15,16)]
  json_write(store/'board.json',board)
@@ -86,7 +87,7 @@ def main():
   json_write(store/(name+'.json'),manifest)
   boot['app_capabilities'].append({'manifest':name+'.json','grants':[{'capability':c,'api':v,'instance_id':i} for c,v,i in grants]})
  base=[('display.output',1,5),('board.battery',1,4),('rtc.clock',2,8),('input.touch.raw',1,6),('input.power-key',1,0),('runtime.realtime-control',1,0),('storage.key-value',1,1),('storage.key-value',1,5)]
- base += closure['services']+[('net.wifi',1,15),('bluetooth.hci',1,16),('motion.accel',1,7)]
+ base += closure['services']+[('power.sleep',1,0),('display.power',1,0),('net.wifi',1,15),('bluetooth.hci',1,16),('motion.accel',1,7)]
  for role in ('default','clock'):
   manifest=json.loads((S/'apps/clock'/(role+'.json')).read_text())
   if manifest['version']!='0.15.0':raise ValueError('First-boot Home fixes are absent')
@@ -140,7 +141,7 @@ def main():
  for name,raw in staged.items():(store/name).write_bytes(raw)
  json_write(out/'shared-home-staging.json',staging)
  expected=files(store)
- if len(expected)!=54 or sum(n.endswith('.elf') for n in expected)!=26:raise ValueError('Unexpected boot inventory')
+ if len(expected)!=58 or sum(n.endswith('.elf') for n in expected)!=28:raise ValueError('Unexpected boot inventory')
  if any(len(('/'+n).encode())>=32 for n in expected):raise ValueError('SPIFFS object path too long')
  def admit(path,label,sanitize=False):
   dest=out/label
