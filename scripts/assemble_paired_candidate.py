@@ -8,12 +8,14 @@ def write(p,v):p.write_text(json.dumps(v,indent=2)+'\n')
 def main():
  p=argparse.ArgumentParser(description=__doc__)
  for k in ('runtime','native','store','appdata','packer','readback-packer','output'):p.add_argument('--'+k,type=Path,required=True)
+ p.add_argument('--version',help='Explicit cumulative candidate version')
  p.add_argument('--expanded',action='store_true',help='Explicit ABI3 stores and relocated bank1; incompatible full provisioning')
  a=p.parse_args()
  store_size=0x550000 if a.expanded else 0x510000
  abi=3 if a.expanded else 2
  target='esp32s3-16mb-waveshare-expanded' if a.expanded else 'esp32s3-16mb-waveshare-appdata'
- version='0.1.15' if a.expanded else '0.1.14'
+ version=a.version or ('0.1.15' if a.expanded else '0.1.14')
+ if not re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+',version):raise ValueError('Invalid candidate version')
  for k,v in vars(a).items():
   if isinstance(v,Path):setattr(a,k,v.resolve())
  if a.output.exists():raise ValueError('New output directory required')
@@ -57,7 +59,7 @@ def main():
   assert offset>=last and offset+len(data)<=len(full);full[offset:offset+len(data)]=data;last=offset+len(data);(a.output/name).write_bytes(data)
  for name in ('nvs','app1','bootfs1'):
   _,_,offset,size=layout[name];assert full[offset:offset+size]==b'\xff'*size
- path=a.output/('Waveshare-0.1.15-expanded-updates-full-initial-erases-data-0x0.bin' if a.expanded else 'Waveshare-0.1.14-canonical-contexts-full-initial-erases-data-0x0.bin');path.write_bytes(full);reopened=path.read_bytes();assert reopened==full
+ path=a.output/(f'Waveshare-{version}-expanded-updates-full-initial-erases-data-0x0.bin' if a.expanded else f'Waveshare-{version}-canonical-contexts-full-initial-erases-data-0x0.bin');path.write_bytes(full);reopened=path.read_bytes();assert reopened==full
  for name,(offset,data) in segments.items():assert reopened[offset:offset+len(data)]==data
  assert read_image(reopened[0x2f0000:0x2f0000+store_size],store_size)==expected
  assert parse_record(reopened[0xff2000:0xff2060],True,a.expanded)==fields

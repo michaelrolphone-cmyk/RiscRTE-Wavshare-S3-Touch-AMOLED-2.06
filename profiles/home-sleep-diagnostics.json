@@ -1,0 +1,105 @@
+{
+  "source": "349c92d849dd51f6e1345a529d86e7d63dd648bd",
+  "base": "ec768c7fae6fdb484fef28c6ec87f129b0a7f585",
+  "artifacts": {
+    "default": {
+      "role": "home",
+      "file_name": "default.elf",
+      "bytes": 871088,
+      "sha256": "f68bdbf13298217dccd95235351ed277e8f112e58bc967b2867873712947c537",
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "strcmp",
+        "strncmp"
+      ],
+      "exports": [
+        "app_main"
+      ],
+      "compaction": {
+        "profile": "loader-metadata-v3",
+        "before_bytes": 940780,
+        "after_bytes": 871088,
+        "before_sha256": "cb0c5bf5c654ebe300804980f69856d8f1fc7f4234694460795537035b977e0d",
+        "after_sha256": "f68bdbf13298217dccd95235351ed277e8f112e58bc967b2867873712947c537",
+        "removed_sections": [
+          ".debug_abbrev",
+          ".debug_aranges",
+          ".debug_info",
+          ".debug_line",
+          ".debug_str",
+          ".xt.lit",
+          ".xt.prop"
+        ],
+        "retained_loader_sections_symbols_relocations_unchanged": true,
+        "original_elf_retained": true,
+        "tool": "GNU objcopy (crosstool-NG esp-2021r2-patch5) 2.35.1.20201223",
+        "options": [
+          "--remove-section=.xt.lit",
+          "--remove-section=.xt.prop",
+          "--discard-all"
+        ]
+      },
+      "defines": [
+        "-DWATCH_FAST_WAKE",
+        "-DPORTABLE_WATCH_NATIVE_HEIGHT",
+        "-DPORTABLE_LOW_BATTERY",
+        "-DWATCH_RUNTIME_FEATURES",
+        "-DWATCH_BLE_BROADCAST",
+        "-DWATCH_CLOCK_LAUNCHER",
+        "-DWATCH_CLOCK_ALARMS",
+        "-DWATCH_CLOCK_POINTS",
+        "-DPORTABLE_RTC_UTC8_DENVER",
+        "-DWATCH_PAIRED_BOOT_CONFIRM",
+        "-DWATCH_QUICK_ACTIONS",
+        "-DWATCH_QUICK_RADIOS",
+        "-DWATCH_MOTION_WAKE",
+        "-DWATCH_ALARM_SLEEP_RESUME",
+        "-DWATCH_CONTEXTS_CLIENT",
+        "-flto",
+        "-Wl,--undefined=__udivdi3",
+        "-Wl,--undefined=__umoddi3",
+        "-Wl,--undefined=__divdi3",
+        "-Wl,--undefined=__moddi3"
+      ]
+    },
+    "clock": {
+      "role": "return-to-default",
+      "file_name": "clock.elf",
+      "bytes": 1232,
+      "sha256": "cfd7de71d1949e415ba6662862feba4733e384258670ec73760425436d3fcde1",
+      "imports": [],
+      "exports": [
+        "app_main"
+      ],
+      "compaction": {
+        "profile": "loader-metadata-v3",
+        "before_bytes": 1492,
+        "after_bytes": 1232,
+        "before_sha256": "a989a3a8452fd25df500b1004e575c43233006a2ec63a453a827d7d902affe2e",
+        "after_sha256": "cfd7de71d1949e415ba6662862feba4733e384258670ec73760425436d3fcde1",
+        "removed_sections": [
+          ".xt.lit",
+          ".xt.prop"
+        ],
+        "retained_loader_sections_symbols_relocations_unchanged": true,
+        "original_elf_retained": true,
+        "tool": "GNU objcopy (crosstool-NG esp-2021r2-patch5) 2.35.1.20201223",
+        "options": [
+          "--remove-section=.xt.lit",
+          "--remove-section=.xt.prop",
+          "--discard-all"
+        ]
+      },
+      "defines": []
+    }
+  },
+  "hardware_qualified": false,
+  "purpose": "Failure-stage diagnostic candidate; no physical sleep root cause proven",
+  "regression": "Full actual Home fast wake suite normal+UBSan at240x240 and410x502; brightness/frame/capability faults"
+}
