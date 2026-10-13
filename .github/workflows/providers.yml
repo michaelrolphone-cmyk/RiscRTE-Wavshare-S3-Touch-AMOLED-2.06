@@ -33,11 +33,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: michaelrolphone-cmyk/RiscRTE
-          ref: 8aae8df4f9139bea06ff43888ed628c45ed8a057
+          ref: 97336e63ce1eac40364893e0ddf5b9fe61b648b7
           path: .source/runtime
           persist-credentials: false
       - name: Test physical providers, generic contracts and actual board parser
         run: |
+          cmp include/RiscSpiFrameV1.h .source/runtime/sdk/driver/RiscSpiFrameV1.h
+          cmp include/RiscSpiQuadV1.h .source/runtime/sdk/driver/RiscSpiQuadV1.h
           cmp include/RiscI2cFunctionV1.h .source/runtime/sdk/hardware/RiscI2cFunctionV1.h
           bash .source/runtime/test/run_i2c_function_test.sh
           SANITIZE=1 bash .source/runtime/test/run_i2c_function_test.sh
