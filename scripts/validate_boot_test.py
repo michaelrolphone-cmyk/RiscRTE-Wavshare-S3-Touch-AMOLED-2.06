@@ -13,6 +13,7 @@ s=(T/'tests/runtime_store_admission.cpp').read_text()
 s=s.replace('#include <cstdio>','#include <cstdio>\n#include "cohort_elf_admission.h"')
 s=s.replace('  RiscCpu::Hardware h{};','''  RiscCpu::Hardware h{};
   h.spiOpenQuad=[](uint8_t,int16_t,int16_t,int16_t,int16_t,int16_t){++hardwareCalls;return false;};
+  h.spiTransferFrame=[](uint8_t,const risc_spi_frame_v1*,const uint8_t*,size_t,uint32_t){++hardwareCalls;return false;};
   h.spiTransferQuad=[](uint8_t,const uint8_t*,size_t,uint32_t){++hardwareCalls;return false;};''')
 a=s.index('  // Runtime errors are constant diagnostics');b=s.index('#endif\n  return hardwareCalls',a)
 s=s[:a]+'''  unsigned admitted=0;

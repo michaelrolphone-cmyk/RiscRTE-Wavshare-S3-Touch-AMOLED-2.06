@@ -54,10 +54,25 @@ static bool exchange(void*c,uint64_t t,const uint8_t*tx,uint8_t*rx,size_t n){
  return true;
 }
 static bool pixelsq(void*c,uint64_t t,const uint8_t*tx,size_t n){(void)c;assert(t==100&&bus_active&&opcode==0x32&&current_command==0x3c&&ram_started&&normal_mode&&n&&n<=512&&!(n&1)&&received+n<=820);if(!pass())return false;now_us+=10+(n+19)/20;memcpy(glass+y_first*820+received,tx,n);received+=n;quad_calls++;if(received==820){++pixel_rows;ram_started=false;}return true;}
+static bool frameq(void*c,uint64_t t,const risc_spi_frame_v1*f,const uint8_t*data,size_t n) {
+ assert(f && f->struct_size==sizeof(*f) && !f->reserved && !f->dummy_bits);
+ if(f->command_bits || f->address_bits) {
+  assert(f->command_bits==8 && f->address_bits==24 && !(f->address&0xff00ff));
+  if(f->command==2) {
+   assert(f->data_lines==1 && n<=4 && (!n || data));
+   uint8_t bytes[8]={2,0,(uint8_t)(f->address>>8),0};if(n)memcpy(bytes+4,data,n);
+   return exchange(c,t,bytes,NULL,n+4);
+  }
+  assert(f->command==0x32 && f->data_lines==4 && n==512 && !received);
+  const uint8_t bytes[]={0x32,0,0x3c,0};assert(f->address==0x3c00);
+  if(!exchange(c,t,bytes,NULL,4))return false;
+ } else {assert(!f->command && !f->address && f->data_lines==4 && received==512 && n==308);}
+ return pixelsq(c,t,data,n);
+}
 static bool endq(void*c,uint64_t t){(void)c;assert(bus_claimed&&t==100);if(!pass())return false;bus_active=false;now_us+=10;return true;}
 static bool releaseq(void*c,uint64_t t){(void)c;assert(bus_claimed&&t==100&&!bus_active);if(!pass())return false;bus_claimed=false;stops++;return true;}
 static garden_gpio_v1 pg={.api_version=1,.struct_size=sizeof(pg),.claim=gpclaim,.write=gpwrite,.read=gpread,.pwm=gppwm,.release=gprelease,.waveform=gpwave,.deep_sleep_hold=hold};
-static risc_spi_quad_v1 qs={.base={.api_version=1,.struct_size=sizeof(qs),.begin=beginq,.exchange=exchange,.end=endq,.release=releaseq},.quad_tag=RISC_SPI_QUAD_TAG,.quad_version=1,.claim_quad=claimq,.exchange_quad=pixelsq};
+static risc_spi_quad_v1 qs={.base={.api_version=1,.struct_size=sizeof(qs),.begin=beginq,.end=endq,.release=releaseq},.quad_tag=RISC_SPI_QUAD_TAG,.quad_version=1,.claim_quad=claimq,.exchange_frame=frameq};
 static risc_platform_clock_api_v1 pc={1,sizeof(pc),NULL,now,delay};
 static bool rail_enable(void *context,bool value) {
  assert(context==&rail_context && value && reset_claimed && !reset_high && !bus_active);
@@ -85,6 +100,8 @@ int main(void){setup();assert(start(deps,5));
  assert(all_on_pulses==CO5300_BOOT_PROBE&&normal_mode);
 assert(now_us>=540000&&reset_high&&brightness_seen==0);risc_display_info_v1 info={0};assert(api.base.get_info(NULL,&info)&&info.width==410&&info.height==502);assert(api.base.set_brightness(NULL,100,100));assert(brightness_seen==0);frame();assert(api.prepare_sleep(NULL)&&brightness_seen==0);assert(!api.base.acquire(NULL,FORMAT,(risc_display_surface_v1[1]){{0}}));assert(api.resume(NULL)&&brightness_seen==0);frame();assert(api.prepare_deep_sleep(NULL)==0&&held_reset);assert(!quiesce());assert(api.resume(NULL)&&!held_reset);assert(quiesce()&&!bus_claimed&&!reset_claimed);
  setup();assert(start(deps,5));unsigned total=io_calls;assert(quiesce());for(unsigned i=1;i<=total;i++){setup();fail_io=i;assert(!start(deps,5));fail_io=0;assert(quiesce());assert(!bus_claimed&&!reset_claimed);}
+ setup();qs.base.struct_size=RISC_SPI_QUAD_RAW_V1_SIZE;assert(!start(deps,5));assert(quiesce()&&!commands);qs.base.struct_size=sizeof(qs);
+ setup();qs.exchange_frame=NULL;assert(!start(deps,5));assert(quiesce()&&!commands);qs.exchange_frame=frameq;
  setup();cfg.data3=cfg.data2;assert(!start(deps,5));assert(quiesce());setup();qs.quad_tag=0;assert(!start(deps,5));assert(quiesce());qs.quad_tag=RISC_SPI_QUAD_TAG;
  setup();assert(start(deps,5));risc_display_surface_v1 f={0};assert(acquire(NULL,FORMAT,&f));uint64_t token=0;assert(submit(NULL,f.frame,NULL,0,NULL,&token));fail_io=io_calls+2;display_poll(8);assert(present_state==RISC_DISPLAY_PRESENT_FAILED);assert(!acquire(NULL,FORMAT,&f));fail_io=0;assert(quiesce());
  setup();assert(!start(deps,4));assert(quiesce()&&!commands); /* no rail capability */

@@ -42,13 +42,11 @@ static bool begin_bus(void) {
     (void)end_bus();return false;
 }
 static bool command(uint8_t cmd,const uint8_t *data,size_t n) {
-    /* Match the vendor's command+address+parameter transfer in one contiguous
-     * one-lane phase. Register payloads here are at most four bytes. */
-    if(n>4 || (n&&!data))return false;
-    uint8_t bytes[8]={0x02,0,cmd,0};
-    if(n)memcpy(bytes+4,data,n);
-    if(!begin_bus())return false;
-    bool ok=spi->exchange(spi->context,spi_claim,bytes,NULL,4+n);
+    /* Keep header and register parameters in one hardware SPI transaction,
+     * using the framed path corresponding to the successful vendor A/B test. */
+    if(n>4 || (n&&!data) || !begin_bus())return false;
+    const risc_spi_frame_v1 frame={sizeof(frame),0x02,8,24,(uint64_t)cmd<<8,0,1,0};
+    bool ok=quad->exchange_frame(spi->context,spi_claim,&frame,data,n);
     bool ended=end_bus();return ok&&ended;
 }
 static bool set_byte(uint8_t cmd,uint8_t value){return command(cmd,&value,1);}
@@ -63,8 +61,9 @@ static bool hw_start(const risc_provider_dependency_v1 *d,size_t n) {
     const int16_t selected[]={config->bus.sclk,config->bus.mosi,config->bus.miso,c->data2,c->data3,config->cs,config->reset};
     if(!tw_unique(selected,7)||!tw_pin(config->bus.miso)||!tw_pin(c->data2)||!tw_pin(c->data3)||!tw_pin(config->cs)||!gpio_dependencies(d,n))return false;
     quad=garden_dependency(d,n,"spi.bus",sizeof(*quad));
-    if(!quad||quad->quad_tag!=RISC_SPI_QUAD_TAG||quad->quad_version!=RISC_SPI_QUAD_VERSION||!quad->claim_quad||!quad->exchange_quad)return false;
-    spi=&quad->base;if(!spi->begin||!spi->exchange||!spi->end||!spi->release)return false;
+    if(!quad||quad->quad_tag!=RISC_SPI_QUAD_TAG||quad->quad_version!=RISC_SPI_QUAD_VERSION||!quad->claim_quad||!quad->exchange_frame)return false;
+    spi=&quad->base;if(!spi->begin||!spi->end||!spi->release)return false;
+    provider_log("PANEL_LINK transport=framed-spi header=hardware-command-address completion=polling");
     rail=tw_dep(d,n,RISC_POWER_RAIL_CAPABILITY,sizeof(*rail));
     if(!rail || !rail->get_info || !rail->set_enabled)return false;
     /* Hold reset before rail configuration, then verify actual pad readback.
@@ -121,12 +120,13 @@ static bool hw_row(uint32_t y,const uint8_t *pixels) {
      * (WRMC), not an unqualified 0x32/0x2c. CS stays asserted across both
      * data chunks, preserving the row cursor. */
     bool ok=command(0x2a,columns,4)&&command(0x2b,rows,4)&&command(0x2c,NULL,0)&&begin_bus();
-    if(ok){const uint8_t header[]={0x32,0,0x3c,0};ok=spi->exchange(spi->context,spi_claim,header,NULL,sizeof(header));}
     uint8_t wire[512];
     for(size_t offset=0;ok&&offset<STRIDE;offset+=sizeof(wire)) {
         size_t count=STRIDE-offset;if(count>sizeof(wire))count=sizeof(wire);
         for(size_t i=0;i<count;i+=2){wire[i]=pixels[offset+i+1];wire[i+1]=pixels[offset+i];}
-        ok=quad->exchange_quad(spi->context,spi_claim,wire,count);
+        const risc_spi_frame_v1 frame={sizeof(frame),offset?0:0x32,offset?0:8,
+            offset?0:24,offset?0:0x3c00,0,4,0};
+        ok=quad->exchange_frame(spi->context,spi_claim,&frame,wire,count);
     }
     bool ended=end_bus();row_deadline=0;return ok&&ended;
 }

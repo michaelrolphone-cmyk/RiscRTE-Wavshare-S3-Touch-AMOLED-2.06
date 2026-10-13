@@ -1,7 +1,7 @@
 {
   "type": "driver",
   "id": "waveshare-panel",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "driver_abi": 2,
   "architecture": "xtensa-esp32s3",
   "file_name": "driver.elf",
@@ -43,5 +43,6 @@
       "config_version": 2
     }
   ],
-  "physical_verification": "pending"
+  "physical_verification": "pending",
+  "notes": "Requires spi.bus@1 with RISC_SPI_QUAD_FRAME_V1_SIZE"
 }

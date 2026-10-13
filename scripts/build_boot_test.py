@@ -12,9 +12,9 @@ SIZE=0x800000
 FS_OFFSET=0x310000
 FS_SIZE=0x4f0000
 TOOL_SHA='4ddf79a1ab9a3baf502cdb979bea7ed173bbe46727a9902649cc09e6a28a5ad2'
-NAME='Waveshare-0.1.3-Home-0.15.0-boot-test-full-0x0.bin'
+NAME='Waveshare-0.1.4-Home-0.15.0-boot-test-full-0x0.bin'
 PINS={
- 'runtime':'8aae8df4f9139bea06ff43888ed628c45ed8a057',
+ 'runtime':'97336e63ce1eac40364893e0ddf5b9fe61b648b7',
  'shared':'76aa47728192531ca9812f3e026057e0b174cb00',
  'controllers':'851b8998e804c57b2c9f42d9f8fd0a69e79f2b41',
  'generic':'422e1e81a498fb6bdab9abf086325afc05a532dc',
@@ -60,11 +60,11 @@ def main():
   boot['drivers'].append({'manifest':name+'/manifest.json','instance_id':instance})
  for name,folder,instance in [('battery','power_axp2101',4),('display','panel_co5300',5),('touch','touch_ft3168',6),('motion','motion_qmi8658',7),('rtc','rtc_pcf85063',8),('haptic','haptic_gpio',9)]:
   source=device/'drivers'/folder
-  build(source/'driver.c',store/name/'driver.elf',[S/'sdk/driver',S/'sdk/app',S/'include',device/'include'],'t5_driver_get')
+  build(source/'driver.c',store/name/'driver.elf',[device/'include',S/'sdk/driver',S/'sdk/app',S/'include'],'t5_driver_get')
   shutil.copy2(source/'manifest.json',store/name/'manifest.json')
   boot['drivers'].append({'manifest':name+'/manifest.json','instance_id':instance})
  source=device/'drivers/display_rail_axp2101'
- build(source/'driver.c',store/'rail/driver.elf',[S/'sdk/driver',S/'sdk/app',S/'include',device/'include'],'t5_driver_get')
+ build(source/'driver.c',store/'rail/driver.elf',[device/'include',S/'sdk/driver',S/'sdk/app',S/'include'],'t5_driver_get')
  shutil.copy2(source/'manifest.json',store/'rail/manifest.json')
  boot['drivers'].append({'manifest':'rail/manifest.json','instance_id':13})
  build(G/'Drivers/legacy_power_key/driver.c',store/'powerkey/driver.elf',[G/'sdk/driver',S/'sdk/driver'],'t5_driver_get')
@@ -159,7 +159,7 @@ def main():
  full[FS_OFFSET:FS_OFFSET+FS_SIZE]=raw
  if full[0x9000:0xf000]!=b'\xff'*0x6000 or read_image(full[FS_OFFSET:],FS_SIZE)!=expected:raise ValueError('Merged flash readback failed')
  (out/NAME).write_bytes(full)
- receipt={'schema':1,'product':'Waveshare first-boot test','version':'0.1.3','shared_home':'0.15.0','image':NAME,'bytes':len(full),'sha256':digest(full),'write_address':0,'native_regions':records,'bootfs':{'offset':FS_OFFSET,'bytes':FS_SIZE,'sha256':digest(raw),'tool_sha256':TOOL_SHA},'source_pins':PINS,'device_commit':subprocess.check_output(['git','-C',str(device),'rev-parse','HEAD'],text=True).strip(),'store_files':{n:{'bytes':len(v),'sha256':digest(v)} for n,v in sorted(expected.items())},'validation':{'real_runtime_admission':True,'native_export_and_elf_checks':True,'sanitizers':True,'independent_and_implementation_readback':True,'negative_cases':list(refusals)},'shared_home_staging':staging,'panel_driver':'0.1.2','power_rail':'0.1.0','battery_driver':'0.1.1','panel_boot_probe':'ALDO2 register verification then ALLPON 25 percent 750 ms; then normal-mode Home','physical_boot_verified':False,'automatic_sleep':False,'network_required':False,'sd_required':False,'erases_lower_8mib_including_nvs':True,'paired_update':False}
+ receipt={'schema':1,'product':'Waveshare first-boot test','version':'0.1.4','shared_home':'0.15.0','image':NAME,'bytes':len(full),'sha256':digest(full),'write_address':0,'native_regions':records,'bootfs':{'offset':FS_OFFSET,'bytes':FS_SIZE,'sha256':digest(raw),'tool_sha256':TOOL_SHA},'source_pins':PINS,'device_commit':subprocess.check_output(['git','-C',str(device),'rev-parse','HEAD'],text=True).strip(),'store_files':{n:{'bytes':len(v),'sha256':digest(v)} for n,v in sorted(expected.items())},'validation':{'real_runtime_admission':True,'native_export_and_elf_checks':True,'sanitizers':True,'independent_and_implementation_readback':True,'negative_cases':list(refusals)},'shared_home_staging':staging,'panel_driver':'0.1.2','power_rail':'0.1.0','battery_driver':'0.1.1','panel_boot_probe':'ALDO2 register verification then ALLPON 25 percent 750 ms; then normal-mode Home','physical_boot_verified':False,'automatic_sleep':False,'network_required':False,'sd_required':False,'erases_lower_8mib_including_nvs':True,'paired_update':False}
  json_write(out/'build.json',receipt)
  (out/'SHA256SUMS.txt').write_text(receipt['sha256']+'  '+NAME+'\n')
  print('FLASH IMAGE READY:',NAME,len(full),'bytes',receipt['sha256'],flush=True)
