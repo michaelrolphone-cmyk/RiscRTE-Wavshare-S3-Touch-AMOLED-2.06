@@ -14,7 +14,7 @@ FS_SIZE=0x4f0000
 TOOL_SHA='4ddf79a1ab9a3baf502cdb979bea7ed173bbe46727a9902649cc09e6a28a5ad2'
 NAME='Waveshare-0.1.4-Home-0.15.0-boot-test-full-0x0.bin'
 PINS={
- 'runtime':'ebae0cccc62b8b0f2bdb1bf1a9d8c9a42666554c',
+ 'runtime':'0f21d1c117d2e43497a491d0d012b409ab39801c',
  'shared':'76aa47728192531ca9812f3e026057e0b174cb00',
  'controllers':'851b8998e804c57b2c9f42d9f8fd0a69e79f2b41',
  'generic':'422e1e81a498fb6bdab9abf086325afc05a532dc',
@@ -88,13 +88,9 @@ def main():
  diagnostics={'type':'application','id':'watch-bringup','version':'0.1.0','architecture':'xtensa-esp32s3','entry':'app_main'}
  grants=[('display.output',1,5),('input.touch.raw',1,6),('board.battery',1,4),('rtc.clock',2,8),('motion.accel',1,7),('haptic.effect',1,9)]
  application('springboard',diagnostics,grants)
- # Existing Home's Wi-Fi shortcut routes to the honest unavailable/test screen,
- # not to a missing file or a pretend Wi-Fi provider.
  shutil.copy2(store/'springboard.elf',store/'wifi_settings.elf')
  application('wifi_settings',{**diagnostics,'id':'watch-radio-not-in-test'},grants)
  json_write(store/'boot.json',boot)
- # One canonical app build, consumed through the same stager as T-Watch.
- # Board-specific support remains in this device profile, not app compilation.
  from stage_product import app_bundle,stage
  app_files,_=app_bundle(components)
  staged,staging=stage(files(store),app_files,{},json.loads((device/'profiles/shared-home.json').read_bytes()),provider_capacity=40)
@@ -138,7 +134,6 @@ def main():
    refusals[name]=result.stdout.strip()
    shutil.rmtree(damaged);shutil.copytree(unpacked,damaged)
  json_write(out/'negative-admission.json',refusals)
- # Validate the real compiled partition table, including its MD5 trailer.
  table=(a.native/'partitions.bin').read_bytes();parts={};verified=False
  for offset in range(0,len(table),32):
   entry=table[offset:offset+32]
@@ -159,7 +154,6 @@ def main():
  full[FS_OFFSET:FS_OFFSET+FS_SIZE]=raw
  if full[0x9000:0xf000]!=b'\xff'*0x6000 or read_image(full[FS_OFFSET:],FS_SIZE)!=expected:raise ValueError('Merged flash readback failed')
  (out/NAME).write_bytes(full)
- # Report the versions actually packaged, never a stale hand-maintained copy.
  component_versions={key:json.loads(expected[path])['version'] for key,path in [
   ('panel_driver','display/manifest.json'),('power_rail','rail/manifest.json'),('battery_driver','battery/manifest.json')]}
  receipt={'schema':1,'product':'Waveshare first-boot test','version':'0.1.4','shared_home':'0.15.0','image':NAME,'bytes':len(full),'sha256':digest(full),'write_address':0,'native_regions':records,'bootfs':{'offset':FS_OFFSET,'bytes':FS_SIZE,'sha256':digest(raw),'tool_sha256':TOOL_SHA},'source_pins':PINS,'device_commit':subprocess.check_output(['git','-C',str(device),'rev-parse','HEAD'],text=True).strip(),'store_files':{n:{'bytes':len(v),'sha256':digest(v)} for n,v in sorted(expected.items())},'validation':{'real_runtime_admission':True,'native_export_and_elf_checks':True,'sanitizers':True,'independent_and_implementation_readback':True,'negative_cases':list(refusals)},'shared_home_staging':staging,**component_versions,'panel_boot_probe':'ALDO2 register verification then ALLPON 25 percent 750 ms; then normal-mode Home','physical_boot_verified':False,'automatic_sleep':False,'network_required':False,'sd_required':False,'erases_lower_8mib_including_nvs':True,'paired_update':False}
