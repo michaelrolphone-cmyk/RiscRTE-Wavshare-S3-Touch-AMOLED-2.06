@@ -94,8 +94,11 @@ def main():
  def application(name,manifest,grants):
   manifest['file_name']=name+'.elf'
   manifest['requires']=[{'capability':c,'api':v} for c,v in dict.fromkeys((c,v) for c,v,i in grants)]
+  from shared_optional_hardware import provision
+  policy={'manifest':name+'.json','grants':[{'capability':c,'api':v,'instance_id':i} for c,v,i in grants]}
+  manifest,policy=provision(manifest,policy)
   json_write(store/(name+'.json'),manifest)
-  boot['app_capabilities'].append({'manifest':name+'.json','grants':[{'capability':c,'api':v,'instance_id':i} for c,v,i in grants]})
+  boot['app_capabilities'].append(policy)
  base=[('display.output',1,5),('board.battery',1,4),('rtc.clock',2,8),('input.touch.raw',1,6),('input.power-key',1,0),('runtime.realtime-control',1,0),('storage.key-value',1,1),('storage.key-value',1,5)]
  base += closure['services']+[('power.sleep',1,0),('display.power',1,0),('net.wifi',1,15),('bluetooth.hci',1,16),('motion.accel',1,7)]
  for role in ('default','clock'):
