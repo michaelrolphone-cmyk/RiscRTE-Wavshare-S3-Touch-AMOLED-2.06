@@ -18,6 +18,7 @@ def validate(pins: dict[str, str], workflow: str) -> None:
     repositories = {"runtime": "RiscRTE", "shared": "RiscRTE-Watch", "controllers": "RiscRTE-T-Watch-S3", "generic": "RiscRTE-Drivers", "system": "RiscRTE-System-Apps", "utilities": "RiscRTE-Utilities"}
     checkout = {path:(repo,ref) for repo,ref,path in re.findall(r"repository: michaelrolphone-cmyk/([^\s]+)\s+ref: ([0-9a-f]{40})\s+path: \.source/([^\s]+)", workflow)}
     repositories["service_utilities"] = "RiscRTE-Utilities"
+    repositories["watch_system"] = "RiscRTE-System-Apps"
     for key, repository in repositories.items():
         if checkout.get(key) != (repository,pins[key]):
             raise ValueError(f"{key}: workflow/assembler source mismatch")
