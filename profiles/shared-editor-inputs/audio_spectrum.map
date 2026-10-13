@@ -1,0 +1,1 @@
+{ global: app_main; app_module_init; app_module_fini; local: *; };

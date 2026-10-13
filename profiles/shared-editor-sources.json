@@ -1,0 +1,11 @@
+{
+  "system": "21f640e460b4b8776f61207329f30e40adb41ec8",
+  "spectrum": "7c060d9b83695cc110958f20fac76fc1bb32389f",
+  "rf": "9c0841dc478ef05c1f35ca6417e8f220759a960e",
+  "bridges": "6e82fdcaec0b73ed700d2104cfb4d94f011c19d4",
+  "runtime": "5561cc7bb09d1e2b03aafaecb8c95f0470f351f6",
+  "product_base": "6ea06e8f05a1e598d6d991083fdb54548c0486f7",
+  "production_spectrum": "b1b2ba9466cc7243570471c0f9e728367dd4bafe",
+  "production_rf": "4beb9778d300ec9f6b18448e1ec86317e063c98c",
+  "temporal_controller_sdk": "aac1cb342696e96345d4546e2c69023834c6c8d4"
+}
