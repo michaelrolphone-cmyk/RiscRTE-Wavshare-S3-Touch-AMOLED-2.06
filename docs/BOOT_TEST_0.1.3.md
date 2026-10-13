@@ -16,11 +16,11 @@ Startup first reads the PMIC chip ID and ALDO2 enable/voltage registers without 
 
 Only register0x90 bit1 and register0x93 low five bits are writable in the rail driver. No charging current/voltage, battery model, thermistor, DCDC, other LDO or IRQ policy is changed. The existing battery driver retains its original VBAT-ADC enable write, but uses short I2C address leases rather than monopolizing the PMIC for its whole lifetime. Failed lease release retains its token for cleanup.
 
-The command-only white probe now lasts 750ms at25% brightness, then returns to normal Home. Shared Home0.15.0, its return module, native Runtime source/flags and the original board pin mapping stay unchanged. Automatic sleep remains disabled. There are now10providers /14ELFs /30store files.
+The command-only white probe now lasts 750ms at25% brightness, then returns to normal Home. Shared Home 0.15.0, its return module and the original physical pin mapping stay unchanged. Native Runtime advances from `5323d1e` to `8aae8df4f9139bea06ff43888ed628c45ed8a057` (0.3.3) solely for the typed, generic I2C-peripheral-function descriptor. ALDO2 and battery monitoring refer to one physical PMIC/address; this is not a second invented I2C chip. Both the native compiler workflow and the image assembler pin this same revision. No native display commands or device-specific capability were added. Automatic sleep remains disabled. There are now10providers /14ELFs /30store files.
 
 ## New USB diagnostics
 
-Capture serial at115200 from power-on, including these prefixes:
+Capture serial at 115200 from power-on. The native identity must now read `RTE_SOURCE=8aae8df4f9139bea06ff43888ed628c45ed8a057`; the driver inventory must include `axp2101-aldo2-rail`. Include these prefixes:
 
 - `PANEL_POWER stage=discovered` and `stage=before`: actual chip-register enable/setpoint before correction.
 - `PANEL_POWER stage=after aldo2_enabled=1 configured_mv=3300`: register readback, **not an analog measurement of voltage at the connector**.
