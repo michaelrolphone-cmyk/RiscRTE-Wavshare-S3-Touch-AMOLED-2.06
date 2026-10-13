@@ -34,10 +34,9 @@ def stage_ready_apps(*,build,application,store,components,dirs,catalog,alarm_pro
         flags=[f for f in definitions(name,original['version'],shared) if f!='-flto']
         flags+=['-DPORTABLE_NAVIGATION_RETENTION','-DPORTABLE_ASYNC_RGB565','-DPORTABLE_WATCH_NATIVE_HEIGHT','-include',str(alarm_profile)]
         sources,includes,_=application_inputs(name,source,repos,shared,components,'runtime-features')
-        includes += [utilities/'lib/Contexts/include']
+        includes += [utilities/'lib/Contexts/include',components]
         if name=='points_in_time':
             sources.append(paper)
-            includes.append(components)
         build(sources[0],store/(name+'.elf'),includes,'app_main; app_module_init; app_module_fini',[*sources[1:],*flags])
         grants=[('display.output',1,5),('input.touch.raw',1,6),('rtc.clock',2,8)]
         # The first namespace is the app's default acquisition (instance 0).

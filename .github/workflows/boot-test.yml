@@ -62,6 +62,12 @@ jobs:
           persist-credentials: false
       - uses: actions/checkout@v4
         with:
+          repository: michaelrolphone-cmyk/RiscRTE-Watch
+          ref: 2d3df3d50647578987eb209bf7e2b8d722715d00
+          path: .source/diagnostic_shared
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
           repository: michaelrolphone-cmyk/RiscRTE-T-Watch-S3
           ref: 851b8998e804c57b2c9f42d9f8fd0a69e79f2b41
           path: .source/controllers
@@ -126,7 +132,7 @@ jobs:
           python3 .source/shared/scripts/test_viewport.py --sanitize | tee evidence/viewport.txt
           python3 .source/shared/scripts/check_capability_boundaries.py --provider-root "$PWD"
           for flags in '' '-fsanitize=address,undefined -fno-sanitize-recover=all -fno-omit-frame-pointer -no-pie'; do
-            cc -std=c11 -Wall -Wextra -Werror -Wno-misleading-indentation $flags -I.source/shared/include -I.source/shared/sdk/app -I.source/shared/sdk/driver .source/shared/tests/bringup_test.c .source/shared/apps/clock/viewport.c -o /tmp/bringup-test
+            cc -std=c11 -Wall -Wextra -Werror -Wno-misleading-indentation $flags -I.source/diagnostic_shared/include -I.source/diagnostic_shared/sdk/app -I.source/diagnostic_shared/sdk/driver .source/diagnostic_shared/tests/bringup_test.c .source/diagnostic_shared/apps/clock/viewport.c -o /tmp/bringup-test
             /tmp/bringup-test | tee -a evidence/diagnostics.txt
           done
       - name: Test typed PMIC binding and actual native framed transport
@@ -191,7 +197,7 @@ jobs:
           pio pkg install --global --tool 'platformio/tool-mkspiffs@2.230.0'
       - name: Assemble, admit, unpack and verify full image
         run: |
-          python3 scripts/build_boot_test.py --runtime .source/runtime --shared .source/shared --home_system .source/home_system --modern_system .source/modern_system --productivity .source/productivity --scanner_utilities .source/scanner_utilities --bridge_shared .source/bridge_shared --controllers .source/controllers --generic .source/generic --system .source/system --utilities .source/utilities --service_utilities .source/service_utilities --watch_system .source/watch_system --temporal .source/temporal --native .source/runtime/.pio/build/esp32s3-16mb-boot-test --cc "$HOME/.platformio/packages/toolchain-xtensa-esp32s3/bin/xtensa-esp32s3-elf-gcc" --mkspiffs "$HOME/.platformio/packages/tool-mkspiffs/mkspiffs_espressif32_arduino" --output dist/boot-test | tee evidence/assembly.txt
+          python3 scripts/build_boot_test.py --runtime .source/runtime --shared .source/shared --diagnostic_shared .source/diagnostic_shared --home_system .source/home_system --modern_system .source/modern_system --productivity .source/productivity --scanner_utilities .source/scanner_utilities --bridge_shared .source/bridge_shared --controllers .source/controllers --generic .source/generic --system .source/system --utilities .source/utilities --service_utilities .source/service_utilities --watch_system .source/watch_system --temporal .source/temporal --native .source/runtime/.pio/build/esp32s3-16mb-boot-test --cc "$HOME/.platformio/packages/toolchain-xtensa-esp32s3/bin/xtensa-esp32s3-elf-gcc" --mkspiffs "$HOME/.platformio/packages/tool-mkspiffs/mkspiffs_espressif32_arduino" --output dist/boot-test | tee evidence/assembly.txt
           python -m esptool --chip esp32s3 image_info .source/runtime/.pio/build/esp32s3-16mb-boot-test/firmware.bin | tee evidence/native-image-info.txt
           cp docs/BOOT_TEST_0.1.8.md dist/boot-test/README.md
           cp .source/runtime/boot-test.ini dist/boot-test/native-build.ini

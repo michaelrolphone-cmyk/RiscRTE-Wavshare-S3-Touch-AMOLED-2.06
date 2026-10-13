@@ -16,6 +16,7 @@ NAME='Waveshare-0.1.8-Home-0.15.0-boot-test-full-0x0.bin'
 PINS={
  'runtime':'56036e51b34e2054600d4465554a101914dec7a4',
  'shared':'ec768c7fae6fdb484fef28c6ec87f129b0a7f585',
+ 'diagnostic_shared':'2d3df3d50647578987eb209bf7e2b8d722715d00',
  'home_system':'076f8da38f7dfebdfde6dd5d46e06446470fb828',
  'modern_system':'1aaf53e23ca9651a5cf9d1debe44941c9d7d0e58',
  'productivity':'0b8667d64e76a6b4bbd325a1c963405f3af57404',
@@ -103,7 +104,8 @@ def main():
   shutil.copy2(components/(role+'.elf'),store/(role+'.elf'))
   application(role,manifest,base+([('runtime.provider-promotion',1,0)] if role=='default' else []))
  # Keep diagnostics under their own name; never alias a launcher/settings entry.
- build(S/'apps/bringup/main.c',store/'bringup.elf',[S/'sdk/app',S/'sdk/driver',S/'include'],'app_main',[S/'apps/clock/viewport.c'])
+ diagnostic=dirs['diagnostic_shared']
+ build(diagnostic/'apps/bringup/main.c',store/'bringup.elf',[diagnostic/'sdk/app',diagnostic/'sdk/driver',diagnostic/'include'],'app_main',[diagnostic/'apps/clock/viewport.c'])
  diagnostics={'type':'application','id':'watch-bringup','version':'0.1.0','architecture':'xtensa-esp32s3','entry':'app_main'}
  grants=[('display.output',1,5),('input.touch.raw',1,6),('board.battery',1,4),('rtc.clock',2,8),('motion.accel',1,7),('haptic.effect',1,9)]
  application('bringup',diagnostics,grants)
