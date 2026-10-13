@@ -16,6 +16,7 @@ NAME='Waveshare-0.1.8-Home-0.15.0-boot-test-full-0x0.bin'
 PINS={
  'runtime':'56036e51b34e2054600d4465554a101914dec7a4',
  'shared':'2d3df3d50647578987eb209bf7e2b8d722715d00',
+ 'bridge_shared':'2d3df3d50647578987eb209bf7e2b8d722715d00',
  'controllers':'851b8998e804c57b2c9f42d9f8fd0a69e79f2b41',
  'generic':'422e1e81a498fb6bdab9abf086325afc05a532dc',
  'system':'14762601b3fa7bbeeac5ed565a6825534bf74dca',
@@ -32,7 +33,7 @@ def files(root):return {p.relative_to(root).as_posix():p.read_bytes() for p in r
 def run(*command,**kw):return subprocess.run(list(map(str,command)),check=True,**kw)
 def main():
  p=argparse.ArgumentParser(description=__doc__)
- for name in ('runtime','shared','controllers','generic','system','utilities','service_utilities','watch_system','temporal','native','cc','mkspiffs','output'):
+ for name in (*PINS,'native','cc','mkspiffs','output'):
   p.add_argument('--'+name,required=True,type=Path)
  p.add_argument('--device',type=Path,default=ROOT)
  a=p.parse_args()
@@ -99,6 +100,8 @@ def main():
  grants=[('display.output',1,5),('input.touch.raw',1,6),('board.battery',1,4),('rtc.clock',2,8),('motion.accel',1,7),('haptic.effect',1,9)]
  application('bringup',diagnostics,grants)
  system=dirs['watch_system']
+ bridges=dirs['bridge_shared']
+ from boot_watch_apps import READY_APPS,stage_ready_apps
  catalog=components/'watch-tools-catalog.c'
  # Preserve the original ordered honeycomb catalog. Missing installed apps
  # remain explicitly incompatible until their qualified components are staged.
@@ -106,7 +109,7 @@ def main():
  import re
  def catalog_availability(match):
   name=match.group(1)
-  available=(store/name).is_file() or name=='settings.elf'
+  available=(store/name).is_file() or name=='settings.elf' or name.removesuffix('.elf') in READY_APPS
   return '.file_name="'+name+'"'+match.group(2)+'.compatible='+('true' if available else 'false')
  catalog.write_text(re.sub(r'\.file_name="([^"]+)"([^}]*?)\.compatible=true',catalog_availability,catalog_source))
  alarm_profile=components/'watch-alarm-profile.h'
@@ -114,7 +117,7 @@ def main():
   '#define ALARM_MODE_VISUAL 0u\n'
   'static inline uint32_t alarm_service_output_modes(const alarm_service_v1*s){return s?ALARM_MODE_BOTH:ALARM_MODE_VISUAL;}\n')
  for role,return_app in [('springboard','clock.elf'),('settings','springboard.elf')]:
-  extra=[system/'lib/PortableApps/src/adapter.c',catalog,S/'apps/clock/portable_navigation.c',S/'apps/clock/portable_sleep.c',
+  extra=[system/'lib/PortableApps/src/adapter.c',catalog,bridges/'apps/clock/portable_navigation.c',bridges/'apps/clock/portable_sleep.c',
    *[system/'lib/PortableApps/src'/n for n in ('quick_actions.c','quick_render.c','quick_session.c','quick_radios.c')],
    '-DPORTABLE_FORCE_FULL_FRAMES','-DPORTABLE_RTC_UTC8_DENVER','-DPORTABLE_NOVA_UI','-DPORTABLE_WATCH_NATIVE_HEIGHT','-DPORTABLE_ASYNC_RGB565',
    '-DPORTABLE_INPUT_NAVIGATION','-DPORTABLE_INPUT_NAVIGATION_LOCAL','-DPORTABLE_APP_SLEEP_LOCAL',
@@ -123,15 +126,17 @@ def main():
    '-include',str(S/'apps/clock/faces/ContextsFaces.h'),'-include',str(alarm_profile),'-DPORTABLE_RETURN_APP="'+return_app+'"']
   if role=='settings':extra+=['-DPORTABLE_SETTINGS_APP','-DPORTABLE_TAP_SETTINGS','-DPORTABLE_SLEEP_SETTINGS','-DPORTABLE_ALARM_SETTINGS','-DPORTABLE_SETTINGS_CLOCK_CHANGE_CONTROL']
   else:extra+=[system/'lib/NativeApps/src/SingleFloatDivisionCompat.c','-DPORTABLE_RETAINED_RGB565_HANDOFF','-DPORTABLE_HANDOFF_EAGER_MS=60','-DPORTABLE_CATALOG_LIMIT=23']
-  build(system/'Apps'/(role+'.c'),store/(role+'.elf'),[dirs['service_utilities' if role=='settings' else 'utilities']/'lib/Alarm/include',dirs['service_utilities' if role=='settings' else 'utilities']/'lib/Contexts/include',system/'lib/PortableApps/include',system/'lib/NativeApps/include',S/'sdk/app',S/'sdk/driver',S/'include'],
+  build(system/'Apps'/(role+'.c'),store/(role+'.elf'),[dirs['service_utilities' if role=='settings' else 'utilities']/'lib/Alarm/include',dirs['service_utilities' if role=='settings' else 'utilities']/'lib/Contexts/include',system/'lib/PortableApps/include',system/'lib/NativeApps/include',bridges/'sdk/app',bridges/'sdk/driver',bridges/'include'],
     'app_main; app_module_init; app_module_fini',extra)
   manifest=json.loads((system/'Apps'/(role+'.json')).read_text())
   manifest={'type':'application','id':role,'version':manifest['version'],'architecture':'xtensa-esp32s3','entry':'app_main'}
   app_grants=[('display.output',1,5),('input.touch.raw',1,6),('rtc.clock',2,8)]
   app_grants += closure['services']+closure['foreground']
   application(role,manifest,app_grants)
+ stage_ready_apps(build=build,application=application,store=store,components=components,
+  dirs=dirs,catalog=catalog,alarm_profile=alarm_profile,closure=closure)
  # A launcher catalog entry must resolve to a real admitted application.
- for name in ('clock','settings','bringup'):
+ for name in ('clock','settings','bringup',*READY_APPS):
   if not (store/(name+'.elf')).is_file() or not (store/(name+'.json')).is_file():raise ValueError('Unresolved launcher target: '+name)
  if (store/'springboard.elf').read_bytes()==(store/'bringup.elf').read_bytes():raise ValueError('Diagnostic aliased as Springboard')
  json_write(store/'boot.json',boot)
@@ -141,7 +146,7 @@ def main():
  for name,raw in staged.items():(store/name).write_bytes(raw)
  json_write(out/'shared-home-staging.json',staging)
  expected=files(store)
- if len(expected)!=58 or sum(n.endswith('.elf') for n in expected)!=28:raise ValueError('Unexpected boot inventory')
+ if len(expected)!=58+2*len(READY_APPS) or sum(n.endswith('.elf') for n in expected)!=28+len(READY_APPS):raise ValueError('Unexpected boot inventory')
  if any(len(('/'+n).encode())>=32 for n in expected):raise ValueError('SPIFFS object path too long')
  def admit(path,label,sanitize=False):
   dest=out/label
