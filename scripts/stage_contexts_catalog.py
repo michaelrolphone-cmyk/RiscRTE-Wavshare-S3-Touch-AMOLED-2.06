@@ -36,7 +36,11 @@ def main():
  # Keep the canonical optional capability declaration. This composition needs
  # generic Runtime optional-manifest support; do not downgrade it to requires.
  allowed={'type','id','version','architecture','file_name','entry','requires','display_name','icon','min_firmware_version','optional'}
- m={k:v for k,v in m.items() if k in allowed};write(raw/'contexts.json',m);shutil.copy2(elf,raw/'contexts.elf')
+ m={k:v for k,v in m.items() if k in allowed}
+ # The pinned helper predates optional declarations. Give it its supported
+ # schema, then restore canonical optional rows in the staged result below.
+ helper_manifest={k:v for k,v in m.items() if k!='optional'}
+ write(raw/'contexts.json',helper_manifest);shutil.copy2(elf,raw/'contexts.elf')
  profile={'schema':1,'entries':[],'consumers':['contexts.json']};write(a.output/'presentation.json',profile)
  subprocess.run([sys.executable,str(a.helper/'scripts/stage_app_catalog_metadata.py'),'--store',str(raw),'--profile',str(a.output/'presentation.json'),'--requirement-capacity','32','--grant-capacity','32','--output',str(a.output/'store')],check=True)
  # The older generic metadata helper promotes catalog to requires. Restore the
