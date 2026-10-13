@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: michaelrolphone-cmyk/RiscRTE
-          ref: 5234b0de153c7ed744a8b8e1164bcc1b4867127b
+          ref: cac46e468d7b415069e337b394068312afe7f75e
           path: .source/runtime
           persist-credentials: false
       - uses: actions/checkout@v4
