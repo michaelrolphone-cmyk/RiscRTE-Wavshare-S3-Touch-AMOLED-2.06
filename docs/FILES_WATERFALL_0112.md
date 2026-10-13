@@ -1,0 +1,11 @@
+# Files and Waterfall candidate 0.1.12
+
+Source pins: Files System 9fa98e6553245d46af5cd40ee99250a0d8a573bd; Runtime c6ef4bf5e69460a2c491204c3a52795191da51fc. Reuse the exact 0.1.11 native firmware and all existing application/provider/store bytes except boot composition and cohort identity. Preserve BOOT GPIO0 crown and vendor-panel light sleep.
+
+Files 1.5.35 retains the peer/sharing, checked storage, handlers, shared input, catalog, Contexts, alarms, power and quick-actions feature definitions and 27 capability grants. Its opt-in native-height renderer now scales both axes by width, anchors footer controls to logical native height and uses the inverse transform for touch. The foreground guard admits the selected native canvas. Physical display dimensions remain authoritative; no board-name branch is used. The quick toolbar and alarm modal use matching touch coordinates.
+
+Build Files with scripts/build_watch_shared_files.py in the pinned System source: --watch /tmp/waveshare-generic-bridges --utilities /tmp/waveshare-home-utilities --runtime runtime --baseline baseline-1.1.5/store --peer-files --shared-text-input. PYTHONPATH must contain the pinned Controllers 851b8998e804c57b2c9f42d9f8fd0a69e79f2b41 scripts. Watch source 6e82fdcaec0b73ed700d2104cfb4d94f011c19d4 and Utilities fc0bdbbbc600ce891e60c44d091fce0586ade7d8 are checked by the receipt.
+
+Waterfall is the already qualified ELF with SHA256 5a4efc89ad8674e3c1b5969f920c1d2bc34ee5c4ef9b78e42066445c8de1ce07. Added sharing providers and export map come from the previous verified Files composition. Use the 65536-byte batching packer recipe; partition sizes and SPIFFS format are unchanged.
+
+Host evidence: exhaustive native footer render/touch coverage at 240x240, 410x502 and 480x600; last-row and padding checks; native quick rendering against square reference; eight real Files peer-operation scenarios and fourteen native rendered screens; eight Runtime/catalog extent and custody modes. Existing Quick Actions tests: 2 core, 2 session and 104 adapter runs, normal and UBSan. These are software tests, not hardware qualification. Deep sleep remains unsupported as in 0.1.11. No flashing or publication is part of this checkpoint.

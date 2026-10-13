@@ -31,7 +31,7 @@ def main():
  assert len(native['firmware.bin'])<=0x260000
  runtime_version=re.findall(rb'RISC_RUNTIME_VERSION:([^\x00]+)',native['firmware.bin']);assert len(runtime_version)==1
  appdata=verify_initial(a.appdata)
- identity={'schema':'riscrte.cohort','schema_version':1,'product':'waveshare-s3-touch-amoled-206','version':'0.1.11','runtime_version':runtime_version[0].decode(),'source_repo':'michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06','source_revision':device_sha,'layout':'riscrte-paired-appdata-v2','store_abi':2,'firmware_size':len(native['firmware.bin']),'firmware_sha256':sha(native['firmware.bin'])}
+ identity={'schema':'riscrte.cohort','schema_version':1,'product':'waveshare-s3-touch-amoled-206','version':'0.1.12','runtime_version':runtime_version[0].decode(),'source_repo':'michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06','source_revision':device_sha,'layout':'riscrte-paired-appdata-v2','store_abi':2,'firmware_size':len(native['firmware.bin']),'firmware_sha256':sha(native['firmware.bin'])}
  a.output.mkdir();store=a.output/'store';shutil.copytree(a.store,store)
  assert not (store/'cohort.json').exists();write(store/'cohort.json',identity)
  image=a.output/'bootfs0.bin'
@@ -51,7 +51,7 @@ def main():
   assert offset>=last and offset+len(data)<=len(full);full[offset:offset+len(data)]=data;last=offset+len(data);(a.output/name).write_bytes(data)
  for name in ('nvs','app1','bootfs1'):
   _,_,offset,size=layout[name];assert full[offset:offset+size]==b'\xff'*size
- path=a.output/'Waveshare-0.1.11-panel-sleep-full-initial-erases-data-0x0.bin';path.write_bytes(full);reopened=path.read_bytes();assert reopened==full
+ path=a.output/'Waveshare-0.1.12-files-waterfall-full-initial-erases-data-0x0.bin';path.write_bytes(full);reopened=path.read_bytes();assert reopened==full
  for name,(offset,data) in segments.items():assert reopened[offset:offset+len(data)]==data
  assert read_image(reopened[0x2f0000:0x800000],0x510000)==expected
  assert parse_record(reopened[0xff2000:0xff2060],True)==fields
