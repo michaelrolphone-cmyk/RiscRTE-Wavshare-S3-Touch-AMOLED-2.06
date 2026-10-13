@@ -35,7 +35,7 @@ bool closePanel(){
  if(bus && !bus->riscClose())return false;
  delete panel;panel=nullptr;delete bus;bus=nullptr;
  if(reset>=0 && gpio_reset_pin(static_cast<gpio_num_t>(reset))!=ESP_OK)return false;
- reset=-1;width=height=0;return true;
+ reset=-1;width=height=0;pendingRow=UINT32_MAX;return true;
 }
 bool openPanel(const risc_hardware_device_v1& hw,uint8_t physical){
  if(bus || panel || !accepts(hw,physical))return false;
@@ -51,7 +51,7 @@ bool openPanel(const risc_hardware_device_v1& hw,uint8_t physical){
  panel->setBrightness(80);
  pads("after-begin");
  Serial.println("PANEL_PROBE phase=all-pixels-on before-dependent-providers=1");
- bus->sendCommand(0x23);delay(800);bus->sendCommand(0x22);
+ bus->sendCommand(0x23);delay(800);bus->sendCommand(0x13); // NORON restores GRAM; 0x22 is ALLPOFF.
  Serial.println("PANEL_PROBE phase=red-fill before-dependent-providers=1");
  panel->fillScreen(0xf800);delay(1200);
  uint16_t scanline[410];for(auto& pixel:scanline)pixel=0x07e0;
