@@ -15,6 +15,7 @@ namespace {
 Arduino_ESP32QSPI* bus=nullptr;
 Arduino_CO5300* panel=nullptr;
 uint16_t width=0,height=0;int16_t reset=-1;
+uint16_t paired[820];uint32_t pendingRow=UINT32_MAX;
 bool accepts(const risc_hardware_device_v1& hw,uint8_t physical){
  if(physical!=2 || strcmp(hw.compatible,"chipone,co5300") || strcmp(hw.config_type,"display.spi") ||
     hw.config_version!=2 || hw.config_size!=sizeof(risc_hw_spi_display_v2) || !hw.config)return false;
@@ -57,14 +58,23 @@ bool openPanel(const risc_hardware_device_v1& hw,uint8_t physical){
  Serial.println("PANEL_PROBE phase=green-rows before-dependent-providers=1");
  for(unsigned y=0;y<height;++y){panel->startWrite();panel->writeAddrWindow(0,y,width,1);panel->writePixels(scanline,width);panel->endWrite();}
  delay(1200);
+ Serial.println("PANEL_PROBE phase=blue-paired-rows before-dependent-providers=1");
+ for(auto& pixel:paired)pixel=0x001f;
+ for(unsigned y=0;y<height;y+=2){panel->startWrite();panel->writeAddrWindow(0,y,width,2);panel->writePixels(paired,width*2);panel->endWrite();}
+ delay(1200);
  panel->fillScreen(0);
  return true;
 }
 bool row(uint32_t y,const uint16_t* pixels,size_t count){
  if(!panel || !pixels || count!=width || y>=height)return false;
  static bool first=true;if(first){first=false;pads("first-home-row");Serial.printf("PANEL_PIXELS first=%04x middle=%04x last=%04x\n",pixels[0],pixels[count/2],pixels[count-1]);}
- panel->startWrite();panel->writeAddrWindow(0,y,width,1);
- panel->writePixels(const_cast<uint16_t*>(pixels),count);panel->endWrite();return true;
+ // The vendor LVGL rounder requires even starts and odd ends on both axes.
+ // Retain one row; send only complete 410x2 windows with inclusive odd ends.
+ if(!(y&1u)){if(pendingRow!=UINT32_MAX)return false;memcpy(paired,pixels,count*sizeof(uint16_t));pendingRow=y;return true;}
+ if(pendingRow!=y-1)return false;
+ memcpy(paired+width,pixels,count*sizeof(uint16_t));
+ panel->startWrite();panel->writeAddrWindow(0,y-1,width,2);
+ panel->writePixels(paired,width*2);panel->endWrite();pendingRow=UINT32_MAX;return true;
 }
 bool brightness(uint8_t value){if(!panel)return false;Serial.printf("PANEL_BRIGHTNESS value=%u\n",unsigned(value));pads("brightness");panel->setBrightness(value);return true;}
 const RiscCpu::DisplayBackend backend={accepts,openPanel,row,brightness,closePanel};
