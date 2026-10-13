@@ -12,9 +12,9 @@ SIZE=0x800000
 FS_OFFSET=0x310000
 FS_SIZE=0x4f0000
 TOOL_SHA='4ddf79a1ab9a3baf502cdb979bea7ed173bbe46727a9902649cc09e6a28a5ad2'
-NAME='Waveshare-0.1.6-Home-0.15.0-boot-test-full-0x0.bin'
+NAME='Waveshare-0.1.7-Home-0.15.0-boot-test-full-0x0.bin'
 PINS={
- 'runtime':'6a2354c3d5448bf9b040b176ec098a8a78c0c8a3',
+ 'runtime':'d2073e3282377341c800ca525dba09c44bdef503',
  'shared':'76aa47728192531ca9812f3e026057e0b174cb00',
  'controllers':'851b8998e804c57b2c9f42d9f8fd0a69e79f2b41',
  'generic':'422e1e81a498fb6bdab9abf086325afc05a532dc',
@@ -84,12 +84,33 @@ def main():
   if manifest['version']!='0.15.0':raise ValueError('First-boot Home fixes are absent')
   shutil.copy2(components/(role+'.elf'),store/(role+'.elf'))
   application(role,manifest,base+([('runtime.provider-promotion',1,0)] if role=='default' else []))
- build(S/'apps/bringup/main.c',store/'springboard.elf',[S/'sdk/app',S/'sdk/driver',S/'include'],'app_main',[S/'apps/clock/viewport.c'])
+ # Keep diagnostics under their own name; never alias a launcher/settings entry.
+ build(S/'apps/bringup/main.c',store/'bringup.elf',[S/'sdk/app',S/'sdk/driver',S/'include'],'app_main',[S/'apps/clock/viewport.c'])
  diagnostics={'type':'application','id':'watch-bringup','version':'0.1.0','architecture':'xtensa-esp32s3','entry':'app_main'}
  grants=[('display.output',1,5),('input.touch.raw',1,6),('board.battery',1,4),('rtc.clock',2,8),('motion.accel',1,7),('haptic.effect',1,9)]
- application('springboard',diagnostics,grants)
- shutil.copy2(store/'springboard.elf',store/'wifi_settings.elf')
- application('wifi_settings',{**diagnostics,'id':'watch-radio-not-in-test'},grants)
+ application('bringup',diagnostics,grants)
+ system=dirs['system']
+ catalog=components/'watch-tools-catalog.c'
+ catalog.write_text('#include "PortableApps.h"\nconst t5_app_manifest_t portable_catalog[]={\n'
+   '{.display_name="Home",.file_name="clock.elf",.icon="solid:f017",.compatible=true},\n'
+   '{.display_name="Settings",.file_name="settings.elf",.icon="solid:f013",.compatible=true},\n'
+   '{.display_name="Hardware test",.file_name="bringup.elf",.icon="solid:f2db",.compatible=true}};\n'
+   'const unsigned portable_catalog_count=3;\n')
+ for role,return_app in [('springboard','clock.elf'),('settings','springboard.elf')]:
+  extra=[system/'lib/PortableApps/src/adapter.c',catalog,'-DPORTABLE_FORCE_FULL_FRAMES','-DPORTABLE_RTC_UTC8_DENVER','-DPORTABLE_RETURN_APP="'+return_app+'"']
+  if role=='settings':extra+=['-DPORTABLE_SETTINGS_APP']
+  else:extra+=[system/'lib/NativeApps/src/SingleFloatDivisionCompat.c']
+  build(system/'Apps'/(role+'.c'),store/(role+'.elf'),[system/'lib/PortableApps/include',system/'lib/NativeApps/include'],
+    'app_main; app_module_init; app_module_fini',extra)
+  manifest=json.loads((system/'Apps'/(role+'.json')).read_text())
+  manifest={'type':'application','id':role,'version':manifest['version'],'architecture':'xtensa-esp32s3','entry':'app_main'}
+  app_grants=[('display.output',1,5),('input.touch.raw',1,6),('rtc.clock',2,8)]
+  if role=='settings':app_grants += [('storage.key-value',1,1)]
+  application(role,manifest,app_grants)
+ # A launcher catalog entry must resolve to a real admitted application.
+ for name in ('clock','settings','bringup'):
+  if not (store/(name+'.elf')).is_file() or not (store/(name+'.json')).is_file():raise ValueError('Unresolved launcher target: '+name)
+ if (store/'springboard.elf').read_bytes()==(store/'bringup.elf').read_bytes():raise ValueError('Diagnostic aliased as Springboard')
  json_write(store/'boot.json',boot)
  from stage_product import app_bundle,stage
  app_files,_=app_bundle(components)
@@ -97,7 +118,7 @@ def main():
  for name,raw in staged.items():(store/name).write_bytes(raw)
  json_write(out/'shared-home-staging.json',staging)
  expected=files(store)
- if len(expected)!=30 or sum(n.endswith('.elf') for n in expected)!=14:raise ValueError('Unexpected boot inventory')
+ if len(expected)!=32 or sum(n.endswith('.elf') for n in expected)!=15:raise ValueError('Unexpected boot inventory')
  if any(len(('/'+n).encode())>=32 for n in expected):raise ValueError('SPIFFS object path too long')
  def admit(path,label,sanitize=False):
   dest=out/label
@@ -156,7 +177,7 @@ def main():
  (out/NAME).write_bytes(full)
  component_versions={key:json.loads(expected[path])['version'] for key,path in [
   ('panel_driver','display/manifest.json'),('power_rail','rail/manifest.json'),('battery_driver','battery/manifest.json')]}
- receipt={'schema':1,'product':'Waveshare first-boot test','version':'0.1.6','shared_home':'0.15.0','image':NAME,'bytes':len(full),'sha256':digest(full),'write_address':0,'native_regions':records,'bootfs':{'offset':FS_OFFSET,'bytes':FS_SIZE,'sha256':digest(raw),'tool_sha256':TOOL_SHA},'source_pins':PINS,'device_commit':subprocess.check_output(['git','-C',str(device),'rev-parse','HEAD'],text=True).strip(),'store_files':{n:{'bytes':len(v),'sha256':digest(v)} for n,v in sorted(expected.items())},'validation':{'real_runtime_admission':True,'native_export_and_elf_checks':True,'sanitizers':True,'independent_and_implementation_readback':True,'negative_cases':list(refusals)},'shared_home_staging':staging,**component_versions,'panel_boot_probe':'vendor begin brightness 0xD0 then 80; no ALLPON; PMIC read-only','physical_boot_verified':False,'automatic_sleep':False,'network_required':False,'sd_required':False,'erases_lower_8mib_including_nvs':True,'paired_update':False}
+ receipt={'schema':1,'product':'Waveshare first-boot test','version':'0.1.7','shared_home':'0.15.0','image':NAME,'bytes':len(full),'sha256':digest(full),'write_address':0,'native_regions':records,'bootfs':{'offset':FS_OFFSET,'bytes':FS_SIZE,'sha256':digest(raw),'tool_sha256':TOOL_SHA},'source_pins':PINS,'device_commit':subprocess.check_output(['git','-C',str(device),'rev-parse','HEAD'],text=True).strip(),'store_files':{n:{'bytes':len(v),'sha256':digest(v)} for n,v in sorted(expected.items())},'validation':{'real_runtime_admission':True,'native_export_and_elf_checks':True,'sanitizers':True,'independent_and_implementation_readback':True,'negative_cases':list(refusals)},'shared_home_staging':staging,**component_versions,'panel_boot_probe':'vendor paired rows; ALLPON-NORON red green blue startup probes; PMIC read-only','physical_boot_verified':False,'automatic_sleep':False,'network_required':False,'sd_required':False,'erases_lower_8mib_including_nvs':True,'paired_update':False}
  json_write(out/'build.json',receipt)
  (out/'SHA256SUMS.txt').write_text(receipt['sha256']+'  '+NAME+'\n')
  print('FLASH IMAGE READY:',NAME,len(full),'bytes',receipt['sha256'],flush=True)

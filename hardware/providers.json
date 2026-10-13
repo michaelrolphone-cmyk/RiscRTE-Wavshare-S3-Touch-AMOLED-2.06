@@ -29,7 +29,7 @@
     "radio.lora",
     "infrared.output"
   ],
-  "native_source": "6a2354c3d5448bf9b040b176ec098a8a78c0c8a3",
+  "native_source": "d2073e3282377341c800ca525dba09c44bdef503",
   "native_environment": "esp32s3-16mb-appdata-universal",
   "physical_flash_bytes": 33554432,
   "allocated_flash_bytes": 16777216,
