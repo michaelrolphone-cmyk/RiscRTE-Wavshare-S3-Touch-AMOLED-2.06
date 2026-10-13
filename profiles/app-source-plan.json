@@ -68,8 +68,9 @@
       "reuse": "qualified1.1.5 baseline ELF and original source receipt",
       "elf_sha256": "79dcedcce8ea351e9ae16d4745aee5311f72832e0d8d71841a14b7468185d9da",
       "requires_provisioning": [
-        "scene host",
-        "storage.app-data"
+        "ui.scene",
+        "time.civil",
+        "storage.app-data namespace62"
       ],
       "do_not_rebuild_from_generic_system": true
     },
@@ -77,9 +78,7 @@
       "reuse": "qualified1.1.5 baseline ELF and original source receipt",
       "elf_sha256": "24b73fff728355ab88e5b34f9eae1caeb9442bbbc36240bd6bc8c29f0708fed0",
       "requires_provisioning": [
-        "storage.volume",
-        "file.open",
-        "storage.app-data"
+        "storage.app-data namespace64 (qualified manifest requires only display.output, input.touch.raw, storage.app-data)"
       ],
       "do_not_rebuild_from_generic_system": true
     },
@@ -146,5 +145,23 @@
     "hardware_verified": false,
     "runtime_all_ci_green": false
   },
-  "successor_catalog": "Shared owner supplies runtime-derived admitted app.catalog; do not add product availability flags to shared app ELFs."
+  "successor_catalog": "Shared owner supplies runtime-derived admitted app.catalog; do not add product availability flags to shared app ELFs.",
+  "successor_checkpoint": {
+    "flashable": false,
+    "stage": "21 apps / 28 providers / 49 ELFs: real Runtime admission and native-import checks pass normally and under UBSan; no hardware execution",
+    "staged_additions": [
+      "timecard",
+      "audio_spectrum",
+      "contexts",
+      "lists",
+      "model_viewer"
+    ],
+    "file_browser_blocker": "Modern 1aaf53e adapter implements PORTABLE_CHECKED_STORAGE_RUNTIME, while full-height/retention 2c3f44d adapter does not. Shared-owner reconciliation required; do not drop either feature set.",
+    "waterfall_blocker": "Mac Xtensa BFD assertion at elf32-xtensa.c:3299; same recipe requires Linux verification",
+    "paired_native_built": true,
+    "user_data_partition_bytes": 524288,
+    "delivered_018_unchanged": true,
+    "updater_blocker": "Existing System provider Policy.h selects T-Watch product/repository by default. Needs explicit Waveshare provider policy and paired cohort, without app-side device branching.",
+    "catalog_blocker": "Remove generated catalog.c from every shared app link after qualified runtime-derived app.catalog adapter arrives; no product availability flags may remain embedded."
+  }
 }
