@@ -20,7 +20,7 @@ def main():
  from release_assets import esp_image
  from radio_iq_proof import prove
  native={n:(a.native/n).read_bytes() for n in ('firmware.bin','firmware.elf','bootloader.bin','partitions.bin')}
- layout=partitions(native['partitions.bin'],APP_DATA_EXPECTED);proof=native_proof(native['firmware.elf']);proof['radio_iq']=prove(native['firmware.elf'])
+ layout=partitions(native['partitions.bin'],APP_DATA_EXPECTED);proof=native_proof(native['firmware.elf']);proof['radio_iq']=prove(native['firmware.elf'],target_identity='esp32s3-16mb-waveshare-appdata')
  runtime_sha=subprocess.check_output(['git','-C',str(a.runtime),'rev-parse','HEAD'],text=True).strip()
  device_sha=subprocess.check_output(['git','-C',str(ROOT),'rev-parse','HEAD'],text=True).strip()
  for repo in (a.runtime,ROOT):assert not subprocess.check_output(['git','-C',str(repo),'diff','HEAD','--name-only'],text=True).strip()
