@@ -34,18 +34,21 @@ jobs:
           python-version: '3.11'
       - name: Stage immutable reference library and verify native core
         run: |
+          set -euo pipefail
           python -m pip install platformio==6.1.18 esptool==4.11.0
           mkdir -p tools/display-link-test/lib evidence
           cp -r .source/vendor/examples/arduino/libraries/Arduino_GFX tools/display-link-test/lib/Arduino_GFX
           python3 - <<'PY'
           import json,pathlib,hashlib
           p=pathlib.Path('tools/display-link-test/lib/Arduino_GFX')
-          selected=['Arduino_DataBus.cpp','Arduino_GFX.cpp','Arduino_TFT.cpp','Arduino_OLED.cpp','databus/Arduino_ESP32QSPI.cpp','display/Arduino_CO5300.cpp']
+          selected=['Arduino_G.cpp','Arduino_DataBus.cpp','Arduino_GFX.cpp','Arduino_TFT.cpp','Arduino_OLED.cpp','databus/Arduino_ESP32QSPI.cpp','display/Arduino_CO5300.cpp']
           (p/'library.json').write_text(json.dumps({'name':'Pinned vendor display control','version':'1.6.0','build':{'srcFilter':['-<*>']+['+<'+s+'>' for s in selected]}}))
           native=pathlib.Path('.source/runtime/src/ports/esp32s3/NativeSpi.inc')
           record={'native_sha256':hashlib.sha256(native.read_bytes()).hexdigest(),'vendor_files':{s:hashlib.sha256((p/'src'/s).read_bytes()).hexdigest() for s in selected}}
           pathlib.Path('evidence/source-hashes.json').write_text(json.dumps(record,indent=2)+'\n')
           PY
+          c++ -std=c++17 -Wall -Wextra -Werror -fsanitize=address,undefined -no-pie tools/display-link-test/tests/phase.cpp -o /tmp/link-phase
+          /tmp/link-phase | tee evidence/phase-tests.txt
           cd .source/runtime
           bash test/run_native_spi_test.sh | tee ../../evidence/native-tests.txt
       - name: Compile comparison firmware
@@ -53,10 +56,19 @@ jobs:
         run: pio run -e display-link-test
       - name: Package one initial flash image
         run: |
+          set -euo pipefail
           mkdir -p dist/link-test
           python3 - <<'PY'
           import pathlib,hashlib,json,struct
           b=pathlib.Path('tools/display-link-test/.pio/build/display-link-test');out=pathlib.Path('dist/link-test')
+          table=(b/'partitions.bin').read_bytes();parts={};verified=False
+          for i in range(0,len(table),32):
+              entry=table[i:i+32]
+              if entry[:2]==b'\xeb\xeb':
+                  assert entry[16:32]==hashlib.md5(table[:i]).digest();verified=True;break
+              magic,kind,subtype,offset,length,label,flags=struct.unpack('<HBBII16sI',entry)
+              assert magic==0x50aa;parts[label.split(b'\0')[0].decode()]=[kind,subtype,offset,length]
+          assert verified and parts=={'nvs':[1,2,0x9000,0x6000],'factory':[0,0,0x10000,0x300000],'bootfs':[1,0x82,0x310000,0x4f0000]}
           full=bytearray(b'\xff'*0x800000);regions={}
           for offset,name,max_size in [(0,'bootloader.bin',0x8000),(0x8000,'partitions.bin',0x1000),(0x10000,'firmware.bin',0x300000)]:
               data=(b/name).read_bytes();assert 0<len(data)<=max_size
@@ -65,7 +77,7 @@ jobs:
               regions[name]={'offset':offset,'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()}
           name='Waveshare-DISPLAY-LINK-TEST-1-full-0x0.bin';(out/name).write_bytes(full)
           sha=hashlib.sha256(full).hexdigest();(out/'SHA256SUMS.txt').write_text(sha+'  '+name+'\n')
-          (out/'build.json').write_text(json.dumps({'purpose':'standalone vendor/native display comparison; NOT shared Home','bytes':len(full),'sha256':sha,'write_address':0,'physical_display_verified':False,'regions':regions,'phases':['vendor80','vendor40','native40','native5'],'phase_duration_ms':12000},indent=2)+'\n')
+          (out/'build.json').write_text(json.dumps({'purpose':'standalone vendor/native display comparison; NOT shared Home','bytes':len(full),'sha256':sha,'write_address':0,'physical_display_verified':False,'regions':regions,'partitions':parts,'phases':['vendor80','vendor40','native40','native5'],'phase_duration_ms':12000},indent=2)+'\n')
           PY
           python -m esptool --chip esp32s3 image_info tools/display-link-test/.pio/build/display-link-test/firmware.bin > evidence/image-info.txt
           cp tools/display-link-test/README.md dist/link-test/

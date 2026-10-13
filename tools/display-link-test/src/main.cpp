@@ -1,5 +1,5 @@
 /* Deliberate standalone fault-isolation firmware, NOT shared Home.
- * The stock vendor panel/controller source is identical in all four phases.
+ * Stock vendor panel/controller source is identical in all four phases.
  * Software resets give each SPI implementation an independent fresh lifetime.
  * PMIC is read only. No storage/filesystem/network/sleep services are used. */
 #include <Arduino.h>
@@ -13,10 +13,9 @@
 #include <databus/Arduino_ESP32QSPI.h>
 #include <display/Arduino_CO5300.h>
 #include "NativeBus.h"
-
+#include "Phase.h"
 RTC_NOINIT_ATTR static uint32_t next_phase;
 RTC_NOINIT_ATTR static uint32_t phase_check;
-static constexpr uint32_t MAGIC=0x574c5434;
 static const char* labels[]={"A VENDOR 80 MHz","B VENDOR 40 MHz","C RAW 40 MHz","D RAW 5 MHz"};
 static const uint32_t speeds[]={80000000,40000000,40000000,5000000};
 static unsigned phase;
@@ -28,7 +27,7 @@ static bool ready;
 static bool pmic_read(uint8_t reg,uint8_t& value){
   Wire.beginTransmission(0x34);Wire.write(reg);
   if(Wire.endTransmission(false)!=0)return false;
-  if(Wire.requestFrom(uint8_t(0x34),uint8_t(1),true)!=1)return false;
+  if(Wire.requestFrom(uint8_t(0x34),size_t(1),true)!=1)return false;
   value=Wire.read();return true;
 }
 static void pads(){
@@ -39,8 +38,13 @@ static void pads(){
 }
 void setup(){
   Serial.begin(115200);delay(1000);
-  phase=(esp_reset_reason()==ESP_RST_SW&&next_phase<4&&phase_check==(MAGIC^next_phase))?next_phase:0;
-  Serial.printf("\nLINK_TEST version=1 phase=%u label=\"%s\" hz=%lu reset=%d\n",phase,labels[phase],(unsigned long)speeds[phase],int(esp_reset_reason()));
+  esp_reset_reason_t reason=esp_reset_reason();
+  bool resume=reason==ESP_RST_SW||reason==ESP_RST_PANIC||reason==ESP_RST_INT_WDT||reason==ESP_RST_TASK_WDT||reason==ESP_RST_WDT;
+  phase=link_phase(resume,next_phase,phase_check);
+  // Record the next phase BEFORE entering vendor code: a panic/watchdog must
+  // not trap all subsequent boots in the first implementation under test.
+  next_phase=(phase+1)%4;phase_check=LINK_PHASE_MAGIC^next_phase;
+  Serial.printf("\nLINK_TEST version=1 phase=%u label=\"%s\" hz=%lu reset=%d\n",phase,labels[phase],(unsigned long)speeds[phase],int(reason));
   Serial.println("LINK_TEST vendor=b099739ad0e33b34e5fbaae77f02bd84805d79a3 native=8aae8df4f9139bea06ff43888ed628c45ed8a057");
   Wire.begin(15,14,400000);Wire.setTimeOut(30);
   uint8_t id=0,en=0,voltage=0;
@@ -74,7 +78,6 @@ void loop(){
   }
   if(age>=12000){
     if(ready&&(!native||!native->failed)){display->setBrightness(0);display->displayOff();}
-    next_phase=(phase+1)%4;phase_check=MAGIC^next_phase;
     Serial.printf("LINK_TEST phase=%u next=%lu deliberate_restart=1\n",phase,(unsigned long)next_phase);Serial.flush();delay(150);esp_restart();
   }
   delay(250);
