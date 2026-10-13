@@ -42,34 +42,34 @@ def main():
     from compact_current_elf import compact
     from normalize_xtensa_relocations import normalize
     reports={};cc=str(a.cc);nm=cc.removesuffix('gcc')+'nm'
-    def compile(name,command):
+    def compile(name,command,expected=None):
         mapping=components/(name+'.map');mapping.write_text('{ global: app_main; app_module_init; app_module_fini; local: *; };\n')
         elf=components/(name+'.elf')
-        command=[str(x) for x in command]+['-Wl,--version-script='+str(mapping),'-lgcc','-o',str(elf)]
+        command=[str(x) for x in command]+([] if expected else ['-Wl,--version-script='+str(mapping),'-lgcc'])+['-o',str(elf)]
         assert not any(x.endswith(('/catalog.c','/empty_catalog.c','/watch-tools-catalog.c')) for x in command)
         subprocess.run(command,check=True)
         symbols=subprocess.check_output([nm,str(elf)],text=True)
         assert not any(x.split()[-1] in ('portable_catalog','portable_catalog_count') for x in symbols.splitlines() if x.split())
         before=sha(elf)
+        linked_size=elf.stat().st_size
+        if expected and (before != expected['expected_sha256'] or linked_size != expected['expected_size_bytes']):
+            raise ValueError('Qualified shared artifact mismatch: '+name)
         dependencies=subprocess.check_output([*command[:-2], '-M'],text=True)
         paths=sorted({Path(x).resolve() for x in shlex.split(dependencies.replace('\\\n',' ')) if not x.endswith(':') and Path(x).is_file()})
-        normalize(elf);compact(elf,cc,debug_path=components/'debug'/(name+'.elf'))
+        normalized_padding=normalize(elf)
+        compaction=compact(elf,cc,debug_path=components/'debug'/(name+'.elf'))
         shutil.copy2(elf,raw/(name+'.elf'))
-        reports[name]={'command':command,'linked_sha256':before,'sha256':sha(elf),'bytes':elf.stat().st_size,'compiled_catalog_symbols':False,
+        reports[name]={'command':command,'linked_sha256':before,'linked_bytes':linked_size,'qualified_shared_recipe':bool(expected),'sha256':sha(elf),'bytes':elf.stat().st_size,'compiled_catalog_symbols':False,'normalization_padding_removed':normalized_padding,'compaction':compaction,
                        'sources':{x:sha(Path(x)) for x in command if x.endswith('.c') and Path(x).is_file()},
                        'transitive_inputs':{str(x):sha(x) for x in paths}}
-    base=[cc,'-std=c11','-Os','-fPIC','-mtext-section-literals','-mlongcalls','-fvisibility=hidden','-ffreestanding','-fno-builtin','-nostdlib','-nostartfiles','-shared','-Wl,--gc-sections','-Wl,--no-relax','-Wl,--hash-style=sysv','-ffunction-sections','-fdata-sections','-Wall','-Wextra','-Werror','-Wno-misleading-indentation']
-    alarm=components/'watch-alarm-profile.h'
-    alarm.write_text('#include "'+str(a.service_utilities/'lib/Alarm/include/AlarmServiceV1.h')+'"\n#define ALARM_MODE_VISUAL 0u\nstatic inline uint32_t alarm_service_output_modes(const alarm_service_v1*s){return s?ALARM_MODE_BOTH:ALARM_MODE_VISUAL;}\n')
-    for role,return_app in [('springboard','clock.elf'),('settings','springboard.elf')]:
-        util=a.service_utilities if role=='settings' else a.utilities
-        includes=[util/'lib/Alarm/include',util/'lib/Contexts/include',a.system/'lib/PortableApps/include',a.system/'lib/NativeApps/include',a.bridges/'sdk/app',a.bridges/'sdk/driver',a.bridges/'include']
-        sources=[a.system/'Apps'/(role+'.c'),a.system/'lib/PortableApps/src/adapter.c',a.bridges/'apps/clock/portable_navigation.c',a.bridges/'apps/clock/portable_sleep.c',*[a.system/'lib/PortableApps/src'/n for n in ('quick_actions.c','quick_render.c','quick_session.c','quick_radios.c')]]
-        flags=['-D'+f for f in ('PORTABLE_FORCE_FULL_FRAMES','PORTABLE_RTC_UTC8_DENVER','PORTABLE_NOVA_UI','PORTABLE_WATCH_NATIVE_HEIGHT','PORTABLE_ASYNC_RGB565','PORTABLE_NAVIGATION_RETENTION','PORTABLE_INPUT_NAVIGATION','PORTABLE_INPUT_NAVIGATION_LOCAL','PORTABLE_APP_SLEEP_LOCAL','PORTABLE_ALARM_CLIENT','PORTABLE_QUICK_ACTIONS','PORTABLE_QUICK_RADIOS','PORTABLE_MOTION_WAKE','WATCH_ALARM_SLEEP_RESUME','PORTABLE_LOW_BATTERY','PORTABLE_BLE_BROADCAST','PORTABLE_CONTEXTS_CLIENT')]
-        flags+=['-include',a.shared/'apps/clock/faces/ContextsFaces.h','-include',alarm,'-DPORTABLE_RETURN_APP="'+return_app+'"']
-        if role=='settings':flags+=['-D'+f for f in ('PORTABLE_SETTINGS_APP','PORTABLE_TAP_SETTINGS','PORTABLE_SLEEP_SETTINGS','PORTABLE_ALARM_SETTINGS','PORTABLE_SETTINGS_CLOCK_CHANGE_CONTROL')]
-        else:sources+=[a.system/'lib/NativeApps/src/SingleFloatDivisionCompat.c'];flags+=['-DPORTABLE_RETAINED_RGB565_HANDOFF','-DPORTABLE_HANDOFF_EAGER_MS=60']
-        compile(role,base+['-I'+str(x) for x in includes]+sources+flags)
+    recipes=json.loads((Path(__file__).resolve().parents[1]/'profiles/shared-catalog-recipes.json').read_text())
+    for role,recipe in recipes.items():
+        values={'system':str(a.system),'bridge':str(a.bridges),'output':str(components)}
+        command=[cc,*[arg.format(**values) for arg in recipe['arguments']]]
+        compile(role,command,recipe)
+    settings_manifest=json.loads((raw/'settings.json').read_text())
+    settings_manifest['version']='1.3.24'
+    write(raw/'settings.json',settings_manifest)
     for name in ('timecard','audio_spectrum'):
         original=previous['components'][name]['command'];old_system=next(x.split('/lib/PortableApps/',1)[0] for x in original if x.endswith('/lib/PortableApps/src/adapter.c'))
         command=[cc];skip=False
