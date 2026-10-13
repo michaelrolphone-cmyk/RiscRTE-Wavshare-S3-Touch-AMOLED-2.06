@@ -16,9 +16,10 @@ def read_pins(source: str) -> dict[str, str]:
 
 def validate(pins: dict[str, str], workflow: str) -> None:
     repositories = {"runtime": "RiscRTE", "shared": "RiscRTE-Watch", "controllers": "RiscRTE-T-Watch-S3", "generic": "RiscRTE-Drivers", "system": "RiscRTE-System-Apps", "utilities": "RiscRTE-Utilities"}
-    checkout = dict(re.findall(r"repository: michaelrolphone-cmyk/([^\s]+)\s+ref: ([0-9a-f]{40})", workflow))
+    checkout = {path:(repo,ref) for repo,ref,path in re.findall(r"repository: michaelrolphone-cmyk/([^\s]+)\s+ref: ([0-9a-f]{40})\s+path: \.source/([^\s]+)", workflow)}
+    repositories["service_utilities"] = "RiscRTE-Utilities"
     for key, repository in repositories.items():
-        if checkout.get(repository) != pins[key]:
+        if checkout.get(key) != (repository,pins[key]):
             raise ValueError(f"{key}: workflow/assembler source mismatch")
 
 if __name__ == "__main__":
@@ -36,4 +37,4 @@ if __name__ == "__main__":
         pass
     else:
         raise AssertionError("Stale native source was not rejected")
-    print("Boot composition: all six checkouts and board metadata match; stale native pin rejected")
+    print("Boot composition: all pinned checkouts and board metadata match; stale native pin rejected")

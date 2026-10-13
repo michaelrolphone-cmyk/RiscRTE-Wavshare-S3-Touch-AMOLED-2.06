@@ -12,14 +12,15 @@ SIZE=0x800000
 FS_OFFSET=0x310000
 FS_SIZE=0x4f0000
 TOOL_SHA='4ddf79a1ab9a3baf502cdb979bea7ed173bbe46727a9902649cc09e6a28a5ad2'
-NAME='Waveshare-0.1.7-Home-0.15.0-boot-test-full-0x0.bin'
+NAME='Waveshare-0.1.8-Home-0.15.0-boot-test-full-0x0.bin'
 PINS={
- 'runtime':'d2073e3282377341c800ca525dba09c44bdef503',
+ 'runtime':'e0ad520404f6834a38e73c155582f4a286f5c40a',
  'shared':'76aa47728192531ca9812f3e026057e0b174cb00',
  'controllers':'851b8998e804c57b2c9f42d9f8fd0a69e79f2b41',
  'generic':'422e1e81a498fb6bdab9abf086325afc05a532dc',
  'system':'14762601b3fa7bbeeac5ed565a6825534bf74dca',
- 'utilities':'fc0bdbbbc600ce891e60c44d091fce0586ade7d8'}
+ 'utilities':'fc0bdbbbc600ce891e60c44d091fce0586ade7d8',
+ 'service_utilities':'80efb298c9ca8d0f62f9a31840c9e51d380b40f6'}
 
 def digest(data):return hashlib.sha256(data).hexdigest()
 def json_write(path,value):
@@ -29,7 +30,7 @@ def files(root):return {p.relative_to(root).as_posix():p.read_bytes() for p in r
 def run(*command,**kw):return subprocess.run(list(map(str,command)),check=True,**kw)
 def main():
  p=argparse.ArgumentParser(description=__doc__)
- for name in ('runtime','shared','controllers','generic','system','utilities','native','cc','mkspiffs','output'):
+ for name in ('runtime','shared','controllers','generic','system','utilities','service_utilities','native','cc','mkspiffs','output'):
   p.add_argument('--'+name,required=True,type=Path)
  p.add_argument('--device',type=Path,default=ROOT)
  a=p.parse_args()
@@ -47,10 +48,10 @@ def main():
  from normalize_xtensa_relocations import normalize
  run(sys.executable,S/'scripts/build.py','--system',dirs['system'],'--utilities',dirs['utilities'],'--cc',cc,'--output',components)
  validator=components/'validate-elf'
- def build(source,target,includes,symbol,extra=()):
+ def build(source,target,includes,symbol,extra=(),version_script=True,section_gc=True):
   target.parent.mkdir(parents=True,exist_ok=True)
   version=target.with_suffix('.map');version.write_text('{ global: '+symbol+'; local: *; };\n')
-  run(cc,'-std=c11','-Os','-fPIC','-mtext-section-literals','-mlongcalls','-fvisibility=hidden','-ffreestanding','-fno-builtin','-nostdlib','-nostartfiles','-shared','-Wl,--gc-sections','-Wl,--no-relax','-Wl,--hash-style=sysv','-ffunction-sections','-fdata-sections','-Wl,--version-script='+str(version),'-Wall','-Wextra','-Werror','-Wno-misleading-indentation',*['-I'+str(v) for v in includes],*(['-DCO5300_BOOT_PROBE=1'] if source.parent.name=='panel_co5300' else []),source,*extra,'-lgcc','-o',target)
+  run(cc,'-std=c11','-Os','-fPIC','-mtext-section-literals','-mlongcalls','-fvisibility=hidden','-ffreestanding','-fno-builtin','-nostdlib','-nostartfiles','-shared',*(['-Wl,--gc-sections'] if section_gc else []),'-Wl,--no-relax','-Wl,--hash-style=sysv',*(['-ffunction-sections','-fdata-sections'] if section_gc else []),*(['-Wl,--version-script='+str(version)] if version_script else []),'-Wall','-Wextra','-Werror','-Wno-misleading-indentation',*['-I'+str(v) for v in includes],*(['-DCO5300_BOOT_PROBE=1'] if source.parent.name=='panel_co5300' else []),source,*extra,'-lgcc','-o',target)
   normalize(target);compact(target,str(cc),debug_path=components/'debug'/(target.parent.name+'-'+target.name))
   run(validator,target);version.unlink()
  boot={'board':'board.json','default_app':'default.elf','provider_activation':'demand-retained','drivers':[],'app_capabilities':[]}
@@ -70,8 +71,11 @@ def main():
  build(G/'Drivers/legacy_power_key/driver.c',store/'powerkey/driver.elf',[G/'sdk/driver',S/'sdk/driver'],'t5_driver_get')
  shutil.copy2(G/'Drivers/legacy_power_key/manifest.json',store/'powerkey/manifest.json')
  boot['drivers'].append({'manifest':'powerkey/manifest.json'})
+ from boot_watch_providers import stage_watch_providers
+ closure=stage_watch_providers(build=build,store=store,boot=boot,device=device,shared=S,controllers=T,
+  generic=G,system=dirs['system'],utilities=dirs['service_utilities'],runtime=N)
  board=json.loads((device/'hardware/board.json').read_text())
- board['devices']=[d for d in board['devices'] if d['instance_id'] in (1,2,4,5,6,7,8,9,13)]
+ board['devices']=[d for d in board['devices'] if d['instance_id'] in (1,2,4,5,6,7,8,9,10,13,15,16)]
  json_write(store/'board.json',board)
  def application(name,manifest,grants):
   manifest['file_name']=name+'.elf'
@@ -79,6 +83,7 @@ def main():
   json_write(store/(name+'.json'),manifest)
   boot['app_capabilities'].append({'manifest':name+'.json','grants':[{'capability':c,'api':v,'instance_id':i} for c,v,i in grants]})
  base=[('display.output',1,5),('board.battery',1,4),('rtc.clock',2,8),('input.touch.raw',1,6),('input.power-key',1,0),('runtime.realtime-control',1,0),('storage.key-value',1,1),('storage.key-value',1,5)]
+ base += closure['services']+[('net.wifi',1,15),('bluetooth.hci',1,16),('motion.accel',1,7)]
  for role in ('default','clock'):
   manifest=json.loads((S/'apps/clock'/(role+'.json')).read_text())
   if manifest['version']!='0.15.0':raise ValueError('First-boot Home fixes are absent')
@@ -97,15 +102,21 @@ def main():
    '{.display_name="Hardware test",.file_name="bringup.elf",.icon="solid:f2db",.compatible=true}};\n'
    'const unsigned portable_catalog_count=3;\n')
  for role,return_app in [('springboard','clock.elf'),('settings','springboard.elf')]:
-  extra=[system/'lib/PortableApps/src/adapter.c',catalog,'-DPORTABLE_FORCE_FULL_FRAMES','-DPORTABLE_RTC_UTC8_DENVER','-DPORTABLE_RETURN_APP="'+return_app+'"']
-  if role=='settings':extra+=['-DPORTABLE_SETTINGS_APP']
-  else:extra+=[system/'lib/NativeApps/src/SingleFloatDivisionCompat.c']
-  build(system/'Apps'/(role+'.c'),store/(role+'.elf'),[system/'lib/PortableApps/include',system/'lib/NativeApps/include'],
+  extra=[system/'lib/PortableApps/src/adapter.c',catalog,S/'apps/clock/portable_navigation.c',S/'apps/clock/portable_sleep.c',
+   *[system/'lib/PortableApps/src'/n for n in ('quick_actions.c','quick_render.c','quick_session.c','quick_radios.c')],
+   '-DPORTABLE_FORCE_FULL_FRAMES','-DPORTABLE_RTC_UTC8_DENVER','-DPORTABLE_NOVA_UI','-DPORTABLE_ASYNC_RGB565',
+   '-DPORTABLE_INPUT_NAVIGATION','-DPORTABLE_INPUT_NAVIGATION_LOCAL','-DPORTABLE_APP_SLEEP_LOCAL',
+   '-DPORTABLE_ALARM_CLIENT','-DPORTABLE_QUICK_ACTIONS','-DPORTABLE_QUICK_RADIOS','-DPORTABLE_MOTION_WAKE',
+   '-DWATCH_ALARM_SLEEP_RESUME','-DPORTABLE_LOW_BATTERY','-DPORTABLE_BLE_BROADCAST','-DPORTABLE_CONTEXTS_CLIENT',
+   '-include',str(S/'apps/clock/faces/ContextsFaces.h'),'-DPORTABLE_RETURN_APP="'+return_app+'"']
+  if role=='settings':extra+=['-DPORTABLE_SETTINGS_APP','-DPORTABLE_TAP_SETTINGS','-DPORTABLE_SLEEP_SETTINGS','-DPORTABLE_ALARM_SETTINGS','-DPORTABLE_SETTINGS_CLOCK_CHANGE_CONTROL']
+  else:extra+=[system/'lib/NativeApps/src/SingleFloatDivisionCompat.c','-DPORTABLE_RETAINED_RGB565_HANDOFF','-DPORTABLE_HANDOFF_EAGER_MS=60','-DPORTABLE_CATALOG_LIMIT=23']
+  build(system/'Apps'/(role+'.c'),store/(role+'.elf'),[dirs['service_utilities']/'lib/Alarm/include',dirs['service_utilities']/'lib/Contexts/include',system/'lib/PortableApps/include',system/'lib/NativeApps/include',S/'sdk/app',S/'sdk/driver',S/'include'],
     'app_main; app_module_init; app_module_fini',extra)
   manifest=json.loads((system/'Apps'/(role+'.json')).read_text())
   manifest={'type':'application','id':role,'version':manifest['version'],'architecture':'xtensa-esp32s3','entry':'app_main'}
   app_grants=[('display.output',1,5),('input.touch.raw',1,6),('rtc.clock',2,8)]
-  if role=='settings':app_grants += [('storage.key-value',1,1)]
+  app_grants += closure['services']+closure['foreground']
   application(role,manifest,app_grants)
  # A launcher catalog entry must resolve to a real admitted application.
  for name in ('clock','settings','bringup'):
@@ -118,7 +129,7 @@ def main():
  for name,raw in staged.items():(store/name).write_bytes(raw)
  json_write(out/'shared-home-staging.json',staging)
  expected=files(store)
- if len(expected)!=32 or sum(n.endswith('.elf') for n in expected)!=15:raise ValueError('Unexpected boot inventory')
+ if len(expected)!=54 or sum(n.endswith('.elf') for n in expected)!=26:raise ValueError('Unexpected boot inventory')
  if any(len(('/'+n).encode())>=32 for n in expected):raise ValueError('SPIFFS object path too long')
  def admit(path,label,sanitize=False):
   dest=out/label
@@ -177,7 +188,7 @@ def main():
  (out/NAME).write_bytes(full)
  component_versions={key:json.loads(expected[path])['version'] for key,path in [
   ('panel_driver','display/manifest.json'),('power_rail','rail/manifest.json'),('battery_driver','battery/manifest.json')]}
- receipt={'schema':1,'product':'Waveshare first-boot test','version':'0.1.7','shared_home':'0.15.0','image':NAME,'bytes':len(full),'sha256':digest(full),'write_address':0,'native_regions':records,'bootfs':{'offset':FS_OFFSET,'bytes':FS_SIZE,'sha256':digest(raw),'tool_sha256':TOOL_SHA},'source_pins':PINS,'device_commit':subprocess.check_output(['git','-C',str(device),'rev-parse','HEAD'],text=True).strip(),'store_files':{n:{'bytes':len(v),'sha256':digest(v)} for n,v in sorted(expected.items())},'validation':{'real_runtime_admission':True,'native_export_and_elf_checks':True,'sanitizers':True,'independent_and_implementation_readback':True,'negative_cases':list(refusals)},'shared_home_staging':staging,**component_versions,'panel_boot_probe':'vendor paired rows; ALLPON-NORON red green blue startup probes; PMIC read-only','physical_boot_verified':False,'automatic_sleep':False,'network_required':False,'sd_required':False,'erases_lower_8mib_including_nvs':True,'paired_update':False}
+ receipt={'schema':1,'product':'Waveshare first-boot test','version':'0.1.8','shared_home':'0.15.0','image':NAME,'bytes':len(full),'sha256':digest(full),'write_address':0,'native_regions':records,'bootfs':{'offset':FS_OFFSET,'bytes':FS_SIZE,'sha256':digest(raw),'tool_sha256':TOOL_SHA},'source_pins':PINS,'device_commit':subprocess.check_output(['git','-C',str(device),'rev-parse','HEAD'],text=True).strip(),'store_files':{n:{'bytes':len(v),'sha256':digest(v)} for n,v in sorted(expected.items())},'validation':{'real_runtime_admission':True,'native_export_and_elf_checks':True,'sanitizers':True,'independent_and_implementation_readback':True,'negative_cases':list(refusals)},'shared_home_staging':staging,**component_versions,'panel_boot_probe':'vendor paired rows; ALLPON-NORON red green blue startup probes; PMIC read-only','physical_boot_verified':False,'automatic_sleep':False,'network_required':False,'sd_required':False,'erases_lower_8mib_including_nvs':True,'paired_update':False}
  json_write(out/'build.json',receipt)
  (out/'SHA256SUMS.txt').write_text(receipt['sha256']+'  '+NAME+'\n')
  print('FLASH IMAGE READY:',NAME,len(full),'bytes',receipt['sha256'],flush=True)
