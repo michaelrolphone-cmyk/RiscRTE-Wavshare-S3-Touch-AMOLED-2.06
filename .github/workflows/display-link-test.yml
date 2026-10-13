@@ -1,0 +1,81 @@
+name: Display link isolation image
+on:
+  push:
+    branches: [feat/universal-watch]
+    paths: ['tools/display-link-test/**', '.github/workflows/display-link-test.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: waveshareteam/ESP32-S3-Touch-AMOLED-2.06
+          ref: b099739ad0e33b34e5fbaae77f02bd84805d79a3
+          path: .source/vendor
+          persist-credentials: false
+          sparse-checkout: |
+            examples/arduino/libraries/Arduino_GFX
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE
+          ref: 8aae8df4f9139bea06ff43888ed628c45ed8a057
+          path: .source/runtime
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Stage immutable reference library and verify native core
+        run: |
+          python -m pip install platformio==6.1.18 esptool==4.11.0
+          mkdir -p tools/display-link-test/lib evidence
+          cp -r .source/vendor/examples/arduino/libraries/Arduino_GFX tools/display-link-test/lib/Arduino_GFX
+          python3 - <<'PY'
+          import json,pathlib,hashlib
+          p=pathlib.Path('tools/display-link-test/lib/Arduino_GFX')
+          selected=['Arduino_DataBus.cpp','Arduino_GFX.cpp','Arduino_TFT.cpp','Arduino_OLED.cpp','databus/Arduino_ESP32QSPI.cpp','display/Arduino_CO5300.cpp']
+          (p/'library.json').write_text(json.dumps({'name':'Pinned vendor display control','version':'1.6.0','build':{'srcFilter':['-<*>']+['+<'+s+'>' for s in selected]}}))
+          native=pathlib.Path('.source/runtime/src/ports/esp32s3/NativeSpi.inc')
+          record={'native_sha256':hashlib.sha256(native.read_bytes()).hexdigest(),'vendor_files':{s:hashlib.sha256((p/'src'/s).read_bytes()).hexdigest() for s in selected}}
+          pathlib.Path('evidence/source-hashes.json').write_text(json.dumps(record,indent=2)+'\n')
+          PY
+          cd .source/runtime
+          bash test/run_native_spi_test.sh | tee ../../evidence/native-tests.txt
+      - name: Compile comparison firmware
+        working-directory: tools/display-link-test
+        run: pio run -e display-link-test
+      - name: Package one initial flash image
+        run: |
+          mkdir -p dist/link-test
+          python3 - <<'PY'
+          import pathlib,hashlib,json,struct
+          b=pathlib.Path('tools/display-link-test/.pio/build/display-link-test');out=pathlib.Path('dist/link-test')
+          full=bytearray(b'\xff'*0x800000);regions={}
+          for offset,name,max_size in [(0,'bootloader.bin',0x8000),(0x8000,'partitions.bin',0x1000),(0x10000,'firmware.bin',0x300000)]:
+              data=(b/name).read_bytes();assert 0<len(data)<=max_size
+              if name!='partitions.bin':assert data[0]==0xe9 and struct.unpack_from('<H',data,12)[0]==9
+              full[offset:offset+len(data)]=data
+              regions[name]={'offset':offset,'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()}
+          name='Waveshare-DISPLAY-LINK-TEST-1-full-0x0.bin';(out/name).write_bytes(full)
+          sha=hashlib.sha256(full).hexdigest();(out/'SHA256SUMS.txt').write_text(sha+'  '+name+'\n')
+          (out/'build.json').write_text(json.dumps({'purpose':'standalone vendor/native display comparison; NOT shared Home','bytes':len(full),'sha256':sha,'write_address':0,'physical_display_verified':False,'regions':regions,'phases':['vendor80','vendor40','native40','native5'],'phase_duration_ms':12000},indent=2)+'\n')
+          PY
+          python -m esptool --chip esp32s3 image_info tools/display-link-test/.pio/build/display-link-test/firmware.bin > evidence/image-info.txt
+          cp tools/display-link-test/README.md dist/link-test/
+          cp tools/display-link-test/.pio/build/display-link-test/firmware.elf dist/link-test/
+          cp -r evidence dist/link-test/
+          git rev-parse HEAD > dist/link-test/DEVICE_COMMIT.txt
+          git archive HEAD tools/display-link-test .github/workflows/display-link-test.yml | gzip > dist/link-test/diagnostic-source.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Waveshare-DISPLAY-LINK-TEST-1
+          path: dist/link-test/
+          if-no-files-found: error
+          retention-days: 30
