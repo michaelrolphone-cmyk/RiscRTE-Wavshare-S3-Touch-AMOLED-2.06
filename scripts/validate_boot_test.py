@@ -11,7 +11,7 @@ args=p.parse_args()
 N=args.runtime.resolve();T=args.controllers.resolve();out=args.output.resolve();out.mkdir(parents=True,exist_ok=True)
 sys.path.insert(0,str(T/'scripts'))
 from verify_update_elf import cohort_admission_header
-(out/'cohort_elf_admission.h').write_text(cohort_admission_header(N,args.native_elf.read_bytes()))
+(out/'cohort_elf_admission.h').write_text('#pragma once\n'+cohort_admission_header(N,args.native_elf.read_bytes()))
 s=(T/'tests/runtime_store_admission.cpp').read_text()
 s=s.replace('#include <cstdio>','#include <cstdio>\n#include "cohort_elf_admission.h"')
 s=s.replace('  RiscCpu::Hardware h{};','''  RiscCpu::Hardware h{};
