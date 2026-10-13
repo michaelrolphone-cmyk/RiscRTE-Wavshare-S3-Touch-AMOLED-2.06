@@ -17,6 +17,7 @@ static const risc_display_backend_v1* backend;
 static uint64_t backend_token;
 static uint32_t spi_timeout_ms;
 static uint8_t brightness=80;
+static bool suspended;
 static bool hw_start(const risc_provider_dependency_v1* d,size_t n){
  if(backend_token || !tw_config_version(d,n,"chipone,co5300","display.spi",sizeof(risc_hw_spi_display_v2),2))return false;
  timer=tw_dep(d,n,"platform.clock",sizeof(*timer));
@@ -27,7 +28,7 @@ static bool hw_start(const risc_provider_dependency_v1* d,size_t n){
  // Successful A/B made no PMIC writes. Match that established baseline.
  if(!rail->get_info(rail->context,&info) || !info.configuration_verified || !info.enabled || info.configured_millivolts!=3300)return false;
  provider_log("PANEL_LINK transport=vendor-Arduino_ESP32QSPI controller=vendor-Arduino_CO5300 native-spi=unused");
- brightness=80;return backend->open(backend->context,&backend_token);
+ suspended=false;brightness=80;return backend->open(backend->context,&backend_token);
 }
 static void hw_submit(void){}
 static uint32_t hw_row_min_budget_ms(void){return 1;}
@@ -45,9 +46,29 @@ static bool hw_stop(void){
  backend_token=0;return true;
 }
 #include "common/display.h"
-// This first vendor-backed candidate deliberately has no sleep capability.
-// The profile disables sleep; a caller cannot silently enter unsupported sleep.
-static bool panel_prepare_sleep(void* c){(void)c;return false;}
-static bool panel_resume(void* c){(void)c;return running&&!failed;}
+// Close the native transport before CPU sleep: its ownership token is a
+// deliberate native sleep barrier. Retain the framebuffer for rollback/wake.
+static bool panel_prepare_sleep(void* c){
+ (void)c;if(!enter())return false;
+ bool ok=running&&!failed&&!held&&!active&&(!closing||suspended);
+ if(ok){closing=suspended=true;ok=hw_stop();}
+ leave();return ok;
+}
+static bool panel_resume(void* c){
+ (void)c;if(!enter())return false;
+ bool ok=running&&!failed&&(!closing||suspended);
+ if(ok&&suspended){
+  // A failed close/open can retain ownership. Complete that cleanup first.
+  ok=hw_stop();
+  if(ok)ok=backend->open(backend->context,&backend_token);
+  if(ok)ok=backend->brightness(backend->context,backend_token,0);
+  for(uint32_t y=0;ok&&y<HEIGHT;++y)ok=hw_row(y,pixels+y*STRIDE);
+  if(ok)ok=backend->brightness(backend->context,backend_token,brightness);
+  if(ok){suspended=false;closing=false;}
+  else (void)hw_stop();
+ }
+ leave();return ok;
+}
+// Deep sleep additionally needs a qualified reset-pad hold contract.
 static int32_t panel_prepare_deep_sleep(void* c){(void)c;return RISC_DEEP_SLEEP_UNSUPPORTED;}
 static int32_t panel_resume_status(void* c){return panel_resume(c)?RISC_LIGHT_SLEEP_OK:RISC_LIGHT_SLEEP_PLATFORM;}

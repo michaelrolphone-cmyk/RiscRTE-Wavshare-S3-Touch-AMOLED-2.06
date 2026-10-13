@@ -15,6 +15,7 @@ namespace {
 Arduino_ESP32QSPI* bus=nullptr;
 Arduino_CO5300* panel=nullptr;
 uint16_t width=0,height=0;int16_t reset=-1,cs=-1;
+bool panelReady=false,panelOff=false,probed=false;
 uint16_t paired[820];uint32_t pendingRow=UINT32_MAX;
 bool accepts(const risc_hardware_device_v1& hw,uint8_t physical){
  if(physical!=2 || strcmp(hw.compatible,"chipone,co5300") || strcmp(hw.config_type,"display.spi") ||
@@ -32,12 +33,16 @@ void pads(const char* stage){
 bool closePanel(){
  // All vendor writes are synchronous. Keep objects and ownership on cleanup
  // refusal; caller retries without unloading its provider dependency.
+ // Send vendor DISPOFF/SLPIN while SPI still exists; never resend on a
+ // cleanup retry after the bus has been freed. Partial begin has no commands.
+ if(panelReady && !panelOff){panel->displayOff();panelOff=true;}
  if(bus && !bus->riscClose())return false;
  // Vendor uses manual CS, so spi_bus_free does not release this pad.
  // Retain objects and remaining pin identities until every reset succeeds.
  if(cs>=0){if(gpio_reset_pin(static_cast<gpio_num_t>(cs))!=ESP_OK)return false;cs=-1;}
  if(reset>=0){if(gpio_reset_pin(static_cast<gpio_num_t>(reset))!=ESP_OK)return false;reset=-1;}
  delete panel;panel=nullptr;delete bus;bus=nullptr;
+ panelReady=panelOff=false;
  width=height=0;pendingRow=UINT32_MAX;return true;
 }
 bool openPanel(const risc_hardware_device_v1& hw,uint8_t physical){
@@ -49,10 +54,12 @@ bool openPanel(const risc_hardware_device_v1& hw,uint8_t physical){
  if(!bus)return false;
  panel=new(std::nothrow) Arduino_CO5300(bus,b.reset,b.rotation,b.width,b.height,b.offset_x,b.offset_y,0,0);
  if(!panel || !panel->begin(b.bus.frequency_hz))return false;
+ panelReady=true;panelOff=false;
  // Same post-begin brightness as successful diagnostic A/B. Vendor begin
  // itself writes 0xD0 immediately after DISPON; diagnostic phases follow.
  panel->setBrightness(80);
  pads("after-begin");
+ if(!probed){
  Serial.println("PANEL_PROBE phase=all-pixels-on before-dependent-providers=1");
  bus->sendCommand(0x23);delay(800);bus->sendCommand(0x13); // NORON restores GRAM; 0x22 is ALLPOFF.
  Serial.println("PANEL_PROBE phase=red-fill before-dependent-providers=1");
@@ -65,6 +72,8 @@ bool openPanel(const risc_hardware_device_v1& hw,uint8_t physical){
  for(auto& pixel:paired)pixel=0x001f;
  for(unsigned y=0;y<height;y+=2){panel->startWrite();panel->writeAddrWindow(0,y,width,2);panel->writePixels(paired,width*2);panel->endWrite();}
  delay(1200);
+ probed=true;
+ }
  panel->fillScreen(0);
  return true;
 }
