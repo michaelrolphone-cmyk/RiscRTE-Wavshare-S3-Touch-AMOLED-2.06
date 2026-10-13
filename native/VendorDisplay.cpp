@@ -27,7 +27,7 @@ bool accepts(const risc_hardware_device_v1& hw,uint8_t physical){
 void pads(const char* stage){
  Serial.printf("PANEL_HOLD stage=%s pad=0x%08lx digital=0x%08lx iso=0x%08lx\n",stage,(unsigned long)REG_READ(RTC_CNTL_PAD_HOLD_REG),(unsigned long)REG_READ(RTC_CNTL_DIG_PAD_HOLD_REG),(unsigned long)REG_READ(RTC_CNTL_DIG_ISO_REG));
  for(unsigned pin:{4u,5u,6u,7u,8u,11u,12u})
-  Serial.printf("PANEL_PAD stage=%s pin=%u input=%d enable=%u mux=0x%08lx matrix=0x%08lx out=%u rtc=0x%08lx\n",stage,pin,gpio_get_level(static_cast<gpio_num_t>(pin)),unsigned((GPIO.enable>>pin)&1u),(unsigned long)REG_READ(GPIO_PIN_MUX_REG[pin]),(unsigned long)GPIO.func_out_sel_cfg[pin].val,unsigned((GPIO.out>>pin)&1u),(unsigned long)(rtc_gpio_desc[pin].reg?REG_READ(rtc_gpio_desc[pin].reg):0));
+  Serial.printf("PANEL_PAD stage=%s pin=%u input=%d enable=%u mux=0x%08lx matrix=0x%08lx out=%u rtc=0x%08lx\n",stage,pin,gpio_get_level(static_cast<gpio_num_t>(pin)),unsigned((GPIO.enable>>pin)&1u),(unsigned long)REG_READ(GPIO_PIN_MUX_REG[pin]),(unsigned long)GPIO.func_out_sel_cfg[pin].val,unsigned((GPIO.out>>pin)&1u),(unsigned long)(rtc_io_desc[rtc_io_num_map[pin]].reg?REG_READ(rtc_io_desc[rtc_io_num_map[pin]].reg):0));
 }
 bool closePanel(){
  // All vendor writes are synchronous. Keep objects and ownership on cleanup
@@ -40,7 +40,7 @@ bool closePanel(){
 bool openPanel(const risc_hardware_device_v1& hw,uint8_t physical){
  if(bus || panel || !accepts(hw,physical))return false;
  const auto& c=*static_cast<const risc_hw_spi_display_v2*>(hw.config);const auto& b=c.base;
- width=b.width;height=b.height;reset=b.reset;
+ width=b.width;height=b.height;reset=b.reset;pendingRow=UINT32_MAX;
  pads("before-begin");
  bus=new(std::nothrow) Arduino_ESP32QSPI(b.cs,b.bus.sclk,b.bus.mosi,b.bus.miso,c.data2,c.data3);
  if(!bus)return false;
