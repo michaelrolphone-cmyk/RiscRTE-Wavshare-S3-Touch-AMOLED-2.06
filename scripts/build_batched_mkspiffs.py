@@ -12,7 +12,7 @@ def export(repo,pin,destination):
    if item.name.startswith('/') or '..' in Path(item.name).parts or item.issym() or item.islnk():raise ValueError('Unsafe archive member')
   archive.extractall(destination)
 def main():
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('--source',required=True,type=Path);p.add_argument('--output',required=True,type=Path);p.add_argument('--batch-bytes',type=int,choices=(8192,65536),default=8192);a=p.parse_args();a.source=a.source.resolve();a.output=a.output.resolve()
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--source',required=True,type=Path);p.add_argument('--output',required=True,type=Path);p.add_argument('--batch-bytes',type=int,choices=(8192,65536,1048576),default=8192);a=p.parse_args();a.source=a.source.resolve();a.output=a.output.resolve()
  if a.output.exists():raise ValueError('Choose a new output')
  assert subprocess.check_output(['git','-C',str(a.source),'rev-parse',PIN],text=True).strip()==PIN
  assert subprocess.check_output(['git','-C',str(a.source/'spiffs'),'rev-parse',SPIFFS],text=True).strip()==SPIFFS
