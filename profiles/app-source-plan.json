@@ -58,7 +58,9 @@
       "source_owner": "utilities",
       "source": "Apps/contexts.c",
       "requires_provisioning": [
-        "scene host"
+        "ui.scene host and presentation profile",
+        "storage.shared-data explicit file maps",
+        "time.civil provider"
       ],
       "recipe": "scripts/build_contexts_scene.py"
     },
@@ -114,7 +116,35 @@
     "ble_buttons"
   ],
   "prepared_app_source_compile_passed": true,
-  "full_link_and_image_admission_pending": true,
+  "full_link_and_image_admission_pending": false,
   "prepared_ble_sensor_target_build_passed": true,
-  "prepared_ble_hid_target_build_passed": true
+  "prepared_ble_hid_target_build_passed": true,
+  "baseline": {
+    "version": "0.1.8",
+    "device_commit": "d877062c739e1326f1e16f7468977ac3260225a8",
+    "runtime_commit": "56036e51b34e2054600d4465554a101914dec7a4",
+    "image_sha256": "7ce14678fb8e5c113ad55d96382e94270220088cb8640a5568faf2b9a99ea89a",
+    "ci_run": 38364859408,
+    "installed_apps": [
+      "default",
+      "clock",
+      "springboard",
+      "settings",
+      "bringup",
+      "battery",
+      "calculator",
+      "stopwatch",
+      "alarms",
+      "countdown",
+      "wifi_settings",
+      "frequency_generator",
+      "points_in_time",
+      "ble_scanner",
+      "ble_touchpad",
+      "ble_buttons"
+    ],
+    "hardware_verified": false,
+    "runtime_all_ci_green": false
+  },
+  "successor_catalog": "Shared owner supplies runtime-derived admitted app.catalog; do not add product availability flags to shared app ELFs."
 }
