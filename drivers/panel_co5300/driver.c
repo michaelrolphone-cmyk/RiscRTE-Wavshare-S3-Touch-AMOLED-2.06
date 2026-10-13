@@ -1,6 +1,7 @@
 /* CO5300 command protocol from Waveshare's ESP32-S3-Touch-AMOLED-2.06
  * Arduino reference b099739. Controller commands stay in this ELF; the Runtime
- * exposes only owned one/four-lane SPI transactions. */
+ * exposes only owned one/four-lane SPI transactions. SPI completion is NOT
+ * panel readback: this controller link currently remains write-only. */
 #include "DriverSupport.h"
 #include "RiscSpiQuadV1.h"
 #include "RiscDisplaySpiV2.h"
@@ -13,6 +14,9 @@
 #define FORMAT RISC_DISPLAY_FORMAT_RGB565
 #define DISPLAY_FLAGS (RISC_DISPLAY_INFO_ASYNC_PRESENT|RISC_DISPLAY_INFO_BRIGHTNESS)
 #define DISPLAY_ID "waveshare-panel"
+#ifndef CO5300_BOOT_PROBE
+#define CO5300_BOOT_PROBE 0
+#endif
 static const risc_hw_spi_display_v1 *config;
 static const risc_spi_quad_v1 *quad;
 static const garden_spi_v1 *spi;
@@ -35,10 +39,13 @@ static bool begin_bus(void) {
     (void)end_bus();return false;
 }
 static bool command(uint8_t cmd,const uint8_t *data,size_t n) {
+    /* Match the vendor's command+address+parameter transfer in one contiguous
+     * one-lane phase. Register payloads here are at most four bytes. */
+    if(n>4 || (n&&!data))return false;
+    uint8_t bytes[8]={0x02,0,cmd,0};
+    if(n)memcpy(bytes+4,data,n);
     if(!begin_bus())return false;
-    const uint8_t header[]={0x02,0,cmd,0};
-    bool ok=spi->exchange(spi->context,spi_claim,header,NULL,sizeof(header));
-    if(ok && n)ok=spi->exchange(spi->context,spi_claim,data,NULL,n);
+    bool ok=spi->exchange(spi->context,spi_claim,bytes,NULL,4+n);
     bool ended=end_bus();return ok&&ended;
 }
 static bool set_byte(uint8_t cmd,uint8_t value){return command(cmd,&value,1);}
@@ -62,8 +69,20 @@ static bool hw_start(const risc_provider_dependency_v1 *d,size_t n) {
     gpio_write(config->reset,true);timer->sleep_ms(timer->context,200);if(io_fault)return false;
     if(!command(0x11,NULL,0))return false;timer->sleep_ms(timer->context,120);
     if(!set_byte(0xfe,0)||!set_byte(0xc4,0x80)||!set_byte(0x3a,0x55)||!set_byte(0x53,0x20)||
-       !set_byte(0x63,0xff)||!set_byte(0x51,0)||!command(0x29,NULL,0)||!set_byte(0x58,0))return false;
+       !set_byte(0x63,0xff)||!command(0x29,NULL,0)||!set_byte(0x51,0)||!set_byte(0x58,0))return false;
     timer->sleep_ms(timer->context,10);
+    /* Arduino_CO5300::tftInit() finishes with inversion off; begin() then
+     * selects MADCTL RGB/rotation zero. Do not depend on reset defaults. */
+    if(!command(0x20,NULL,0)||!set_byte(0x36,0))return false;
+#if CO5300_BOOT_PROBE
+    /* Bounded command-only white pulse for the black-screen bring-up image.
+     * ALLPON ignores GRAM: a visible pulse tests reset/control/illumination
+     * independently of four-lane pixel writes. It is NOT a success check.
+     * At 25% brightness for 250 ms, before Home is admitted to the surface. */
+    if(!set_byte(0x51,64)||!command(0x23,NULL,0))return false;
+    timer->sleep_ms(timer->context,250);
+    if(!command(0x13,NULL,0)||!set_byte(0x51,0))return false;
+#endif
     asleep=sleep_prepared=false;unblank_pending=true;brightness=102;return true;
 }
 static void hw_submit(void) {}
@@ -74,8 +93,12 @@ static bool hw_row(uint32_t y,const uint8_t *pixels) {
     const uint16_t first=config->offset_x,last=first+WIDTH-1;
     const uint8_t columns[]={first>>8,first,last>>8,last};
     const uint8_t rows[]={y>>8,y,y>>8,y};
-    bool ok=command(0x2a,columns,4)&&command(0x2b,rows,4)&&begin_bus();
-    if(ok){const uint8_t header[]={0x32,0,0x2c,0};ok=spi->exchange(spi->context,spi_claim,header,NULL,sizeof(header));}
+    /* Vendor writeAddrWindow() starts RAM write in its own 0x02/0x2c
+     * transaction. Arduino_ESP32QSPI::writePixels() then streams 0x32/0x3c
+     * (WRMC), not an unqualified 0x32/0x2c. CS stays asserted across both
+     * data chunks, preserving the row cursor. */
+    bool ok=command(0x2a,columns,4)&&command(0x2b,rows,4)&&command(0x2c,NULL,0)&&begin_bus();
+    if(ok){const uint8_t header[]={0x32,0,0x3c,0};ok=spi->exchange(spi->context,spi_claim,header,NULL,sizeof(header));}
     uint8_t wire[512];
     for(size_t offset=0;ok&&offset<STRIDE;offset+=sizeof(wire)) {
         size_t count=STRIDE-offset;if(count>sizeof(wire))count=sizeof(wire);

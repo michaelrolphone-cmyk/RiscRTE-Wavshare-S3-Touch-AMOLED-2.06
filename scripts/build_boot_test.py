@@ -12,7 +12,7 @@ SIZE=0x800000
 FS_OFFSET=0x310000
 FS_SIZE=0x4f0000
 TOOL_SHA='4ddf79a1ab9a3baf502cdb979bea7ed173bbe46727a9902649cc09e6a28a5ad2'
-NAME='Waveshare-0.1.1-Home-0.15.0-boot-test-full-0x0.bin'
+NAME='Waveshare-0.1.2-Home-0.15.0-boot-test-full-0x0.bin'
 PINS={
  'runtime':'5323d1e834bdcc8e5e9fb0e8f76c383e46626801',
  'shared':'76aa47728192531ca9812f3e026057e0b174cb00',
@@ -50,7 +50,7 @@ def main():
  def build(source,target,includes,symbol,extra=()):
   target.parent.mkdir(parents=True,exist_ok=True)
   version=target.with_suffix('.map');version.write_text('{ global: '+symbol+'; local: *; };\n')
-  run(cc,'-std=c11','-Os','-fPIC','-mtext-section-literals','-mlongcalls','-fvisibility=hidden','-ffreestanding','-fno-builtin','-nostdlib','-nostartfiles','-shared','-Wl,--gc-sections','-Wl,--no-relax','-Wl,--hash-style=sysv','-ffunction-sections','-fdata-sections','-Wl,--version-script='+str(version),'-Wall','-Wextra','-Werror','-Wno-misleading-indentation',*['-I'+str(v) for v in includes],source,*extra,'-lgcc','-o',target)
+  run(cc,'-std=c11','-Os','-fPIC','-mtext-section-literals','-mlongcalls','-fvisibility=hidden','-ffreestanding','-fno-builtin','-nostdlib','-nostartfiles','-shared','-Wl,--gc-sections','-Wl,--no-relax','-Wl,--hash-style=sysv','-ffunction-sections','-fdata-sections','-Wl,--version-script='+str(version),'-Wall','-Wextra','-Werror','-Wno-misleading-indentation',*['-I'+str(v) for v in includes],*(['-DCO5300_BOOT_PROBE=1'] if source.parent.name=='panel_co5300' else []),source,*extra,'-lgcc','-o',target)
   normalize(target);compact(target,str(cc),debug_path=components/'debug'/(target.parent.name+'-'+target.name))
   run(validator,target);version.unlink()
  boot={'board':'board.json','default_app':'default.elf','provider_activation':'demand-retained','drivers':[],'app_capabilities':[]}
@@ -154,7 +154,7 @@ def main():
  full[FS_OFFSET:FS_OFFSET+FS_SIZE]=raw
  if full[0x9000:0xf000]!=b'\xff'*0x6000 or read_image(full[FS_OFFSET:],FS_SIZE)!=expected:raise ValueError('Merged flash readback failed')
  (out/NAME).write_bytes(full)
- receipt={'schema':1,'product':'Waveshare first-boot test','version':'0.1.1','shared_home':'0.15.0','image':NAME,'bytes':len(full),'sha256':digest(full),'write_address':0,'native_regions':records,'bootfs':{'offset':FS_OFFSET,'bytes':FS_SIZE,'sha256':digest(raw),'tool_sha256':TOOL_SHA},'source_pins':PINS,'device_commit':subprocess.check_output(['git','-C',str(device),'rev-parse','HEAD'],text=True).strip(),'store_files':{n:{'bytes':len(v),'sha256':digest(v)} for n,v in sorted(expected.items())},'validation':{'real_runtime_admission':True,'native_export_and_elf_checks':True,'sanitizers':True,'independent_and_implementation_readback':True,'negative_cases':list(refusals)},'shared_home_staging':staging,'physical_boot_verified':False,'automatic_sleep':False,'network_required':False,'sd_required':False,'erases_lower_8mib_including_nvs':True,'paired_update':False}
+ receipt={'schema':1,'product':'Waveshare first-boot test','version':'0.1.2','shared_home':'0.15.0','image':NAME,'bytes':len(full),'sha256':digest(full),'write_address':0,'native_regions':records,'bootfs':{'offset':FS_OFFSET,'bytes':FS_SIZE,'sha256':digest(raw),'tool_sha256':TOOL_SHA},'source_pins':PINS,'device_commit':subprocess.check_output(['git','-C',str(device),'rev-parse','HEAD'],text=True).strip(),'store_files':{n:{'bytes':len(v),'sha256':digest(v)} for n,v in sorted(expected.items())},'validation':{'real_runtime_admission':True,'native_export_and_elf_checks':True,'sanitizers':True,'independent_and_implementation_readback':True,'negative_cases':list(refusals)},'shared_home_staging':staging,'panel_driver':'0.1.1','panel_boot_probe':'ALLPON 25 percent 250 ms; then normal-mode Home','physical_boot_verified':False,'automatic_sleep':False,'network_required':False,'sd_required':False,'erases_lower_8mib_including_nvs':True,'paired_update':False}
  json_write(out/'build.json',receipt)
  (out/'SHA256SUMS.txt').write_text(receipt['sha256']+'  '+NAME+'\n')
  print('FLASH IMAGE READY:',NAME,len(full),'bytes',receipt['sha256'],flush=True)
