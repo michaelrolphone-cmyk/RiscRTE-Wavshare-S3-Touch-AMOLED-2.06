@@ -87,7 +87,8 @@ def main():
         manifest=json.loads((raw/policy['manifest']).read_text());row={'manifest':policy['manifest'],'id':manifest['id']}
         if manifest['file_name'] in presentation:
             row['display_name'],row['icon']=presentation[manifest['file_name']]
-        if manifest['file_name'] in ('default.elf','clock.elf'):row['launcher_visible']=False
+        if manifest['file_name'] in ('default.elf','springboard.elf'):row['launcher_visible']=False
+        elif manifest['file_name']=='clock.elf':row['launcher_visible']=True
         entries.append(row)
     profile={'schema':1,'entries':entries,'consumers':[n+'.json' for n in reports]}
     write(a.output/'presentation.json',profile)

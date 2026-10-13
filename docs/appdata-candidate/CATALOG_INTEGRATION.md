@@ -16,7 +16,8 @@ and navigation retention remain enabled. Home and clock ELF bytes are preserved.
 
 The metadata helper copies a new store and supplies original names/icons from
 the canonical 23-row presentation fixture only to existing admitted manifests.
-Home and clock explicitly have launcher_visible:false. The four rebuilt
+Home and Springboard explicitly have launcher_visible:false; Clock explicitly
+has launcher_visible:true, matching the original presentation fixture. The four rebuilt
 consumers receive app.catalog@1 requirements and instance-0 grants, within the
 existing native capacities of 32 requirements and 32 policy grants. No absent
 application is invented, installed, or marked available.
