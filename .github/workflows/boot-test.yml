@@ -2,7 +2,7 @@ name: Waveshare boot-test full image
 on:
   push:
     branches: [feat/universal-watch]
-    paths: ['.github/workflows/boot-test.yml', 'scripts/build_boot_test.py', 'scripts/boot_watch_providers.py', 'scripts/boot_watch_apps.py', 'drivers/rtc_pcf85063/**', 'scripts/validate_boot_test.py', 'profiles/shared-home.json', 'docs/BOOT_TEST_0.1.8.md', 'drivers/panel_co5300/**', 'drivers/panel_vendor/**', 'native/**', 'scripts/stage_vendor_display.py', 'include/RiscDisplayBackendV1.h', 'drivers/display_rail_axp2101/**', 'drivers/power_axp2101/**', 'include/RiscSpiFrameV1.h', 'include/RiscSpiQuadV1.h', 'include/RiscI2cFunctionV1.h', 'hardware/**', 'scripts/test_boot_pins.py', 'include/RiscPowerRailV1.h', 'include/ProviderLog.h', 'tests/test_vendor_native.py', 'tests/test_panel.c', 'tests/test_rail.c', 'tests/test_power.c']
+    paths: ['.github/workflows/boot-test.yml', 'scripts/build_boot_test.py', 'scripts/boot_watch_providers.py', 'scripts/boot_watch_apps.py', 'drivers/rtc_pcf85063/**', 'scripts/validate_boot_test.py', 'profiles/shared-home.json', 'profiles/home-artifact.json', 'docs/BOOT_TEST_0.1.8.md', 'drivers/panel_co5300/**', 'drivers/panel_vendor/**', 'native/**', 'scripts/stage_vendor_display.py', 'include/RiscDisplayBackendV1.h', 'drivers/display_rail_axp2101/**', 'drivers/power_axp2101/**', 'include/RiscSpiFrameV1.h', 'include/RiscSpiQuadV1.h', 'include/RiscI2cFunctionV1.h', 'hardware/**', 'scripts/test_boot_pins.py', 'include/RiscPowerRailV1.h', 'include/ProviderLog.h', 'tests/test_vendor_native.py', 'tests/test_panel.c', 'tests/test_rail.c', 'tests/test_power.c']
   workflow_dispatch:
 permissions:
   contents: read
@@ -27,14 +27,38 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: michaelrolphone-cmyk/RiscRTE-Watch
-          ref: 2d3df3d50647578987eb209bf7e2b8d722715d00
+          ref: ec768c7fae6fdb484fef28c6ec87f129b0a7f585
           path: .source/shared
           persist-credentials: false
       - uses: actions/checkout@v4
         with:
           repository: michaelrolphone-cmyk/RiscRTE-Watch
-          ref: 2d3df3d50647578987eb209bf7e2b8d722715d00
+          ref: 6e82fdcaec0b73ed700d2104cfb4d94f011c19d4
           path: .source/bridge_shared
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-System-Apps
+          ref: 076f8da38f7dfebdfde6dd5d46e06446470fb828
+          path: .source/home_system
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-System-Apps
+          ref: 1aaf53e23ca9651a5cf9d1debe44941c9d7d0e58
+          path: .source/modern_system
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-Productivity
+          ref: 0b8667d64e76a6b4bbd325a1c963405f3af57404
+          path: .source/productivity
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-Utilities
+          ref: 377d471d284cf18e13927481362d011bc981dfee
+          path: .source/scanner_utilities
           persist-credentials: false
       - uses: actions/checkout@v4
         with:
@@ -69,7 +93,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: michaelrolphone-cmyk/RiscRTE-System-Apps
-          ref: 269440c1a6b72407cc57f02f99dc4ec2c47402c0
+          ref: 2c3f44dd773e27e3a142462088a96328119a79e7
           path: .source/watch_system
           persist-credentials: false
       - uses: actions/checkout@v4
@@ -95,7 +119,7 @@ jobs:
           cmp include/RiscSpiQuadV1.h .source/runtime/sdk/driver/RiscSpiQuadV1.h
           python3 scripts/test_boot_pins.py
           python -m pip install platformio==6.1.18 pyelftools==0.32 esptool==4.11.0 jsonschema==4.23.0
-          python3 .source/shared/scripts/test_fast_wake_clock.py --system-apps .source/system --utilities .source/utilities | tee evidence/home-tests.txt
+          python3 .source/shared/scripts/test_fast_wake_clock.py --system-apps .source/home_system --utilities .source/utilities | tee evidence/home-tests.txt
           python3 .source/shared/tests/test_stage_product.py
           python3 .source/shared/scripts/test_return_default.py --runtime .source/runtime --sanitize
           python3 .source/shared/scripts/test_capabilities.py --sanitize | tee evidence/capabilities.txt
@@ -167,7 +191,7 @@ jobs:
           pio pkg install --global --tool 'platformio/tool-mkspiffs@2.230.0'
       - name: Assemble, admit, unpack and verify full image
         run: |
-          python3 scripts/build_boot_test.py --runtime .source/runtime --shared .source/shared --bridge_shared .source/bridge_shared --controllers .source/controllers --generic .source/generic --system .source/system --utilities .source/utilities --service_utilities .source/service_utilities --watch_system .source/watch_system --temporal .source/temporal --native .source/runtime/.pio/build/esp32s3-16mb-boot-test --cc "$HOME/.platformio/packages/toolchain-xtensa-esp32s3/bin/xtensa-esp32s3-elf-gcc" --mkspiffs "$HOME/.platformio/packages/tool-mkspiffs/mkspiffs_espressif32_arduino" --output dist/boot-test | tee evidence/assembly.txt
+          python3 scripts/build_boot_test.py --runtime .source/runtime --shared .source/shared --home_system .source/home_system --modern_system .source/modern_system --productivity .source/productivity --scanner_utilities .source/scanner_utilities --bridge_shared .source/bridge_shared --controllers .source/controllers --generic .source/generic --system .source/system --utilities .source/utilities --service_utilities .source/service_utilities --watch_system .source/watch_system --temporal .source/temporal --native .source/runtime/.pio/build/esp32s3-16mb-boot-test --cc "$HOME/.platformio/packages/toolchain-xtensa-esp32s3/bin/xtensa-esp32s3-elf-gcc" --mkspiffs "$HOME/.platformio/packages/tool-mkspiffs/mkspiffs_espressif32_arduino" --output dist/boot-test | tee evidence/assembly.txt
           python -m esptool --chip esp32s3 image_info .source/runtime/.pio/build/esp32s3-16mb-boot-test/firmware.bin | tee evidence/native-image-info.txt
           cp docs/BOOT_TEST_0.1.8.md dist/boot-test/README.md
           cp .source/runtime/boot-test.ini dist/boot-test/native-build.ini
@@ -183,6 +207,7 @@ jobs:
             dist/boot-test/README.md
             dist/boot-test/build.json
             dist/boot-test/components/ready-apps.json
+            dist/boot-test/components/ble-hid/
             dist/boot-test/SHA256SUMS.txt
             dist/boot-test/shared-home-staging.json
             dist/boot-test/negative-admission.json

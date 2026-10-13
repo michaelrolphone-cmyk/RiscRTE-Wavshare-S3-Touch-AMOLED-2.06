@@ -28,14 +28,6 @@
       ],
       "preserve": "Files1.5.30 copied-table and Nearby custody repairs"
     },
-    "ble_scanner": {
-      "source_owner": "watch_scanner_utilities",
-      "source": "Apps/ble_scanner.c",
-      "requires_provisioning": [
-        "bluetooth.sensors"
-      ],
-      "preserve": "local watch name editor"
-    },
     "audio_spectrum": {
       "source_owner": "utilities",
       "source": "Apps/audio_spectrum.c",
@@ -61,29 +53,6 @@
         "storage.app-data namespace1"
       ],
       "preserve": "normal color path, explicit absent optional paper interface"
-    },
-    "points_in_time": {
-      "source_owner": "productivity",
-      "source": "Apps/points_in_time.c",
-      "requires_provisioning": [
-        "storage.key-value namespace5"
-      ],
-      "preserve": "normal color path, explicit absent optional paper interface"
-    },
-    "ble_touchpad": {
-      "source_owner": "utilities",
-      "source": "Apps/ble_touchpad.c",
-      "requires_provisioning": [
-        "bluetooth.hid"
-      ]
-    },
-    "ble_buttons": {
-      "source_owner": "utilities",
-      "source": "Apps/ble_buttons.c",
-      "requires_provisioning": [
-        "bluetooth.hid",
-        "storage.key-value namespace11"
-      ]
     },
     "contexts": {
       "source_owner": "utilities",
@@ -130,5 +99,22 @@
     }
   },
   "hardware_verified": false,
-  "source_recipe_is_not_a_new_build_receipt": true
+  "source_recipe_is_not_a_new_build_receipt": true,
+  "prepared_apps": [
+    "battery",
+    "calculator",
+    "stopwatch",
+    "alarms",
+    "countdown",
+    "wifi_settings",
+    "frequency_generator",
+    "points_in_time",
+    "ble_scanner",
+    "ble_touchpad",
+    "ble_buttons"
+  ],
+  "prepared_app_source_compile_passed": true,
+  "full_link_and_image_admission_pending": true,
+  "prepared_ble_sensor_target_build_passed": true,
+  "prepared_ble_hid_target_build_passed": true
 }

@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "shared_commit": "ec768c7fae6fdb484fef28c6ec87f129b0a7f585",
+  "system_commit": "076f8da38f7dfebdfde6dd5d46e06446470fb828",
+  "utilities_commit": "fc0bdbbbc600ce891e60c44d091fce0586ade7d8",
+  "workflow_run": 38363187180,
+  "artifact_id": 11795218591,
+  "artifact_zip_sha256": "d53c775bc69678d45c1657f0d3a7b9a501d97dd03778a36651509f6943608c45",
+  "independent_local_rebuild_matches_public_artifact": true,
+  "files": {
+    "default.elf": {
+      "bytes": 871088,
+      "sha256": "7397f8ba6a036299a71bf7c62ba7882065e9ffca0ea87f0175a7eb35908cfbc1"
+    },
+    "clock.elf": {
+      "bytes": 1232,
+      "sha256": "cfd7de71d1949e415ba6662862feba4733e384258670ec73760425436d3fcde1"
+    }
+  },
+  "physical_qualification": false
+}

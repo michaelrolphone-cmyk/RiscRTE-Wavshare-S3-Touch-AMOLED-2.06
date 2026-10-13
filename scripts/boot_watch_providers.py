@@ -1,10 +1,13 @@
 """Device-store composition of existing, unmodified capability providers."""
 import json
 import shutil
+import os
+import subprocess
+import sys
 
 
 def stage_watch_providers(*, build, store, boot, device, shared, controllers,
-                          generic, temporal, system, utilities, runtime):
+                          generic, temporal, system, utilities, runtime, compiler, components):
     def provider(directory, source, includes, instance=None, manifest=None, extra=(), policy=None, **options):
         target=store/directory
         build(source,target/'driver.elf',includes,'t5_driver_get',extra,**options)
@@ -28,6 +31,22 @@ def stage_watch_providers(*, build, store, boot, device, shared, controllers,
         provider(directory,owner/('Drivers/'+source+'/driver.c'),[owner/'sdk/driver'] if source=='s3_radio_iq_v1' else sdk,
                  extra=['-Wl,--exclude-libs,ALL'] if source=='s3_radio_iq_v1' else [],
                  version_script=source!='s3_radio_iq_v1',section_gc=source!='s3_radio_iq_v1')
+    provider('ble-sensors',temporal/'Drivers/ble_sensors/driver.c',[temporal/'sdk/driver'],
+             extra=['-Wl,--exclude-libs,ALL'])
+    # Reuse the exact NimBLE recipe, including source inventory and export
+    # checks; compiling its vendor sources as a single generic TU is incorrect.
+    subprocess.run([sys.executable,str(temporal/'scripts/build_ble_hid.py')],check=True,
+                   env={**os.environ,'NATIVE_DRIVER_CC':str(compiler)})
+    hid=temporal/'dist/ble-hid';target=store/'ble-hid';target.mkdir()
+    for name in ('driver.elf','manifest.json'):shutil.copy2(hid/name,target/name)
+    from compact_current_elf import compact
+    compact(target/'driver.elf',str(compiler),debug_path=components/'debug/ble-hid.elf')
+    evidence=components/'ble-hid';evidence.mkdir()
+    for name in ('build-record.json','NimBLE-LICENSE','NimBLE-NOTICE','NimBLE-SOURCE.json','TinyCrypt-LICENSE'):
+        shutil.copy2(hid/name,evidence/name)
+    boot['drivers'].append({'manifest':'ble-hid/manifest.json','key_value':[
+        {'key':key,'namespace':10,'access':'read-write'}
+        for key in ('hid_ours','hid_peer','hid_ccc','hid_identity')]})
     service_sdk=[utilities/'lib/Alarm/include',utilities/'lib/Contexts/include',
                  utilities/'lib/Broadcast/include',utilities/'Apps',
                  runtime/'sdk/driver',runtime/'sdk/app',system/'lib/PortableApps/include',generic/'sdk/driver']

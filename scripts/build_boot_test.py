@@ -15,14 +15,18 @@ TOOL_SHA='4ddf79a1ab9a3baf502cdb979bea7ed173bbe46727a9902649cc09e6a28a5ad2'
 NAME='Waveshare-0.1.8-Home-0.15.0-boot-test-full-0x0.bin'
 PINS={
  'runtime':'56036e51b34e2054600d4465554a101914dec7a4',
- 'shared':'2d3df3d50647578987eb209bf7e2b8d722715d00',
- 'bridge_shared':'2d3df3d50647578987eb209bf7e2b8d722715d00',
+ 'shared':'ec768c7fae6fdb484fef28c6ec87f129b0a7f585',
+ 'home_system':'076f8da38f7dfebdfde6dd5d46e06446470fb828',
+ 'modern_system':'1aaf53e23ca9651a5cf9d1debe44941c9d7d0e58',
+ 'productivity':'0b8667d64e76a6b4bbd325a1c963405f3af57404',
+ 'scanner_utilities':'377d471d284cf18e13927481362d011bc981dfee',
+ 'bridge_shared':'6e82fdcaec0b73ed700d2104cfb4d94f011c19d4',
  'controllers':'851b8998e804c57b2c9f42d9f8fd0a69e79f2b41',
  'generic':'422e1e81a498fb6bdab9abf086325afc05a532dc',
  'system':'14762601b3fa7bbeeac5ed565a6825534bf74dca',
  'utilities':'fc0bdbbbc600ce891e60c44d091fce0586ade7d8',
  'service_utilities':'80efb298c9ca8d0f62f9a31840c9e51d380b40f6',
- 'watch_system':'269440c1a6b72407cc57f02f99dc4ec2c47402c0',
+ 'watch_system':'2c3f44dd773e27e3a142462088a96328119a79e7',
  'temporal':'aac1cb342696e96345d4546e2c69023834c6c8d4'}
 
 def digest(data):return hashlib.sha256(data).hexdigest()
@@ -49,9 +53,13 @@ def main():
  sys.path.insert(0,str(S/'scripts'))
  from compact_current_elf import compact
  from normalize_xtensa_relocations import normalize
- run(sys.executable,S/'scripts/build.py','--system',dirs['system'],'--utilities',dirs['utilities'],'--cc',cc,'--output',components)
- for role,wanted in [('default','82c1bb06319fd4ce889b500b4e2f91fe1c2b76e0856d58d0e4ca0c74c27ba277'),('clock','cfd7de71d1949e415ba6662862feba4733e384258670ec73760425436d3fcde1')]:
-  if digest((components/(role+'.elf')).read_bytes())!=wanted:raise ValueError('Shared app identity mismatch: '+role)
+ home_receipt=json.loads((device/'profiles/home-artifact.json').read_text())
+ for role,key in [('shared','shared_commit'),('home_system','system_commit'),('utilities','utilities_commit')]:
+  if PINS[role]!=home_receipt[key]:raise ValueError('Public Home receipt source mismatch: '+role)
+ run(sys.executable,S/'scripts/build.py','--system',dirs['home_system'],'--utilities',dirs['utilities'],'--cc',cc,'--output',components)
+ for name,wanted in home_receipt['files'].items():
+  raw=(components/name).read_bytes()
+  if len(raw)!=wanted['bytes'] or digest(raw)!=wanted['sha256']:raise ValueError('Shared app identity mismatch: '+name)
  validator=components/'validate-elf'
  def build(source,target,includes,symbol,extra=(),version_script=True,section_gc=True):
   target.parent.mkdir(parents=True,exist_ok=True)
@@ -78,7 +86,7 @@ def main():
  boot['drivers'].append({'manifest':'powerkey/manifest.json'})
  from boot_watch_providers import stage_watch_providers
  closure=stage_watch_providers(build=build,store=store,boot=boot,device=device,shared=S,controllers=T,
-  generic=G,temporal=dirs['temporal'],system=dirs['system'],utilities=dirs['service_utilities'],runtime=N)
+  generic=G,temporal=dirs['temporal'],system=dirs['system'],utilities=dirs['service_utilities'],runtime=N,compiler=cc,components=components)
  board=json.loads((device/'hardware/board.json').read_text())
  board['devices']=[d for d in board['devices'] if d['instance_id'] in (1,2,4,5,6,7,8,9,10,13,15,16)]
  json_write(store/'board.json',board)
@@ -120,7 +128,7 @@ def main():
   extra=[system/'lib/PortableApps/src/adapter.c',catalog,bridges/'apps/clock/portable_navigation.c',bridges/'apps/clock/portable_sleep.c',
    *[system/'lib/PortableApps/src'/n for n in ('quick_actions.c','quick_render.c','quick_session.c','quick_radios.c')],
    '-DPORTABLE_FORCE_FULL_FRAMES','-DPORTABLE_RTC_UTC8_DENVER','-DPORTABLE_NOVA_UI','-DPORTABLE_WATCH_NATIVE_HEIGHT','-DPORTABLE_ASYNC_RGB565',
-   '-DPORTABLE_INPUT_NAVIGATION','-DPORTABLE_INPUT_NAVIGATION_LOCAL','-DPORTABLE_APP_SLEEP_LOCAL',
+   '-DPORTABLE_NAVIGATION_RETENTION','-DPORTABLE_INPUT_NAVIGATION','-DPORTABLE_INPUT_NAVIGATION_LOCAL','-DPORTABLE_APP_SLEEP_LOCAL',
    '-DPORTABLE_ALARM_CLIENT','-DPORTABLE_QUICK_ACTIONS','-DPORTABLE_QUICK_RADIOS','-DPORTABLE_MOTION_WAKE',
    '-DWATCH_ALARM_SLEEP_RESUME','-DPORTABLE_LOW_BATTERY','-DPORTABLE_BLE_BROADCAST','-DPORTABLE_CONTEXTS_CLIENT',
    '-include',str(S/'apps/clock/faces/ContextsFaces.h'),'-include',str(alarm_profile),'-DPORTABLE_RETURN_APP="'+return_app+'"']
@@ -146,7 +154,7 @@ def main():
  for name,raw in staged.items():(store/name).write_bytes(raw)
  json_write(out/'shared-home-staging.json',staging)
  expected=files(store)
- if len(expected)!=58+2*len(READY_APPS) or sum(n.endswith('.elf') for n in expected)!=28+len(READY_APPS):raise ValueError('Unexpected boot inventory')
+ if len(expected)!=62+2*len(READY_APPS) or sum(n.endswith('.elf') for n in expected)!=30+len(READY_APPS):raise ValueError('Unexpected boot inventory')
  if any(len(('/'+n).encode())>=32 for n in expected):raise ValueError('SPIFFS object path too long')
  def admit(path,label,sanitize=False):
   dest=out/label

@@ -21,6 +21,10 @@ def validate(pins: dict[str, str], workflow: str) -> None:
     repositories["watch_system"] = "RiscRTE-System-Apps"
     repositories["temporal"] = "RiscRTE-Drivers"
     repositories["bridge_shared"] = "RiscRTE-Watch"
+    repositories["home_system"] = "RiscRTE-System-Apps"
+    repositories["modern_system"] = "RiscRTE-System-Apps"
+    repositories["productivity"] = "RiscRTE-Productivity"
+    repositories["scanner_utilities"] = "RiscRTE-Utilities"
     for key, repository in repositories.items():
         if checkout.get(key) != (repository,pins[key]):
             raise ValueError(f"{key}: workflow/assembler source mismatch")
