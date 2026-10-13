@@ -1,0 +1,40 @@
+name: Panel repair source workspace
+on:
+  push:
+    branches: [feat/universal-watch]
+    paths: ['.github/workflows/panel-repair-workspace.yml']
+permissions:
+  contents: read
+jobs:
+  workspace:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: device
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE
+          ref: 8aae8df4f9139bea06ff43888ed628c45ed8a057
+          path: runtime
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-Watch
+          ref: 76aa47728192531ca9812f3e026057e0b174cb00
+          path: shared
+          persist-credentials: false
+      - name: Archive immutable source and identify revisions
+        run: |
+          mkdir bundle
+          for repo in device runtime shared; do
+            git -C "$repo" rev-parse HEAD > "bundle/$repo-COMMIT.txt"
+            git -C "$repo" archive HEAD | gzip > "bundle/$repo-source.tar.gz"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: panel-repair-sources
+          path: bundle/
+          retention-days: 7
