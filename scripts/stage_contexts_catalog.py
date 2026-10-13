@@ -33,12 +33,19 @@ def main():
  row['grants'].append({'capability':'ui.text-input','api':1,'instance_id':0})
  write(raw/'boot.json',boot)
  m=json.loads((a.contexts_build/'contexts/contexts.json').read_text())
- # Runtime's admitted manifest schema excludes authoring-only category/profile
- # and optional declarations. Catalog is made an explicit requirement below.
- allowed={'type','id','version','architecture','file_name','entry','requires','display_name','icon','min_firmware_version'}
+ # Keep the canonical optional capability declaration. This composition needs
+ # generic Runtime optional-manifest support; do not downgrade it to requires.
+ allowed={'type','id','version','architecture','file_name','entry','requires','display_name','icon','min_firmware_version','optional'}
  m={k:v for k,v in m.items() if k in allowed};write(raw/'contexts.json',m);shutil.copy2(elf,raw/'contexts.elf')
  profile={'schema':1,'entries':[],'consumers':['contexts.json']};write(a.output/'presentation.json',profile)
  subprocess.run([sys.executable,str(a.helper/'scripts/stage_app_catalog_metadata.py'),'--store',str(raw),'--profile',str(a.output/'presentation.json'),'--requirement-capacity','32','--grant-capacity','32','--output',str(a.output/'store')],check=True)
+ # The older generic metadata helper promotes catalog to requires. Restore the
+ # canonical optional record after it adds the explicit boot grant.
+ staged=a.output/'store'/'contexts.json';final=json.loads(staged.read_text())
+ catalog={'capability':'app.catalog','api':1}
+ assert catalog in m.get('optional',[])
+ final['requires']=[r for r in final['requires'] if r!=catalog]
+ final['optional']=m['optional'];write(staged,final)
  preserved={}
  for driver in json.loads((a.store/'boot.json').read_text())['drivers']:
   path=Path(driver['manifest']);old=a.store/path.parent
