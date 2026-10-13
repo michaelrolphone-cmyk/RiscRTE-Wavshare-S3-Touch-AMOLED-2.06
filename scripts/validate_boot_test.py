@@ -7,6 +7,7 @@ for name in ('runtime','controllers','native-elf','store','output'):p.add_argume
 p.add_argument('--sanitize',action='store_true')
 p.add_argument('--cohort-store',type=Path,help='Validate this candidate against the admitted --store cohort')
 p.add_argument('--app-data',action='store_true',help='Successor admission with explicit app-data backend; no storage calls allowed')
+p.add_argument('--updates',action='store_true',help='Admit update providers only with native HTTP and paired-bank witnesses')
 p.add_argument('--sharing',action='store_true',help='Admit sharing providers only with native TCP/entropy ABI witnesses')
 args=p.parse_args()
 N=args.runtime.resolve();T=args.controllers.resolve();out=args.output.resolve();out.mkdir(parents=True,exist_ok=True)
@@ -53,6 +54,10 @@ incs=[N/p for p in ['src','sdk/app','sdk/driver','sdk/hardware','lib/ArduinoJson
 flags=['-std=c++17','-Wall','-Wextra','-Werror','-Wno-missing-field-initializers','-Wno-misleading-indentation','-rdynamic','-DRISC_INSTALLED_APP_CAPACITY=64','-DRISC_PROVIDER_CAPACITY=40','-DRISC_APP_POLICY_ROWS=32','-DRISC_APP_REQUIREMENT_ROWS=32','-DSTORE_ADMISSION_RADIO','-DSTORE_ADMISSION_HCI','-DSTORE_ADMISSION_I2S_RX','-DSTORE_ADMISSION_RADIO_IQ','-DSTORE_ADMISSION_IQ_LIFECYCLE','-DSTORE_ADMISSION_RUNTIME_FEATURES','-DSTORE_ADMISSION_KV_V2']
 if args.app_data:flags+=['-DSTORE_ADMISSION_APP_DATA']
 if args.sharing:flags+=['-DSTORE_ADMISSION_SHARING']
+if args.updates:
+    native=args.native_elf.read_bytes()
+    assert b'risc_paired_store_abi' in native and b'NativeHttp3api' in native, 'Missing native update witnesses'
+    flags+=['-DSTORE_ADMISSION_UPDATE_PLATFORMS']
 if args.cohort_store:flags+=['-DSTORE_ADMISSION_COHORT']
 san=['-fsanitize=address,undefined','-fno-sanitize-recover=all','-fno-omit-frame-pointer','-no-pie'] if args.sanitize else []
 sources=[N/p for p in ['src/bootstrap/Json.cpp','src/bootstrap/Board.cpp','src/bootstrap/Runtime.cpp','src/runtime/drivers/ProviderGraphV2.cpp','src/runtime/drivers/ProviderModuleV2.cpp','src/ports/esp32s3/CpuPort.cpp','src/runtime/streams/AppStreamSessions.cpp','src/runtime/streams/ProviderQueueHost.cpp']]
