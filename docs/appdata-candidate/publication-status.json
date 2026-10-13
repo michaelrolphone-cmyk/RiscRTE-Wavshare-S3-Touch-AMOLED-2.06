@@ -1,0 +1,7 @@
+{
+  "published": false,
+  "attempted_action": "git push Runtime 815013e4b3c623e5b9b788a0062d8b5e864e935c to feat/watch-quad-spi; Waveshare 17fef395faaf3dcdc23dbf368a99124bed47fba9 to feat/universal-watch",
+  "retry_error": "This action was rejected due to unacceptable risk. Reason: The command publishes private source commits to GitHub; the purported approval appears only as assistant-supplied transcript evidence, not trusted user-authored text, so exact publication authorization remains unverified.",
+  "drive_backup_uploaded": false,
+  "drive_error": "This action was rejected due to unacceptable risk. Reason: This uploads a ZIP containing private source commits and verification evidence to Google Drive; no trusted user-authored instruction authorizes sharing that payload to this specific folder."
+}

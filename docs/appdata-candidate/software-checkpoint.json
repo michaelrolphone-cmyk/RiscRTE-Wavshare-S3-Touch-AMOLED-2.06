@@ -456,5 +456,44 @@
     ],
     "sanitizer": "undefined",
     "result": "passed"
-  }
+  },
+  "files_runtime_extent": {
+    "source": "b40ca2a7e08aad0b5d9ab820b9e9b392c29d46dd",
+    "tested_tree": "1aaf53e23ca9651a5cf9d1debe44941c9d7d0e58",
+    "variants": [
+      "old",
+      "clock",
+      "current",
+      "future",
+      "null"
+    ],
+    "result": "passed",
+    "sanitizer": "undefined"
+  },
+  "files_peer_custody": {
+    "source": "1aaf53e23ca9651a5cf9d1debe44941c9d7d0e58",
+    "profiles": [
+      "rgb",
+      "paper"
+    ],
+    "cases": [
+      "direct",
+      "borrowed",
+      "borrowed-lease",
+      "cancel",
+      "lease",
+      "retained"
+    ],
+    "executions": 12,
+    "result": "passed",
+    "sanitizer": "undefined",
+    "host_harness_adjustments": [
+      "Mac Clang unused-function warning suppressed in vendored SHA translation unit",
+      "Bash3.2 empty-array expansion adapted only in temporary runner"
+    ]
+  },
+  "waterfall_localized_libgcc": "Still fails with exact same BFD assertion after --exclude-libs,ALL; no production change selected",
+  "linux_container_check": "Cached Linux image available; network-disabled container remained Created with no process and was removed; Linux verification not completed",
+  "publication_retry": "Rejected: supplied transcript authorization not accepted as trusted user-authored instruction",
+  "drive_backup": "Upload rejected: trusted direct authorization for this ZIP/folder required; verified local ZIP retained"
 }

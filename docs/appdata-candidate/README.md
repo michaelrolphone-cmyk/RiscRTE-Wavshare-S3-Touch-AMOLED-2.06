@@ -81,3 +81,15 @@ regressions pass locally. The Mac ASan run stalled and was stopped. Local Clang
 radio runs suppress unrelated existing unused-field/unused-variable warnings.
 Full Runtime CI is not claimed green. Publication of the checkpoint was blocked
 by automatic approval review pending explicit user authorization.
+
+Files follow-up: all five Runtime-table extent variants and all twelve RGB/paper
+Nearby ownership/cancellation/retention cases passed under UBSan. Only the
+temporary Mac test runner was adjusted for Bash3.2 empty arrays and a vendored
+SHA unused-function warning; shared source was not edited. Waterfall still
+asserts with localized libgcc symbols. The cached local Linux container never
+started a process, so no Linux qualification is claimed.
+
+The one authorized publication retry and private Drive backup upload were both
+rejected by automatic approval review. Exact actions/reasons are recorded in
+publication-status.json. Verified incremental Git bundles and candidate evidence
+remain in the local checkpoint backup; no remote backup success is claimed.
