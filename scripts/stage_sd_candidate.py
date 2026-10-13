@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Add the existing generic SD volume, preserving every app and prior grant."""
 from pathlib import Path
-import argparse,json,shutil
+import argparse,json,shutil,sys
 p=argparse.ArgumentParser()
-for n in ('store','providers','home','output'):p.add_argument('--'+n,type=Path,required=True)
+for n in ('store','providers','home','output','compactor','cc'):p.add_argument('--'+n,type=Path,required=True)
 a=p.parse_args();root=Path(__file__).resolve().parents[1]
 assert not a.output.exists();shutil.copytree(a.store,a.output);(a.output/'cohort.json').unlink()
 boot=json.loads((a.output/'boot.json').read_text());board=json.loads((a.output/'board.json').read_text());full=json.loads((root/'hardware/board.json').read_text())
@@ -24,7 +24,12 @@ assert (a.home/'clock.elf').read_bytes()==(a.output/'clock.elf').read_bytes()
 # Preserve JSON values exactly while reclaiming whitespace, never ELF features.
 for f in a.output.rglob('*.json'):
  value=json.loads(f.read_text());f.write_text(json.dumps(value,separators=(',',':'))+'\n');assert json.loads(f.read_text())==value
+sys.path.insert(0,str(a.compactor.resolve()))
+from compact_current_elf import compact
+proof=compact(a.output/'contexts.elf',str(a.cc),debug_path=a.output.parent/'contexts-original.elf')
+assert proof['retained_loader_sections_symbols_relocations_unchanged']
+(a.output.parent/'contexts-compaction.json').write_text(json.dumps(proof,indent=2)+'\n')
 old=json.loads((a.store/'boot.json').read_text())
 for row in old['app_capabilities']:
  current=next(x for x in boot['app_capabilities'] if x['manifest']==row['manifest']);assert all(g in current['grants'] for g in row['grants'])
-print('SD instance12 added; existing25apps and all grants retained; only Home ELF replaced; JSON whitespace compacted')
+print('SD instance12 added; existing25apps and all grants retained; Home replaced; Contexts loader semantics preserved by metadata compaction; JSON whitespace compacted')
