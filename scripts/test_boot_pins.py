@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Reject mixing a native substrate with an incompatible product assembler."""
 import ast
+import json
 import re
 from pathlib import Path
 
@@ -24,6 +25,9 @@ if __name__ == "__main__":
     pins = read_pins((ROOT / "scripts/build_boot_test.py").read_text())
     workflow = (ROOT / ".github/workflows/boot-test.yml").read_text()
     validate(pins, workflow)
+    metadata = json.loads((ROOT / "hardware/providers.json").read_text())
+    if metadata["native_source"] != pins["runtime"]:
+        raise ValueError("Board provider metadata selects an incompatible native source")
     # The stale native substrate from 0.1.2 cannot materialize the new PMIC function.
     broken = workflow.replace(pins["runtime"], "5323d1e834bdcc8e5e9fb0e8f76c383e46626801")
     try:
@@ -32,4 +36,4 @@ if __name__ == "__main__":
         pass
     else:
         raise AssertionError("Stale native source was not rejected")
-    print("Boot composition: all six source checkouts match; stale native pin rejected")
+    print("Boot composition: all six checkouts and board metadata match; stale native pin rejected")
