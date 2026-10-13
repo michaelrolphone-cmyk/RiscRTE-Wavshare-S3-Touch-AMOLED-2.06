@@ -27,7 +27,8 @@ for name,digest in [('software-update-firmware','40151d532e4788d2ddfe5b4cd98569f
  dst=a.output/directory;dst.mkdir()
  for f in ('driver.elf','manifest.json'):shutil.copy2(src/f,dst/f)
  boot['drivers'].append({'manifest':directory+'/manifest.json'})
-(a.output/'boot.json').write_text(json.dumps(boot,indent=2)+'\n')
+# Whitespace-only compaction preserves every authority row and reserves SPIFFS blocks.
+(a.output/'boot.json').write_text(json.dumps(boot,separators=(',',':'))+'\n')
 for f in a.store.rglob('*'):
  if f.is_file() and f.name not in ('boot.json','cohort.json'):assert f.read_bytes()==(a.output/f.relative_to(a.store)).read_bytes()
 assert all(x in boot['app_capabilities'] for x in json.loads((a.store/'boot.json').read_text())['app_capabilities'])
