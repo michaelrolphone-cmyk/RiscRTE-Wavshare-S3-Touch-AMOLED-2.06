@@ -1,0 +1,50 @@
+name: Display transport source audit
+on:
+  push:
+    branches: [feat/universal-watch]
+    paths: ['.github/workflows/display-audit.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          path: device
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE
+          ref: ebae0cccc62b8b0f2bdb1bf1a9d8c9a42666554c
+          persist-credentials: false
+          path: runtime
+      - uses: actions/checkout@v4
+        with:
+          repository: espressif/esp-idf
+          ref: v4.4.7
+          persist-credentials: false
+          path: idf
+          sparse-checkout: |
+            components/driver
+            components/hal
+            components/soc
+            components/esp_rom
+      - name: Record source identities and run production native transport tests
+        shell: bash
+        run: |
+          set -u
+          mkdir -p evidence
+          for d in device runtime idf; do printf '%s ' "$d"; git -C "$d" rev-parse HEAD; done > evidence/SOURCES.txt
+          set -o pipefail
+          bash runtime/test/run_native_spi_test.sh 2>&1 | tee evidence/native-test.txt
+          status=${PIPESTATUS[0]}
+          printf '%s\n' "$status" > evidence/native-test-exit.txt
+          tar --exclude='.git' -czf display-audit-sources.tar.gz device runtime idf evidence
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: display-audit-sources
+          path: display-audit-sources.tar.gz
+          retention-days: 7
