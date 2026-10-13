@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "base": "8f4a0fbc9c924cae7e887f95a113d4db1198388e",
+  "files": {
+    "drivers/power_axp2101/driver.c": "020a461476b665be58f5b12310718cbf81864f7adb25ceb3ced282e2d0c35a54",
+    "drivers/power_axp2101/manifest.json": "ee38e36fcb08f2afbce497036a1b6be4d12bc388161a52f84e2b8e5be0cb6575",
+    "drivers/panel_co5300/driver.c": "e7ea2d9e2f248ddded1a46acddb25e9c3e9240dd4f07e321bb04161f225e248b",
+    "drivers/panel_co5300/manifest.json": "b5740d726b5f49611048b9501ad78d8dcded1a9a026976c3f036235c47059f0f",
+    "scripts/build_drivers.py": "7674bec49b29b847f0be5c93a6436978334de1a3276b64852430fabc0399f142",
+    "scripts/test_drivers.py": "af93cf6bff32eaa5353eebc035c7b15883bc4f4fa890ab46de17cf18ec6b9d7c",
+    "scripts/build_boot_test.py": "45919994feed97fb8db7452ddfcfc0d509ed110a675d27de54951e9d8c3e43a8",
+    "tests/test_panel.c": "38097d426c324c1448a00d7cd68f01b0b87a88d2ac5ae3800c3b9253984530ac",
+    "tests/test_power.c": "e5e1079a9df4e8803e699e4ea3b2dd54ccde7a990ab27f664c2edd0c2277bb67"
+  }
+}

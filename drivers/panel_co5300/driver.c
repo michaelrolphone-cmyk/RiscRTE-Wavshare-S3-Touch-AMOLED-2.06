@@ -6,6 +6,8 @@
 #include "RiscSpiQuadV1.h"
 #include "RiscDisplaySpiV2.h"
 #include "twatch_power.h"
+#include "RiscPowerRailV1.h"
+#include "ProviderLog.h"
 #include "common/gpio.h"
 #define TWATCH_PANEL_POWER 1
 #define WIDTH 410u
@@ -20,6 +22,7 @@
 static const risc_hw_spi_display_v1 *config;
 static const risc_spi_quad_v1 *quad;
 static const garden_spi_v1 *spi;
+static const risc_power_rail_api_v1 *rail;
 static uint64_t spi_claim;
 static bool spi_held,asleep,sleep_prepared,unblank_pending,deep_held,deep_retained;
 static uint32_t spi_timeout_ms=20;
@@ -62,11 +65,29 @@ static bool hw_start(const risc_provider_dependency_v1 *d,size_t n) {
     quad=garden_dependency(d,n,"spi.bus",sizeof(*quad));
     if(!quad||quad->quad_tag!=RISC_SPI_QUAD_TAG||quad->quad_version!=RISC_SPI_QUAD_VERSION||!quad->claim_quad||!quad->exchange_quad)return false;
     spi=&quad->base;if(!spi->begin||!spi->exchange||!spi->end||!spi->release)return false;
-    if(!gpio_claim(config->reset,true,true))return false;
+    rail=tw_dep(d,n,RISC_POWER_RAIL_CAPABILITY,sizeof(*rail));
+    if(!rail || !rail->get_info || !rail->set_enabled)return false;
+    /* Hold reset before rail configuration, then verify actual pad readback.
+     * Rail selection is a generic dependency, never a cast of board.battery. */
+    if(!gpio_claim(config->reset,true,false))return false;
+    if(gpio_read(config->reset) || io_fault) {
+        provider_log("PANEL_RESET stage=assert expected=0 result=failed");return false;
+    }
+    provider_log("PANEL_RESET stage=assert expected=0 readback=0");
+    if(!rail->set_enabled(rail->context,true))return false;
+    risc_power_rail_info_v1 supply={.struct_size=sizeof(supply)};
+    if(!rail->get_info(rail->context,&supply) || !supply.configuration_verified || !supply.enabled) {
+        provider_log("PANEL_POWER result=failed operation=consumer-readback");return false;
+    }
+    provider_log("PANEL_POWER result=ready consumer=display");
     if(!quad->claim_quad(spi->context,config->bus.sclk,config->bus.mosi,config->bus.miso,c->data2,c->data3,config->cs,&spi_claim)||!spi_claim)return false;
     row_deadline=0;spi_timeout_ms=20;
     timer->sleep_ms(timer->context,10);gpio_write(config->reset,false);timer->sleep_ms(timer->context,200);
-    gpio_write(config->reset,true);timer->sleep_ms(timer->context,200);if(io_fault)return false;
+    gpio_write(config->reset,true);timer->sleep_ms(timer->context,200);
+    if(!gpio_read(config->reset) || io_fault) {
+        provider_log("PANEL_RESET stage=release expected=1 result=failed");return false;
+    }
+    provider_log("PANEL_RESET stage=release expected=1 readback=1");
     if(!command(0x11,NULL,0))return false;timer->sleep_ms(timer->context,120);
     if(!set_byte(0xfe,0)||!set_byte(0xc4,0x80)||!set_byte(0x3a,0x55)||!set_byte(0x53,0x20)||
        !set_byte(0x63,0xff)||!command(0x29,NULL,0)||!set_byte(0x51,0)||!set_byte(0x58,0))return false;
@@ -78,10 +99,12 @@ static bool hw_start(const risc_provider_dependency_v1 *d,size_t n) {
     /* Bounded command-only white pulse for the black-screen bring-up image.
      * ALLPON ignores GRAM: a visible pulse tests reset/control/illumination
      * independently of four-lane pixel writes. It is NOT a success check.
-     * At 25% brightness for 250 ms, before Home is admitted to the surface. */
+     * At 25% brightness for 750 ms, before Home is admitted to the surface. */
     if(!set_byte(0x51,64)||!command(0x23,NULL,0))return false;
-    timer->sleep_ms(timer->context,250);
+    provider_log("PANEL_PROBE phase=all-on brightness=64 duration_ms=750 control=write-only");
+    timer->sleep_ms(timer->context,750);
     if(!command(0x13,NULL,0)||!set_byte(0x51,0))return false;
+    provider_log("PANEL_PROBE phase=normal-mode-restored control=write-only");
 #endif
     asleep=sleep_prepared=false;unblank_pending=true;brightness=102;return true;
 }
@@ -116,6 +139,9 @@ static bool hw_brightness(uint16_t v,uint16_t maximum) {
     uint8_t requested=((uint32_t)v*255u+maximum/2u)/maximum;
     spi_timeout_ms=8;
     if(!unblank_pending&&!set_byte(0x51,requested))return false;
+    if(!brightness && requested) {
+        provider_log("PANEL_BRIGHTNESS transition=off-to-on transport=complete visibility=unverified");
+    }
     brightness=requested;return true;
 }
 static bool hw_stop(void) {

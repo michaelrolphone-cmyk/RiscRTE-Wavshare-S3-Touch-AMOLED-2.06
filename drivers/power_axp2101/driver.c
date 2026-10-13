@@ -35,12 +35,18 @@ static const risc_platform_clock_api_v1 *clock_api;
 static const tw_hw_i2c_device_v1 *config;
 static uint64_t claim, key_claim, edge_at, pressed_at;
 static bool started, prepared, retained, raw_key, stable_key, long_sent;
-static bool read_reg(uint8_t reg,uint8_t *out,size_t n) {
-    return bus->transact(bus->context,claim,&reg,1,out,n,30);
+/* Register-level leases, not a lifetime claim on the whole PMIC. All calls
+ * run synchronously on the provider owner. A failed release retains its token
+ * and makes subsequent normal I/O refuse until cleanup succeeds. */
+static bool register_io(const uint8_t *tx,size_t n,uint8_t *rx,size_t rn) {
+    if(claim || !bus || !bus->claim_device(bus->context,config->address,&claim))return false;
+    bool ok=bus->transact(bus->context,claim,tx,n,rx,rn,30);
+    if(!bus->release_device(bus->context,claim))return false;
+    claim=0;return ok;
 }
+static bool read_reg(uint8_t reg,uint8_t *out,size_t n) {return register_io(&reg,1,out,n);}
 static bool write_reg(uint8_t reg,uint8_t value) {
-    uint8_t bytes[]={reg,value};
-    return bus->transact(bus->context,claim,bytes,2,NULL,0,30);
+    uint8_t bytes[]={reg,value};return register_io(bytes,2,NULL,0);
 }
 static bool pending(void *c,bool *out) {
     (void)c;if(!started || retained || !out)return false;
@@ -101,7 +107,7 @@ static bool read_sample(void *context, risc_battery_sample_v1 *out) {
     if (!out)
         return false;
     *out = (risc_battery_sample_v1){0, 255, RISC_BATTERY_PROFILE_MISSING};
-    if (!started || retained)
+    if (!started || retained || claim)
         return false;
     uint8_t raw[2] = {0}, status[2] = {0}, gauge[2] = {0};
     uint8_t detect = 0, control = 0, percent = 255;
@@ -154,8 +160,7 @@ static bool start(const risc_provider_dependency_v1 *deps,size_t n) {
     gpio_api=tw_dep(deps,n,"gpio.bank",offsetof(risc_gpio_bank_api_v1,light_sleep));
     clock_api=tw_dep(deps,n,"platform.clock",sizeof(*clock_api));
     if(!tw_i2c_valid(bus) || !tw_gpio_valid(gpio_api) || !tw_clock_valid(clock_api))return false;
-    if(!bus->claim_device(bus->context,config->address,&claim) ||
-       !gpio_api->claim(gpio_api->context,config->irq,RISC_GPIO_INPUT,&key_claim)){(void)quiesce();return false;}
+    if(!gpio_api->claim(gpio_api->context,config->irq,RISC_GPIO_INPUT,&key_claim)){(void)quiesce();return false;}
     uint8_t id,adc;
     if(!read_reg(3,&id,1) || id!=config->chip_id || !read_reg(AXP_ADC_EN,&adc,1) ||
        !write_reg(AXP_ADC_EN,adc|1) || !gpio_api->read(gpio_api->context,key_claim,&raw_key)) {

@@ -12,7 +12,7 @@ SIZE=0x800000
 FS_OFFSET=0x310000
 FS_SIZE=0x4f0000
 TOOL_SHA='4ddf79a1ab9a3baf502cdb979bea7ed173bbe46727a9902649cc09e6a28a5ad2'
-NAME='Waveshare-0.1.2-Home-0.15.0-boot-test-full-0x0.bin'
+NAME='Waveshare-0.1.3-Home-0.15.0-boot-test-full-0x0.bin'
 PINS={
  'runtime':'5323d1e834bdcc8e5e9fb0e8f76c383e46626801',
  'shared':'76aa47728192531ca9812f3e026057e0b174cb00',
@@ -60,9 +60,13 @@ def main():
   boot['drivers'].append({'manifest':name+'/manifest.json','instance_id':instance})
  for name,folder,instance in [('battery','power_axp2101',4),('display','panel_co5300',5),('touch','touch_ft3168',6),('motion','motion_qmi8658',7),('rtc','rtc_pcf85063',8),('haptic','haptic_gpio',9)]:
   source=device/'drivers'/folder
-  build(source/'driver.c',store/name/'driver.elf',[S/'sdk/driver',S/'include',device/'include'],'t5_driver_get')
+  build(source/'driver.c',store/name/'driver.elf',[S/'sdk/driver',S/'sdk/app',S/'include',device/'include'],'t5_driver_get')
   shutil.copy2(source/'manifest.json',store/name/'manifest.json')
   boot['drivers'].append({'manifest':name+'/manifest.json','instance_id':instance})
+ source=device/'drivers/display_rail_axp2101'
+ build(source/'driver.c',store/'rail/driver.elf',[S/'sdk/driver',S/'sdk/app',S/'include',device/'include'],'t5_driver_get')
+ shutil.copy2(source/'manifest.json',store/'rail/manifest.json')
+ boot['drivers'].append({'manifest':'rail/manifest.json'})
  build(G/'Drivers/legacy_power_key/driver.c',store/'powerkey/driver.elf',[G/'sdk/driver',S/'sdk/driver'],'t5_driver_get')
  shutil.copy2(G/'Drivers/legacy_power_key/manifest.json',store/'powerkey/manifest.json')
  boot['drivers'].append({'manifest':'powerkey/manifest.json'})
@@ -97,7 +101,7 @@ def main():
  for name,raw in staged.items():(store/name).write_bytes(raw)
  json_write(out/'shared-home-staging.json',staging)
  expected=files(store)
- if len(expected)!=28 or sum(n.endswith('.elf') for n in expected)!=13:raise ValueError('Unexpected boot inventory')
+ if len(expected)!=30 or sum(n.endswith('.elf') for n in expected)!=14:raise ValueError('Unexpected boot inventory')
  if any(len(('/'+n).encode())>=32 for n in expected):raise ValueError('SPIFFS object path too long')
  def admit(path,label,sanitize=False):
   dest=out/label
@@ -126,7 +130,8 @@ def main():
   damaged=Path(tmp)/'store';shutil.copytree(unpacked,damaged)
   cases=[('missing-display',lambda:(damaged/'display/driver.elf').unlink()),
          ('invalid-app-elf',lambda:(damaged/'default.elf').write_bytes(b'not an ELF')),
-         ('missing-provider',lambda:(damaged/'touch/manifest.json').unlink())]
+         ('missing-provider',lambda:(damaged/'touch/manifest.json').unlink()),
+         ('missing-power-rail',lambda:(damaged/'rail/manifest.json').unlink())]
   for name,mutate in cases:
    mutate();result=subprocess.run([str(checker),str(damaged)],text=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
    if result.returncode!=4:raise ValueError(f'Invalid store was not cleanly refused: {name}: {result.stdout}')
@@ -154,7 +159,7 @@ def main():
  full[FS_OFFSET:FS_OFFSET+FS_SIZE]=raw
  if full[0x9000:0xf000]!=b'\xff'*0x6000 or read_image(full[FS_OFFSET:],FS_SIZE)!=expected:raise ValueError('Merged flash readback failed')
  (out/NAME).write_bytes(full)
- receipt={'schema':1,'product':'Waveshare first-boot test','version':'0.1.2','shared_home':'0.15.0','image':NAME,'bytes':len(full),'sha256':digest(full),'write_address':0,'native_regions':records,'bootfs':{'offset':FS_OFFSET,'bytes':FS_SIZE,'sha256':digest(raw),'tool_sha256':TOOL_SHA},'source_pins':PINS,'device_commit':subprocess.check_output(['git','-C',str(device),'rev-parse','HEAD'],text=True).strip(),'store_files':{n:{'bytes':len(v),'sha256':digest(v)} for n,v in sorted(expected.items())},'validation':{'real_runtime_admission':True,'native_export_and_elf_checks':True,'sanitizers':True,'independent_and_implementation_readback':True,'negative_cases':list(refusals)},'shared_home_staging':staging,'panel_driver':'0.1.1','panel_boot_probe':'ALLPON 25 percent 250 ms; then normal-mode Home','physical_boot_verified':False,'automatic_sleep':False,'network_required':False,'sd_required':False,'erases_lower_8mib_including_nvs':True,'paired_update':False}
+ receipt={'schema':1,'product':'Waveshare first-boot test','version':'0.1.3','shared_home':'0.15.0','image':NAME,'bytes':len(full),'sha256':digest(full),'write_address':0,'native_regions':records,'bootfs':{'offset':FS_OFFSET,'bytes':FS_SIZE,'sha256':digest(raw),'tool_sha256':TOOL_SHA},'source_pins':PINS,'device_commit':subprocess.check_output(['git','-C',str(device),'rev-parse','HEAD'],text=True).strip(),'store_files':{n:{'bytes':len(v),'sha256':digest(v)} for n,v in sorted(expected.items())},'validation':{'real_runtime_admission':True,'native_export_and_elf_checks':True,'sanitizers':True,'independent_and_implementation_readback':True,'negative_cases':list(refusals)},'shared_home_staging':staging,'panel_driver':'0.1.2','power_rail':'0.1.0','battery_driver':'0.1.1','panel_boot_probe':'ALDO2 register verification then ALLPON 25 percent 750 ms; then normal-mode Home','physical_boot_verified':False,'automatic_sleep':False,'network_required':False,'sd_required':False,'erases_lower_8mib_including_nvs':True,'paired_update':False}
  json_write(out/'build.json',receipt)
  (out/'SHA256SUMS.txt').write_text(receipt['sha256']+'  '+NAME+'\n')
  print('FLASH IMAGE READY:',NAME,len(full),'bytes',receipt['sha256'],flush=True)

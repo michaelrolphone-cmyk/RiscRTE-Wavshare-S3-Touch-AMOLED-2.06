@@ -17,10 +17,17 @@ static void setup(void) {
     registers_[0]=0x28;registers_[1]=0;registers_[0x18]=0x0a;registers_[0x68]=1;
     registers_[0x34]=0x0f;registers_[0x35]=0xa0;registers_[0xa4]=75;
 }
+static bool release_failure;
+static bool release_test(void *c,uint64_t token) {
+ if(release_failure)return false;
+ return bus_release_(c,token);
+}
 int main(void) {
     setup();assert(start(deps_,4));assert(writes_==1&&write_registers_[0]==0x30&&registers_[0x30]==0xa1);
+    assert(!bus_token_);
+    uint64_t rail_session=0;assert(bus_claim_(NULL,0x34,&rail_session));assert(bus_release_(NULL,rail_session));
     risc_battery_sample_v1 value;assert(read_sample(NULL,&value));assert(value.millivolts==4000&&value.percent==75);
-    assert(value.flags&PORTABLE_POWER_STATUS_VALID);assert(value.flags&PORTABLE_POWER_CHARGER_ENABLED);
+    assert(!bus_token_);assert(value.flags&PORTABLE_POWER_STATUS_VALID);assert(value.flags&PORTABLE_POWER_CHARGER_ENABLED);
     registers_[0xa4]=0;assert(read_sample(NULL,&value)&&value.percent==0);registers_[0xa4]=100;assert(read_sample(NULL,&value)&&value.percent==100);
     registers_[0xa4]=255;assert(read_sample(NULL,&value)&&value.percent==255&&(value.flags&RISC_BATTERY_PROFILE_MISSING));
     registers_[0xa4]=50;registers_[0x17]=8;assert(read_sample(NULL,&value)&&value.percent==255);registers_[0x17]=0;
@@ -41,6 +48,9 @@ int main(void) {
     for(unsigned n=1;n<=3;n++){setup();fail_transaction_=n;assert(!start(deps_,4));no_claims_();}
     setup();fail_gpio_=1;assert(!start(deps_,4));no_claims_();
     setup();cfg.irq_active_high=0;assert(!start(deps_,4));no_claims_();
+    setup();assert(start(deps_,4));bus_.release_device=release_test;release_failure=true;
+    assert(!read_sample(NULL,&value));assert(claim&&bus_token_);assert(!quiesce());
+    release_failure=false;assert(quiesce());bus_.release_device=bus_release_;no_claims_();
     setup();assert(start(deps_,4));assert(prepare_sleep(NULL));sleep_result=RISC_LIGHT_SLEEP_RETAINED;
     assert(light_for(NULL,100,&result)==RISC_LIGHT_SLEEP_RETAINED);assert(!read_sample(NULL,&value));assert(!quiesce());
     puts("AXP2101: battery admission/charger preservation/active-high key/sleep/failure cleanup PASS");return 0;
