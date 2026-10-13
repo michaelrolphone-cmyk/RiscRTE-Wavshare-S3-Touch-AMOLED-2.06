@@ -22,9 +22,11 @@ for name in expected:
  assert not any(x['manifest']==row['manifest'] for x in boot['app_capabilities']);boot['app_capabilities'].append(row)
  (a.output/(name+'.json')).write_text(json.dumps(manifest,indent=2)+'\n');shutil.copy2(elf,a.output/elf.name)
 for name,digest in [('software-update-firmware','40151d532e4788d2ddfe5b4cd98569fdde49eb67f7bde1a460f60437570273a5'),('software-update-apps','cfc121f1ebb49f44d67190fb1cb75c61ebcdb01f227a39cb6fe18af31cf9900b')]:
- src=a.providers/name;assert sha(src/'driver.elf')==digest;dst=a.output/name;dst.mkdir()
+ src=a.providers/name;assert sha(src/'driver.elf')==digest
+ directory='update_fw' if name=='software-update-firmware' else 'update_apps'
+ dst=a.output/directory;dst.mkdir()
  for f in ('driver.elf','manifest.json'):shutil.copy2(src/f,dst/f)
- boot['drivers'].append({'manifest':name+'/manifest.json'})
+ boot['drivers'].append({'manifest':directory+'/manifest.json'})
 (a.output/'boot.json').write_text(json.dumps(boot,indent=2)+'\n')
 for f in a.store.rglob('*'):
  if f.is_file() and f.name not in ('boot.json','cohort.json'):assert f.read_bytes()==(a.output/f.relative_to(a.store)).read_bytes()
