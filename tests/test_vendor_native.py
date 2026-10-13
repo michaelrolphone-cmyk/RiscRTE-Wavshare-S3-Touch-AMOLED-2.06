@@ -18,7 +18,7 @@ void pads(const char*){}
 uint16_t width=410,height=502,paired[820];uint32_t pendingRow=UINT32_MAX;
 '''
 post=r'''
-int main(){uint16_t line[410];assert(!row(1,line,410));assert(!row(0,line,409));assert(!row(502,line,410));
+int main(){uint16_t line[410]={};assert(!row(1,line,410));assert(!row(0,line,409));assert(!row(502,line,410));
 for(unsigned y=0;y<502;y++){for(unsigned x=0;x<410;x++)line[x]=(y*410+x)%65536;auto before=storage.packets.size();assert(row(y,line,410));assert(storage.packets.size()==before+(y%2));}
 assert(storage.packets.size()==251&&pendingRow==UINT32_MAX);
 for(auto& p:storage.packets){assert(p.y%2==0&&p.w==410&&p.h==2&&p.pixels.size()==820);for(unsigned i=0;i<820;i++)assert(p.pixels[i]==(p.y*410+i)%65536);}

@@ -2,7 +2,7 @@ name: Waveshare boot-test full image
 on:
   push:
     branches: [feat/universal-watch]
-    paths: ['.github/workflows/boot-test.yml', 'scripts/build_boot_test.py', 'scripts/validate_boot_test.py', 'profiles/shared-home.json', 'docs/BOOT_TEST_0.1.7.md', 'drivers/panel_co5300/**', 'drivers/panel_vendor/**', 'native/**', 'scripts/stage_vendor_display.py', 'include/RiscDisplayBackendV1.h', 'drivers/display_rail_axp2101/**', 'drivers/power_axp2101/**', 'include/RiscSpiFrameV1.h', 'include/RiscSpiQuadV1.h', 'include/RiscI2cFunctionV1.h', 'hardware/**', 'scripts/test_boot_pins.py', 'include/RiscPowerRailV1.h', 'include/ProviderLog.h', 'tests/test_panel.c', 'tests/test_rail.c', 'tests/test_power.c']
+    paths: ['.github/workflows/boot-test.yml', 'scripts/build_boot_test.py', 'scripts/validate_boot_test.py', 'profiles/shared-home.json', 'docs/BOOT_TEST_0.1.7.md', 'drivers/panel_co5300/**', 'drivers/panel_vendor/**', 'native/**', 'scripts/stage_vendor_display.py', 'include/RiscDisplayBackendV1.h', 'drivers/display_rail_axp2101/**', 'drivers/power_axp2101/**', 'include/RiscSpiFrameV1.h', 'include/RiscSpiQuadV1.h', 'include/RiscI2cFunctionV1.h', 'hardware/**', 'scripts/test_boot_pins.py', 'include/RiscPowerRailV1.h', 'include/ProviderLog.h', 'tests/test_vendor_native.py', 'tests/test_panel.c', 'tests/test_rail.c', 'tests/test_power.c']
   workflow_dispatch:
 permissions:
   contents: read
