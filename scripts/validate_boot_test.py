@@ -7,12 +7,26 @@ for name in ('runtime','controllers','native-elf','store','output'):p.add_argume
 p.add_argument('--sanitize',action='store_true')
 p.add_argument('--cohort-store',type=Path,help='Validate this candidate against the admitted --store cohort')
 p.add_argument('--app-data',action='store_true',help='Successor admission with explicit app-data backend; no storage calls allowed')
+p.add_argument('--sharing',action='store_true',help='Admit sharing providers only with native TCP/entropy ABI witnesses')
 args=p.parse_args()
 N=args.runtime.resolve();T=args.controllers.resolve();out=args.output.resolve();out.mkdir(parents=True,exist_ok=True)
 sys.path.insert(0,str(T/'scripts'))
 from verify_update_elf import cohort_admission_header
 (out/'cohort_elf_admission.h').write_text('#pragma once\n'+cohort_admission_header(N,args.native_elf.read_bytes()))
 s=(T/'tests/runtime_store_admission.cpp').read_text()
+if args.sharing:
+    from elftools.elf.elffile import ELFFile
+    import struct
+    with args.native_elf.open('rb') as stream:
+        elf=ELFFile(stream); symbols=elf.get_section_by_name('.symtab')
+        for name in ('risc_tcp_listener_abi','risc_entropy_abi'):
+            rows=symbols.get_symbol_by_name(name)
+            assert rows and len(rows)==1, 'Native sharing ABI witness missing: '+name
+            symbol=rows[0]; section=elf.get_section(symbol['st_shndx'])
+            offset=symbol['st_value']-section['sh_addr']
+            assert struct.unpack_from('<I',section.data(),offset)[0]==1, name
+    # Select just the witnessed backend stubs, not unrelated profile services.
+    s=s.replace('#ifdef STORE_ADMISSION_CROWN_PROFILE','#ifdef STORE_ADMISSION_SHARING',1)
 s=s.replace('#include <cstdio>','#include <cstdio>\n#include "cohort_elf_admission.h"')
 s=s.replace('  RiscCpu::Hardware h{};','''  RiscCpu::Hardware h{};
   static const RiscCpu::DisplayBackend displayBackend={
@@ -38,6 +52,7 @@ s=s.replace('prepared?candidate.error():runtime.error(),hardwareCalls,storageCal
 incs=[N/p for p in ['src','sdk/app','sdk/driver','sdk/hardware','lib/ArduinoJson/src','test/drivers/stubs','lib/elf_loader/include','test/native_bank_stubs']]+[out,T/'tests']
 flags=['-std=c++17','-Wall','-Wextra','-Werror','-Wno-missing-field-initializers','-Wno-misleading-indentation','-rdynamic','-DRISC_INSTALLED_APP_CAPACITY=64','-DRISC_PROVIDER_CAPACITY=40','-DRISC_APP_POLICY_ROWS=32','-DRISC_APP_REQUIREMENT_ROWS=32','-DSTORE_ADMISSION_RADIO','-DSTORE_ADMISSION_HCI','-DSTORE_ADMISSION_I2S_RX','-DSTORE_ADMISSION_RADIO_IQ','-DSTORE_ADMISSION_IQ_LIFECYCLE','-DSTORE_ADMISSION_RUNTIME_FEATURES','-DSTORE_ADMISSION_KV_V2']
 if args.app_data:flags+=['-DSTORE_ADMISSION_APP_DATA']
+if args.sharing:flags+=['-DSTORE_ADMISSION_SHARING']
 if args.cohort_store:flags+=['-DSTORE_ADMISSION_COHORT']
 san=['-fsanitize=address,undefined','-fno-sanitize-recover=all','-fno-omit-frame-pointer','-no-pie'] if args.sanitize else []
 sources=[N/p for p in ['src/bootstrap/Json.cpp','src/bootstrap/Board.cpp','src/bootstrap/Runtime.cpp','src/runtime/drivers/ProviderGraphV2.cpp','src/runtime/drivers/ProviderModuleV2.cpp','src/ports/esp32s3/CpuPort.cpp','src/runtime/streams/AppStreamSessions.cpp','src/runtime/streams/ProviderQueueHost.cpp']]

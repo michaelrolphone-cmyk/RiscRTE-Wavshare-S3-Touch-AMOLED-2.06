@@ -1,4 +1,4 @@
-/* AXP2101 telemetry and active-high SYS_OUT power-key/sleep provider.
+/* AXP2101 telemetry and board-selected GPIO power-key/sleep provider.
  * Battery cell policy and factory rail settings are left unchanged. The only
  * PMIC write enables VBAT measurement; no charge voltage/current/TS/model writes. */
 #include "DriverSupport.h"
@@ -155,12 +155,12 @@ static bool quiesce(void) {
 static bool start(const risc_provider_dependency_v1 *deps,size_t n) {
     if(started || claim || key_claim || retained)return false;
     config=tw_config(deps,n,"x-powers,axp2101","peripheral.i2c",sizeof(*config));
-    if(!tw_i2c_config_valid(config) || config->chip_id!=0x4a || config->irq<0 || !config->irq_active_high || config->irq_pull_up)return false;
+    if(!tw_i2c_config_valid(config) || config->chip_id!=0x4a || config->irq<0)return false;
     bus=tw_dep(deps,n,"i2c.bus",sizeof(*bus));
     gpio_api=tw_dep(deps,n,"gpio.bank",offsetof(risc_gpio_bank_api_v1,light_sleep));
     clock_api=tw_dep(deps,n,"platform.clock",sizeof(*clock_api));
     if(!tw_i2c_valid(bus) || !tw_gpio_valid(gpio_api) || !tw_clock_valid(clock_api))return false;
-    if(!gpio_api->claim(gpio_api->context,config->irq,RISC_GPIO_INPUT,&key_claim)){(void)quiesce();return false;}
+    if(!gpio_api->claim(gpio_api->context,config->irq,RISC_GPIO_INPUT | (config->irq_pull_up?RISC_GPIO_PULLUP:0),&key_claim)){(void)quiesce();return false;}
     uint8_t id,adc;
     if(!read_reg(3,&id,1) || id!=config->chip_id || !read_reg(AXP_ADC_EN,&adc,1) ||
        !write_reg(AXP_ADC_EN,adc|1) || !gpio_api->read(gpio_api->context,key_claim,&raw_key)) {
