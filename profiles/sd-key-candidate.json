@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "home_source": "5815b5a354617f344ce19730a944f94fa0664660",
+  "home_source": "e6d2a617327f5e9ee807d6e7645d086f810744ad",
   "home": {
     "role": "home",
     "file_name": "default.elf",
     "bytes": 871088,
-    "sha256": "0fe9397556fb20d160a37facd5b241196cef5f8ac67d2abdb2a1bfae2e3eee79",
+    "sha256": "cd12facd469fea55970c224e69bf69936082fd6850f17ba89fb39bf32c1943ae",
     "imports": [
       "free",
       "malloc",
@@ -22,10 +22,10 @@
     ],
     "compaction": {
       "profile": "loader-metadata-v3",
-      "before_bytes": 941184,
+      "before_bytes": 941064,
       "after_bytes": 871088,
-      "before_sha256": "b25f2293dda195f35abdaba60b43b540b91184d2217e3f8e5412f7c4d7f0f26a",
-      "after_sha256": "0fe9397556fb20d160a37facd5b241196cef5f8ac67d2abdb2a1bfae2e3eee79",
+      "before_sha256": "d51b368a566fb23395f326be2c1dc354f3b0e1e440832b6b6f1c53c8316193cd",
+      "after_sha256": "cd12facd469fea55970c224e69bf69936082fd6850f17ba89fb39bf32c1943ae",
       "removed_sections": [
         ".debug_abbrev",
         ".debug_aranges",
