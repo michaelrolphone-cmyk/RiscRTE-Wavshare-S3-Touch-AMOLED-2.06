@@ -21,7 +21,7 @@ s=s.replace('        ok=quad->exchange_quad(spi->context,spi_claim,wire,count);'
             offset?0:24,offset?0:0x3c00,0,4,0};
         ok=quad->exchange_frame(spi->context,spi_claim,&frame,wire,count);''')
 p.write_text(s)
-p=D/'drivers/panel_co5300/manifest.json';m=json.loads(p.read_text());m['version']='0.1.3';m['transport']='spi.bus@1 with RISC_SPI_QUAD_FRAME_V1_SIZE';p.write_text(json.dumps(m,indent=2)+'\n')
+p=D/'drivers/panel_co5300/manifest.json';m=json.loads(p.read_text());m['version']='0.1.3';m['notes']='Requires spi.bus@1 with RISC_SPI_QUAD_FRAME_V1_SIZE';p.write_text(json.dumps(m,indent=2)+'\n')
 p=D/'tests/test_panel.c';s=p.read_text();idx=s.index('static bool endq(')
 s=s[:idx]+'''static bool frameq(void*c,uint64_t t,const risc_spi_frame_v1*f,const uint8_t*data,size_t n) {
  assert(f && f->struct_size==sizeof(*f) && !f->reserved && !f->dummy_bits);
