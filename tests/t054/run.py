@@ -18,7 +18,7 @@ grants=[dict(capability=c,api=1,instance_id=n) for c,n in [('storage.key-value',
 (o/'boot.json').write_text(json.dumps(dict(board='board.json',default_app='default.elf',provider_activation='demand',drivers=[dict(manifest='sd.json',instance_id=12)],installation=dict(volume_instance=12,grants=[]),app_capabilities=[dict(manifest='app.json',grants=grants)])))
 (o/'app.json').write_text(json.dumps(dict(type='application',id='maintenance-test',version='1.0.0',architecture='xtensa-esp32s3',file_name='default.elf',entry='app_main',requires=[dict(capability=c,api=1) for c in ['storage.key-value','storage.key-value.atomic','storage.key-value.availability']])))
 (o/'app.c').write_text('extern void test_maintenance_app(void); void app_main(void){test_maintenance_app();}\n');run(['cc','-shared','-fPIC',o/'app.c','-o',o/'default.elf'])
-for case in ['bootstrap-fresh-absent','bootstrap-fresh-busy','bootstrap-legacy-absent','bootstrap-legacy-conflict','bootstrap-legacy-corrupt','bootstrap-bare-init','bootstrap-native-error','bootstrap-fresh-restore']:
+for case in ['bootstrap-fresh-absent','bootstrap-fresh-busy','bootstrap-legacy-absent','bootstrap-legacy-conflict','bootstrap-legacy-corrupt','bootstrap-bare-init','bootstrap-native-error','bootstrap-fresh-restore','bootstrap-fresh-busy-return','bootstrap-fresh-busy-return-conflict']:
  card=o/(case+'.card');card.unlink(missing_ok=True)
  run([o/'test',o,case,o/case],timeout=60,env={**os.environ,'WAVE_CARD':str(card)})
 for case in ['bootstrap-fresh-absent-save','bootstrap-fresh-absent-reload']:
