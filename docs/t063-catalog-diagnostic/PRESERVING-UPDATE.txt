@@ -1,0 +1,16 @@
+Waveshare 0.1.41 diagnostic preserving update, exact 0.1.39 only
+
+This is diagnostic, not a verified fix for Apps unavailable. It adds the failure stage, result and index to the existing error screen. Report those added lines or a photo. No hardware test is claimed.
+
+The included baseline.bin and candidate.bin are inputs to the offline planner. DO NOT flash either whole image when preserving data. Do not erase_flash. Do not change the SD card.
+
+1. Obtain a fresh full 16 MiB readback from this same device while in ROM download mode. Keep a safe copy. The active .39 source must have completed boot confirmation. Do not use a factory image in place of the device readback.
+2. Run: python3 prepare.py --snapshot YOUR-FRESH-READBACK.bin --output plan
+   The script verifies the exact source and builds writes for the inactive bank. It never accesses or flashes a device. Stop on any error.
+3. Keep ROM download mode. Write only firmware.bin, store.bin and bank-state.bin at their exact offsets in plan/plan.json. Do not reset. Do not write the OTA selection file yet.
+4. Read those exact three regions back using the byte lengths in plan.json. Save them as firmware.bin, store.bin and bank-state.bin in a separate readbacks folder. Run: python3 verify_readbacks.py --plan plan/plan.json --readbacks readbacks
+   STOP on a mismatch.
+5. Only after all three verify, write the separate ota-selection-LAST.bin at its plan.json offset. Read that exact sector back into the readbacks folder and run: python3 verify_readbacks.py --plan plan/plan.json --readbacks readbacks --selection
+6. Only after the final readback verifies, reset. Existing bootloader health confirmation and rollback remain in effect.
+
+The plan preserves NVS, app-data, the active pair, and the SD card. It refuses a different source release, incomplete or corrupt readback, pending source confirmation, ambiguous selection, changed bootloader/partitions, or overlap with protected ranges.

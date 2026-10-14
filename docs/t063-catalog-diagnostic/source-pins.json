@@ -1,0 +1,15 @@
+{
+  "baseline_product": "7bc1c8b38462002eb5614d3848eefb8ce23b0323",
+  "baseline_version": "0.1.39",
+  "candidate_version": "0.1.41",
+  "system": "326396614def41f4a3b11c8c193c3ac1bbb75ab0",
+  "native": "c258c4ba144247b6eaa4c6f28675ffccec582fe1",
+  "bridge": "6e82fdcaec0b73ed700d2104cfb4d94f011c19d4",
+  "image_helper": "265b2804737595d3534370ca747dc01c4d29bf82",
+  "native_unchanged": true,
+  "home_unchanged": true,
+  "springboard_sha256": "f0dd72760ece4c9102aa316281663ddd4d90eeabc54ca39f326766ce521f05a7",
+  "diagnostic_only": true,
+  "hardware_tested": false,
+  "physical_cause_verified": false
+}
