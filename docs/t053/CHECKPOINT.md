@@ -5,3 +5,7 @@ This is an incomplete integration checkpoint, not firmware qualification.
 Waveshare raw SD export and existing async storage tests pass normal and Linux ASan/UBSan runs. Shared MSC normal suite passes. The shared MSC sanitizer run fails in pinned TinyUSB tusb_common.h:264 on an unaligned uint32_t load. Native USB PHY test fails at usb_phy_port_test.cpp:47 on providerStorageSafe() after retained release. Both remain to be repaired and rerun; raw failures are preserved in the corresponding repositories. RGB USB presentation tests and product packaging remain pending.
 
 Preserve Windows host safe eject, CSW completion before teardown, explicit cable-removed fallback, retained uncertain I/O, and generic storage export. No hardware throughput or serial-restoration result is claimed.
+
+## Repair and integration results
+
+Actual Waveshare SD/FatFs + shared MSC/TinyUSB integrated tests pass normal and ASan/UBSan. Read/write sizes 1, 2, 7, 8, 9, 15, 17 and 128 sectors preserve exact bytes and restore original test sectors. Host eject waits for CSW completion before USB stop, remount and PHY release; explicit controller unplug follows checked cleanup. Local file writes work after cleanup. Native media, DCD and PHY are modeled; hardware qualification remains outstanding.
