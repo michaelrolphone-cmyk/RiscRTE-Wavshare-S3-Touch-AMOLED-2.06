@@ -1,0 +1,9 @@
+{
+  "utilities": "d03c6564814ff1588bf73af45b3f0288908466c3",
+  "system_apps": "088c88bd2ffee0c38fd3b07631a1713c5ca85146",
+  "runtime": "d493ca3ede561d410a858440ee2db9073c963426",
+  "baseline_product": "8ab38a26be266e59a150f051e0506ef6e8109da0",
+  "waterfall_sha256": "779e96dcd7417729a9b4da951f7a9da1c1dc5f73a9d2743885ad80066b6fc900",
+  "springboard_sha256": "3d1382056584b7f748f98ae08df317a39c7781e635069c5e4da7416ab80f332f",
+  "provider_test_sdk": "aac1cb342696e96345d4546e2c69023834c6c8d4"
+}
