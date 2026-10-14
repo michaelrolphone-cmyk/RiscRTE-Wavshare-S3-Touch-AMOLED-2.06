@@ -1,0 +1,30 @@
+{
+  "generator": "esp-idf-spiffsgen",
+  "upstream_commit": "38eeba213aa695aabfd6d89aa9f5078dbe5a94c3",
+  "generator_sha256": "5779792a4d98a12383233267511735769a201b5c2c79b582186a40c22b7c6466",
+  "config": {
+    "page_size": 256,
+    "page_ix_len": 2,
+    "block_size": 4096,
+    "block_ix_len": 2,
+    "meta_len": 4,
+    "obj_name_len": 32,
+    "obj_id_len": 2,
+    "span_ix_len": 2,
+    "packed": true,
+    "aligned": true,
+    "endianness": "little",
+    "use_magic": true,
+    "use_magic_len": true,
+    "aligned_obj_ix_tables": false
+  },
+  "order": "sorted ASCII path names",
+  "metadata": "zero",
+  "image_bytes": 5570560,
+  "file_count": 132,
+  "payload_bytes": 5019101,
+  "occupied_blocks": 1356,
+  "empty_blocks": 4,
+  "sha256": "75154aea5839f9402d82a27123a84bb0e420cd8391111f9b1657af68450e96ab",
+  "independent_round_trip_verified": true
+}

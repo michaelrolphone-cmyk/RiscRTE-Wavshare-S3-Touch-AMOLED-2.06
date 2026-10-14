@@ -1,0 +1,3 @@
+# Explicit T023 grant composition
+
+compose_provisioning.py preserves all36 baseline drivers and existing application grants/private namespaces. It adds catalog cache namespace2000, isolated install namespaces3000..3127, optional SD12 and internal volume0, and Home Wi-Fi-settings namespace6. Two new service modules and the compressed Home fit the unchanged store with4freeblocks after policy serialization. This is a candidate composition, not complete admission or a released product. Springboard discovery integration, active RGB feed policy, full native/store validation and preserving-update checks remain pending.
