@@ -1,0 +1,32 @@
+{
+  "hardware_tested": false,
+  "synthetic_candidate": false,
+  "synthetic_device_readbacks": true,
+  "results": [
+    {
+      "baseline_sha256": "464079ea8735175e7042ada02ede02f9bffe281791aa9f2dd6c62c666f5f1422",
+      "candidate_sha256": "93531640691a0a1b3b6718e01aeca388fe3cbe6c5e4f9f396ff262d0c166fa35",
+      "store_abi": 3,
+      "cases": [
+        {
+          "source_bank": 0,
+          "sector_boundaries": 1777,
+          "selection_cuts": 33,
+          "preservation": true,
+          "candidate_integrity": true,
+          "invalid_inputs_rejected": true,
+          "rollback_model": true
+        },
+        {
+          "source_bank": 1,
+          "sector_boundaries": 1777,
+          "selection_cuts": 33,
+          "preservation": true,
+          "candidate_integrity": true,
+          "invalid_inputs_rejected": true,
+          "rollback_model": true
+        }
+      ]
+    }
+  ]
+}

@@ -25,17 +25,21 @@ def composition(runtime,elf,selected,rows):
 m.native_composition=composition
 commands=[];original_run=subprocess.run
 def run(cmd,*args,**kw):
- if isinstance(cmd,list) and cmd and cmd[0]=='c++':cmd=[cmd[0],'-DRISC_RUNTIME_ATOMIC_KEY_VALUE=1','-I'+str(a.runtime),'-Wno-unused-function','-Wno-unused-but-set-variable',*cmd[1:],'-Wno-unused-but-set-variable']
+ if isinstance(cmd,list) and cmd and cmd[0]=='c++':cmd=[cmd[0],'-DRISC_RUNTIME_ATOMIC_KEY_VALUE=1','-include',str(a.runtime/'waveshare-settings-profile.h'),'-I'+str(a.runtime),'-Wno-unused-function','-Wno-unused-but-set-variable',*cmd[1:],'-Wno-unused-but-set-variable']
  commands.append([str(x) for x in cmd]);return original_run(cmd,*args,**kw)
 with tempfile.TemporaryDirectory() as td:
  root=Path(td);(root/'tests').mkdir();shutil.copy(a.watch/'tests/app_data_admission_backend.h',root/'tests')
  s=(a.watch/'tests/runtime_store_admission.cpp').read_text();s='#include "experimental/native_replica/NativeAtomicKeyValue.h"\n'+s
  s=s.replace('bool bind(RiscBoot::Runtime& runtime) {','''using RC=RiscExperimental::NativeReplicaCore;
 using AE=RiscExperimental::NativeAtomicKeyValue;
-static RC core6(6,{}, {}, {});
+static RC core1(1,{}, {}, {}),core6(6,{}, {}, {});
+static AE endpoint1(core1,{nullptr,[](void*){return true;},[](void*){++storageCalls;return false;},[](void*){++storageCalls;return false;},[](void*){++storageCalls;return false;},[](void*){++storageCalls;return -1;}});
 static AE endpoint6(core6,{nullptr,[](void*){return true;},[](void*){++storageCalls;return false;},[](void*){++storageCalls;return false;},[](void*){++storageCalls;return false;},[](void*){++storageCalls;return -1;}});
 bool bind(RiscBoot::Runtime& runtime) {
- if(!runtime.registerAtomicKeyValueReadThrough(6,endpoint6)||!runtime.registerAtomicKeyValue("wifi_settings",6,endpoint6)||!runtime.registerKeyValueAvailability(6,{nullptr,[](void*,uint32_t,risc_key_value_availability_state_v1*)->int32_t{++storageCalls;return RISC_KEY_VALUE_IO;}}))return false;
+ struct Writer {const char* app;uint32_t ns;};
+ static const Writer writers[]={RISC_NATIVE_SETTINGS_WRITERS};
+ for(const auto& writer:writers)if(!runtime.registerAtomicKeyValue(writer.app,writer.ns,writer.ns==6?endpoint6:endpoint1))return false;
+ for(uint32_t ns:{1u,6u})if(!runtime.registerAtomicKeyValueReadThrough(ns,ns==6?endpoint6:endpoint1)||!runtime.registerKeyValueAvailability(ns,{nullptr,[](void*,uint32_t,risc_key_value_availability_state_v1*)->int32_t{++storageCalls;return RISC_KEY_VALUE_IO;}}))return false;
 ''')
 
  vendor=(a.runtime/'src/VendorDisplay.cpp').read_text();accept=vendor[vendor.index('bool accepts('):vendor.index('void pads(')]
