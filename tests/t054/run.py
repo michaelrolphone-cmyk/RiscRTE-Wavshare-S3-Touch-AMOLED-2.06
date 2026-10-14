@@ -21,3 +21,5 @@ grants=[dict(capability=c,api=1,instance_id=n) for c,n in [('storage.key-value',
 for case in ['bootstrap-fresh-absent','bootstrap-fresh-busy','bootstrap-legacy-absent','bootstrap-legacy-conflict','bootstrap-legacy-corrupt','bootstrap-bare-init','bootstrap-native-error','bootstrap-fresh-restore']:
  card=o/(case+'.card');card.unlink(missing_ok=True)
  run([o/'test',o,case,o/case],timeout=60,env={**os.environ,'WAVE_CARD':str(card)})
+for case in ['bootstrap-fresh-absent-save','bootstrap-fresh-absent-reload']:
+ run([o/'test',o,case,o/'offline-persist'],timeout=60,env={**os.environ,'WAVE_CARD':str(o/'offline.card')})
