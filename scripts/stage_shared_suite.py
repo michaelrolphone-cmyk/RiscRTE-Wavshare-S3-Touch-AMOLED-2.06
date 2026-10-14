@@ -57,6 +57,8 @@ def main():
     persistent=grant['capability'] in ('storage.key-value','storage.shared-data')
     already=any(g['capability']==grant['capability'] and g['api']==grant['api'] for g in policy['grants'])
     if persistent or not already:add_unique(policy['grants'],[grant])
+   from spectrum_storage_policy import provision as spectrum_storage
+   manifest,policy=spectrum_storage(manifest,policy)
    if n=='default.json':manifest['version']='0.15.1'
    if n in ('default.json','springboard.json','bringup.json'):manifest['launcher_visible']=False
    if n=='file_browser.json':manifest.update(display_name='Files',icon='solid:f07b')
