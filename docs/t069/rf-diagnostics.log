@@ -1,0 +1,725 @@
+T069 RF n=1 alloc-before a=612304 b=0 c=0
+T069 RF n=2 alloc-after a=612304 b=0 c=1
+SDR app enter
+SDR startup stage=preferences phase=begin
+SDR startup stage=preferences phase=end elapsed_ms=0
+SDR startup stage=signatures phase=begin
+SDR startup stage=signatures phase=end elapsed_ms=0
+SDR startup stage=events phase=begin
+SDR startup stage=events phase=end elapsed_ms=0
+SDR startup stage=fingerprints phase=begin
+SDR startup stage=fingerprints phase=end elapsed_ms=0
+SDR startup stage=dsp phase=begin
+SDR startup stage=dsp phase=end elapsed_ms=0
+SDR startup stage=receiver phase=begin
+SDR acquire begin
+SDR acquire ok=1
+SDR startup stage=receiver phase=end elapsed_ms=0
+SDR startup ready
+T069 RF n=3 frame-request a=0 b=410 c=502
+T069 RF n=4 render-before a=0 b=0 c=0
+T069 RF n=5 submit-before a=0 b=0 c=0
+T069 RF n=6 submit-after a=0 b=0 c=0
+T069 RF n=7 capture-before a=0 b=256 c=0
+SDR capture begin
+SDR stage=host-coherent
+T069 RF n=8 capture-after a=0 b=0 c=256
+SDR capture rc=0 pairs=256
+T069 RF n=9 frame-request a=0 b=410 c=502
+T069 RF n=10 render-before a=0 b=0 c=1
+T069 RF n=11 submit-before a=0 b=0 c=1
+T069 RF n=12 submit-after a=0 b=0 c=1
+T069 RF n=13 capture-before a=0 b=256 c=1
+T069 RF n=14 capture-after a=0 b=0 c=256
+T069 RF n=15 mode-before a=0 b=1 c=5
+T069 RF n=16 mode-after a=1 b=1 c=5
+T069 RF n=17 capture-before a=1 b=256 c=5
+T069 RF n=18 capture-after a=1 b=0 c=256
+T069 RF n=19 frame-request a=1 b=410 c=502
+T069 RF n=20 render-before a=1 b=0 c=6
+T069 RF n=21 submit-before a=1 b=0 c=6
+T069 RF n=22 submit-after a=1 b=0 c=6
+T069 RF n=23 mode-before a=1 b=2 c=6
+T069 RF n=24 mode-after a=2 b=1 c=6
+T069 RF n=25 capture-before a=2 b=256 c=6
+T069 RF n=26 capture-after a=2 b=0 c=256
+T069 RF n=27 frame-request a=2 b=410 c=502
+T069 RF n=28 render-before a=2 b=0 c=7
+T069 RF n=29 submit-before a=2 b=0 c=7
+T069 RF n=30 submit-after a=2 b=0 c=7
+T069 RF n=31 mode-before a=2 b=0 c=7
+T069 RF n=32 mode-after a=0 b=1 c=7
+T069 RF n=33 capture-before a=0 b=256 c=7
+T069 RF n=34 capture-after a=0 b=0 c=256
+T069 RF n=35 frame-request a=0 b=410 c=502
+T069 RF n=36 render-before a=0 b=0 c=8
+T069 RF n=37 submit-before a=0 b=0 c=8
+T069 RF n=38 submit-after a=0 b=0 c=8
+SDR cleanup ok=1
+T069 RF n=39 frame-request a=0 b=410 c=502
+T069 RF n=40 render-before a=0 b=0 c=8
+T069 RF n=41 submit-before a=0 b=0 c=8
+T069 RF n=42 submit-after a=0 b=0 c=8
+T069 RF n=43 capture-before a=0 b=256 c=0
+T069 RF n=44 capture-after a=0 b=0 c=256
+SDR app exit
+RF Runtime serial journal survives application return; no sample/name secrets
+RF /utilities-t069/build/rf-application/watch/normal/lifecycle/commands.txt: checks=17 polls=32 captures=11 presents=15 kv-writes=0 app-writes=0 retained=0
+T069 RF n=1 alloc-before a=612304 b=0 c=0
+T069 RF n=2 alloc-after a=612304 b=0 c=1
+SDR app enter
+SDR startup stage=preferences phase=begin
+SDR startup stage=preferences phase=end elapsed_ms=0
+SDR startup stage=signatures phase=begin
+SDR startup stage=signatures phase=end elapsed_ms=0
+SDR startup stage=events phase=begin
+SDR startup stage=events phase=end elapsed_ms=0
+SDR startup stage=fingerprints phase=begin
+SDR startup stage=fingerprints phase=end elapsed_ms=0
+SDR startup stage=dsp phase=begin
+SDR startup stage=dsp phase=end elapsed_ms=0
+SDR startup stage=receiver phase=begin
+SDR acquire begin
+SDR acquire ok=1
+SDR startup stage=receiver phase=end elapsed_ms=0
+SDR startup ready
+T069 RF n=3 frame-request a=0 b=410 c=502
+T069 RF n=4 render-before a=0 b=0 c=0
+T069 RF n=5 submit-before a=0 b=0 c=0
+T069 RF n=6 submit-after a=0 b=0 c=0
+T069 RF n=7 capture-before a=0 b=256 c=0
+SDR capture begin
+SDR stage=host-coherent
+T069 RF n=8 capture-after a=0 b=0 c=256
+SDR capture rc=0 pairs=256
+T069 RF n=9 frame-request a=0 b=410 c=502
+T069 RF n=10 render-before a=0 b=0 c=1
+T069 RF n=11 submit-before a=0 b=0 c=1
+T069 RF n=12 submit-after a=0 b=0 c=1
+T069 RF n=13 capture-before a=0 b=256 c=1
+T069 RF n=14 capture-after a=0 b=0 c=256
+T069 RF n=15 mode-before a=0 b=1 c=40
+T069 RF n=16 mode-after a=1 b=1 c=40
+T069 RF n=17 capture-before a=1 b=256 c=40
+T069 RF n=18 capture-after a=1 b=0 c=256
+T069 RF n=19 frame-request a=1 b=410 c=502
+T069 RF n=20 render-before a=1 b=0 c=41
+T069 RF n=21 submit-before a=1 b=0 c=41
+T069 RF n=22 submit-after a=1 b=0 c=41
+T069 RF n=23 mode-before a=1 b=2 c=41
+T069 RF n=24 mode-after a=2 b=1 c=41
+T069 RF n=25 capture-before a=2 b=256 c=41
+T069 RF n=26 capture-after a=2 b=0 c=256
+T069 RF n=27 frame-request a=2 b=410 c=502
+T069 RF n=28 render-before a=2 b=0 c=42
+T069 RF n=29 submit-before a=2 b=0 c=42
+T069 RF n=30 submit-after a=2 b=0 c=42
+T069 RF n=31 mode-before a=2 b=0 c=42
+T069 RF n=32 mode-after a=0 b=1 c=42
+T069 RF n=33 capture-before a=0 b=256 c=42
+T069 RF n=34 capture-after a=0 b=0 c=256
+T069 RF n=35 frame-request a=0 b=410 c=502
+T069 RF n=36 render-before a=0 b=0 c=43
+T069 RF n=37 submit-before a=0 b=0 c=43
+T069 RF n=38 submit-after a=0 b=0 c=43
+T069 RF n=39 capture-before a=0 b=256 c=43
+T069 RF n=40 capture-after a=0 b=0 c=256
+T069 RF n=41 frame-request a=0 b=410 c=502
+T069 RF n=42 render-before a=0 b=0 c=44
+T069 RF n=43 submit-before a=0 b=0 c=44
+T069 RF n=44 submit-after a=0 b=0 c=44
+T069 RF n=45 mode-before a=0 b=1 c=83
+T069 RF n=46 mode-after a=1 b=1 c=83
+T069 RF n=47 capture-before a=1 b=256 c=83
+T069 RF n=48 capture-after a=1 b=0 c=256
+T069 RF n=49 frame-request a=1 b=410 c=502
+T069 RF n=50 render-before a=1 b=0 c=84
+T069 RF n=51 submit-before a=1 b=0 c=84
+T069 RF n=52 submit-after a=1 b=0 c=84
+T069 RF n=53 mode-before a=1 b=2 c=84
+T069 RF n=54 mode-after a=2 b=1 c=84
+T069 RF n=55 capture-before a=2 b=256 c=84
+T069 RF n=56 capture-after a=2 b=0 c=256
+T069 RF n=57 frame-request a=2 b=410 c=502
+T069 RF n=58 render-before a=2 b=0 c=85
+T069 RF n=59 submit-before a=2 b=0 c=85
+T069 RF n=60 submit-after a=2 b=0 c=85
+T069 RF n=61 mode-before a=2 b=0 c=85
+T069 RF n=62 mode-after a=0 b=1 c=85
+T069 RF n=63 capture-before a=0 b=256 c=85
+T069 RF n=64 capture-after a=0 b=0 c=256
+T069 RF n=65 frame-request a=0 b=410 c=502
+T069 RF n=66 render-before a=0 b=0 c=86
+T069 RF n=67 submit-before a=0 b=0 c=86
+T069 RF n=68 submit-after a=0 b=0 c=86
+T069 RF n=69 capture-before a=0 b=256 c=86
+T069 RF n=70 capture-after a=0 b=0 c=256
+T069 RF n=71 frame-request a=0 b=410 c=502
+T069 RF n=72 render-before a=0 b=0 c=87
+T069 RF n=73 submit-before a=0 b=0 c=87
+T069 RF n=74 submit-after a=0 b=0 c=87
+T069 RF n=75 mode-before a=0 b=1 c=126
+T069 RF n=76 mode-after a=1 b=1 c=126
+T069 RF n=77 capture-before a=1 b=256 c=126
+T069 RF n=78 capture-after a=1 b=0 c=256
+T069 RF n=79 frame-request a=1 b=410 c=502
+T069 RF n=80 render-before a=1 b=0 c=127
+T069 RF n=81 submit-before a=1 b=0 c=127
+T069 RF n=82 submit-after a=1 b=0 c=127
+T069 RF n=83 mode-before a=1 b=2 c=127
+T069 RF n=84 mode-after a=2 b=1 c=127
+T069 RF n=85 capture-before a=2 b=256 c=127
+T069 RF n=86 capture-after a=2 b=0 c=256
+T069 RF n=87 frame-request a=2 b=410 c=502
+T069 RF n=88 render-before a=2 b=0 c=128
+T069 RF n=89 submit-before a=2 b=0 c=128
+T069 RF n=90 submit-after a=2 b=0 c=128
+T069 RF n=91 mode-before a=2 b=0 c=128
+T069 RF n=92 mode-after a=0 b=1 c=128
+T069 RF n=93 capture-before a=0 b=256 c=128
+T069 RF n=94 capture-after a=0 b=0 c=256
+T069 RF n=95 frame-request a=0 b=410 c=502
+T069 RF n=96 render-before a=0 b=0 c=129
+T069 RF n=97 submit-before a=0 b=0 c=129
+T069 RF n=98 submit-after a=0 b=0 c=129
+T069 RF n=99 capture-before a=0 b=256 c=129
+T069 RF n=100 capture-after a=0 b=0 c=256
+T069 RF n=101 frame-request a=0 b=410 c=502
+T069 RF n=102 render-before a=0 b=0 c=130
+T069 RF n=103 submit-before a=0 b=0 c=130
+T069 RF n=104 submit-after a=0 b=0 c=130
+T069 RF n=105 mode-before a=0 b=1 c=169
+T069 RF n=106 mode-after a=1 b=1 c=169
+T069 RF n=107 capture-before a=1 b=256 c=169
+T069 RF n=108 capture-after a=1 b=0 c=256
+T069 RF n=109 frame-request a=1 b=410 c=502
+T069 RF n=110 render-before a=1 b=0 c=170
+T069 RF n=111 submit-before a=1 b=0 c=170
+T069 RF n=112 submit-after a=1 b=0 c=170
+T069 RF n=113 mode-before a=1 b=2 c=170
+T069 RF n=114 mode-after a=2 b=1 c=170
+T069 RF n=115 capture-before a=2 b=256 c=170
+T069 RF n=116 capture-after a=2 b=0 c=256
+T069 RF n=117 frame-request a=2 b=410 c=502
+T069 RF n=118 render-before a=2 b=0 c=171
+T069 RF n=119 submit-before a=2 b=0 c=171
+T069 RF n=120 submit-after a=2 b=0 c=171
+T069 RF n=121 mode-before a=2 b=0 c=171
+T069 RF n=122 mode-after a=0 b=1 c=171
+T069 RF n=123 capture-before a=0 b=256 c=171
+T069 RF n=124 capture-after a=0 b=0 c=256
+T069 RF n=125 frame-request a=0 b=410 c=502
+T069 RF n=126 render-before a=0 b=0 c=172
+T069 RF n=127 submit-before a=0 b=0 c=172
+T069 RF n=128 submit-after a=0 b=0 c=172
+T069 RF n=129 capture-before a=0 b=256 c=172
+T069 RF n=130 capture-after a=0 b=0 c=256
+T069 RF n=131 frame-request a=0 b=410 c=502
+T069 RF n=132 render-before a=0 b=0 c=173
+T069 RF n=133 submit-before a=0 b=0 c=173
+T069 RF n=134 submit-after a=0 b=0 c=173
+T069 RF n=135 mode-before a=0 b=1 c=212
+T069 RF n=136 mode-after a=1 b=1 c=212
+T069 RF n=137 capture-before a=1 b=256 c=212
+T069 RF n=138 capture-after a=1 b=0 c=256
+T069 RF n=139 frame-request a=1 b=410 c=502
+T069 RF n=140 render-before a=1 b=0 c=213
+T069 RF n=141 submit-before a=1 b=0 c=213
+T069 RF n=142 submit-after a=1 b=0 c=213
+T069 RF n=143 mode-before a=1 b=2 c=213
+T069 RF n=144 mode-after a=2 b=1 c=213
+T069 RF n=145 capture-before a=2 b=256 c=213
+T069 RF n=146 capture-after a=2 b=0 c=256
+T069 RF n=147 frame-request a=2 b=410 c=502
+T069 RF n=148 render-before a=2 b=0 c=214
+T069 RF n=149 submit-before a=2 b=0 c=214
+T069 RF n=150 submit-after a=2 b=0 c=214
+T069 RF n=151 mode-before a=2 b=0 c=214
+T069 RF n=152 mode-after a=0 b=1 c=214
+T069 RF n=153 capture-before a=0 b=256 c=214
+T069 RF n=154 capture-after a=0 b=0 c=256
+T069 RF n=155 frame-request a=0 b=410 c=502
+T069 RF n=156 render-before a=0 b=0 c=215
+T069 RF n=157 submit-before a=0 b=0 c=215
+T069 RF n=158 submit-after a=0 b=0 c=215
+T069 RF n=159 capture-before a=0 b=256 c=215
+T069 RF n=160 capture-after a=0 b=0 c=256
+T069 RF n=161 frame-request a=0 b=410 c=502
+T069 RF n=162 render-before a=0 b=0 c=216
+T069 RF n=163 submit-before a=0 b=0 c=216
+T069 RF n=164 submit-after a=0 b=0 c=216
+T069 RF n=165 mode-before a=0 b=1 c=228
+T069 RF n=166 mode-after a=1 b=1 c=228
+T069 RF n=167 capture-before a=1 b=256 c=228
+T069 RF n=168 capture-after a=1 b=0 c=256
+T069 RF n=169 frame-request a=1 b=410 c=502
+T069 RF n=170 render-before a=1 b=0 c=228
+T069 RF n=171 submit-before a=1 b=0 c=228
+T069 RF n=172 submit-after a=1 b=0 c=228
+T069 RF n=173 mode-before a=1 b=2 c=228
+T069 RF n=174 mode-after a=2 b=1 c=228
+T069 RF n=175 capture-before a=2 b=256 c=228
+T069 RF n=176 capture-after a=2 b=0 c=256
+T069 RF n=177 frame-request a=2 b=410 c=502
+T069 RF n=178 render-before a=2 b=0 c=228
+T069 RF n=179 submit-before a=2 b=0 c=228
+T069 RF n=180 submit-after a=2 b=0 c=228
+T069 RF n=181 mode-before a=2 b=0 c=228
+T069 RF n=182 mode-after a=0 b=1 c=228
+T069 RF n=183 capture-before a=0 b=256 c=228
+T069 RF n=184 capture-after a=0 b=0 c=256
+T069 RF n=185 frame-request a=0 b=410 c=502
+T069 RF n=186 render-before a=0 b=0 c=228
+T069 RF n=187 submit-before a=0 b=0 c=228
+T069 RF n=188 submit-after a=0 b=0 c=228
+T069 RF n=189 capture-before a=0 b=256 c=228
+T069 RF n=190 capture-after a=0 b=0 c=256
+T069 RF n=191 frame-request a=0 b=410 c=502
+T069 RF n=192 render-before a=0 b=0 c=228
+T069 RF n=193 submit-before a=0 b=0 c=228
+T069 RF n=194 submit-after a=0 b=0 c=228
+T069 RF n=195 mode-before a=0 b=1 c=228
+T069 RF n=196 mode-after a=1 b=1 c=228
+T069 RF n=197 capture-before a=1 b=256 c=228
+T069 RF n=198 capture-after a=1 b=0 c=256
+T069 RF n=199 frame-request a=1 b=410 c=502
+T069 RF n=200 render-before a=1 b=0 c=228
+T069 RF n=201 submit-before a=1 b=0 c=228
+T069 RF n=202 submit-after a=1 b=0 c=228
+T069 RF n=203 mode-before a=1 b=2 c=228
+T069 RF n=204 mode-after a=2 b=1 c=228
+T069 RF n=205 capture-before a=2 b=256 c=228
+T069 RF n=206 capture-after a=2 b=0 c=256
+T069 RF n=207 frame-request a=2 b=410 c=502
+T069 RF n=208 render-before a=2 b=0 c=228
+T069 RF n=209 submit-before a=2 b=0 c=228
+T069 RF n=210 submit-after a=2 b=0 c=228
+T069 RF n=211 mode-before a=2 b=0 c=228
+T069 RF n=212 mode-after a=0 b=1 c=228
+T069 RF n=213 capture-before a=0 b=256 c=228
+T069 RF n=214 capture-after a=0 b=0 c=256
+T069 RF n=215 frame-request a=0 b=410 c=502
+T069 RF n=216 render-before a=0 b=0 c=228
+T069 RF n=217 submit-before a=0 b=0 c=228
+T069 RF n=218 submit-after a=0 b=0 c=228
+T069 RF n=219 mode-before a=0 b=1 c=228
+T069 RF n=220 mode-after a=1 b=1 c=228
+T069 RF n=221 capture-before a=1 b=256 c=228
+T069 RF n=222 capture-after a=1 b=0 c=256
+T069 RF n=223 frame-request a=1 b=410 c=502
+T069 RF n=224 render-before a=1 b=0 c=228
+T069 RF n=225 submit-before a=1 b=0 c=228
+T069 RF n=226 submit-after a=1 b=0 c=228
+T069 RF n=227 capture-before a=1 b=256 c=228
+T069 RF n=228 capture-after a=1 b=0 c=256
+T069 RF n=229 frame-request a=1 b=410 c=502
+T069 RF n=230 render-before a=1 b=0 c=228
+T069 RF n=231 submit-before a=1 b=0 c=228
+T069 RF n=232 submit-after a=1 b=0 c=228
+T069 RF n=233 mode-before a=1 b=2 c=228
+T069 RF n=234 mode-after a=2 b=1 c=228
+T069 RF n=235 capture-before a=2 b=256 c=228
+T069 RF n=236 capture-after a=2 b=0 c=256
+T069 RF n=237 frame-request a=2 b=410 c=502
+T069 RF n=238 render-before a=2 b=0 c=228
+T069 RF n=239 submit-before a=2 b=0 c=228
+T069 RF n=240 submit-after a=2 b=0 c=228
+T069 RF n=241 mode-before a=2 b=0 c=228
+T069 RF n=242 mode-after a=0 b=1 c=228
+T069 RF n=243 capture-before a=0 b=256 c=228
+T069 RF n=244 capture-after a=0 b=0 c=256
+T069 RF n=245 frame-request a=0 b=410 c=502
+T069 RF n=246 render-before a=0 b=0 c=228
+T069 RF n=247 submit-before a=0 b=0 c=228
+T069 RF n=248 submit-after a=0 b=0 c=228
+T069 RF n=249 mode-before a=0 b=1 c=228
+T069 RF n=250 mode-after a=1 b=1 c=228
+T069 RF n=251 capture-before a=1 b=256 c=228
+T069 RF n=252 capture-after a=1 b=0 c=256
+T069 RF n=253 frame-request a=1 b=410 c=502
+T069 RF n=254 render-before a=1 b=0 c=228
+T069 RF n=255 submit-before a=1 b=0 c=228
+T069 RF n=256 submit-after a=1 b=0 c=228
+SDR cleanup ok=1
+T069 RF n=257 frame-request a=1 b=410 c=502
+T069 RF n=258 render-before a=1 b=0 c=228
+T069 RF n=259 submit-before a=1 b=0 c=228
+T069 RF n=260 submit-after a=1 b=0 c=228
+T069 RF n=261 mode-before a=1 b=2 c=228
+T069 RF n=262 mode-after a=2 b=0 c=228
+T069 RF n=263 frame-request a=2 b=410 c=502
+T069 RF n=264 render-before a=2 b=0 c=228
+T069 RF n=265 submit-before a=2 b=0 c=228
+T069 RF n=266 submit-after a=2 b=0 c=228
+T069 RF n=267 mode-before a=2 b=0 c=228
+T069 RF n=268 mode-after a=0 b=0 c=228
+T069 RF n=269 frame-request a=0 b=410 c=502
+T069 RF n=270 render-before a=0 b=0 c=228
+T069 RF n=271 submit-before a=0 b=0 c=228
+T069 RF n=272 submit-after a=0 b=0 c=228
+SDR app exit
+RF Runtime serial journal survives application return; no sample/name secrets
+RF /utilities-t069/build/rf-application/watch/normal/mode-history/commands.txt: checks=9 polls=621 captures=307 presents=312 kv-writes=0 app-writes=0 retained=0
+T069 RF n=1 alloc-before a=612304 b=0 c=0
+T069 RF n=2 alloc-after a=612304 b=0 c=1
+SDR app enter
+SDR startup stage=preferences phase=begin
+SDR startup stage=preferences phase=end elapsed_ms=0
+SDR startup stage=signatures phase=begin
+SDR startup stage=signatures phase=end elapsed_ms=0
+SDR startup stage=events phase=begin
+SDR startup stage=events phase=end elapsed_ms=0
+SDR startup stage=fingerprints phase=begin
+SDR startup stage=fingerprints phase=end elapsed_ms=0
+SDR startup stage=dsp phase=begin
+SDR startup stage=dsp phase=end elapsed_ms=0
+SDR startup stage=receiver phase=begin
+SDR acquire begin
+SDR acquire ok=1
+SDR startup stage=receiver phase=end elapsed_ms=0
+SDR startup ready
+T069 RF n=3 frame-request a=0 b=410 c=502
+T069 RF n=4 render-before a=0 b=0 c=0
+T069 RF n=5 submit-before a=0 b=0 c=0
+T069 RF n=6 submit-after a=0 b=0 c=0
+T069 RF n=7 capture-before a=0 b=256 c=0
+SDR capture begin
+SDR stage=host-coherent
+T069 RF n=8 capture-after a=0 b=0 c=256
+SDR capture rc=0 pairs=256
+T069 RF n=9 frame-request a=0 b=410 c=502
+T069 RF n=10 render-before a=0 b=0 c=1
+T069 RF n=11 submit-before a=0 b=0 c=1
+T069 RF n=12 submit-after a=0 b=0 c=1
+T069 RF n=13 capture-before a=0 b=256 c=1
+T069 RF n=14 capture-after a=0 b=0 c=256
+T069 RF n=15 mode-before a=0 b=1 c=5
+T069 RF n=16 mode-after a=1 b=1 c=5
+T069 RF n=17 capture-before a=1 b=256 c=5
+T069 RF n=18 capture-after a=1 b=0 c=256
+T069 RF n=19 frame-request a=1 b=410 c=502
+T069 RF n=20 render-before a=1 b=0 c=6
+T069 RF n=21 submit-before a=1 b=0 c=6
+T069 RF n=22 submit-after a=1 b=0 c=6
+T069 RF n=23 mode-before a=1 b=2 c=6
+T069 RF n=24 mode-after a=2 b=1 c=6
+T069 RF n=25 capture-before a=2 b=256 c=6
+T069 RF n=26 capture-after a=2 b=0 c=256
+T069 RF n=27 frame-request a=2 b=410 c=502
+T069 RF n=28 render-before a=2 b=0 c=7
+T069 RF n=29 submit-before a=2 b=0 c=7
+T069 RF n=30 submit-after a=2 b=0 c=7
+T069 RF n=31 mode-before a=2 b=0 c=7
+T069 RF n=32 mode-after a=0 b=1 c=7
+T069 RF n=33 capture-before a=0 b=256 c=7
+T069 RF n=34 capture-after a=0 b=0 c=256
+T069 RF n=35 frame-request a=0 b=410 c=502
+T069 RF n=36 render-before a=0 b=0 c=8
+T069 RF n=37 submit-before a=0 b=0 c=8
+T069 RF n=38 submit-after a=0 b=0 c=8
+SDR cleanup ok=1
+T069 RF n=39 frame-request a=0 b=410 c=502
+T069 RF n=40 render-before a=0 b=0 c=8
+T069 RF n=41 submit-before a=0 b=0 c=8
+T069 RF n=42 submit-after a=0 b=0 c=8
+T069 RF n=43 capture-before a=0 b=256 c=0
+T069 RF n=44 capture-after a=0 b=0 c=256
+SDR app exit
+RF Runtime serial journal survives application return; no sample/name secrets
+RF /utilities-t069/build/rf-application/watch/sanitized/lifecycle/commands.txt: checks=17 polls=32 captures=11 presents=15 kv-writes=0 app-writes=0 retained=0
+T069 RF n=1 alloc-before a=612304 b=0 c=0
+T069 RF n=2 alloc-after a=612304 b=0 c=1
+SDR app enter
+SDR startup stage=preferences phase=begin
+SDR startup stage=preferences phase=end elapsed_ms=0
+SDR startup stage=signatures phase=begin
+SDR startup stage=signatures phase=end elapsed_ms=0
+SDR startup stage=events phase=begin
+SDR startup stage=events phase=end elapsed_ms=0
+SDR startup stage=fingerprints phase=begin
+SDR startup stage=fingerprints phase=end elapsed_ms=0
+SDR startup stage=dsp phase=begin
+SDR startup stage=dsp phase=end elapsed_ms=0
+SDR startup stage=receiver phase=begin
+SDR acquire begin
+SDR acquire ok=1
+SDR startup stage=receiver phase=end elapsed_ms=0
+SDR startup ready
+T069 RF n=3 frame-request a=0 b=410 c=502
+T069 RF n=4 render-before a=0 b=0 c=0
+T069 RF n=5 submit-before a=0 b=0 c=0
+T069 RF n=6 submit-after a=0 b=0 c=0
+T069 RF n=7 capture-before a=0 b=256 c=0
+SDR capture begin
+SDR stage=host-coherent
+T069 RF n=8 capture-after a=0 b=0 c=256
+SDR capture rc=0 pairs=256
+T069 RF n=9 frame-request a=0 b=410 c=502
+T069 RF n=10 render-before a=0 b=0 c=1
+T069 RF n=11 submit-before a=0 b=0 c=1
+T069 RF n=12 submit-after a=0 b=0 c=1
+T069 RF n=13 capture-before a=0 b=256 c=1
+T069 RF n=14 capture-after a=0 b=0 c=256
+T069 RF n=15 mode-before a=0 b=1 c=40
+T069 RF n=16 mode-after a=1 b=1 c=40
+T069 RF n=17 capture-before a=1 b=256 c=40
+T069 RF n=18 capture-after a=1 b=0 c=256
+T069 RF n=19 frame-request a=1 b=410 c=502
+T069 RF n=20 render-before a=1 b=0 c=41
+T069 RF n=21 submit-before a=1 b=0 c=41
+T069 RF n=22 submit-after a=1 b=0 c=41
+T069 RF n=23 mode-before a=1 b=2 c=41
+T069 RF n=24 mode-after a=2 b=1 c=41
+T069 RF n=25 capture-before a=2 b=256 c=41
+T069 RF n=26 capture-after a=2 b=0 c=256
+T069 RF n=27 frame-request a=2 b=410 c=502
+T069 RF n=28 render-before a=2 b=0 c=42
+T069 RF n=29 submit-before a=2 b=0 c=42
+T069 RF n=30 submit-after a=2 b=0 c=42
+T069 RF n=31 mode-before a=2 b=0 c=42
+T069 RF n=32 mode-after a=0 b=1 c=42
+T069 RF n=33 capture-before a=0 b=256 c=42
+T069 RF n=34 capture-after a=0 b=0 c=256
+T069 RF n=35 frame-request a=0 b=410 c=502
+T069 RF n=36 render-before a=0 b=0 c=43
+T069 RF n=37 submit-before a=0 b=0 c=43
+T069 RF n=38 submit-after a=0 b=0 c=43
+T069 RF n=39 capture-before a=0 b=256 c=43
+T069 RF n=40 capture-after a=0 b=0 c=256
+T069 RF n=41 frame-request a=0 b=410 c=502
+T069 RF n=42 render-before a=0 b=0 c=44
+T069 RF n=43 submit-before a=0 b=0 c=44
+T069 RF n=44 submit-after a=0 b=0 c=44
+T069 RF n=45 mode-before a=0 b=1 c=83
+T069 RF n=46 mode-after a=1 b=1 c=83
+T069 RF n=47 capture-before a=1 b=256 c=83
+T069 RF n=48 capture-after a=1 b=0 c=256
+T069 RF n=49 frame-request a=1 b=410 c=502
+T069 RF n=50 render-before a=1 b=0 c=84
+T069 RF n=51 submit-before a=1 b=0 c=84
+T069 RF n=52 submit-after a=1 b=0 c=84
+T069 RF n=53 mode-before a=1 b=2 c=84
+T069 RF n=54 mode-after a=2 b=1 c=84
+T069 RF n=55 capture-before a=2 b=256 c=84
+T069 RF n=56 capture-after a=2 b=0 c=256
+T069 RF n=57 frame-request a=2 b=410 c=502
+T069 RF n=58 render-before a=2 b=0 c=85
+T069 RF n=59 submit-before a=2 b=0 c=85
+T069 RF n=60 submit-after a=2 b=0 c=85
+T069 RF n=61 mode-before a=2 b=0 c=85
+T069 RF n=62 mode-after a=0 b=1 c=85
+T069 RF n=63 capture-before a=0 b=256 c=85
+T069 RF n=64 capture-after a=0 b=0 c=256
+T069 RF n=65 frame-request a=0 b=410 c=502
+T069 RF n=66 render-before a=0 b=0 c=86
+T069 RF n=67 submit-before a=0 b=0 c=86
+T069 RF n=68 submit-after a=0 b=0 c=86
+T069 RF n=69 capture-before a=0 b=256 c=86
+T069 RF n=70 capture-after a=0 b=0 c=256
+T069 RF n=71 frame-request a=0 b=410 c=502
+T069 RF n=72 render-before a=0 b=0 c=87
+T069 RF n=73 submit-before a=0 b=0 c=87
+T069 RF n=74 submit-after a=0 b=0 c=87
+T069 RF n=75 mode-before a=0 b=1 c=126
+T069 RF n=76 mode-after a=1 b=1 c=126
+T069 RF n=77 capture-before a=1 b=256 c=126
+T069 RF n=78 capture-after a=1 b=0 c=256
+T069 RF n=79 frame-request a=1 b=410 c=502
+T069 RF n=80 render-before a=1 b=0 c=127
+T069 RF n=81 submit-before a=1 b=0 c=127
+T069 RF n=82 submit-after a=1 b=0 c=127
+T069 RF n=83 mode-before a=1 b=2 c=127
+T069 RF n=84 mode-after a=2 b=1 c=127
+T069 RF n=85 capture-before a=2 b=256 c=127
+T069 RF n=86 capture-after a=2 b=0 c=256
+T069 RF n=87 frame-request a=2 b=410 c=502
+T069 RF n=88 render-before a=2 b=0 c=128
+T069 RF n=89 submit-before a=2 b=0 c=128
+T069 RF n=90 submit-after a=2 b=0 c=128
+T069 RF n=91 mode-before a=2 b=0 c=128
+T069 RF n=92 mode-after a=0 b=1 c=128
+T069 RF n=93 capture-before a=0 b=256 c=128
+T069 RF n=94 capture-after a=0 b=0 c=256
+T069 RF n=95 frame-request a=0 b=410 c=502
+T069 RF n=96 render-before a=0 b=0 c=129
+T069 RF n=97 submit-before a=0 b=0 c=129
+T069 RF n=98 submit-after a=0 b=0 c=129
+T069 RF n=99 capture-before a=0 b=256 c=129
+T069 RF n=100 capture-after a=0 b=0 c=256
+T069 RF n=101 frame-request a=0 b=410 c=502
+T069 RF n=102 render-before a=0 b=0 c=130
+T069 RF n=103 submit-before a=0 b=0 c=130
+T069 RF n=104 submit-after a=0 b=0 c=130
+T069 RF n=105 mode-before a=0 b=1 c=169
+T069 RF n=106 mode-after a=1 b=1 c=169
+T069 RF n=107 capture-before a=1 b=256 c=169
+T069 RF n=108 capture-after a=1 b=0 c=256
+T069 RF n=109 frame-request a=1 b=410 c=502
+T069 RF n=110 render-before a=1 b=0 c=170
+T069 RF n=111 submit-before a=1 b=0 c=170
+T069 RF n=112 submit-after a=1 b=0 c=170
+T069 RF n=113 mode-before a=1 b=2 c=170
+T069 RF n=114 mode-after a=2 b=1 c=170
+T069 RF n=115 capture-before a=2 b=256 c=170
+T069 RF n=116 capture-after a=2 b=0 c=256
+T069 RF n=117 frame-request a=2 b=410 c=502
+T069 RF n=118 render-before a=2 b=0 c=171
+T069 RF n=119 submit-before a=2 b=0 c=171
+T069 RF n=120 submit-after a=2 b=0 c=171
+T069 RF n=121 mode-before a=2 b=0 c=171
+T069 RF n=122 mode-after a=0 b=1 c=171
+T069 RF n=123 capture-before a=0 b=256 c=171
+T069 RF n=124 capture-after a=0 b=0 c=256
+T069 RF n=125 frame-request a=0 b=410 c=502
+T069 RF n=126 render-before a=0 b=0 c=172
+T069 RF n=127 submit-before a=0 b=0 c=172
+T069 RF n=128 submit-after a=0 b=0 c=172
+T069 RF n=129 capture-before a=0 b=256 c=172
+T069 RF n=130 capture-after a=0 b=0 c=256
+T069 RF n=131 frame-request a=0 b=410 c=502
+T069 RF n=132 render-before a=0 b=0 c=173
+T069 RF n=133 submit-before a=0 b=0 c=173
+T069 RF n=134 submit-after a=0 b=0 c=173
+T069 RF n=135 mode-before a=0 b=1 c=212
+T069 RF n=136 mode-after a=1 b=1 c=212
+T069 RF n=137 capture-before a=1 b=256 c=212
+T069 RF n=138 capture-after a=1 b=0 c=256
+T069 RF n=139 frame-request a=1 b=410 c=502
+T069 RF n=140 render-before a=1 b=0 c=213
+T069 RF n=141 submit-before a=1 b=0 c=213
+T069 RF n=142 submit-after a=1 b=0 c=213
+T069 RF n=143 mode-before a=1 b=2 c=213
+T069 RF n=144 mode-after a=2 b=1 c=213
+T069 RF n=145 capture-before a=2 b=256 c=213
+T069 RF n=146 capture-after a=2 b=0 c=256
+T069 RF n=147 frame-request a=2 b=410 c=502
+T069 RF n=148 render-before a=2 b=0 c=214
+T069 RF n=149 submit-before a=2 b=0 c=214
+T069 RF n=150 submit-after a=2 b=0 c=214
+T069 RF n=151 mode-before a=2 b=0 c=214
+T069 RF n=152 mode-after a=0 b=1 c=214
+T069 RF n=153 capture-before a=0 b=256 c=214
+T069 RF n=154 capture-after a=0 b=0 c=256
+T069 RF n=155 frame-request a=0 b=410 c=502
+T069 RF n=156 render-before a=0 b=0 c=215
+T069 RF n=157 submit-before a=0 b=0 c=215
+T069 RF n=158 submit-after a=0 b=0 c=215
+T069 RF n=159 capture-before a=0 b=256 c=215
+T069 RF n=160 capture-after a=0 b=0 c=256
+T069 RF n=161 frame-request a=0 b=410 c=502
+T069 RF n=162 render-before a=0 b=0 c=216
+T069 RF n=163 submit-before a=0 b=0 c=216
+T069 RF n=164 submit-after a=0 b=0 c=216
+T069 RF n=165 mode-before a=0 b=1 c=228
+T069 RF n=166 mode-after a=1 b=1 c=228
+T069 RF n=167 capture-before a=1 b=256 c=228
+T069 RF n=168 capture-after a=1 b=0 c=256
+T069 RF n=169 frame-request a=1 b=410 c=502
+T069 RF n=170 render-before a=1 b=0 c=228
+T069 RF n=171 submit-before a=1 b=0 c=228
+T069 RF n=172 submit-after a=1 b=0 c=228
+T069 RF n=173 mode-before a=1 b=2 c=228
+T069 RF n=174 mode-after a=2 b=1 c=228
+T069 RF n=175 capture-before a=2 b=256 c=228
+T069 RF n=176 capture-after a=2 b=0 c=256
+T069 RF n=177 frame-request a=2 b=410 c=502
+T069 RF n=178 render-before a=2 b=0 c=228
+T069 RF n=179 submit-before a=2 b=0 c=228
+T069 RF n=180 submit-after a=2 b=0 c=228
+T069 RF n=181 mode-before a=2 b=0 c=228
+T069 RF n=182 mode-after a=0 b=1 c=228
+T069 RF n=183 capture-before a=0 b=256 c=228
+T069 RF n=184 capture-after a=0 b=0 c=256
+T069 RF n=185 frame-request a=0 b=410 c=502
+T069 RF n=186 render-before a=0 b=0 c=228
+T069 RF n=187 submit-before a=0 b=0 c=228
+T069 RF n=188 submit-after a=0 b=0 c=228
+T069 RF n=189 capture-before a=0 b=256 c=228
+T069 RF n=190 capture-after a=0 b=0 c=256
+T069 RF n=191 frame-request a=0 b=410 c=502
+T069 RF n=192 render-before a=0 b=0 c=228
+T069 RF n=193 submit-before a=0 b=0 c=228
+T069 RF n=194 submit-after a=0 b=0 c=228
+T069 RF n=195 mode-before a=0 b=1 c=228
+T069 RF n=196 mode-after a=1 b=1 c=228
+T069 RF n=197 capture-before a=1 b=256 c=228
+T069 RF n=198 capture-after a=1 b=0 c=256
+T069 RF n=199 frame-request a=1 b=410 c=502
+T069 RF n=200 render-before a=1 b=0 c=228
+T069 RF n=201 submit-before a=1 b=0 c=228
+T069 RF n=202 submit-after a=1 b=0 c=228
+T069 RF n=203 mode-before a=1 b=2 c=228
+T069 RF n=204 mode-after a=2 b=1 c=228
+T069 RF n=205 capture-before a=2 b=256 c=228
+T069 RF n=206 capture-after a=2 b=0 c=256
+T069 RF n=207 frame-request a=2 b=410 c=502
+T069 RF n=208 render-before a=2 b=0 c=228
+T069 RF n=209 submit-before a=2 b=0 c=228
+T069 RF n=210 submit-after a=2 b=0 c=228
+T069 RF n=211 mode-before a=2 b=0 c=228
+T069 RF n=212 mode-after a=0 b=1 c=228
+T069 RF n=213 capture-before a=0 b=256 c=228
+T069 RF n=214 capture-after a=0 b=0 c=256
+T069 RF n=215 frame-request a=0 b=410 c=502
+T069 RF n=216 render-before a=0 b=0 c=228
+T069 RF n=217 submit-before a=0 b=0 c=228
+T069 RF n=218 submit-after a=0 b=0 c=228
+T069 RF n=219 mode-before a=0 b=1 c=228
+T069 RF n=220 mode-after a=1 b=1 c=228
+T069 RF n=221 capture-before a=1 b=256 c=228
+T069 RF n=222 capture-after a=1 b=0 c=256
+T069 RF n=223 frame-request a=1 b=410 c=502
+T069 RF n=224 render-before a=1 b=0 c=228
+T069 RF n=225 submit-before a=1 b=0 c=228
+T069 RF n=226 submit-after a=1 b=0 c=228
+T069 RF n=227 capture-before a=1 b=256 c=228
+T069 RF n=228 capture-after a=1 b=0 c=256
+T069 RF n=229 frame-request a=1 b=410 c=502
+T069 RF n=230 render-before a=1 b=0 c=228
+T069 RF n=231 submit-before a=1 b=0 c=228
+T069 RF n=232 submit-after a=1 b=0 c=228
+T069 RF n=233 mode-before a=1 b=2 c=228
+T069 RF n=234 mode-after a=2 b=1 c=228
+T069 RF n=235 capture-before a=2 b=256 c=228
+T069 RF n=236 capture-after a=2 b=0 c=256
+T069 RF n=237 frame-request a=2 b=410 c=502
+T069 RF n=238 render-before a=2 b=0 c=228
+T069 RF n=239 submit-before a=2 b=0 c=228
+T069 RF n=240 submit-after a=2 b=0 c=228
+T069 RF n=241 mode-before a=2 b=0 c=228
+T069 RF n=242 mode-after a=0 b=1 c=228
+T069 RF n=243 capture-before a=0 b=256 c=228
+T069 RF n=244 capture-after a=0 b=0 c=256
+T069 RF n=245 frame-request a=0 b=410 c=502
+T069 RF n=246 render-before a=0 b=0 c=228
+T069 RF n=247 submit-before a=0 b=0 c=228
+T069 RF n=248 submit-after a=0 b=0 c=228
+T069 RF n=249 mode-before a=0 b=1 c=228
+T069 RF n=250 mode-after a=1 b=1 c=228
+T069 RF n=251 capture-before a=1 b=256 c=228
+T069 RF n=252 capture-after a=1 b=0 c=256
+T069 RF n=253 frame-request a=1 b=410 c=502
+T069 RF n=254 render-before a=1 b=0 c=228
+T069 RF n=255 submit-before a=1 b=0 c=228
+T069 RF n=256 submit-after a=1 b=0 c=228
+SDR cleanup ok=1
+T069 RF n=257 frame-request a=1 b=410 c=502
+T069 RF n=258 render-before a=1 b=0 c=228
+T069 RF n=259 submit-before a=1 b=0 c=228
+T069 RF n=260 submit-after a=1 b=0 c=228
+T069 RF n=261 mode-before a=1 b=2 c=228
+T069 RF n=262 mode-after a=2 b=0 c=228
+T069 RF n=263 frame-request a=2 b=410 c=502
+T069 RF n=264 render-before a=2 b=0 c=228
+T069 RF n=265 submit-before a=2 b=0 c=228
+T069 RF n=266 submit-after a=2 b=0 c=228
+T069 RF n=267 mode-before a=2 b=0 c=228
+T069 RF n=268 mode-after a=0 b=0 c=228
+T069 RF n=269 frame-request a=0 b=410 c=502
+T069 RF n=270 render-before a=0 b=0 c=228
+T069 RF n=271 submit-before a=0 b=0 c=228
+T069 RF n=272 submit-after a=0 b=0 c=228
+SDR app exit
+RF Runtime serial journal survives application return; no sample/name secrets
+RF /utilities-t069/build/rf-application/watch/sanitized/mode-history/commands.txt: checks=9 polls=621 captures=307 presents=312 kv-writes=0 app-writes=0 retained=0
+RF actual controller/adapter regression passed: 4 scene runs and 0 Runtime storage runs; host simulation only.

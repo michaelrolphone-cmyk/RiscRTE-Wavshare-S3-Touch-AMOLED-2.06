@@ -1,0 +1,35 @@
+{
+  "source_checkpoint": "dff7d2d6c8b4895f185b6fa747d65e04ddf45651",
+  "implementation_checkpoint": "a1fcfa7fbbbfec839f27ae208734ce9fe1d76cd5",
+  "branch": "fix/t030-waveshare-drag",
+  "baseline_product": "d9b00f435fdb9da60fd4c3ca3bedf3386aa1b588",
+  "baseline_version": "0.1.31",
+  "component_version": "1.7.12",
+  "files": {
+    "springboard.elf": {
+      "path": "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/t030-build/springboard.elf",
+      "sha256": "c9c762a8ae501dd25e606320d5c97bd206f770d11f47f2de0546f737481525be",
+      "bytes": 147756
+    },
+    "springboard.json": {
+      "path": "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/t030-build/springboard.json",
+      "sha256": "69f64959afa94acb229338c9d8f3ebbd3d820407e7609cf979e3848b57a68ced",
+      "bytes": 769
+    }
+  },
+  "full_cohort_admission": "PASS:60 ELFs;zero hardware/storage calls",
+  "hardware_verified": false,
+  "assembly_owner": "01a137dd-18c5-778b-92f7-1a848ba9e00b",
+  "replace_only": [
+    "springboard.elf",
+    "springboard.json"
+  ],
+  "preserve": [
+    "T052 mounted Files",
+    "native 410x502",
+    "ordered input",
+    "all launcher features",
+    "waterfall diagnostics",
+    "3d82cee clock checkpoint"
+  ]
+}

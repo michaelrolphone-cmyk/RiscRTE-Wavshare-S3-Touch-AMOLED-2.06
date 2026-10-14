@@ -1,0 +1,25 @@
+busy-queued: submits=1 scheduler_ms=128 queued=0 token=0 loading=1
+PASS: queued graphics, async display and native worker progress; input remains quarantined while loading
+busy-hardware: submits=1 scheduler_ms=128 queued=0 token=0 loading=1
+PASS: queued graphics, async display and native worker progress; input remains quarantined while loading
+busy-worker: submits=1 scheduler_ms=1325 queued=0 token=0 loading=0
+PASS: queued graphics, async display and native worker progress; input remains quarantined while loading
+busy-queued: submits=1 scheduler_ms=128 queued=0 token=0 loading=1
+PASS: queued graphics, async display and native worker progress; input remains quarantined while loading
+busy-hardware: submits=1 scheduler_ms=128 queued=0 token=0 loading=1
+PASS: queued graphics, async display and native worker progress; input remains quarantined while loading
+busy-worker: submits=1 scheduler_ms=1325 queued=0 token=0 loading=0
+PASS: queued graphics, async display and native worker progress; input remains quarantined while loading
+busy-queued: submits=1 scheduler_ms=128 queued=0 token=0 loading=1
+PASS: queued graphics, async display and native worker progress; input remains quarantined while loading
+busy-hardware: submits=1 scheduler_ms=128 queued=0 token=0 loading=1
+PASS: queued graphics, async display and native worker progress; input remains quarantined while loading
+busy-worker: submits=1 scheduler_ms=1325 queued=0 token=0 loading=0
+PASS: queued graphics, async display and native worker progress; input remains quarantined while loading
+busy-queued: submits=1 scheduler_ms=128 queued=0 token=0 loading=1
+PASS: queued graphics, async display and native worker progress; input remains quarantined while loading
+busy-hardware: submits=1 scheduler_ms=128 queued=0 token=0 loading=1
+PASS: queued graphics, async display and native worker progress; input remains quarantined while loading
+busy-worker: submits=1 scheduler_ms=1325 queued=0 token=0 loading=0
+PASS: queued graphics, async display and native worker progress; input remains quarantined while loading
+PASS: 12 foreground alarm/frame cases; normal and ASan/UBSan, both client variants

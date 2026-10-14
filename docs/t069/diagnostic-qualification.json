@@ -1,0 +1,196 @@
+{
+  "deployed_recipe": "/launch/spectrum-launch-recipe/clients.json",
+  "deployed_defines": [
+    "-DPORTABLE_SPECTRUM_SHARED_TEXT_INPUT",
+    "-DPORTABLE_TEXT_INPUT_CLIENT",
+    "-DPORTABLE_TEXT_INPUT_POLICY",
+    "-DPORTABLE_APP_LAUNCH_GUARD",
+    "-DPORTABLE_APP_HOME_GUARD",
+    "-DPORTABLE_CHECKED_STORAGE_RUNTIME",
+    "-DPORTABLE_NATIVE_CUSTODY_FENCE",
+    "-DPORTABLE_ALARM_TERMINAL_RETENTION",
+    "-DPORTABLE_WATCH_COLOR_ONLY",
+    "-DPORTABLE_RUNTIME_APP_CATALOG",
+    "-DPORTABLE_LOW_BATTERY",
+    "-DPORTABLE_BLE_BROADCAST",
+    "-DPORTABLE_TOUCH_ROTATION=0",
+    "-DPORTABLE_RTC_UTC8_DENVER",
+    "-DPORTABLE_FORCE_FULL_FRAMES",
+    "-DPORTABLE_INPUT_NAVIGATION",
+    "-DPORTABLE_INPUT_NAVIGATION_LOCAL",
+    "-DPORTABLE_APP_SLEEP_LOCAL",
+    "-DPORTABLE_ALARM_CLIENT",
+    "-DPORTABLE_QUICK_ACTIONS",
+    "-DPORTABLE_QUICK_RADIOS",
+    "-DPORTABLE_MOTION_WAKE",
+    "-DWATCH_ALARM_SLEEP_RESUME",
+    "-DPORTABLE_NOVA_UI",
+    "-DPORTABLE_AUDIO_SESSION",
+    "-DPORTABLE_APP_OWNS_TOUCH_CHROME",
+    "-DPORTABLE_AUDIO_CONTINUOUS_CAPTURE",
+    "-DPORTABLE_RETURN_APP=\"springboard.elf\"",
+    "-DPORTABLE_CONTEXTS_CLIENT",
+    "-DPORTABLE_NAVIGATION_RETENTION",
+    "-DPORTABLE_ASYNC_RGB565",
+    "-DPORTABLE_WATCH_NATIVE_HEIGHT"
+  ],
+  "added_safety_defines": [
+    "-DPORTABLE_SPECTRUM_SHARED_TEXT_INPUT",
+    "-DPORTABLE_TEXT_INPUT_CLIENT",
+    "-DPORTABLE_APP_LAUNCH_GUARD",
+    "-DPORTABLE_CHECKED_STORAGE_RUNTIME",
+    "-DPORTABLE_NATIVE_CUSTODY_FENCE",
+    "-DPORTABLE_ALARM_TERMINAL_RETENTION",
+    "-DPORTABLE_WATCH_COLOR_ONLY",
+    "-DPORTABLE_WATCH_NATIVE_HEIGHT",
+    "-DSPECTRUM_TEST_WIDTH=410",
+    "-DSPECTRUM_TEST_HEIGHT=502"
+  ],
+  "extra_defines": [
+    "-DPORTABLE_SPECTRUM_STAGE_TRACE"
+  ],
+  "omitted_defines": [],
+  "native_toolchain": "cc",
+  "omitted_target_options": [
+    "Xtensa architecture/linker options",
+    "-flto (native qualification uses -O1 -g)"
+  ],
+  "physical_backends": [
+    "display/delayed present",
+    "ordered raw touch",
+    "navigation/PMU",
+    "RTC",
+    "battery",
+    "KV",
+    "synthetic microphone PCM",
+    "alarm",
+    "BLE control/broadcast",
+    "Wi-Fi control",
+    "bounded base Contexts service (no background sensors/presets/exports)"
+  ],
+  "unavailable_optional_backends": [
+    "Full Contexts suffix is deterministic in full-contexts-startup/deployed-policy-retained; background sensor and persistent model behavior are not simulated"
+  ],
+  "leak_sanitizer": "Unavailable in this executor: fatal ptrace/runtime error even for clean idle; ASan/UBSan run with detect_leaks=0. Fixture asserts zero live grants, frames, subscriptions and allocations on clean exit.",
+  "not_claimed": [
+    "hardware deployment",
+    "actual microphone/crown hardware",
+    "PMU/sleep hardware",
+    "Runtime ELF-loader integration"
+  ],
+  "catalog_sha256": "0f00645d5834dc582197aeea4caec4d9a797dfc14dda3c2cfbe2d32d38da3b4b",
+  "source_pins": {
+    "system": {
+      "path": "/system-t069",
+      "commit": null
+    },
+    "runtime": {
+      "path": "/watch-ui/runtime",
+      "commit": null
+    },
+    "legacy_utilities": {
+      "path": "/watch-ui/utilities-current",
+      "commit": null
+    }
+  },
+  "test_script_sha256": "ac445c70992ff08a3fb5f7612cad72ee1ba8d84eb807c99d190a95d3beaf4363",
+  "source_commit": null,
+  "sources": {
+    "/utilities-spectrum-t069/Apps/audio_spectrum.c": "baa58ef2c45d946e2ef810a4d4152b4f543ce2c1ead09570a4d2fd2ad3568aac",
+    "/utilities-spectrum-t069/Apps/context_signal_library.inc": "d19380adfc76870d05c9d2da82ee09fe1fd52b8ba563b6b65efab8b777d63d4a",
+    "/utilities-spectrum-t069/Apps/spectrum_signature_app.inc": "b96c825d8c532921a2d8d314cc05575ec9234242be3c6f463b64607b61f2b84e",
+    "/utilities-spectrum-t069/Apps/spectrum_temporal_app.inc": "c92f3435bca31532a227652f9dccf7c90c43da0db67211e6290f27b39c0a8876",
+    "/utilities-spectrum-t069/Apps/context_fingerprint_app.inc": "757ac801d2c2ae66f2f45b9810aec8f52c8f155811d37966bd077c1a7b47b3f1",
+    "/utilities-spectrum-t069/test/native_apps/spectrum_shared_renderer_test.c": "37480eb7a08bd8aba649a34cf62f3508b40f12f0e571747867c56559fc86ba1b",
+    "/system-t069/lib/PortableApps/src/adapter.c": "a88e94282e0617429bb87d248748ba7c012fe272a200e9103fa751521e3ad978",
+    "/system-t069/Services/scene_host/host.c": "2110ecf4de15d299dfca0e12d461e48abddf9f43ae956df4c97a6a482d9516cf",
+    "/system-t069/Services/text_input/host.c": "a35225f8afc149c55d2d15caf3671def4f0b631aecd267eb6c01085689556904",
+    "/system-t069/lib/PortableApps/include/PortableTextInputClient.h": "f98564291d4b3685c429cdb96fd6edd0a4b5226b6bbde6ab3ea197a832f5746f"
+  },
+  "results": [
+    {
+      "mode": "deployed-policy-retained",
+      "sanitized": false,
+      "returncode": 0,
+      "log": "/utilities-spectrum-t069/build/t069-diagnostics/normal/deployed-policy-retained/run.log"
+    },
+    {
+      "mode": "full-contexts-startup",
+      "sanitized": false,
+      "returncode": 0,
+      "log": "/utilities-spectrum-t069/build/t069-diagnostics/normal/full-contexts-startup/run.log"
+    },
+    {
+      "mode": "waterfall-mode-capture",
+      "sanitized": false,
+      "returncode": 0,
+      "log": "/utilities-spectrum-t069/build/t069-diagnostics/normal/waterfall-mode-capture/run.log"
+    },
+    {
+      "mode": "waterfall-mode-full-history",
+      "sanitized": false,
+      "returncode": 0,
+      "log": "/utilities-spectrum-t069/build/t069-diagnostics/normal/waterfall-mode-full-history/run.log"
+    },
+    {
+      "mode": "deployed-policy-retained",
+      "sanitized": true,
+      "returncode": 0,
+      "log": "/utilities-spectrum-t069/build/t069-diagnostics/sanitized/deployed-policy-retained/run.log"
+    },
+    {
+      "mode": "full-contexts-startup",
+      "sanitized": true,
+      "returncode": 0,
+      "log": "/utilities-spectrum-t069/build/t069-diagnostics/sanitized/full-contexts-startup/run.log"
+    },
+    {
+      "mode": "waterfall-mode-capture",
+      "sanitized": true,
+      "returncode": 0,
+      "log": "/utilities-spectrum-t069/build/t069-diagnostics/sanitized/waterfall-mode-capture/run.log"
+    },
+    {
+      "mode": "waterfall-mode-full-history",
+      "sanitized": true,
+      "returncode": 0,
+      "log": "/utilities-spectrum-t069/build/t069-diagnostics/sanitized/waterfall-mode-full-history/run.log"
+    }
+  ],
+  "setup_note": "ui-* scenarios navigate entirely via touch. Boundary/fault scenarios seed editor preconditions with production entrypoints. Non-keyboard raster cases seed deterministic display state.",
+  "normal_sanitized_pixel_identical": [
+    "full-contexts-startup/app.png",
+    "waterfall-mode-capture/app.png",
+    "waterfall-mode-capture/capture-00.png",
+    "waterfall-mode-capture/capture-01.png",
+    "waterfall-mode-capture/capture-02.png",
+    "waterfall-mode-capture/capture-03.png",
+    "waterfall-mode-capture/capture-04.png",
+    "waterfall-mode-full-history/app.png",
+    "waterfall-mode-full-history/capture-00.png",
+    "waterfall-mode-full-history/capture-01.png",
+    "waterfall-mode-full-history/capture-02.png",
+    "waterfall-mode-full-history/capture-03.png",
+    "waterfall-mode-full-history/capture-04.png"
+  ],
+  "non_keyboard_views": [
+    "startup",
+    "spectrum",
+    "waterfall",
+    "monitor",
+    "controls",
+    "controls-scrolled",
+    "frequency-label",
+    "signatures",
+    "signature-editor",
+    "events",
+    "event-editor",
+    "event-capture",
+    "event-examples",
+    "shared-rooms",
+    "shared-events",
+    "shared-editor",
+    "shared-capture",
+    "monitor-edit"
+  ]
+}
