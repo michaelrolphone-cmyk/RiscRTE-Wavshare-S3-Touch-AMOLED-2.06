@@ -15,7 +15,8 @@ def provision(manifest, policy):
     if declaration not in manifest['requires']:
         manifest['requires'].append(declaration)
     for namespace in (2, 3, 4):
-        grant = {**declaration, 'instance_id': namespace}
+        grant = {**declaration, 'instance_id': namespace,
+                 'file': 'context-rules.ctx' if namespace == 4 else 'context-fingerprints.cfp'}
         if grant not in policy['grants']:
             policy['grants'].append(grant)
     if len(policy['grants']) > 32:

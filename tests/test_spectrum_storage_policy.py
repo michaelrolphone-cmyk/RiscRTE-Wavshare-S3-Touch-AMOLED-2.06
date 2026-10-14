@@ -8,6 +8,7 @@ class SpectrumPolicy(unittest.TestCase):
   p={'manifest':'audio_spectrum.json','grants':[{'capability':'storage.app-data','api':1,'instance_id':2}]}
   a,b=provision(m,p)
   self.assertEqual([g['instance_id'] for g in b['grants'] if g['capability']=='storage.shared-data'],[2,3,4])
+  self.assertEqual([g['file'] for g in b['grants'][1:]],['context-fingerprints.cfp','context-fingerprints.cfp','context-rules.ctx'])
   self.assertEqual(provision(a,b),(a,b));self.assertEqual(len(p['grants']),1);self.assertEqual(len(m['requires']),1)
   other={**m,'id':'calculator'};self.assertEqual(provision(other,p),(other,p))
 if __name__=='__main__':unittest.main()
