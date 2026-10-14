@@ -5,6 +5,7 @@ import argparse,hashlib,json,os,re,shutil,subprocess,sys,tempfile
 from pathlib import Path
 p=argparse.ArgumentParser()
 for n in ['runtime','watch','store','output']:p.add_argument('--'+n,type=Path,required=True)
+p.add_argument('--baseline-store',type=Path)
 a=p.parse_args();a.runtime=a.runtime.resolve();a.watch=a.watch.resolve();a.output.mkdir(parents=True,exist_ok=True)
 sys.path.insert(0,str(a.watch/'scripts'));import check_runtime_store_admission as m
 native=(a.runtime/'.pio/build/waveshare-t051/firmware.elf').read_bytes();profile=a.runtime/'expanded-candidate.ini'
@@ -50,6 +51,7 @@ bool bind(RiscBoot::Runtime& runtime) {
 """)
  (root/'tests/runtime_store_admission.cpp').write_text(s);m.ROOT=root;subprocess.run=run
  store={p.relative_to(a.store).as_posix():p.read_bytes() for p in a.store.rglob('*') if p.is_file()}
- result=m.admit_cohort(a.runtime,native,store,store,app_policy_rows=32,native_profile=profile)
+ active={p.relative_to(a.baseline_store).as_posix():p.read_bytes() for p in a.baseline_store.rglob('*') if p.is_file()} if a.baseline_store else store
+ result=m.admit_cohort(a.runtime,native,active,store,app_policy_rows=32,native_profile=profile)
  subprocess.run=original_run
 (a.output/'admission.json').write_text(json.dumps(dict(result=result,commands=commands),indent=2)+'\n');print(json.dumps(result,indent=2))
