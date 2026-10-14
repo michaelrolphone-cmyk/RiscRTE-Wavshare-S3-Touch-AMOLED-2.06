@@ -31,6 +31,13 @@ static const risc_hw_gpio_bank_v1 *config;
 static uint64_t card_token,select_token,lock_token;
 static uint64_t sector_count;
 static bool started,mounted,card_ready,io_failed,poisoned,guard_held;
+#if WAVE_SD_ASYNC
+#include <RiscStorageExportV1.h>
+enum {EXPORT_LOCAL,EXPORT_PREPARING,EXPORT_HOST,EXPORT_RETAINED};
+static unsigned export_state;
+static uint64_t export_token,export_generation;
+#define STORAGE_VOLUME_ADMISSION_FROZEN() (export_state!=EXPORT_LOCAL)
+#endif
 static char error[128];
 static bool equal(const char *a,const char *b){return strcmp(a,b)==0;}
 static bool fail(const char *s) {
@@ -128,12 +135,13 @@ static bool init_card(void) {
 #define STORAGE_VOLUME_LABEL "SD card"
 #include "../../lib/storage_fatfs/volume.c"
 #if WAVE_SD_ASYNC
+#include "Export.h"
 #include "Async.h"
 #endif
 static bool quiesce(void) {
     if(poisoned)return false;
 #if WAVE_SD_ASYNC
-    if(async_adapter.session||async_adapter.operation||async_adapter.retained)return false;
+    if(export_state!=EXPORT_LOCAL||async_adapter.session||async_adapter.operation||async_adapter.retained)return false;
 #endif
     if(lock_token) {
         if(!guard_enter())return false;

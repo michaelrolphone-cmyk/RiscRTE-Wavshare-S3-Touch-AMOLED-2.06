@@ -23,8 +23,8 @@ static bool open_(void*c,uint8_t clk,uint8_t cmd,uint8_t d0,uint32_t hz,uint64_t
  (void)c;assert(clk==2&&cmd==1&&d0==3&&hz==20000000&&selected_&&(locked_||working_)&&!opened_);calls_++;opened_=true;*t=99;
  *i=(risc_sdmmc_card_info_v1){sizeof(*i),bad_info_?1024:512,sectors_,20000000,0};return !missing_;
 }
-static bool read_(void*c,uint64_t t,uint64_t lba,uint32_t n,void*b){(void)c;assert(t==99&&opened_&&(locked_||working_)&&n==1&&lba<sectors_);calls_++;reads_++;if(fail_read_)return false;memcpy(b,image_+lba*512,512);return true;}
-static bool write_(void*c,uint64_t t,uint64_t lba,uint32_t n,const void*b){(void)c;assert(t==99&&opened_&&(locked_||working_)&&n==1&&lba<sectors_);calls_++;writes_++;if(writes_==cut_)return false;memcpy(image_+lba*512,b,512);return true;}
+static bool read_(void*c,uint64_t t,uint64_t lba,uint32_t n,void*b){(void)c;assert(t==99&&opened_&&(locked_||working_)&&n>=1&&n<=8&&lba<sectors_&&n<=sectors_-lba);calls_++;reads_++;if(fail_read_)return false;memcpy(b,image_+lba*512,n*512);return true;}
+static bool write_(void*c,uint64_t t,uint64_t lba,uint32_t n,const void*b){(void)c;assert(t==99&&opened_&&(locked_||working_)&&n>=1&&n<=8&&lba<sectors_&&n<=sectors_-lba);calls_++;writes_++;if(writes_==cut_)return false;memcpy(image_+lba*512,b,n*512);return true;}
 static bool sync_(void*c,uint64_t t){(void)c;assert(t==99&&opened_&&(locked_||working_));calls_++;return true;}
 static bool release_(void*c,uint64_t t){(void)c;assert(t==99&&opened_&&(locked_||working_));calls_++;if(fail_release_)return false;opened_=false;return true;}
 static risc_gpio_sdmmc_api_v1 gpio_={.base={.api_version=1,.struct_size=sizeof(gpio_),.claim=select_claim,.write=select_write,.release=select_release},.sdmmc_tag=RISC_GPIO_SDMMC_TAG_V1,.sdmmc_version=1,.sdmmc={1,sizeof(risc_sdmmc_host_api_v1),NULL,open_,read_,write_,sync_,release_}};
