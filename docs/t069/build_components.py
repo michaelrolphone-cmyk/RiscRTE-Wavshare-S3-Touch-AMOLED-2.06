@@ -1,6 +1,6 @@
 from pathlib import Path
 import json,shutil,subprocess,sys,hashlib
-R=Path(__file__).resolve().parent
+R=Path(__file__).resolve().parents[3]
 O=R/'t069-components';O.mkdir(exist_ok=True)
 S=R/'system-t069';T=Path('/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t051')
 sdk=O/'sdk/include';sdk.mkdir(parents=True,exist_ok=True)
