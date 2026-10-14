@@ -61,7 +61,7 @@ def main():
    manifest,policy=spectrum_storage(manifest,policy)
    if n=='default.json':manifest['version']='0.15.1'
    if n in ('default.json','springboard.json','bringup.json'):manifest['launcher_visible']=False
-   if n=='file_browser.json':manifest.update(display_name='Files',icon='solid:f07b')
+   if n=='file_browser.json':manifest.update(display_name='Files',icon='solid:f07c')
    if n=='lora_messages.json':
     manifest['version']='0.1.16';manifest['display_name']='LoRa Messages';manifest['icon']='solid:f27a'
     add_unique(manifest['requires'],[{'capability':c,'api':1} for c in ('input.power-key','power.sleep','display.power','app.catalog')])

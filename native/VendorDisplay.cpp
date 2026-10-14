@@ -29,9 +29,13 @@ bool accepts(const risc_hardware_device_v1& hw,uint8_t physical){
    b.bus.frequency_hz==40000000 && !b.bus.mode && c.data2>=0 && c.data3>=0;
 }
 void pads(const char* stage){
+#ifdef RISC_VENDOR_DISPLAY_PROBE
  Serial.printf("PANEL_HOLD stage=%s pad=0x%08lx digital=0x%08lx iso=0x%08lx\n",stage,(unsigned long)REG_READ(RTC_CNTL_PAD_HOLD_REG),(unsigned long)REG_READ(RTC_CNTL_DIG_PAD_HOLD_REG),(unsigned long)REG_READ(RTC_CNTL_DIG_ISO_REG));
  for(unsigned pin:{4u,5u,6u,7u,8u,11u,12u})
   Serial.printf("PANEL_PAD stage=%s pin=%u input=%d enable=%u mux=0x%08lx matrix=0x%08lx out=%u rtc=0x%08lx\n",stage,pin,gpio_get_level(static_cast<gpio_num_t>(pin)),unsigned((GPIO.enable>>pin)&1u),(unsigned long)REG_READ(GPIO_PIN_MUX_REG[pin]),(unsigned long)GPIO.func_out_sel_cfg[pin].val,unsigned((GPIO.out>>pin)&1u),(unsigned long)(rtc_io_desc[rtc_io_num_map[pin]].reg?REG_READ(rtc_io_desc[rtc_io_num_map[pin]].reg):0));
+#else
+ (void)stage;
+#endif
 }
 bool closePanel(){
  // All vendor writes are synchronous. Keep objects and ownership on cleanup
@@ -58,8 +62,8 @@ bool openPanel(const risc_hardware_device_v1& hw,uint8_t physical){
  panel=new(std::nothrow) Arduino_CO5300(bus,b.reset,b.rotation,b.width,b.height,b.offset_x,b.offset_y,0,0);
  if(!panel || !panel->begin(b.bus.frequency_hz))return false;
  panelReady=true;panelOff=false;
- // Same post-begin brightness as successful diagnostic A/B. Vendor begin
- // itself writes 0xD0 immediately after DISPON; diagnostic phases follow.
+ // Keep the panel dark until the application submits its first complete frame.
+ // Color probes require the explicit diagnostic build selector.
  panel->setBrightness(0);
  pads("after-begin");
  #ifdef RISC_VENDOR_DISPLAY_PROBE
@@ -86,7 +90,9 @@ bool openPanel(const risc_hardware_device_v1& hw,uint8_t physical){
 }
 bool row(uint32_t y,const uint16_t* pixels,size_t count){
  if(!panel || !pixels || count!=width || y>=height)return false;
+#ifdef RISC_VENDOR_DISPLAY_PROBE
  static bool first=true;if(first){first=false;pads("first-home-row");Serial.printf("PANEL_PIXELS first=%04x middle=%04x last=%04x\n",pixels[0],pixels[count/2],pixels[count-1]);}
+#endif
  // The vendor LVGL rounder requires even starts and odd ends on both axes.
  // Retain one row; send only complete 410x2 windows with inclusive odd ends.
  if(!(y&1u)){if(pendingRow!=UINT32_MAX)return false;memcpy(paired,pixels,count*sizeof(uint16_t));pendingRow=y;return true;}
