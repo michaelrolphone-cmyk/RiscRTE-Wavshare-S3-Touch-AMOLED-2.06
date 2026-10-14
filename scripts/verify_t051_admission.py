@@ -36,6 +36,17 @@ static AE endpoint6(core6,{nullptr,[](void*){return true;},[](void*){++storageCa
 bool bind(RiscBoot::Runtime& runtime) {
  if(!runtime.registerAtomicKeyValueReadThrough(6,endpoint6)||!runtime.registerAtomicKeyValue("wifi_settings",6,endpoint6)||!runtime.registerKeyValueAvailability(6,{nullptr,[](void*,uint32_t,risc_key_value_availability_state_v1*)->int32_t{++storageCalls;return RISC_KEY_VALUE_IO;}}))return false;
 ''')
+
+ vendor=(a.runtime/'src/VendorDisplay.cpp').read_text();accept=vendor[vendor.index('bool accepts('):vendor.index('void pads(')]
+ s=s.replace('RiscCpu::Hardware hardware() {',accept+'\nRiscCpu::Hardware hardware() {')
+ s=s.replace('  RiscCpu::Hardware h{};',"""  RiscCpu::Hardware h{};
+ static RiscCpu::DisplayBackend display{accepts,[](const risc_hardware_device_v1&,uint8_t){++hardwareCalls;return false;},[](uint32_t,const uint16_t*,size_t){++hardwareCalls;return false;},[](uint8_t){++hardwareCalls;return false;},[](){++hardwareCalls;return false;}};
+ h.displayBackend=&display;
+ static RiscStorage::Worker mailbox;
+ static RiscCpu::StorageWorkBackend worker{&mailbox,[](){return true;},[](){return false;},[](uint32_t){++hardwareCalls;}};h.storageWork=&worker;
+ h.sdmmcOpen=[](uint8_t,uint8_t,uint8_t,uint32_t,risc_sdmmc_card_info_v1*){++hardwareCalls;return false;};
+ h.sdmmcRead=[](uint64_t,uint32_t,void*){++hardwareCalls;return false;};h.sdmmcWrite=[](uint64_t,uint32_t,const void*){++hardwareCalls;return false;};h.sdmmcSync=[](){++hardwareCalls;return false;};h.sdmmcClose=[](){++hardwareCalls;return false;};
+""")
  (root/'tests/runtime_store_admission.cpp').write_text(s);m.ROOT=root;subprocess.run=run
  store={p.relative_to(a.store).as_posix():p.read_bytes() for p in a.store.rglob('*') if p.is_file()}
  result=m.admit_cohort(a.runtime,native,store,store,app_policy_rows=32,native_profile=profile)
