@@ -28,7 +28,7 @@ env:
   PRODUCT_REPOSITORY: michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06
   RUNTIME_REVISION: c258c4ba144247b6eaa4c6f28675ffccec582fe1
   SYSTEM_REVISION: 326396614def41f4a3b11c8c193c3ac1bbb75ab0
-  IMAGE_HELPER_REVISION: 265b2804737595d3534370ca747dc01c4d29bf82
+  IMAGE_HELPER_REVISION: 55f3f379b4c2ec7e18412fb2fc887d301bf6e3c0
   PYTHONDONTWRITEBYTECODE: '1'
 
 jobs:
@@ -57,7 +57,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           repository: michaelrolphone-cmyk/RiscRTE-T-Watch-S3
-          ref: 265b2804737595d3534370ca747dc01c4d29bf82
+          ref: 55f3f379b4c2ec7e18412fb2fc887d301bf6e3c0
           path: .source/image-helper
           persist-credentials: false
       - name: Download and verify exact released baseline and qualified ELF

@@ -23,7 +23,7 @@ BASELINE_SHA = '93531640691a0a1b3b6718e01aeca388fe3cbe6c5e4f9f396ff262d0c166fa35
 SPRINGBOARD_SHA = 'f0dd72760ece4c9102aa316281663ddd4d90eeabc54ca39f326766ce521f05a7'
 RUNTIME = 'c258c4ba144247b6eaa4c6f28675ffccec582fe1'
 SYSTEM = '326396614def41f4a3b11c8c193c3ac1bbb75ab0'
-IMAGE_HELPER = '265b2804737595d3534370ca747dc01c4d29bf82'
+IMAGE_HELPER = '55f3f379b4c2ec7e18412fb2fc887d301bf6e3c0'
 PRODUCT = 'michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06'
 RUNTIME_FILES = ('prepare_preserving_update.py', 'paired_bank_images.py', 'spiffs_image.py')
 
