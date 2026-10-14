@@ -1,0 +1,10 @@
+{
+  "system_apps_source": "26e50931a45cbdfe99b7daeb586677ce53e97940",
+  "baseline_system_apps_source": "72f435fcee376ec62d17ece6180753385ea547d9",
+  "springboard_sha256": "a8965e8bd465777dcfd582619bc43404cc6dc20d3c99c74e2bfdc95c3923b136",
+  "springboard_bytes": 146576,
+  "baseline_bin_sha256": "9a48370d776355fb1c2ad77d170cf03b0d77a0d15d4ba088cb4bc6c6750a01d2",
+  "version": "0.1.28",
+  "springboard_version": "1.7.10",
+  "hardware_verified": false
+}
