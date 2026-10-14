@@ -1,0 +1,9 @@
+{
+  "command": [
+    "/tmp/wave37-publication/cold-probe",
+    "/tmp/wave37-publication/settings-unavailable.tsv"
+  ],
+  "returncode": 0,
+  "stdout": "24 settings-unavailable rows remain published; catalog_available=true, not APPS UNAVAILABLE PASS\n",
+  "stderr": ""
+}

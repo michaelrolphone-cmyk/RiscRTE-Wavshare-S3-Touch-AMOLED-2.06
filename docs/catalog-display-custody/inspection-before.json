@@ -1,0 +1,14 @@
+[
+  {
+    "mode": "refresh",
+    "returncode": 42,
+    "stdout": "mode=refresh ok=0 retained=1 pending=1 status_calls=0\n",
+    "stderr": ""
+  },
+  {
+    "mode": "launch",
+    "returncode": 42,
+    "stdout": "mode=launch ok=0 retained=1 pending=1 status_calls=0\n",
+    "stderr": ""
+  }
+]

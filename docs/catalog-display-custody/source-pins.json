@@ -2,10 +2,10 @@
   "baseline_product": "d754218b8f973080da6e4b9b617e6358686fdd21",
   "baseline_version": "0.1.38",
   "candidate_version": "0.1.39",
-  "system": "eb120014bbabe9880c5c89ab0bab31ee51dc3725",
+  "system": "285f2e4417c19d7abad4a031d2130a339d410892",
   "native": "c258c4ba144247b6eaa4c6f28675ffccec582fe1",
   "native_unchanged": true,
   "home_unchanged": true,
-  "springboard_sha256": "22872f977f19526b80289b4b21d01e3f3a00fa7db10e67943923ebbfc7fa51d7",
+  "springboard_sha256": "dad1a3ee9bbf7d88061e1a77b9ac81ba9fc7a584ed31fe423a56e57f0f3f4427",
   "hardware_tested": false
 }
