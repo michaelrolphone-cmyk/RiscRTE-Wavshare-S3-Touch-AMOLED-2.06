@@ -36,6 +36,12 @@ for name in ['springboard.elf','springboard.json']:shutil.copyfile(a.springboard
 # Shared Home explicitly supports a cold start when retained wake is unavailable.
 # Wave's existing native profile has no such grant; preserve that product policy.
 home=json.loads((a.output/'default.json').read_text())
+baseline_home=json.loads((a.baseline/'default.json').read_text())
+# Preserve product declarations for the existing Contexts shared files.
+for field in ('requires','optional'):
+ for declaration in baseline_home.get(field,[]):
+  if declaration not in home.get('requires',[])+home.get('optional',[]):
+   home.setdefault(field,[]).append(declaration)
 retained=[r for r in home['requires'] if r['capability']=='runtime.retained-wake']
 assert retained==[{'capability':'runtime.retained-wake','api':1}]
 assert not any(g['capability']=='runtime.retained-wake' for p in before['app_capabilities'] if p['manifest']=='default.json' for g in p['grants'])
