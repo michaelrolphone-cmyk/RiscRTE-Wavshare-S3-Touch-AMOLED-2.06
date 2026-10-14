@@ -1,0 +1,70 @@
+/tmp/Runtime-wave-t054/src/runtime/storage/PackageFiles.cpp: In member function ‘bool RiscStorage::PackageFiles::path(const char*, char*, size_t)’:
+/tmp/Runtime-wave-t054/src/runtime/storage/PackageFiles.cpp:25:3: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   25 |   if(!e)break;s=e+1;if(!*s)return false;
+      |   ^~
+/tmp/Runtime-wave-t054/src/runtime/storage/PackageFiles.cpp:25:15: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   25 |   if(!e)break;s=e+1;if(!*s)return false;
+      |               ^
+/tmp/Runtime-wave-t054/src/runtime/storage/PackageFiles.cpp: In member function ‘uint32_t RiscStorage::PackageFiles::open(const char*, bool, uint64_t*)’:
+/tmp/Runtime-wave-t054/src/runtime/storage/PackageFiles.cpp:50:2: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   50 |  if(size)*size=0;Call call(*this);char full[512];if(!call.ok||file_||!path(p,full,sizeof(full))||(write&&!mutation(p))||serial_==UINT32_MAX)return 0;
+      |  ^~
+/tmp/Runtime-wave-t054/src/runtime/storage/PackageFiles.cpp:50:18: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   50 |  if(size)*size=0;Call call(*this);char full[512];if(!call.ok||file_||!path(p,full,sizeof(full))||(write&&!mutation(p))||serial_==UINT32_MAX)return 0;
+      |                  ^~~~
+/tmp/Runtime-wave-t054/src/runtime/storage/PackageFiles.cpp:55:2: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   55 |  if(size)*size=uint64_t(st.st_size);return file_;
+      |  ^~
+/tmp/Runtime-wave-t054/src/runtime/storage/PackageFiles.cpp:55:37: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   55 |  if(size)*size=uint64_t(st.st_size);return file_;
+      |                                     ^~~~~~
+/tmp/Runtime-wave-t054/src/runtime/storage/PackageFiles.cpp: In member function ‘bool RiscStorage::PackageFiles::freeBytes(uint64_t*)’:
+/tmp/Runtime-wave-t054/src/runtime/storage/PackageFiles.cpp:66:2: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   66 |  if(out)*out=0;Call call(*this);if(!call.ok||!out||file_||directory_)return false;
+      |  ^~
+/tmp/Runtime-wave-t054/src/runtime/storage/PackageFiles.cpp:66:16: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   66 |  if(out)*out=0;Call call(*this);if(!call.ok||!out||file_||directory_)return false;
+      |                ^~~~
+/tmp/Runtime-wave-t054/test/package_files_test.cpp: In function ‘int main()’:
+/tmp/Runtime-wave-t054/test/package_files_test.cpp:23:47: warning: ‘/Apps/link’ directive output may be truncated writing 10 bytes into a region of size between 1 and 512 [-Wformat-truncation=]
+   23 |  char link[512];snprintf(link,sizeof(link),"%s/Apps/link",root);assert(!symlink("/tmp",link));assert(!v->file_open_write(c,"/Apps/link/escape"));assert(!unlink(link));
+      |                                               ^~~~~~~~~~
+/tmp/Runtime-wave-t054/test/package_files_test.cpp:23:25: note: ‘snprintf’ output between 11 and 522 bytes into a destination of size 512
+   23 |  char link[512];snprintf(link,sizeof(link),"%s/Apps/link",root);assert(!symlink("/tmp",link));assert(!v->file_open_write(c,"/Apps/link/escape"));assert(!unlink(link));
+      |                 ~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Internal package files: confined paths, real file lifecycle, atomic activation, exclusive custody, abort, stale handles and capacity reserve PASS
+/tmp/Runtime-wave-t054/src/runtime/storage/PackageFiles.cpp: In member function ‘bool RiscStorage::PackageFiles::path(const char*, char*, size_t)’:
+/tmp/Runtime-wave-t054/src/runtime/storage/PackageFiles.cpp:25:3: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   25 |   if(!e)break;s=e+1;if(!*s)return false;
+      |   ^~
+/tmp/Runtime-wave-t054/src/runtime/storage/PackageFiles.cpp:25:15: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   25 |   if(!e)break;s=e+1;if(!*s)return false;
+      |               ^
+/tmp/Runtime-wave-t054/src/runtime/storage/PackageFiles.cpp: In member function ‘uint32_t RiscStorage::PackageFiles::open(const char*, bool, uint64_t*)’:
+/tmp/Runtime-wave-t054/src/runtime/storage/PackageFiles.cpp:50:2: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   50 |  if(size)*size=0;Call call(*this);char full[512];if(!call.ok||file_||!path(p,full,sizeof(full))||(write&&!mutation(p))||serial_==UINT32_MAX)return 0;
+      |  ^~
+/tmp/Runtime-wave-t054/src/runtime/storage/PackageFiles.cpp:50:18: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   50 |  if(size)*size=0;Call call(*this);char full[512];if(!call.ok||file_||!path(p,full,sizeof(full))||(write&&!mutation(p))||serial_==UINT32_MAX)return 0;
+      |                  ^~~~
+/tmp/Runtime-wave-t054/src/runtime/storage/PackageFiles.cpp:55:2: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   55 |  if(size)*size=uint64_t(st.st_size);return file_;
+      |  ^~
+/tmp/Runtime-wave-t054/src/runtime/storage/PackageFiles.cpp:55:37: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   55 |  if(size)*size=uint64_t(st.st_size);return file_;
+      |                                     ^~~~~~
+/tmp/Runtime-wave-t054/src/runtime/storage/PackageFiles.cpp: In member function ‘bool RiscStorage::PackageFiles::freeBytes(uint64_t*)’:
+/tmp/Runtime-wave-t054/src/runtime/storage/PackageFiles.cpp:66:2: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   66 |  if(out)*out=0;Call call(*this);if(!call.ok||!out||file_||directory_)return false;
+      |  ^~
+/tmp/Runtime-wave-t054/src/runtime/storage/PackageFiles.cpp:66:16: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   66 |  if(out)*out=0;Call call(*this);if(!call.ok||!out||file_||directory_)return false;
+      |                ^~~~
+/tmp/Runtime-wave-t054/test/package_files_test.cpp: In function ‘int main()’:
+/tmp/Runtime-wave-t054/test/package_files_test.cpp:23:47: warning: ‘/Apps/link’ directive output may be truncated writing 10 bytes into a region of size between 1 and 512 [-Wformat-truncation=]
+   23 |  char link[512];snprintf(link,sizeof(link),"%s/Apps/link",root);assert(!symlink("/tmp",link));assert(!v->file_open_write(c,"/Apps/link/escape"));assert(!unlink(link));
+      |                                               ^~~~~~~~~~
+/tmp/Runtime-wave-t054/test/package_files_test.cpp:23:25: note: ‘snprintf’ output between 11 and 522 bytes into a destination of size 512
+   23 |  char link[512];snprintf(link,sizeof(link),"%s/Apps/link",root);assert(!symlink("/tmp",link));assert(!v->file_open_write(c,"/Apps/link/escape"));assert(!unlink(link));
+      |                 ~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Internal package files: confined paths, real file lifecycle, atomic activation, exclusive custody, abort, stale handles and capacity reserve PASS

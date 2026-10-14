@@ -1,0 +1,17 @@
+{
+  "status": "native-target-build-only",
+  "native_source": "c258c4ba144247b6eaa4c6f28675ffccec582fe1",
+  "system_source": "9fd9590452a7821b54b30181227b74665b9f744f",
+  "shared_source": "4e39433da5180ce1daa8aec09c74f391fe8362ee",
+  "native_profile": "native/t023-provisioning.ini",
+  "profile_sha256": "b6e6b27c733474a0eaebe06f1bd24cdd81173f82de102eca1bb60494f69409c4",
+  "firmware_sha256": "b7b51350275ec9ae1411a6bca9624f956135267cbf13ec4a18f4785044ddc5f9",
+  "home_sha256": "e76f3b0c149cfef281c7946a1881c61fb66827c52f2e3889f91b7d0dfeeed504",
+  "partitions_sha256": "dce94f696de5e9657828ca88287d1255441f2b134eef3b319dd104dce2b4955a",
+  "hardware_tested": false,
+  "remaining": [
+    "Current bootfs has seven free4096-byte blocks; catalog plus internal provider does not fit without a storage strategy.",
+    "Product feed, grant composition, Springboard integration and complete admission pending.",
+    "No cumulative release produced."
+  ]
+}
