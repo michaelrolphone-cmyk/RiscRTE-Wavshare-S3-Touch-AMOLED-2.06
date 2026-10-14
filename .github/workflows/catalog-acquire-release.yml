@@ -1,0 +1,206 @@
+name: Waveshare 0.1.43 catalog acquisition release
+
+on:
+  push:
+    branches: [fix/t063-catalog-acquire-0.1.43]
+    paths:
+      - .github/workflows/catalog-acquire-release.yml
+      - scripts/package_catalog_acquire.py
+      - scripts/test_catalog_acquire_release.py
+      - scripts/verify_t051_admission.py
+      - docs/t063-catalog-acquire/**
+
+permissions:
+  contents: read
+
+concurrency:
+  group: waveshare-test-catalog-acquire-0.1.43
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  BASELINE_TAG: test-catalog-diagnostic-0.1.41
+  RELEASE_TAG: test-catalog-acquire-0.1.43
+  PRODUCT_REPOSITORY: michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  package:
+    if: github.repository == 'michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    permissions:
+      contents: read
+    outputs:
+      checksums_sha256: ${{ steps.digest.outputs.sha256 }}
+      runtime_revision: ${{ steps.pins.outputs.runtime_revision }}
+    steps:
+      - name: Check out exact product source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Read exact source pins
+        id: pins
+        run: |
+          python3 - <<'PY'
+          import json, os, re
+          from pathlib import Path
+          pins = json.loads(Path('docs/t063-catalog-acquire/source-pins.json').read_text())
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+              for key in ('runtime_revision', 'image_helper_revision', 'vendor_revision'):
+                  if not re.fullmatch('[0-9a-f]{40}', pins[key]):
+                      raise SystemExit('Missing final immutable source pin: ' + key)
+                  print(key + '=' + pins[key], file=out)
+          PY
+      - name: Check out exact fixed Runtime
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE
+          ref: ${{ steps.pins.outputs.runtime_revision }}
+          path: .source/runtime
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check out image and admission helper
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-T-Watch-S3
+          ref: ${{ steps.pins.outputs.image_helper_revision }}
+          path: .source/image-helper
+          persist-credentials: false
+      - name: Check out pinned vendor display library
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: waveshareteam/ESP32-S3-Touch-AMOLED-2.06
+          ref: ${{ steps.pins.outputs.vendor_revision }}
+          path: .source/vendor
+          persist-credentials: false
+      - name: Prepare exact native composition
+        run: |
+          set -euo pipefail
+          python3 -m pip install platformio==6.1.19 esptool==4.11.0 pyelftools==0.32
+          python3 scripts/stage_vendor_display.py --runtime .source/runtime --vendor .source/vendor
+          python3 tests/test_vendor_native.py
+          python3 tests/test_vendor_native.py --sanitize
+          python3 scripts/test_board_profile.py
+          python3 scripts/test_catalog_acquire_release.py
+          git diff --exit-code
+      - name: Exercise native catalog and atomic dispatch together
+        working-directory: .source/runtime
+        run: |
+          set -euo pipefail
+          bash test/run_app_capability_dispatch_tags_test.sh
+          for sanitize in 0 1; do
+            SANITIZE="$sanitize" bash test/run_app_catalog_runtime_test.sh
+            SANITIZE="$sanitize" NATIVE_SETTINGS_LIFECYCLE=1 bash test/run_atomic_key_value_runtime_test.sh
+          done
+      - name: Build real native Runtime with preserved profile
+        working-directory: .source/runtime
+        run: pio run --project-conf expanded-candidate.ini -e waveshare-t051 -j 1
+      - name: Download and verify exact published .41 baseline
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p .inputs/downloaded
+          gh release download "$BASELINE_TAG" --repo "$PRODUCT_REPOSITORY" --pattern '*.bin' --dir .inputs/downloaded
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          expected = json.loads(Path('docs/t063-catalog-acquire/source-pins.json').read_text())['baseline_sha256']
+          matches = [p for p in Path('.inputs/downloaded').glob('*.bin') if p.stat().st_size == 0x1000000 and hashlib.sha256(p.read_bytes()).hexdigest() == expected]
+          if len(matches) != 1:
+              raise SystemExit('Expected exactly one SHA-verified .41 factory; STOP')
+          Path('.inputs/baseline.bin').write_bytes(matches[0].read_bytes())
+          PY
+      - name: Assemble, prove native custody, admit complete store and test preserving kit
+        run: |
+          set -euo pipefail
+          python3 scripts/package_catalog_acquire.py \
+            --baseline .inputs/baseline.bin --runtime .source/runtime \
+            --native .source/runtime/.pio/build/waveshare-t051 \
+            --image-helper .source/image-helper --vendor .source/vendor --source-revision "$GITHUB_SHA" \
+            --output dist/catalog-acquire
+          (cd dist/catalog-acquire && sha256sum --check --strict SHA256SUMS.txt)
+      - name: Bind publication to verified asset manifest
+        id: digest
+        run: echo "sha256=$(sha256sum dist/catalog-acquire/SHA256SUMS.txt | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+      - name: Retain verified release assets
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: waveshare-catalog-acquire-${{ github.sha }}
+          path: dist/catalog-acquire/*
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0
+
+  publish:
+    needs: package
+    if: github.repository == 'michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06' && github.ref == 'refs/heads/fix/t063-catalog-acquire-0.1.43'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Download this run's verified assets
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: waveshare-catalog-acquire-${{ github.sha }}
+          path: release-assets
+      - name: Verify publication asset hashes and exact source
+        env:
+          EXPECTED_CHECKSUMS_SHA256: ${{ needs.package.outputs.checksums_sha256 }}
+          RUNTIME_REVISION: ${{ needs.package.outputs.runtime_revision }}
+        run: |
+          set -euo pipefail
+          cd release-assets
+          echo "$EXPECTED_CHECKSUMS_SHA256  SHA256SUMS.txt" | sha256sum --check --strict
+          sha256sum --check --strict SHA256SUMS.txt
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          release = json.loads(Path('release.json').read_text())
+          if release['source_revision'] != os.environ['GITHUB_SHA'] or release['runtime_revision'] != os.environ['RUNTIME_REVISION']:
+              raise SystemExit('Release source ID mismatch; STOP')
+          expected = {line.split('  ', 1)[1] for line in Path('SHA256SUMS.txt').read_text().splitlines()}
+          if {p.name for p in Path('.').iterdir()} != expected | {'SHA256SUMS.txt'}:
+              raise SystemExit('Unverified extra or missing asset; STOP')
+          PY
+      - name: Publish new prerelease without reusing tags or replacing assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if gh release view "$RELEASE_TAG" --repo "$PRODUCT_REPOSITORY" >/dev/null 2>&1; then
+            echo 'Release already exists; refusing overwrite.' >&2
+            exit 1
+          fi
+          gh api "repos/$PRODUCT_REPOSITORY/git/matching-refs/tags/$RELEASE_TAG" > "$RUNNER_TEMP/matching-tags.json"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          refs = json.loads((Path(os.environ['RUNNER_TEMP']) / 'matching-tags.json').read_text())
+          if any(row['ref'] == 'refs/tags/' + os.environ['RELEASE_TAG'] for row in refs):
+              raise SystemExit('Tag already exists; refusing reuse')
+          PY
+          gh release create "$RELEASE_TAG" release-assets/* --repo "$PRODUCT_REPOSITORY" \
+            --target "$GITHUB_SHA" --prerelease --latest=false \
+            --title 'Waveshare 0.1.43 catalog acquisition fix (hardware validation pending)' \
+            --notes-file release-assets/RELEASE-NOTES.txt
+      - name: Verify published source and downloaded asset hashes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EXPECTED_CHECKSUMS_SHA256: ${{ needs.package.outputs.checksums_sha256 }}
+        run: |
+          set -euo pipefail
+          test "$(gh api "repos/$PRODUCT_REPOSITORY/git/ref/tags/$RELEASE_TAG" --jq .object.sha)" = "$GITHUB_SHA"
+          test "$(gh release view "$RELEASE_TAG" --repo "$PRODUCT_REPOSITORY" --json isPrerelease --jq .isPrerelease)" = true
+          mkdir downloaded-release
+          gh release download "$RELEASE_TAG" --repo "$PRODUCT_REPOSITORY" --dir downloaded-release
+          cd downloaded-release
+          echo "$EXPECTED_CHECKSUMS_SHA256  SHA256SUMS.txt" | sha256sum --check --strict
+          sha256sum --check --strict SHA256SUMS.txt

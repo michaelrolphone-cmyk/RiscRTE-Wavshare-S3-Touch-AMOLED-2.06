@@ -1,0 +1,13 @@
+Waveshare 0.1.43 catalog acquisition fix (prerelease, hardware validation pending)
+
+Corrects a native Runtime handle collision between app catalog and atomic key-value storage. The shared Springboard diagnostic ELF is unchanged from 0.1.41. This is a source-tested candidate; a successful hardware retest has not been established.
+
+Based only on the exact published 0.1.41 image. Rebuilds native Runtime with the minimal catalog-handle fix and retains the .41 native profile, vendor display backend, partition layout, Home, Springboard, Settings, all 62 app/provider ELFs, manifests and features. Only native firmware, cohort metadata and its bank-state binding change. Separate T023 provisioning work is excluded. SD contents are unchanged.
+
+The full 16 MiB factory BIN is for offset 0 and OVERWRITES SAVED INTERNAL DATA. For an installed device use the preserving kit with a fresh full readback of a confirmed exact 0.1.41 installation. Never flash the kit's whole baseline.bin or candidate.bin. Do not erase the device. Stage the inactive native/store/state, verify all three readbacks, then write and verify OTA selection LAST. Existing bootloader health confirmation and rollback apply. The kit is offline and never accesses a device.
+
+Software checks bind the exact Runtime source to the generated ELF/BIN; validate the native features and IQ memory reservation; admit all 62 unmodified app/provider ELFs; and exercise both starting banks, protected ranges, corrupt-input rejection, 33 selection interruption cuts per bank and the packaged planner/readback-verifier flow. These checks do not establish a hardware fix.
+
+The earlier Linux baseline native rebuild did not reproduce the shipped macOS native bytes. This release therefore provides a newly built, source-bound native artifact, not a byte-identical patched reproduction claim. All existing app/provider ELF bytes are preserved exactly.
+
+Verify every downloaded asset against SHA256SUMS.txt before use.

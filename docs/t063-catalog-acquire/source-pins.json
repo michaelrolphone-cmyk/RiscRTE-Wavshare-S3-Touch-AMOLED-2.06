@@ -1,0 +1,14 @@
+{
+  "version": "0.1.43",
+  "baseline_version": "0.1.41",
+  "baseline_tag": "test-catalog-diagnostic-0.1.41",
+  "baseline_sha256": "a2477ed0a921b847a3d02e27b3e57ca1d21758021e5af891c46f9a901db5f349",
+  "baseline_product": "2ca19b420f51f1e22f94feb364f91d701a7eab74",
+  "runtime_revision": "a2c2c9fa692b0b36f9750d44fac807c9149b9434",
+  "baseline_runtime": "c258c4ba144247b6eaa4c6f28675ffccec582fe1",
+  "system_revision": "326396614def41f4a3b11c8c193c3ac1bbb75ab0",
+  "image_helper_revision": "55f3f379b4c2ec7e18412fb2fc887d301bf6e3c0",
+  "vendor_revision": "b099739ad0e33b34e5fbaae77f02bd84805d79a3",
+  "springboard_sha256": "f0dd72760ece4c9102aa316281663ddd4d90eeabc54ca39f326766ce521f05a7",
+  "release_tag": "test-catalog-acquire-0.1.43"
+}
