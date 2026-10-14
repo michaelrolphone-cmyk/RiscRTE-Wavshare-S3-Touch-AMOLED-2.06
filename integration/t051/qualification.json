@@ -1,0 +1,79 @@
+{
+  "runtime": "a317971dcdcecd0fa7180891d4fc424a4f325a44",
+  "system": "12352fc46067c32e18f254562d0ec7819f3478ac",
+  "lifecycle_normal": "Wave actual Runtime/lifecycle/SD/FatFs + System Wi-Fi wave-save: save two profiles, app re-entry, SD acknowledgement, namespace 1 isolation PASS\nWave actual Runtime/lifecycle/SD/FatFs + System Wi-Fi wave-reload: save two profiles, app re-entry, SD acknowledgement, namespace 1 isolation PASS\nWave actual Runtime/lifecycle/SD/FatFs + System Wi-Fi wave-final: save two profiles, app re-entry, SD acknowledgement, namespace 1 isolation PASS\nWave actual Runtime/lifecycle/SD/FatFs + System Wi-Fi wave-first: save two profiles, app re-entry, SD acknowledgement, namespace 1 isolation PASS\n",
+  "lifecycle_sanitizers": "Wave actual Runtime/lifecycle/SD/FatFs + System Wi-Fi wave-save: save two profiles, app re-entry, SD acknowledgement, namespace 1 isolation PASS\nWave actual Runtime/lifecycle/SD/FatFs + System Wi-Fi wave-reload: save two profiles, app re-entry, SD acknowledgement, namespace 1 isolation PASS\nWave actual Runtime/lifecycle/SD/FatFs + System Wi-Fi wave-final: save two profiles, app re-entry, SD acknowledgement, namespace 1 isolation PASS\nWave actual Runtime/lifecycle/SD/FatFs + System Wi-Fi wave-first: save two profiles, app re-entry, SD acknowledgement, namespace 1 isolation PASS\n",
+  "provider_target": {
+    "sha256": "8ae05a7ea0a1b95bd8d3711e38607d98e75a0cddc4e67b6c3d5f25c622d2d59f",
+    "bytes": 42872,
+    "imports": [
+      "memchr",
+      "memcmp",
+      "memcpy",
+      "memset",
+      "strchr",
+      "strcmp",
+      "strlen",
+      "strrchr"
+    ],
+    "compaction": {
+      "profile": "loader-metadata-v3",
+      "before_bytes": 70124,
+      "after_bytes": 42872,
+      "before_sha256": "504259bf95e51dfd7a6b9bdba01088bb5b85b74804150f4be03ff52571be4c79",
+      "after_sha256": "8ae05a7ea0a1b95bd8d3711e38607d98e75a0cddc4e67b6c3d5f25c622d2d59f",
+      "removed_sections": [
+        ".xt.lit",
+        ".xt.prop"
+      ],
+      "retained_loader_sections_symbols_relocations_unchanged": true,
+      "original_elf_retained": true,
+      "tool": "GNU objcopy (crosstool-NG esp-2021r2-patch5) 2.35.1.20201223",
+      "options": [
+        "--remove-section=.xt.lit",
+        "--remove-section=.xt.prop",
+        "--discard-all"
+      ]
+    },
+    "command": [
+      "/Users/micahelbyrns/.platformio/packages/toolchain-xtensa-esp32s3/bin/xtensa-esp32s3-elf-gcc",
+      "-std=c11",
+      "-Os",
+      "-fPIC",
+      "-mtext-section-literals",
+      "-mlongcalls",
+      "-fvisibility=hidden",
+      "-ffreestanding",
+      "-fno-builtin",
+      "-nostdlib",
+      "-nostartfiles",
+      "-shared",
+      "-Wl,--no-relax",
+      "-Wl,--hash-style=sysv",
+      "-Wl,--gc-sections",
+      "-ffunction-sections",
+      "-fdata-sections",
+      "-Wl,--version-script=/Users/micahelbyrns/Documents/Codex/2026-10-13/task/t051-product-build/wave-sd-target/exports.map",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wno-unused-function",
+      "-Wno-misleading-indentation",
+      "-Wno-overflow",
+      "-DWAVE_SD_ASYNC=1",
+      "-I/Users/micahelbyrns/Documents/Codex/2026-10-13/task/t051-product-build/sd-sdk",
+      "-I/tmp/waveshare-generic-bridges/include",
+      "-I/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Waveshare-input-product/include",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Waveshare-input-product/drivers/storage_sdmmc/driver.c",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Waveshare-input-product/lib/storage_fatfs/fatfs/ff.c",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Waveshare-input-product/lib/storage_fatfs/fatfs/ffunicode.c",
+      "-lgcc",
+      "-o",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/t051-product-build/wave-sd-target/driver.elf"
+    ],
+    "hardware_tested": false
+  },
+  "native_display_sha256": "ef0932a41c28837b8562bceeb1ee4010a7c1730898bde02244a2cf108551d2e5",
+  "source_manifest_sha256": "52daad24979397363cf6c5d03baa1f0f15ce24a71990bc2c426a05f38bec1833",
+  "limits": "Host scheduling/vendor NVS/card transport, real native host files; first-checkpoint capacity authority modeled; no target instructions or hardware."
+}
