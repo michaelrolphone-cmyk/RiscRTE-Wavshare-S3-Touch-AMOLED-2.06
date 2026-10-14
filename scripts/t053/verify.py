@@ -39,7 +39,9 @@ bool bind(RiscBoot::Runtime& runtime) {
  if(!runtime.registerAtomicKeyValueReadThrough(6,endpoint6)||!runtime.registerAtomicKeyValue("wifi_settings",6,endpoint6)||!runtime.registerKeyValueAvailability(6,{nullptr,[](void*,uint32_t,risc_key_value_availability_state_v1*)->int32_t{++storageCalls;return RISC_KEY_VALUE_IO;}}))return false;
 ''')
 
- vendor=(a.runtime/'src/VendorDisplay.cpp').read_text();accept=vendor[vendor.index('bool accepts('):vendor.index('void pads(')]
+ vendor=(Path(__file__).resolve().parents[2]/'native/VendorDisplay.cpp').read_text()
+ assert vendor==(a.runtime/'src/VendorDisplay.cpp').read_text(), 'Staged native panel must match product source'
+ accept=vendor[vendor.index('bool accepts('):vendor.index('void pads(')]
  s=s.replace('RiscCpu::Hardware hardware() {',accept+'\nRiscCpu::Hardware hardware() {')
  s=s.replace('  RiscCpu::Hardware h{};',"""  RiscCpu::Hardware h{};
  static RiscCpu::DisplayBackend display{accepts,[](const risc_hardware_device_v1&,uint8_t){++hardwareCalls;return false;},[](uint32_t,const uint16_t*,size_t){++hardwareCalls;return false;},[](uint8_t){++hardwareCalls;return false;},[](){++hardwareCalls;return false;}};
