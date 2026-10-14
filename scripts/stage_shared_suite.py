@@ -57,6 +57,8 @@ def main():
     persistent=grant['capability'] in ('storage.key-value','storage.shared-data')
     already=any(g['capability']==grant['capability'] and g['api']==grant['api'] for g in policy['grants'])
     if persistent or not already:add_unique(policy['grants'],[grant])
+   from spectrum_storage_policy import provision as spectrum_storage
+   manifest,policy=spectrum_storage(manifest,policy)
    if n=='default.json':manifest['version']='0.15.1'
    if n=='lora_messages.json':
     manifest['version']='0.1.16';manifest['display_name']='LoRa Messages';manifest['icon']='solid:f27a'
