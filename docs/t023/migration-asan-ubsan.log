@@ -1,0 +1,3 @@
+Cohort 20/18 and 28/28 complete graph, namespace ownership, hardware, metadata, exact inventory and no native bind/provider execution PASS
+Explicit cohort shared-KV migration: exact origin/target/API/new identity, universal >=2 owners, consumed entries, no private/appdata/provider expansion, identical-board and self-validation, no writes/binds/ELF execution PASS
+Native export V2 first/expanded map, explicit KV ownership, exact binding, retry, unchanged and old-bank rollback PASS

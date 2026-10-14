@@ -6,13 +6,21 @@ from pathlib import Path
 p=argparse.ArgumentParser()
 for n in ['runtime','watch','store','output']:p.add_argument('--'+n,type=Path,required=True)
 p.add_argument('--baseline-store',type=Path)
-a=p.parse_args();a.runtime=a.runtime.resolve();a.watch=a.watch.resolve();a.output.mkdir(parents=True,exist_ok=True)
+p.add_argument('--native-migration',action='store_true')
+p.add_argument('--migration-negative',choices=('source','target','owners','snapshot'))
+a=p.parse_args();assert not a.migration_negative or a.native_migration
+a.runtime=a.runtime.resolve();a.watch=a.watch.resolve();a.output.mkdir(parents=True,exist_ok=True)
 sys.path.insert(0,str(a.watch/'scripts'));import check_runtime_store_admission as m
 native=(a.runtime/'.pio/build/waveshare-t023/firmware.elf').read_bytes();profile=a.runtime/'expanded-candidate.ini'
 package_profile=Path(__file__).resolve().parents[1]/'native/t023-provisioning.ini'
 assert (a.runtime/'t023-provisioning.ini').read_bytes()==package_profile.read_bytes()
 assert '-DRISC_NATIVE_PACKAGE_VOLUME=1' in package_profile.read_text()
 assert b'RiscPackageVolume' in native
+if a.native_migration:
+ migration=Path(__file__).resolve().parents[1]/'native/t023-migration-policy.h'
+ assert migration.read_bytes()==(a.runtime/'t023-migration-policy.h').read_bytes()
+ assert b'wave-t023-home-wifi-039-040' in native
+ assert 'RISC_NATIVE_APP_DATA_EXPORT_POLICY_V2_HEADER' in package_profile.read_text()
 def composition(runtime,elf,selected,rows):
  assert Path(runtime)==a.runtime and Path(selected)==profile and rows==32
  head=subprocess.check_output(['git','-C',runtime,'rev-parse','HEAD'],text=True).strip()
@@ -72,9 +80,14 @@ bool bind(RiscBoot::Runtime& runtime) {
  h.sdmmcOpen=[](uint8_t,uint8_t,uint8_t,uint32_t,risc_sdmmc_card_info_v1*){++hardwareCalls;return false;};
  h.sdmmcRead=[](uint64_t,uint32_t,void*){++hardwareCalls;return false;};h.sdmmcWrite=[](uint64_t,uint32_t,const void*){++hardwareCalls;return false;};h.sdmmcSync=[](){++hardwareCalls;return false;};h.sdmmcClose=[](){++hardwareCalls;return false;};
 """)
+ if a.native_migration:
+  s=s.replace('#undef private', '#undef private\n#include "'+str(a.runtime/'t023-migration-policy.h')+'"')
+  mutation={'source':'selected.from.sourceRevision="bad";', 'target':'selected.to.sourceRevision="bad";', 'snapshot':'selected.after="[]";', 'owners':'auto sharing=*selected.sharedKeyValue; static const char* owners[]={"wrong-owner"}; sharing.previousOwners=owners;sharing.previousOwnerCount=1;selected.sharedKeyValue=&sharing;'}
+  s=s.replace('RiscBoot::Runtime candidate({});unsigned admitted=0;', 'RiscBoot::Runtime candidate({});unsigned admitted=0; auto selected=RiscUpdate::selectedNativeAppDataExportPolicyV2();'+mutation.get(a.migration_negative,''))
+  s=s.replace('runtime.validateCohort(candidate,argv[2],CohortElf::file,&admitted)', 'runtime.validateNativeCohort(candidate,argv[2],CohortElf::file,&admitted,selected)')
  (root/'tests/runtime_store_admission.cpp').write_text(s);m.ROOT=root;subprocess.run=run
  store={p.relative_to(a.store).as_posix():p.read_bytes() for p in a.store.rglob('*') if p.is_file()}
  active={p.relative_to(a.baseline_store).as_posix():p.read_bytes() for p in a.baseline_store.rglob('*') if p.is_file()} if a.baseline_store else store
- result=m.admit_cohort(a.runtime,native,active,store,app_policy_rows=32,native_profile=profile)
+ result=m.admit_cohort(a.runtime,native,active,store,expected_valid=not bool(a.migration_negative),app_policy_rows=32,native_profile=profile)
  subprocess.run=original_run
 (a.output/'admission.json').write_text(json.dumps(dict(result=result,commands=commands),indent=2)+'\n');print(json.dumps(result,indent=2))

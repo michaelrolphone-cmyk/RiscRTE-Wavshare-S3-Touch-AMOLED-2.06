@@ -1,0 +1,197 @@
+{
+  "result": {
+    "prepared": true,
+    "cohort_validated": false,
+    "error": "",
+    "hardware_calls": 0,
+    "storage_calls": 0,
+    "elf_count": 0,
+    "cooperative_yields": 0,
+    "active_store_sha256": "e895128f1761cfe28f0533ccc34c0b22821b2f72df8c94f88100a1eaa38fd162",
+    "candidate_store_sha256": "5d4462fe3cf9cf95bbc3b461df545fcc3c1276934b5f1be6e002ba8af4781c80",
+    "native_elf_sha256": "525fa9202455c2d15feb5a8c40f29c5b8f147488cd37fa6a2b5e816829a241a3",
+    "app_policy_rows": 32,
+    "target_instructions_executed": false,
+    "native_composition": {
+      "profile": "env:waveshare-t023",
+      "package_profile_sha256": "2c311e44404935deb6e620872e3cafcf68b0b804cf4bcb569b3325a1f0c67a18",
+      "runtime_commit": "c4df70f382f5a78fc61ebb45a0e7c1b0462d8354",
+      "bounds": {
+        "RISC_INSTALLED_APP_CAPACITY": 64,
+        "RISC_PROVIDER_CAPACITY": 40,
+        "RISC_APP_POLICY_ROWS": 32,
+        "RISC_APP_REQUIREMENT_ROWS": 32
+      },
+      "store_abi": 3,
+      "file_source_enabled": true,
+      "store_size": 5570560,
+      "native_layout": {
+        "store_abi": 3,
+        "marker_symbol": "risc_paired_store_abi",
+        "marker_address": 1008020674,
+        "marker_bytes": 24
+      },
+      "source_hashes": {
+        "expanded-candidate.ini": "45805b02e602467f7b7cdedf5bc2ae6990ac8eaa6afafa945cff0cdfa2c3a07d",
+        "waveshare-settings-profile.h": "37ddfd9feb4b70fbcd9f87b523dec3847a77d4c4bcb6d9b9da5f7fc39fb5382b",
+        "partitions-paired-appdata-expanded.csv": "dce94f696de5e9657828ca88287d1255441f2b134eef3b319dd104dce2b4955a",
+        "platformio.ini": "a12b609d803a41369c015f18d37d81398dcc7c17c8e7099f9cb5237b4a199a34"
+      }
+    }
+  },
+  "commands": [
+    [
+      "git",
+      "-C",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023",
+      "rev-parse",
+      "HEAD"
+    ],
+    [
+      "git",
+      "-C",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023",
+      "show",
+      "c4df70f382f5a78fc61ebb45a0e7c1b0462d8354:expanded-candidate.ini"
+    ],
+    [
+      "git",
+      "-C",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023",
+      "show",
+      "c4df70f382f5a78fc61ebb45a0e7c1b0462d8354:waveshare-settings-profile.h"
+    ],
+    [
+      "git",
+      "-C",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023",
+      "show",
+      "c4df70f382f5a78fc61ebb45a0e7c1b0462d8354:partitions-paired-appdata-expanded.csv"
+    ],
+    [
+      "git",
+      "-C",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023",
+      "show",
+      "c4df70f382f5a78fc61ebb45a0e7c1b0462d8354:platformio.ini"
+    ],
+    [
+      "cc",
+      "-std=c11",
+      "-I/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/src",
+      "-I/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/sdk/app",
+      "-I/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/sdk/driver",
+      "-I/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/sdk/hardware",
+      "-I/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/lib/ArduinoJson/src",
+      "-I/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/test/drivers/stubs",
+      "-I/private/var/folders/4r/rbtpllh96jngnhswvqg0hzw00000gn/T/risc-cohort-admission-p1w6cngs",
+      "-I/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/lib/elf_loader/include",
+      "-I/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/test/native_bank_stubs",
+      "-c",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/lib/elf_loader/src/esp_elf_validate.c",
+      "-o",
+      "/private/var/folders/4r/rbtpllh96jngnhswvqg0hzw00000gn/T/risc-cohort-admission-p1w6cngs/cohort-validate.o"
+    ],
+    [
+      "c++",
+      "-DRISC_RUNTIME_ATOMIC_KEY_VALUE=1",
+      "-include",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/waveshare-settings-profile.h",
+      "-I/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023",
+      "-Wno-unused-function",
+      "-Wno-unused-but-set-variable",
+      "-std=c++17",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wno-missing-field-initializers",
+      "-rdynamic",
+      "-DRISC_APP_POLICY_ROWS=32",
+      "-DRISC_INSTALLED_APP_CAPACITY=64",
+      "-DRISC_PROVIDER_CAPACITY=40",
+      "-DRISC_APP_REQUIREMENT_ROWS=32",
+      "-DSTORE_ADMISSION_CROWN_PROFILE",
+      "-DSTORE_ADMISSION_FILE_SOURCE",
+      "-DSTORE_ADMISSION_APP_DATA",
+      "-DRISC_PAIRED_APP_DATA=1",
+      "-DRISC_PAIRED_APP_DATA_EXPANDED=1",
+      "-DSTORE_ADMISSION_COHORT",
+      "-Wno-misleading-indentation",
+      "/private/var/folders/4r/rbtpllh96jngnhswvqg0hzw00000gn/T/risc-cohort-admission-p1w6cngs/cohort-validate.o",
+      "-DSTORE_ADMISSION_USB_PHY",
+      "-DSTORE_ADMISSION_COLD_BOOT",
+      "-DSTORE_ADMISSION_KV_V2",
+      "-DSTORE_ADMISSION_RUNTIME_FEATURES",
+      "-DSTORE_ADMISSION_RADIO_IQ",
+      "-DSTORE_ADMISSION_IQ_LIFECYCLE",
+      "-DSTORE_ADMISSION_RADIO",
+      "-DSTORE_ADMISSION_HCI",
+      "-DSTORE_ADMISSION_I2S_RX",
+      "-DSTORE_ADMISSION_UPDATE_PLATFORMS",
+      "-I/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/src",
+      "-I/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/sdk/app",
+      "-I/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/sdk/driver",
+      "-I/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/sdk/hardware",
+      "-I/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/lib/ArduinoJson/src",
+      "-I/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/test/drivers/stubs",
+      "-I/private/var/folders/4r/rbtpllh96jngnhswvqg0hzw00000gn/T/risc-cohort-admission-p1w6cngs",
+      "-I/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/lib/elf_loader/include",
+      "-I/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/test/native_bank_stubs",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/src/bootstrap/Json.cpp",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/src/bootstrap/Board.cpp",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/src/bootstrap/Runtime.cpp",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/src/runtime/drivers/ProviderGraphV2.cpp",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/src/runtime/drivers/ProviderModuleV2.cpp",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/src/ports/esp32s3/CpuPort.cpp",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/src/runtime/streams/AppStreamSessions.cpp",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/src/runtime/streams/ProviderQueueHost.cpp",
+      "/var/folders/4r/rbtpllh96jngnhswvqg0hzw00000gn/T/tmpcjvyt9lz/tests/runtime_store_admission.cpp",
+      "-ldl",
+      "-o",
+      "/private/var/folders/4r/rbtpllh96jngnhswvqg0hzw00000gn/T/risc-cohort-admission-p1w6cngs/admit",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023/src/runtime/storage/PackageFiles.cpp",
+      "-Wno-unused-but-set-variable",
+      "-Wno-error=misleading-indentation"
+    ],
+    [
+      "/private/var/folders/4r/rbtpllh96jngnhswvqg0hzw00000gn/T/risc-cohort-admission-p1w6cngs/admit",
+      "/var/folders/4r/rbtpllh96jngnhswvqg0hzw00000gn/T/risc-cohort-admission-p1w6cngs/active",
+      "/var/folders/4r/rbtpllh96jngnhswvqg0hzw00000gn/T/risc-cohort-admission-p1w6cngs/candidate"
+    ],
+    [
+      "git",
+      "-C",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023",
+      "rev-parse",
+      "HEAD"
+    ],
+    [
+      "git",
+      "-C",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023",
+      "show",
+      "c4df70f382f5a78fc61ebb45a0e7c1b0462d8354:expanded-candidate.ini"
+    ],
+    [
+      "git",
+      "-C",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023",
+      "show",
+      "c4df70f382f5a78fc61ebb45a0e7c1b0462d8354:waveshare-settings-profile.h"
+    ],
+    [
+      "git",
+      "-C",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023",
+      "show",
+      "c4df70f382f5a78fc61ebb45a0e7c1b0462d8354:partitions-paired-appdata-expanded.csv"
+    ],
+    [
+      "git",
+      "-C",
+      "/Users/micahelbyrns/Documents/Codex/2026-10-13/task/Runtime-wave-t023",
+      "show",
+      "c4df70f382f5a78fc61ebb45a0e7c1b0462d8354:platformio.ini"
+    ]
+  ]
+}
