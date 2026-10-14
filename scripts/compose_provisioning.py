@@ -33,6 +33,15 @@ for old,new in zip(before['drivers'],boot['drivers'][:36]):
 shutil.copytree(a.baseline,a.output)
 for name in ['default.elf','default.json']:shutil.copyfile(a.home/name,a.output/name)
 for name in ['springboard.elf','springboard.json']:shutil.copyfile(a.springboard/name,a.output/name)
+# Shared Home explicitly supports a cold start when retained wake is unavailable.
+# Wave's existing native profile has no such grant; preserve that product policy.
+home=json.loads((a.output/'default.json').read_text())
+retained=[r for r in home['requires'] if r['capability']=='runtime.retained-wake']
+assert retained==[{'capability':'runtime.retained-wake','api':1}]
+assert not any(g['capability']=='runtime.retained-wake' for p in before['app_capabilities'] if p['manifest']=='default.json' for g in p['grants'])
+home['requires']=[r for r in home['requires'] if r not in retained]
+home.setdefault('optional',[]).extend(retained)
+(a.output/'default.json').write_text(json.dumps(home,separators=(',',':'))+'\n')
 for source,target in [(a.catalog,'installed-apps'),(a.internal,'pkg-internal')]:
  (a.output/target).mkdir()
  for name in ['driver.elf','manifest.json']:shutil.copyfile(source/name,a.output/target/name)
