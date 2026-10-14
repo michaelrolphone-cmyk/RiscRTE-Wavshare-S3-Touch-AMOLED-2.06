@@ -40,6 +40,8 @@ def main():
  for n in names:
   origin='waveshare' if n in rows['waveshare'] else 'watch';m=json.loads(old[origin][n]);elf=m['file_name']
   common[elf]=home if elf=='default.elf' else lora if elf=='lora_messages.elf' else old[origin][elf]
+ from shared_springboard_selection import verify as verify_springboard
+ verify_springboard(common['springboard.elf'])
  assert len(common)==26
  result={};records={}
  for product in ('watch','waveshare'):

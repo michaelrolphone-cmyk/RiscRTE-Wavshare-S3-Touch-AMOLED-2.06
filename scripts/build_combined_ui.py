@@ -16,7 +16,8 @@ partitions=(native/'partitions.bin').read_bytes();assert raw[0x8000:0x8000+len(p
 runtime_revision=subprocess.check_output(['git','-C',str(a.runtime),'rev-parse','HEAD'],text=True).strip();assert ('RTE_SOURCE='+runtime_revision).encode() in firmware
 store=read_image(raw[0x2f0000:0x840000],0x550000);before=dict(store)
 for name in ('default','clock'):store[name+'.elf']=(a.home/(name+'.elf')).read_bytes()
-store['springboard.elf']=a.launcher.read_bytes()
+from shared_springboard_selection import verify as verify_springboard, VERSION as SPRINGBOARD_VERSION
+store['springboard.elf']=verify_springboard(a.launcher.read_bytes())
 boot=json.loads(store['boot.json'])
 for name in ('default','springboard','bringup','file_browser'):
  m=json.loads(store[name+'.json'])
@@ -24,7 +25,7 @@ for name in ('default','springboard','bringup','file_browser'):
  if name=='file_browser':m.update(display_name='Files',icon='solid:f07c')
  if name in ('default','springboard'):
   if name=='default':m['version']='0.15.2'
-  else:m['version']='1.7.10'
+  else:m['version']=SPRINGBOARD_VERSION
   policy=next(row for row in boot['app_capabilities'] if row['manifest']==name+'.json')
   declaration={'capability':'storage.shared-data','api':1}
   if declaration not in m['requires']:m['requires'].append(declaration)
