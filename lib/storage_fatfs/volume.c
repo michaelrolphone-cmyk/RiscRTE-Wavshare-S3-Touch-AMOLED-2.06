@@ -40,6 +40,9 @@
 #define STORAGE_VOLUME_OPERATION_SECTOR_LIMIT OP_SECTOR_LIMIT
 #endif
 static FATFS filesystem;
+#ifdef STORAGE_VOLUME_NATIVE_CAPACITY
+static uint64_t native_mount_epoch;
+#endif
 static uint64_t operation_start;
 static uint32_t operation_steps, operation_sectors;
 #ifdef STORAGE_VOLUME_OS_CPU_MUTEX
@@ -224,6 +227,10 @@ static dir_slot *dir_for(uint32_t handle) {
     return slot && slot <= DIR_SLOTS && dirs[slot - 1].handle == handle ? &dirs[slot - 1] : 0;
 }
 static bool mount_filesystem(void) {
+#ifdef STORAGE_VOLUME_NATIVE_CAPACITY
+    if (native_mount_epoch == UINT64_MAX) { mounted = false; fail("mount epoch exhausted"); return false; }
+    ++native_mount_epoch;
+#endif
     mounted = result_ok(f_mount(&filesystem, "", 1));
     return mounted;
 }
@@ -490,6 +497,7 @@ static bool rename_path(void *context, const char *from, const char *to) {
     if (directory_in_use(from)) { fail("rename has live descendants"); leave(); return false; }
     bool ok = result_ok(f_rename(from, to)); return leave() && ok;
 }
+#include "fs_extensions.inc"
 static bool last_error_api(void *context, char *out, size_t capacity) {
     (void)context; if (!out || !capacity) return false;
 #ifdef STORAGE_VOLUME_SERIALIZED
