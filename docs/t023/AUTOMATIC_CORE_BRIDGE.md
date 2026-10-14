@@ -110,8 +110,9 @@ store is too tight, explicitly add these arguments to the bridge command:
   --composition-report "$EVIDENCE_DIR/composition.json"
 ```
 
-Only newly added `installed-apps/driver.elf` and `pkg-internal/driver.elf` are
-eligible. No baseline app, driver, data file or manifest is compacted or removed.
+With `--compact-new-providers`, only newly added `installed-apps/driver.elf` and
+`pkg-internal/driver.elf` are eligible. No untouched baseline app, driver, data
+file or manifest is compacted or removed.
 The original catalog build receipt is validated before copying; the checked
 compaction runs before the final image_source digests and inventory are computed.
 The caller must provide the actual compiler path and matching adjacent objcopy.
@@ -130,6 +131,21 @@ store paths, sidecar/report aliases and nested escaping symlinks are rejected
 before composition. The two source build outputs remain unchanged. Actual final
 store packing and complete native/store admission still decide whether this fits;
 compaction does not change partitions or claim admission by itself.
+
+Wave also supports the separate opt-in `--compact-rebuilt-apps`. It selects only
+the newly built replacement `default.elf` and `springboard.elf` copied from the
+explicit Home and Springboard build directories. Their original `build.json`
+receipts must match each ELF's hash and byte count before any store is copied.
+The build directories must be separate from the released baseline. It requires
+the same explicit compiler, external sidecar directory and composition report,
+and can be combined with provider compaction. Neither flag enables the other.
+
+The existing v4 checker runs on the replacement copies before deriving boot
+image-source hashes. Full original replacement ELFs, unchanged source build
+outputs, receipt hashes and complete semantic-equivalence proofs are retained.
+The report separates `rebuilt_app_compaction` from `provider_compaction`.
+Default composition does not compact either class. This is a metadata-only
+capacity option, never a feature-removal or baseline-file-stripping mechanism.
 
 ## Qualification before use
 

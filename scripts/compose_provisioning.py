@@ -14,11 +14,12 @@ p.add_argument('--boot-profiles',action='store_true',help='Opt in to the native 
 p.add_argument('--native-provider-manifests',type=Path,help='JSON list of exact native-selected provider manifests; [] if none')
 p.add_argument('--composition-report',type=Path,help='Write source-only preservation evidence outside the store')
 p.add_argument('--compact-new-providers',action='store_true',help='Losslessly compact only the two newly added provider ELFs')
-p.add_argument('--compiler',type=Path,help='Explicit provider gcc path, required for compaction')
-p.add_argument('--debug-sidecar-dir',type=Path,help='Separate output directory retaining the original provider ELFs')
+p.add_argument('--compact-rebuilt-apps',action='store_true',help='Losslessly compact only replacement Home/Springboard copies after verifying original build receipts')
+p.add_argument('--compiler',type=Path,help='Explicit gcc path, required for compaction')
+p.add_argument('--debug-sidecar-dir',type=Path,help='Separate output directory retaining complete original ELFs')
 a=p.parse_args()
-if (a.native_provider_manifests or a.composition_report or a.runtime_version or a.compact_new_providers) and not a.boot_profiles:p.error('Profile options require --boot-profiles')
-if (a.compiler or a.debug_sidecar_dir) and not a.compact_new_providers:p.error('Compaction options require --compact-new-providers')
+if (a.native_provider_manifests or a.composition_report or a.runtime_version or a.compact_new_providers or a.compact_rebuilt_apps) and not a.boot_profiles:p.error('Profile options require --boot-profiles')
+if (a.compiler or a.debug_sidecar_dir) and not (a.compact_new_providers or a.compact_rebuilt_apps):p.error('Compaction options require --compact-new-providers or --compact-rebuilt-apps')
 if a.composition_report and a.composition_report.resolve().is_relative_to(a.output.resolve()):p.error('--composition-report must be outside the store')
 if a.boot_profiles and not a.runtime_version:p.error('--boot-profiles requires --runtime-version')
 if a.boot_profiles:
@@ -26,9 +27,15 @@ if a.boot_profiles:
  core_profiles.verify_runtime_version(a.runtime_version,firmware)
 selected_native=core_profiles.validate_inputs(a.catalog,'wave',a.native_provider_manifests) if a.boot_profiles else []
 compaction_plan=None
+compaction_images=[]
 if a.compact_new_providers:
  if any((a.baseline/name).exists() for name in provider_compaction.PROVIDERS):p.error('Provider compaction is limited to newly added ELFs')
- compaction_plan=provider_compaction.prepare('wave',a.compiler,a.debug_sidecar_dir,a.composition_report,a.output,[a.baseline,a.home,a.springboard,a.catalog,a.internal,a.firmware])
+ compaction_images.extend(provider_compaction.PROVIDERS)
+if a.compact_rebuilt_apps:
+ rebuilt_app_receipts=provider_compaction.validate_rebuilt_apps(a.baseline,a.home,a.springboard)
+ compaction_images.extend(provider_compaction.REBUILT_APPS)
+if compaction_images:
+ compaction_plan=provider_compaction.prepare('wave',a.compiler,a.debug_sidecar_dir,a.composition_report,a.output,[a.baseline,a.home,a.springboard,a.catalog,a.internal,a.firmware],compaction_images)
 boot=json.loads((a.baseline/'boot.json').read_text());before=json.loads(json.dumps(boot))
 assert boot.get('installation')=={'grants':[],'volume_instance':12},'Unexpected baseline installation authority'
 assert len(boot['drivers'])==36
@@ -80,7 +87,7 @@ for field in ('requires','optional'):
 for source,target in [(a.catalog,'installed-apps'),(a.internal,'pkg-internal')]:
  (a.output/target).mkdir()
  for name in ['driver.elf','manifest.json']:shutil.copyfile(source/name,a.output/target/name)
-compaction_proof=provider_compaction.compact_new_providers(a.output,compaction_plan) if compaction_plan else None
+compaction_proof=provider_compaction.compact_images(a.output,compaction_plan) if compaction_plan else None
 if a.boot_profiles:
  profile_report=core_profiles.compose(boot,a.output,'wave',selected_native)
 (a.output/'boot.json').write_text(json.dumps(boot,separators=(',',':'))+'\n')
@@ -97,7 +104,10 @@ print('Preserved36 provider artifacts/all existing app policies; USB explicitly 
 
 if a.boot_profiles:
  profile_report.update(core_profiles.verify_preservation(a.baseline,a.output))
- if compaction_proof is not None:profile_report['provider_compaction']=compaction_proof
+ if a.compact_new_providers:profile_report['provider_compaction']={name:compaction_proof[name] for name in provider_compaction.PROVIDERS}
+ if a.compact_rebuilt_apps:
+  profile_report['rebuilt_app_compaction']={name:compaction_proof[name] for name in provider_compaction.REBUILT_APPS}
+  profile_report['rebuilt_app_receipts']=rebuilt_app_receipts
  if a.composition_report:
   a.composition_report.write_text(json.dumps(profile_report,indent=2)+'\n')
- print(json.dumps({k:v for k,v in profile_report.items() if k not in ('files','mirrors','provider_compaction')}))
+ print(json.dumps({k:v for k,v in profile_report.items() if k not in ('files','mirrors','provider_compaction','rebuilt_app_compaction')}))

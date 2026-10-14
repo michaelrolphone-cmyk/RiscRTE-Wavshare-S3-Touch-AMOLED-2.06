@@ -5,6 +5,7 @@ import hashlib
 import importlib.util
 import shutil
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -273,6 +274,30 @@ class CompositionTests(unittest.TestCase):
         _, result = self.run_compose(success=False)
         self.assertIn('exact firmware native version marker', result.stderr)
 
+    def test_native_parser_prefix_literal_is_not_a_version(self):
+        firmware = b'RISC_RUNTIME_VERSION:\0RISC_RUNTIME_VERSION:' + NATIVE_VERSION.encode() + b'\0'
+        self.assertEqual(core.verify_runtime_version(NATIVE_VERSION, firmware), NATIVE_VERSION)
+        for suffix in [b'RISC_RUNTIME_VERSION:9.9.9\0', b'RISC_RUNTIME_VERSION:9.9.9']:
+            with self.assertRaisesRegex(ValueError, 'exact firmware native version marker'):
+                core.verify_runtime_version(NATIVE_VERSION, firmware + suffix)
+        with self.assertRaisesRegex(ValueError, 'exact firmware native version marker'):
+            core.verify_runtime_version(NATIVE_VERSION, b'RISC_RUNTIME_VERSION:\0')
+
+    def test_real_native_ci_markers_when_supplied(self):
+        source = os.environ.get('T023_NATIVE_FIRMWARE')
+        if source is None:
+            self.skipTest('Set T023_NATIVE_FIRMWARE to exercise the exact product CI binary')
+        firmware = Path(source).read_bytes()
+        marker = b'RISC_RUNTIME_VERSION:' + NATIVE_VERSION.encode() + b'\0'
+        self.assertIn(b'RISC_RUNTIME_VERSION:\0', firmware)
+        self.assertIn(marker, firmware)
+        self.assertEqual(core.verify_runtime_version(NATIVE_VERSION, firmware), NATIVE_VERSION)
+        for candidate in [firmware + b'RISC_RUNTIME_VERSION:9.9.9\0',
+                          firmware + b'RISC_RUNTIME_VERSION:9.9.9',
+                          firmware.replace(marker, b'RISC_RUNTIME_VERSION:\0')]:
+            with self.assertRaisesRegex(ValueError, 'exact firmware native version marker'):
+                core.verify_runtime_version(NATIVE_VERSION, candidate)
+
     def test_invalid_native_versions_rejected(self):
         for version in ['0.3', 'v0.3.4', '0.03.4', '0.3.4-extra', '4294967296.0.0', '']:
             with self.subTest(version=version), self.assertRaisesRegex(ValueError, 'canonical bounded'):
@@ -344,6 +369,99 @@ class CompositionTests(unittest.TestCase):
         self.assertEqual((output / 'pkg-internal/driver.elf').read_bytes(),
                          (self.internal / 'driver.elf').read_bytes())
         self.assertNotIn('provider_compaction', core.read_json(self.root / 'report.json'))
+        self.assertNotIn('rebuilt_app_compaction', core.read_json(self.root / 'report.json'))
+        for name in ['default', 'springboard']:
+            self.assertEqual((output / (name + '.elf')).read_bytes(),
+                             (self.root / name / (name + '.elf')).read_bytes())
+
+    def real_rebuilt_app_fixtures(self):
+        self.real_provider_fixtures()
+        for name in ['default', 'springboard']:
+            path = self.root / name / (name + '.elf')
+            shutil.copyfile(self.catalog / 'driver.elf', path)
+            receipt = {'sha256': hashlib.sha256(path.read_bytes()).hexdigest(), 'bytes': path.stat().st_size}
+            if name == 'default':
+                receipt = {'artifacts': {'default': receipt}}
+            write_json(path.parent / 'build.json', receipt)
+
+    def rebuilt_app_args(self):
+        return ['--compact-rebuilt-apps', *self.compaction_args()[1:]]
+
+    def test_checked_rebuilt_apps_preserve_inventory_and_hash_after_compaction(self):
+        self.real_rebuilt_app_fixtures()
+        before = core.inventory(self.baseline)
+        originals = {name: (self.root / name / (name + '.elf')).read_bytes()
+                     for name in ['default', 'springboard']}
+        output, _ = self.run_compose(extra_args=self.rebuilt_app_args())
+        report = core.read_json(self.root / 'report.json')
+        self.assertEqual(set(report['rebuilt_app_compaction']), set(compaction.REBUILT_APPS))
+        self.assertNotIn('provider_compaction', report)
+        self.assertEqual((report['baseline_file_count'], report['output_file_count']), (156, 160))
+        self.assertEqual(core.inventory(self.baseline), before)
+        for name, digest in before.items():
+            if name not in core.REPLACED:
+                self.assertEqual(core.inventory(output)[name], digest)
+        for name, original in originals.items():
+            relative = name + '.elf'
+            proof = report['rebuilt_app_compaction'][relative]
+            final = (output / relative).read_bytes()
+            self.assertLess(len(final), len(original))
+            self.assertEqual((self.root / 'debug-sidecars' / relative).read_bytes(), original)
+            self.assertEqual((self.root / name / relative).read_bytes(), original)
+            self.assertEqual(proof['profile'], 'loader-metadata-v4')
+            self.assertEqual(proof['after_sha256'], hashlib.sha256(final).hexdigest())
+            self.assertTrue(all(proof['semantic_equivalence']['components_unchanged'].values()))
+            self.assertEqual(proof['semantic_equivalence']['before_sha256'], proof['semantic_equivalence']['after_sha256'])
+            boot = core.read_json(output / 'boot.json')
+            entry = next(e for e in boot['app_capabilities'] if e['manifest'] == name + '.json')
+            self.assertIn('image-' + proof['after_sha256'] + '.elf', entry['image_source']['path'])
+        self.assertEqual((output / 'installed-apps/driver.elf').read_bytes(), (self.catalog / 'driver.elf').read_bytes())
+
+    def test_combined_compaction_has_disjoint_complete_proofs(self):
+        self.real_rebuilt_app_fixtures()
+        _, _ = self.run_compose(extra_args=self.compaction_args() + ['--compact-rebuilt-apps'])
+        report = core.read_json(self.root / 'report.json')
+        self.assertEqual(set(report['rebuilt_app_compaction']), set(compaction.REBUILT_APPS))
+        self.assertEqual(set(report['provider_compaction']), set(compaction.PROVIDERS))
+        self.assertEqual(set(core.inventory(self.root / 'debug-sidecars')), set(compaction.REBUILT_APPS + compaction.PROVIDERS))
+
+    def test_rebuilt_app_original_receipts_checked_before_copy(self):
+        self.real_rebuilt_app_fixtures()
+        (self.root / 'springboard/springboard.elf').write_bytes(b'wrong-original')
+        _, result = self.run_compose(extra_args=self.rebuilt_app_args(), success=False)
+        self.assertIn('original build receipt', result.stderr)
+        self.assertFalse((self.root / 'bridge').exists())
+        self.assertFalse((self.root / 'debug-sidecars').exists())
+
+    def test_rebuilt_app_missing_receipt_rejected_before_copy(self):
+        _, result = self.run_compose(extra_args=self.rebuilt_app_args(), success=False)
+        self.assertIn('original build receipt', result.stderr)
+        self.assertFalse((self.root / 'bridge').exists())
+
+    def test_rebuilt_app_compaction_cannot_select_baseline_inputs(self):
+        with self.assertRaisesRegex(ValueError, 'separate from the baseline'):
+            compaction.validate_rebuilt_apps(self.baseline, self.baseline, self.root / 'springboard')
+
+    def test_rebuilt_app_compaction_refuses_existing_or_aliased_sidecar(self):
+        self.real_rebuilt_app_fixtures()
+        debug = self.root / 'debug-sidecars'
+        debug.mkdir()
+        sidecar = debug / 'default.elf'
+        sidecar.symlink_to(self.root / 'default/default.elf')
+        _, result = self.run_compose(extra_args=self.rebuilt_app_args(), success=False)
+        self.assertIn('escapes its output directory', result.stderr)
+        self.assertFalse((self.root / 'bridge').exists())
+
+    def test_rebuilt_app_compaction_requires_explicit_compiler(self):
+        self.real_rebuilt_app_fixtures()
+        _, result = self.run_compose(extra_args=['--compact-rebuilt-apps'], success=False)
+        self.assertIn('requires --compiler', result.stderr)
+        self.assertFalse((self.root / 'bridge').exists())
+
+    def test_rebuilt_app_compaction_cannot_select_an_arbitrary_baseline_file(self):
+        with self.assertRaisesRegex(ValueError, 'limited to explicit'):
+            compaction.prepare(PRODUCT, Path('/usr/bin/gcc'), self.root / 'debug', self.root / 'report.json',
+                               self.root / 'bridge', [self.baseline], ['notes.elf'])
 
     def test_compaction_options_without_flag_rejected(self):
         _, result = self.run_compose(extra_args=['--compiler', '/missing/gcc'], success=False)

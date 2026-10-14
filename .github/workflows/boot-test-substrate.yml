@@ -70,7 +70,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
-      RUNTIME_SOURCE_SHA: 532cd5a6c6bca81cfabcdcdd9e28af03ef3b7035
+      RUNTIME_SOURCE_SHA: 4f5733289de0e9085f7861f39ea39197238c59c2
+      VENDOR_SOURCE_SHA: b099739ad0e33b34e5fbaae77f02bd84805d79a3
       PLATFORMIO_CORE_DIR: ${{ github.workspace }}/.platformio
     steps:
       - name: Check out exact product inputs
@@ -86,6 +87,14 @@ jobs:
           ref: ${{ env.RUNTIME_SOURCE_SHA }}
           path: runtime
           persist-credentials: false
+      - name: Check out the released product display library
+        uses: actions/checkout@v4
+        with:
+          repository: waveshareteam/ESP32-S3-Touch-AMOLED-2.06
+          ref: ${{ env.VENDOR_SOURCE_SHA }}
+          path: vendor
+          persist-credentials: false
+          sparse-checkout: examples/arduino/libraries/Arduino_GFX
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -95,7 +104,40 @@ jobs:
           set -euo pipefail
           test "$(git -C product rev-parse HEAD)" = "$GITHUB_SHA"
           test "$(git -C runtime rev-parse HEAD)" = "$RUNTIME_SOURCE_SHA"
+          test "$(git -C vendor rev-parse HEAD)" = "$VENDOR_SOURCE_SHA"
           mkdir -p bundle/inputs
+          # The product hook is external to Runtime. Keep the released staging
+          # recipe, checked SPI returns and retained-cleanup extensions intact.
+          python3 product/scripts/stage_vendor_display.py --vendor vendor --runtime runtime
+          git -C product diff --exit-code -- vendor-source-hashes.json
+          cmp product/native/VendorDisplay.cpp runtime/src/VendorDisplay.cpp
+          cp product/{native/VendorDisplay.cpp,scripts/stage_vendor_display.py,vendor-source-hashes.json} bundle/inputs/
+          git -C vendor rev-parse HEAD > bundle/VENDOR_COMMIT.txt
+          git -C vendor rev-parse 'HEAD^{tree}' > bundle/VENDOR_TREE.txt
+          git -C vendor archive HEAD examples/arduino/libraries/Arduino_GFX | gzip -n > bundle/vendor-original-source.tar.gz
+          tar -C runtime -czf bundle/vendor-staged-source.tar.gz src/VendorDisplay.cpp lib/WaveshareVendorGfx
+          python3 - <<'PYINPUTS'
+          import hashlib, json
+          from pathlib import Path
+          baseline = {
+              'expanded-candidate.ini': '45805b02e602467f7b7cdedf5bc2ae6990ac8eaa6afafa945cff0cdfa2c3a07d',
+              'waveshare-settings-profile.h': '37ddfd9feb4b70fbcd9f87b523dec3847a77d4c4bcb6d9b9da5f7fc39fb5382b',
+              'partitions-paired-appdata-expanded.csv': 'dce94f696de5e9657828ca88287d1255441f2b134eef3b319dd104dce2b4955a',
+              'scripts/reproducible_build.py': 'df3e8d6d4e8b1d2fee6e7bec0601b29531ccb4e1a287f86eb3be46ff4997f283',
+              'scripts/radio_iq_build.py': 'c88bfd962d58cb6f0e6c9387b665ae2e10899d267c684640be0af96b127a98e3',
+          }
+          for name, expected in baseline.items():
+              if hashlib.sha256((Path('runtime') / name).read_bytes()).hexdigest() != expected:
+                  raise SystemExit('Released native input changed without review: ' + name)
+          base_config = Path('runtime/platformio.ini').read_text()
+          import re
+          base_config = re.sub(r'(?m)^version = [^\n]+$', 'version = 0.3.3', base_config, count=1)
+          if hashlib.sha256(base_config.encode()).hexdigest() != 'a12b609d803a41369c015f18d37d81398dcc7c17c8e7099f9cb5237b4a199a34':
+              raise SystemExit('Released native platform/features changed without review')
+          paths = [Path('runtime/src/VendorDisplay.cpp'), *Path('runtime/lib/WaveshareVendorGfx').rglob('*')]
+          inventory = {str(p.relative_to('runtime')): {'bytes': p.stat().st_size, 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()} for p in sorted(paths) if p.is_file()}
+          Path('bundle/staged-native-inputs.json').write_text(json.dumps({'baseline_native': 'c258c4ba144247b6eaa4c6f28675ffccec582fe1', 'baseline_product': '7bc1c8b38462002eb5614d3848eefb8ce23b0323', 'unchanged_baseline_inputs': baseline, 'staged_files': inventory}, indent=2) + '\n')
+          PYINPUTS
           cp product/native/t023-provisioning.ini runtime/t023-provisioning.ini
           cp product/native/t023-migration-policy.h runtime/t023-migration-policy.h
           cp runtime/{platformio.ini,expanded-candidate.ini,waveshare-settings-profile.h,t023-provisioning.ini,t023-migration-policy.h,partitions-paired-appdata-expanded.csv} bundle/inputs/
@@ -104,7 +146,7 @@ jobs:
           git -C product rev-parse HEAD > bundle/PRODUCT_COMMIT.txt
           git -C product rev-parse 'HEAD^{tree}' > bundle/PRODUCT_TREE.txt
           git -C runtime archive HEAD | gzip -n > bundle/runtime-source.tar.gz
-          git -C product archive HEAD native/t023-provisioning.ini native/t023-migration-policy.h | gzip -n > bundle/product-profile-source.tar.gz
+          git -C product archive HEAD native/t023-provisioning.ini native/t023-migration-policy.h native/VendorDisplay.cpp scripts/stage_vendor_display.py vendor-source-hashes.json tests/test_vendor_native.py | gzip -n > bundle/product-profile-source.tar.gz
           printf '%s\n' 'Intermediate compile only. Migration policy must be regenerated after final component composition. Not a release, deployment, flash image qualification, or hardware qualification.' > bundle/INTERMEDIATE_ONLY.txt
           printf '%s\n' 'PLATFORMIO_CORE_DIR=<workspace>/.platformio pio run --project-conf t023-provisioning.ini -e waveshare-t023-boot-profiles -j 1' > bundle/BUILD_COMMAND.txt
       - name: Install pinned build tools
@@ -113,6 +155,12 @@ jobs:
           set -euo pipefail
           python3 -m pip install platformio==6.1.19 pyelftools==0.32 esptool==4.11.0 2>&1 | tee bundle/tool-setup.log
           python3 -m pip freeze > bundle/python-packages.txt
+      - name: Verify product display lifecycle on host
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 product/tests/test_vendor_native.py 2>&1 | tee bundle/vendor-host-test.log
+          ASAN_OPTIONS=detect_leaks=0 python3 product/tests/test_vendor_native.py --sanitize 2>&1 | tee bundle/vendor-sanitized-test.log
       - name: Compile combined Wave native candidate
         id: native_build
         working-directory: runtime
@@ -144,6 +192,45 @@ jobs:
           limit = 0x260000
           if len(firmware) > limit:
               raise SystemExit('Firmware exceeds unchanged native partition')
+          # Undefined weak declarations and debug text cannot prove a backend.
+          from elftools.elf.elffile import ELFFile
+          with Path('bundle/firmware.elf').open('rb') as stream:
+              elf = ELFFile(stream)
+              symbols = {sym.name: sym for sym in elf.get_section_by_name('.symtab').iter_symbols()}
+              def allocated(name, strong=False):
+                  sym = symbols.get(name)
+                  if sym is None or not isinstance(sym['st_shndx'], int) or not sym['st_size']:
+                      raise SystemExit('Missing linked native feature: ' + name)
+                  section = elf.get_section(sym['st_shndx'])
+                  if not section['sh_flags'] & 2 or (strong and sym['st_info']['bind'] != 'STB_GLOBAL'):
+                      raise SystemExit('Unallocated or weak native feature: ' + name)
+                  return {'address': sym['st_value'], 'bytes': sym['st_size']}
+              features = {name: allocated(name, True) for name in [
+                  '_ZN7RiscCpu22selectedDisplayBackendEv',
+                  '_ZN7RiscCpu23NativeSettingsLifecycle4bindERN8RiscBoot7RuntimeE',
+                  '_ZN17RiscPackageVolume13bindAdmissionERN8RiscBoot7RuntimeE',
+                  '_ZN20RiscProvisionRequest13bindAdmissionERN8RiscBoot7RuntimeE',
+                  'risc_sdmmc_host_abi', 'risc_tcp_listener_abi', 'risc_entropy_abi',
+                  'risc_file_source_abi', 'risc_usb_phy_resource_enabled',
+                  '__wrap_esp_vfs_register', '__wrap_esp_vfs_unregister',
+                  '__wrap_esp_partition_read', '__wrap_esp_partition_write',
+                  '__wrap_esp_partition_erase_range', '__wrap_esp_littlefs_format',
+                  '__wrap_esp_littlefs_format_partition',
+              ]}
+              features['risc_native_settings_admission'] = allocated('risc_native_settings_admission')
+              for terms in [('Arduino_CO5300',), ('Arduino_ESP32QSPI', 'riscClose')]:
+                  names = [n for n, sym in symbols.items() if all(t in n for t in terms) and isinstance(sym['st_shndx'], int) and sym['st_size']]
+                  if not names:
+                      raise SystemExit('Missing compiled vendor backend: ' + repr(terms))
+                  for name in names:
+                      features[name] = allocated(name)
+          import sys
+          sys.path.insert(0, 'runtime/scripts')
+          from paired_candidate import native_proof
+          from radio_iq_proof import prove
+          native_features = native_proof(Path('bundle/firmware.elf').read_bytes())
+          iq = prove(Path('bundle/firmware.elf').read_bytes(), target_identity='esp32s3-16mb-waveshare-expanded')
+          Path('bundle/native-product-proof.json').write_text(json.dumps({'linked_features': features, 'native': native_features, 'iq': iq}, indent=2) + '\n')
           receipt = {'stage': 'intermediate', 'runtime_sha': os.environ['RUNTIME_SOURCE_SHA'], 'product_sha': os.environ['GITHUB_SHA'], 'runtime_version': version, 'environment': 'waveshare-t023-boot-profiles', 'firmware_bytes': len(firmware), 'app_partition_bytes': limit, 'firmware_sha256': hashlib.sha256(firmware).hexdigest(), 'partition_match': True, 'compiled_identity_match': True, 'final_migration_policy_regeneration_required': True}
           Path('bundle/build-receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
           print(json.dumps(receipt, indent=2))
