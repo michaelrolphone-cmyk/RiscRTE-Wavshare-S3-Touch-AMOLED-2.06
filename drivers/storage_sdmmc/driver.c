@@ -174,10 +174,14 @@ static bool start(const risc_provider_dependency_v1 *deps,size_t n) {
     host=risc_gpio_sdmmc(gpio_api);
     if(!host||!gpio_api->claim||!gpio_api->write||!gpio_api->release||!tw_clock_valid(clock_api)||
        !guard||!guard->is_owner||!guard->create||!guard->try_lock||!guard->unlock||!guard->destroy)return false;
-    if(!guard->is_owner(guard->context)||!guard->create(guard->context,&lock_token)||!lock_token)return false;
     #if WAVE_SD_ASYNC
     storage_worker=tw_dep(deps,n,RISC_STORAGE_WORKER_CAPABILITY,sizeof(*storage_worker));
     if(!storage_worker||!storage_worker->io||!storage_worker->claim||!storage_worker->bind||!storage_worker->submit||!storage_worker->collect||!storage_worker->cancel||!storage_worker->unbind||!storage_worker->release)return false;
+    const risc_storage_work_io_v1 *io=storage_worker->io;
+    if(!io->on_worker||!io->now_ms||!io->delay_ms||!io->open||!io->read||!io->write||!io->sync||!io->close)return false;
+#endif
+    if(!guard->is_owner(guard->context)||!guard->create(guard->context,&lock_token)||!lock_token)return false;
+#if WAVE_SD_ASYNC
     const risc_storage_work_scope_v1 scope={config->pins[3],config->pins[0],config->pins[1],config->pins[2],RISC_SDMMC_MAX_HZ,true};
     if(storage_worker->claim(storage_worker->context,&scope)!=RISC_STORAGE_WORK_OK)return false;
     worker_scope_claimed=true;

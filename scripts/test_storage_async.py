@@ -20,4 +20,5 @@ with tempfile.TemporaryDirectory() as td:
         str(r / 'tests/test_storage_async.c'),
         *[str(r / 'lib/storage_fatfs/fatfs' / (f + '.c')) for f in ['ff', 'ffunicode']],
         '-o', str(target)], check=True)
-    subprocess.run([str(target)], check=True)
+    for case in [[], ["missing"], ["retained"]]:
+        subprocess.run([str(target), *case], check=True, timeout=30)

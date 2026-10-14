@@ -70,16 +70,28 @@ static void collect_ok(uint64_t session,uint64_t token,risc_storage_async_result
  assert(async_collect(NULL,session,token,r)==RISC_STORAGE_ASYNC_PENDING);pump();assert(async_collect(NULL,session,token,r)==RISC_STORAGE_ASYNC_OK);assert(r->status==0);
 }
 static void end_ok(uint64_t s){for(unsigned i=0;i<5;++i){int rc=async_end(NULL,s);if(!rc)return;assert(rc==RISC_STORAGE_ASYNC_PENDING||rc==RISC_STORAGE_ASYNC_BUSY);if(job_&&!completed_)pump();}assert(false);}
-int main(void){
+int main(int argc,char**argv){
  make_disk();risc_provider_dependency_v1 deps[5];memcpy(deps,deps_,sizeof(deps_));deps[4]=(risc_provider_dependency_v1){RISC_STORAGE_WORKER_CAPABILITY,1,&worker_};
  const risc_driver_v2*d=t5_driver_get(2);const risc_storage_volume_api_v1*v=d->capability;
  assert(risc_storage_volume_native_capacity(v)&&risc_storage_volume_session_admission(v));
+ risc_storage_work_io_v1 invalid_io=work_io_;invalid_io.read=NULL;
+ worker_.io=&invalid_io;assert(!start(deps,5)&&!created_&&!selected_&&!opened_);worker_.io=&work_io_;
  unsigned before=calls_;assert(start(deps,5)&&calls_==before&&!opened_); // no I/O on activation
+ if(argc>1&&!strcmp(argv[1],"missing")){
+  missing_=true;assert(v->refresh(NULL)&&!v->ready(NULL)&&!opened_&&!poisoned);missing_=false;
+  assert(v->refresh(NULL)&&v->ready(NULL));clean();free(image_);puts("Absent card cleanup and recovery PASS");return 0;
+ }
  assert(v->refresh(NULL)&&v->ready(NULL));
+ if(argc>1&&!strcmp(argv[1],"retained")){
+  fail_release_=true;assert(!quiesce()&&opened_&&selected_&&created_);
+  fail_release_=false;clean();free(image_);puts("Failed close retains custody; successful retry releases resources PASS");return 0;
+ }
  uint32_t ordinary=v->file_open_write(NULL,"/ordinary.txt");assert(ordinary);
  uint64_t session=99;before=calls_;assert(async_begin_checked(NULL,&session)==RISC_STORAGE_ASYNC_BUSY&&!session&&calls_==before);
  assert(v->file_write(NULL,ordinary,"keep",4)==4&&v->file_close(NULL,ordinary,true));
+ owner_=false;session=99;assert(async_begin_checked(NULL,&session)==RISC_STORAGE_ASYNC_BUSY&&!session);owner_=true;
  assert(async_begin_checked(NULL,&session)==0&&session);before=calls_;
+ assert(!quiesce()&&calls_==before);
  assert(!v->file_open_write(NULL,"/forbidden.txt")&&calls_==before);
  risc_storage_async_request_v1 refresh_request={.operation=RISC_STORAGE_ASYNC_REFRESH};uint64_t token=0;
  assert(async_submit(NULL,session,&refresh_request,&token)==0&&calls_==before);risc_storage_async_result_v1 result;
@@ -87,7 +99,7 @@ int main(void){
  risc_storage_package_request_v1 q={.operation=RISC_STORAGE_PACKAGE_MKDIR};strcpy(q.path,"/RTECFG");assert(package_submit(NULL,session,&q,&token)==0);collect_ok(session,token,&result);
  strcpy(q.path,"/RTECFG/00000006");assert(package_submit(NULL,session,&q,&token)==0);collect_ok(session,token,&result);
  q.operation=RISC_STORAGE_PACKAGE_WRITE_SMALL;strcpy(q.path,"/RTECFG/00000006/profiles");memcpy(q.data,"net-a;net-b",11);q.size=11;
- assert(package_submit(NULL,session,&q,&token)==0);collect_ok(session,token,&result);end_ok(session);
+ assert(package_submit(NULL,session,&q,&token)==0);memset(q.data,0,sizeof(q.data));collect_ok(session,token,&result);end_ok(session);
  assert(!async_adapter.session&&observe_state(NULL)==RISC_STORAGE_STATE_READY);
  for(unsigned restart=0;restart<3;++restart){
   assert(async_begin_checked(NULL,&session)==0);risc_storage_async_request_v1 readq={.operation=RISC_STORAGE_ASYNC_READ_SMALL_FILE};strcpy(readq.path,"/RTECFG/00000006/profiles");assert(async_submit(NULL,session,&readq,&token)==0);collect_ok(session,token,&result);assert(result.size==11&&!memcmp(result.data,"net-a;net-b",11));end_ok(session);
