@@ -15,7 +15,10 @@ namespace {
 Arduino_ESP32QSPI* bus=nullptr;
 Arduino_CO5300* panel=nullptr;
 uint16_t width=0,height=0;int16_t reset=-1,cs=-1;
-bool panelReady=false,panelOff=false,probed=false;
+bool panelReady=false,panelOff=false;
+#ifdef RISC_VENDOR_DISPLAY_PROBE
+static bool probed=false;
+#endif
 uint16_t paired[820];uint32_t pendingRow=UINT32_MAX;
 bool accepts(const risc_hardware_device_v1& hw,uint8_t physical){
  if(physical!=2 || strcmp(hw.compatible,"chipone,co5300") || strcmp(hw.config_type,"display.spi") ||
@@ -57,9 +60,11 @@ bool openPanel(const risc_hardware_device_v1& hw,uint8_t physical){
  panelReady=true;panelOff=false;
  // Same post-begin brightness as successful diagnostic A/B. Vendor begin
  // itself writes 0xD0 immediately after DISPON; diagnostic phases follow.
- panel->setBrightness(80);
+ panel->setBrightness(0);
  pads("after-begin");
+ #ifdef RISC_VENDOR_DISPLAY_PROBE
  if(!probed){
+ panel->setBrightness(80);
  Serial.println("PANEL_PROBE phase=all-pixels-on before-dependent-providers=1");
  bus->sendCommand(0x23);delay(800);bus->sendCommand(0x13); // NORON restores GRAM; 0x22 is ALLPOFF.
  Serial.println("PANEL_PROBE phase=red-fill before-dependent-providers=1");
@@ -74,6 +79,8 @@ bool openPanel(const risc_hardware_device_v1& hw,uint8_t physical){
  delay(1200);
  probed=true;
  }
+ #endif
+ panel->setBrightness(0);
  panel->fillScreen(0);
  return true;
 }

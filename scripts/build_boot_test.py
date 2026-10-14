@@ -109,7 +109,7 @@ def main():
  # Keep diagnostics under their own name; never alias a launcher/settings entry.
  diagnostic=dirs['diagnostic_shared']
  build(diagnostic/'apps/bringup/main.c',store/'bringup.elf',[diagnostic/'sdk/app',diagnostic/'sdk/driver',diagnostic/'include'],'app_main',[diagnostic/'apps/clock/viewport.c'])
- diagnostics={'type':'application','id':'watch-bringup','version':'0.1.0','architecture':'xtensa-esp32s3','entry':'app_main'}
+ diagnostics={'type':'application','id':'watch-bringup','launcher_visible':False,'version':'0.1.0','architecture':'xtensa-esp32s3','entry':'app_main'}
  grants=[('display.output',1,5),('input.touch.raw',1,6),('board.battery',1,4),('rtc.clock',2,8),('motion.accel',1,7),('haptic.effect',1,9)]
  application('bringup',diagnostics,grants)
  system=dirs['watch_system']

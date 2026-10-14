@@ -58,6 +58,8 @@ def main():
     already=any(g['capability']==grant['capability'] and g['api']==grant['api'] for g in policy['grants'])
     if persistent or not already:add_unique(policy['grants'],[grant])
    if n=='default.json':manifest['version']='0.15.1'
+   if n in ('default.json','springboard.json','bringup.json'):manifest['launcher_visible']=False
+   if n=='file_browser.json':manifest.update(display_name='Files',icon='solid:f07b')
    if n=='lora_messages.json':
     manifest['version']='0.1.16';manifest['display_name']='LoRa Messages';manifest['icon']='solid:f27a'
     add_unique(manifest['requires'],[{'capability':c,'api':1} for c in ('input.power-key','power.sleep','display.power','app.catalog')])
