@@ -1,12 +1,14 @@
 name: Waveshare first-boot native substrate
 on:
   push:
-    branches: [feat/universal-watch]
+    branches: [feat/universal-watch, fix/t023-automatic-provisioning]
     paths: ['.github/workflows/boot-test-substrate.yml']
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
   native:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/feat/universal-watch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -61,4 +63,107 @@ jobs:
         with:
           name: waveshare-boot-substrate
           path: bundle
+          retention-days: 14
+
+  t023-native-intermediate:
+    if: github.ref == 'refs/heads/fix/t023-automatic-provisioning'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      RUNTIME_SOURCE_SHA: 532cd5a6c6bca81cfabcdcdd9e28af03ef3b7035
+      PLATFORMIO_CORE_DIR: ${{ github.workspace }}/.platformio
+    steps:
+      - name: Check out exact product inputs
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: product
+          persist-credentials: false
+      - name: Check out combined Runtime source
+        uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE
+          ref: ${{ env.RUNTIME_SOURCE_SHA }}
+          path: runtime
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Preserve source-bound intermediate inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C product rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git -C runtime rev-parse HEAD)" = "$RUNTIME_SOURCE_SHA"
+          mkdir -p bundle/inputs
+          cp product/native/t023-provisioning.ini runtime/t023-provisioning.ini
+          cp product/native/t023-migration-policy.h runtime/t023-migration-policy.h
+          cp runtime/{platformio.ini,expanded-candidate.ini,waveshare-settings-profile.h,t023-provisioning.ini,t023-migration-policy.h,partitions-paired-appdata-expanded.csv} bundle/inputs/
+          git -C runtime rev-parse HEAD > bundle/RUNTIME_COMMIT.txt
+          git -C runtime rev-parse 'HEAD^{tree}' > bundle/RUNTIME_TREE.txt
+          git -C product rev-parse HEAD > bundle/PRODUCT_COMMIT.txt
+          git -C product rev-parse 'HEAD^{tree}' > bundle/PRODUCT_TREE.txt
+          git -C runtime archive HEAD | gzip -n > bundle/runtime-source.tar.gz
+          git -C product archive HEAD native/t023-provisioning.ini native/t023-migration-policy.h | gzip -n > bundle/product-profile-source.tar.gz
+          printf '%s\n' 'Intermediate compile only. Migration policy must be regenerated after final component composition. Not a release, deployment, flash image qualification, or hardware qualification.' > bundle/INTERMEDIATE_ONLY.txt
+          printf '%s\n' 'PLATFORMIO_CORE_DIR=<workspace>/.platformio pio run --project-conf t023-provisioning.ini -e waveshare-t023-boot-profiles -j 1' > bundle/BUILD_COMMAND.txt
+      - name: Install pinned build tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install platformio==6.1.19 pyelftools==0.32 esptool==4.11.0 2>&1 | tee bundle/tool-setup.log
+          python3 -m pip freeze > bundle/python-packages.txt
+      - name: Compile combined Wave native candidate
+        id: native_build
+        working-directory: runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          pio run --project-conf t023-provisioning.ini -e waveshare-t023-boot-profiles -j 1 2>&1 | tee ../bundle/build.log
+      - name: Verify and collect native build outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          output=runtime/.pio/build/waveshare-t023-boot-profiles
+          cp "$output"/{firmware.elf,firmware.bin,bootloader.bin,partitions.bin,radio-iq-proof.json,RiscBuildIdentity.h} bundle/
+          if test -f "$output/firmware.map"; then cp "$output/firmware.map" bundle/; fi
+          "$PLATFORMIO_CORE_DIR/packages/toolchain-xtensa-esp32s3/bin/xtensa-esp32s3-elf-size" -A "$output/firmware.elf" > bundle/native-sections.txt
+          python3 "$PLATFORMIO_CORE_DIR/packages/framework-arduinoespressif32/tools/gen_esp32part.py" runtime/partitions-paired-appdata-expanded.csv bundle/expected-partitions.bin
+          cmp bundle/partitions.bin bundle/expected-partitions.bin
+          python3 - <<'PYVERIFY'
+          import configparser, hashlib, json, os
+          from pathlib import Path
+          config = configparser.ConfigParser(interpolation=None)
+          config.read('runtime/platformio.ini')
+          version = config['riscrte']['version']
+          firmware = Path('bundle/firmware.bin').read_bytes()
+          markers = ['RTE_SOURCE=' + os.environ['RUNTIME_SOURCE_SHA'], 'RISC_RUNTIME_VERSION:' + version, 'RISC_PAIRED_STORE_ABI:3']
+          for marker in markers:
+              if marker.encode() + b'\0' not in firmware:
+                  raise SystemExit('Missing compiled identity: ' + marker)
+          limit = 0x260000
+          if len(firmware) > limit:
+              raise SystemExit('Firmware exceeds unchanged native partition')
+          receipt = {'stage': 'intermediate', 'runtime_sha': os.environ['RUNTIME_SOURCE_SHA'], 'product_sha': os.environ['GITHUB_SHA'], 'runtime_version': version, 'environment': 'waveshare-t023-boot-profiles', 'firmware_bytes': len(firmware), 'app_partition_bytes': limit, 'firmware_sha256': hashlib.sha256(firmware).hexdigest(), 'partition_match': True, 'compiled_identity_match': True, 'final_migration_policy_regeneration_required': True}
+          Path('bundle/build-receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
+          print(json.dumps(receipt, indent=2))
+          PYVERIFY
+      - name: Preserve completion status and checksums
+        if: always()
+        shell: bash
+        env:
+          BUILD_OUTCOME: ${{ steps.native_build.outcome }}
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          set -euo pipefail
+          mkdir -p bundle
+          printf 'Native build outcome: %s\nJob status before evidence upload: %s\n' "$BUILD_OUTCOME" "$JOB_STATUS" > bundle/STATUS.txt
+          (cd bundle && find . -type f ! -name SHA256SUMS.txt -print0 | sort -z | xargs -0 sha256sum > SHA256SUMS.txt)
+      - name: Upload intermediate build evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: waveshare-t023-intermediate-${{ github.sha }}-${{ github.run_attempt }}
+          path: bundle/
+          if-no-files-found: error
           retention-days: 14
