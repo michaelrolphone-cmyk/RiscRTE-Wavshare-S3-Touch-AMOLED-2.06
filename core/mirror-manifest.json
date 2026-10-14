@@ -1,0 +1,446 @@
+{
+  "asset_count": 62,
+  "assets": {
+    "image-0639799e0793fc1421c74a562127e4fef63be185b828193569055b4314df1d58.elf": {
+      "bytes": 169824,
+      "sha256": "0639799e0793fc1421c74a562127e4fef63be185b828193569055b4314df1d58",
+      "source_files": [
+        "timecard.elf"
+      ]
+    },
+    "image-0755f9c0eb659853f717f7f605bcf6bb2bbc680a85b8007208eb3f1a0e14022a.elf": {
+      "bytes": 17840,
+      "sha256": "0755f9c0eb659853f717f7f605bcf6bb2bbc680a85b8007208eb3f1a0e14022a",
+      "source_files": [
+        "update_fw/driver.elf"
+      ]
+    },
+    "image-07c7fefd6b26f391cdcfabafe819a8524f0db752d9913899ba15df83285b9c7f.elf": {
+      "bytes": 154004,
+      "sha256": "07c7fefd6b26f391cdcfabafe819a8524f0db752d9913899ba15df83285b9c7f",
+      "source_files": [
+        "ble_buttons.elf"
+      ]
+    },
+    "image-0b35039a68b6963b2a50ca33b4241a499e4466d349e8b2639ea44018cf3e7826.elf": {
+      "bytes": 2204,
+      "sha256": "0b35039a68b6963b2a50ca33b4241a499e4466d349e8b2639ea44018cf3e7826",
+      "source_files": [
+        "display-power/driver.elf"
+      ]
+    },
+    "image-0b66d2b360169d19239e67334702e9a77b876c00184df50e014ec53c5a010415.elf": {
+      "bytes": 1556,
+      "sha256": "0b66d2b360169d19239e67334702e9a77b876c00184df50e014ec53c5a010415",
+      "source_files": [
+        "scene-profile/driver.elf"
+      ]
+    },
+    "image-1039b29f3a8a96ab2fa60b40429bd448514e024dfdc2f775fc4f993e06a53f26.elf": {
+      "bytes": 12092,
+      "sha256": "1039b29f3a8a96ab2fa60b40429bd448514e024dfdc2f775fc4f993e06a53f26",
+      "source_files": [
+        "text-input/driver.elf"
+      ]
+    },
+    "image-14b82e1cbe1161b0896632677427b949ccc96521c7dff5b28a58dda59269197f.elf": {
+      "bytes": 175928,
+      "sha256": "14b82e1cbe1161b0896632677427b949ccc96521c7dff5b28a58dda59269197f",
+      "source_files": [
+        "points_in_time.elf"
+      ]
+    },
+    "image-159f6d40343fd04781fa78785b0a35d423e6f333e52cb551142a6d27f0970f43.elf": {
+      "bytes": 5688,
+      "sha256": "159f6d40343fd04781fa78785b0a35d423e6f333e52cb551142a6d27f0970f43",
+      "source_files": [
+        "rtc/driver.elf"
+      ]
+    },
+    "image-19d6dc5fde5d25b3c0808c0dcb500a011469350bebfc66a74556369b90c975ba.elf": {
+      "bytes": 169460,
+      "sha256": "19d6dc5fde5d25b3c0808c0dcb500a011469350bebfc66a74556369b90c975ba",
+      "source_files": [
+        "wifi_settings.elf"
+      ]
+    },
+    "image-1b229370856749fce7d33e72d1d936420584ab621334e9c00bda39a1f7e64acd.elf": {
+      "bytes": 5308,
+      "sha256": "1b229370856749fce7d33e72d1d936420584ab621334e9c00bda39a1f7e64acd",
+      "source_files": [
+        "gpio/driver.elf"
+      ]
+    },
+    "image-20fcda30f9619c465d9a256b065c5930e3a96e817590dd4cc5beaa3edd3506bb.elf": {
+      "bytes": 4396,
+      "sha256": "20fcda30f9619c465d9a256b065c5930e3a96e817590dd4cc5beaa3edd3506bb",
+      "source_files": [
+        "civil-clock/driver.elf"
+      ]
+    },
+    "image-21a50ad448014e2c365b39b84131fa1ced626b93cd38a80ea462f8a838dac9e1.elf": {
+      "bytes": 22144,
+      "sha256": "21a50ad448014e2c365b39b84131fa1ced626b93cd38a80ea462f8a838dac9e1",
+      "source_files": [
+        "alarm-service/driver.elf"
+      ]
+    },
+    "image-21effc63d83a99d94e295358bf89656605880fadf6cbc07d2696951c4c81a492.elf": {
+      "bytes": 157520,
+      "sha256": "21effc63d83a99d94e295358bf89656605880fadf6cbc07d2696951c4c81a492",
+      "source_files": [
+        "ble_scanner.elf"
+      ]
+    },
+    "image-2ad0ebb4906e7e31cc962d1ca3f8b1c1151f2a80e4f9c37052433af5cd3eba3d.elf": {
+      "bytes": 153972,
+      "sha256": "2ad0ebb4906e7e31cc962d1ca3f8b1c1151f2a80e4f9c37052433af5cd3eba3d",
+      "source_files": [
+        "ble_touchpad.elf"
+      ]
+    },
+    "image-2d8feee57141250f1c03530748c46999bd0eed70ab6813605e7a29ad4068a915.elf": {
+      "bytes": 149284,
+      "sha256": "2d8feee57141250f1c03530748c46999bd0eed70ab6813605e7a29ad4068a915",
+      "source_files": [
+        "countdown.elf"
+      ]
+    },
+    "image-309a4d98f41985784ebbc6a85202f7b5387b9c18c9376553af8505199bf01143.elf": {
+      "bytes": 4436,
+      "sha256": "309a4d98f41985784ebbc6a85202f7b5387b9c18c9376553af8505199bf01143",
+      "source_files": [
+        "ble/driver.elf"
+      ]
+    },
+    "image-3557d080b673f070b88a6a0398fb8d54473b5d887015582235fb6de485505545.elf": {
+      "bytes": 133160,
+      "sha256": "3557d080b673f070b88a6a0398fb8d54473b5d887015582235fb6de485505545",
+      "source_files": [
+        "ota_update.elf"
+      ]
+    },
+    "image-3f648d893df11c77d0b0abd7c4a9c954a8f5e53d90159eb24f46944c12bad68c.elf": {
+      "bytes": 153428,
+      "sha256": "3f648d893df11c77d0b0abd7c4a9c954a8f5e53d90159eb24f46944c12bad68c",
+      "source_files": [
+        "alarms.elf"
+      ]
+    },
+    "image-450e49f07d7820980a7c815fc042a7e9cad20312baa88ce0d8ee404e9eaa4c5d.elf": {
+      "bytes": 153440,
+      "sha256": "450e49f07d7820980a7c815fc042a7e9cad20312baa88ce0d8ee404e9eaa4c5d",
+      "source_files": [
+        "battery.elf"
+      ]
+    },
+    "image-460eaf2ea115368c5bb6df28f3c71c87459e3d6c7c3c7c3e29db2de011385524.elf": {
+      "bytes": 9584,
+      "sha256": "460eaf2ea115368c5bb6df28f3c71c87459e3d6c7c3c7c3e29db2de011385524",
+      "source_files": [
+        "ble-sensors/driver.elf"
+      ]
+    },
+    "image-468ad39f3e4d5054d27f6b00f8084cd6841300b09a61489e0be768e88f06d86d.elf": {
+      "bytes": 86244,
+      "sha256": "468ad39f3e4d5054d27f6b00f8084cd6841300b09a61489e0be768e88f06d86d",
+      "source_files": [
+        "installed-apps/driver.elf"
+      ]
+    },
+    "image-469a1110c7e57e5db960f069c09989d4c7cf4d903391b153d7c6aefba8758bb4.elf": {
+      "bytes": 133148,
+      "sha256": "469a1110c7e57e5db960f069c09989d4c7cf4d903391b153d7c6aefba8758bb4",
+      "source_files": [
+        "app_store.elf"
+      ]
+    },
+    "image-4b70994e42e89684f1694b624f80c0f7e15af1a3feb970ef7b3a7ba633dd2d66.elf": {
+      "bytes": 145204,
+      "sha256": "4b70994e42e89684f1694b624f80c0f7e15af1a3feb970ef7b3a7ba633dd2d66",
+      "source_files": [
+        "calculator.elf"
+      ]
+    },
+    "image-4ca9c81f5fcbb7aa22003c4bf4cc9aeb07591257285c6f9b491c7aad4f6bb6ae.elf": {
+      "bytes": 2964,
+      "sha256": "4ca9c81f5fcbb7aa22003c4bf4cc9aeb07591257285c6f9b491c7aad4f6bb6ae",
+      "source_files": [
+        "audio-input/driver.elf"
+      ]
+    },
+    "image-514e919d65be8c9642cdefbce5efe0daad276185148dbace218ae81beb896d78.elf": {
+      "bytes": 9632,
+      "sha256": "514e919d65be8c9642cdefbce5efe0daad276185148dbace218ae81beb896d78",
+      "source_files": [
+        "display/driver.elf"
+      ]
+    },
+    "image-51c498f306e12530417ccec6a22d1e7504df5d70278290dcc67628ca778c7c58.elf": {
+      "bytes": 287640,
+      "sha256": "51c498f306e12530417ccec6a22d1e7504df5d70278290dcc67628ca778c7c58",
+      "source_files": [
+        "file_browser.elf"
+      ]
+    },
+    "image-55933bba6c97a6bdd1ea2b1ff5d0aa8d3bad5a13a1888dbe378af8074aed80f7.elf": {
+      "bytes": 3388,
+      "sha256": "55933bba6c97a6bdd1ea2b1ff5d0aa8d3bad5a13a1888dbe378af8074aed80f7",
+      "source_files": [
+        "audio-output/driver.elf"
+      ]
+    },
+    "image-6290d9cdfae051b9f2f2c83060f1c4000a62f727d47b680c67cd77b0d9e0c555.elf": {
+      "bytes": 125480,
+      "sha256": "6290d9cdfae051b9f2f2c83060f1c4000a62f727d47b680c67cd77b0d9e0c555",
+      "source_files": [
+        "ble-hid/driver.elf"
+      ]
+    },
+    "image-6cfbd343633677a2498456d2a6664632ed83f2c7e6f966c7cba4349bfbc28e86.elf": {
+      "bytes": 64808,
+      "sha256": "6cfbd343633677a2498456d2a6664632ed83f2c7e6f966c7cba4349bfbc28e86",
+      "source_files": [
+        "usb_sd_transfer.elf"
+      ]
+    },
+    "image-6d9037eb68f2e3535a45fbffc01413a87b0ea8684de512ddca3d3bd788125f8f.elf": {
+      "bytes": 2260,
+      "sha256": "6d9037eb68f2e3535a45fbffc01413a87b0ea8684de512ddca3d3bd788125f8f",
+      "source_files": [
+        "power-sleep/driver.elf"
+      ]
+    },
+    "image-73c9cdd728374e9a917e1a22d1d489b0813e969548423d0f36ca22f2996ea735.elf": {
+      "bytes": 6784,
+      "sha256": "73c9cdd728374e9a917e1a22d1d489b0813e969548423d0f36ca22f2996ea735",
+      "source_files": [
+        "codec/driver.elf"
+      ]
+    },
+    "image-748eb5a7c2fa22f2d832b2bc588cdd7c2f2bcc0d6ee24fd30e58dffefe891d6e.elf": {
+      "bytes": 3672,
+      "sha256": "748eb5a7c2fa22f2d832b2bc588cdd7c2f2bcc0d6ee24fd30e58dffefe891d6e",
+      "source_files": [
+        "i2c/driver.elf"
+      ]
+    },
+    "image-7ba073e30bab4a00a9c146af6e6e594ae381729e7102a9eea58e3ba491999127.elf": {
+      "bytes": 5948,
+      "sha256": "7ba073e30bab4a00a9c146af6e6e594ae381729e7102a9eea58e3ba491999127",
+      "source_files": [
+        "battery/driver.elf"
+      ]
+    },
+    "image-7f0b2274105226e0fef64c2cc55ce8755ff2c8226d6e80cac1a2b397807a5e60.elf": {
+      "bytes": 2584,
+      "sha256": "7f0b2274105226e0fef64c2cc55ce8755ff2c8226d6e80cac1a2b397807a5e60",
+      "source_files": [
+        "sharing-entropy/driver.elf"
+      ]
+    },
+    "image-83d3dec48b61e0d61dfccd06982ad2d027432f2f80b16491c928dbcbae822867.elf": {
+      "bytes": 204664,
+      "sha256": "83d3dec48b61e0d61dfccd06982ad2d027432f2f80b16491c928dbcbae822867",
+      "source_files": [
+        "ui-scene/driver.elf"
+      ]
+    },
+    "image-8b4cb6c789afcaa9c6bb6a4d348f9b7b2618baeca70831fd25819f275c1c874d.elf": {
+      "bytes": 43068,
+      "sha256": "8b4cb6c789afcaa9c6bb6a4d348f9b7b2618baeca70831fd25819f275c1c874d",
+      "source_files": [
+        "model_viewer.elf"
+      ]
+    },
+    "image-8b7286c712d785042f7207fe697d9b23a4710bc10a653a839808cedc1847fec5.elf": {
+      "bytes": 243380,
+      "sha256": "8b7286c712d785042f7207fe697d9b23a4710bc10a653a839808cedc1847fec5",
+      "source_files": [
+        "audio_spectrum.elf"
+      ]
+    },
+    "image-8f84f9020571b6c0be116c294025ce2fe0252e5761a76f3ef1897bc9b3a30a0e.elf": {
+      "bytes": 9592,
+      "sha256": "8f84f9020571b6c0be116c294025ce2fe0252e5761a76f3ef1897bc9b3a30a0e",
+      "source_files": [
+        "touch/driver.elf"
+      ]
+    },
+    "image-95b68db1106368d1680e95be1a9a489d88913a6aa59879ce2cc0228af60d0146.elf": {
+      "bytes": 5520,
+      "sha256": "95b68db1106368d1680e95be1a9a489d88913a6aa59879ce2cc0228af60d0146",
+      "source_files": [
+        "sharing-tcp/driver.elf"
+      ]
+    },
+    "image-999abfce25e39bdd5eb440d6e7bd6bd69f54e1e88edc78901ed00b01f25599d1.elf": {
+      "bytes": 251648,
+      "sha256": "999abfce25e39bdd5eb440d6e7bd6bd69f54e1e88edc78901ed00b01f25599d1",
+      "source_files": [
+        "waterfall.elf"
+      ]
+    },
+    "image-9a7cc6f87fc2a9cb5b1d65b7be1795be42cee822a2af722c8a81317a701d8461.elf": {
+      "bytes": 34892,
+      "sha256": "9a7cc6f87fc2a9cb5b1d65b7be1795be42cee822a2af722c8a81317a701d8461",
+      "source_files": [
+        "usb-msc/driver.elf"
+      ]
+    },
+    "image-a3b4b678eeee6a1d5ebc4a605b6c7d8ee176d806bd8ad059815bb4d979a56410.elf": {
+      "bytes": 63840,
+      "sha256": "a3b4b678eeee6a1d5ebc4a605b6c7d8ee176d806bd8ad059815bb4d979a56410",
+      "source_files": [
+        "contexts.elf"
+      ]
+    },
+    "image-a4af5a4f033cad4cc85acc56abb3c5bd0d6a0506ebb4044a753891f365641676.elf": {
+      "bytes": 6592,
+      "sha256": "a4af5a4f033cad4cc85acc56abb3c5bd0d6a0506ebb4044a753891f365641676",
+      "source_files": [
+        "motion/driver.elf"
+      ]
+    },
+    "image-a7558b3bd2cd0c2a0edee95e4a8a69477a63772e8300e33e8e7332a2558f8d41.elf": {
+      "bytes": 157124,
+      "sha256": "a7558b3bd2cd0c2a0edee95e4a8a69477a63772e8300e33e8e7332a2558f8d41",
+      "source_files": [
+        "settings.elf"
+      ]
+    },
+    "image-a860fff6f986386a5368d102ebb96a1fac9facbb1b9cc38d4e87da65391bb7f3.elf": {
+      "bytes": 9588,
+      "sha256": "a860fff6f986386a5368d102ebb96a1fac9facbb1b9cc38d4e87da65391bb7f3",
+      "source_files": [
+        "ble-telemetry/driver.elf"
+      ]
+    },
+    "image-a86d0fa12cb972429b7de50844f29ccedb97377105fcb737e6b71049db0d2015.elf": {
+      "bytes": 3252,
+      "sha256": "a86d0fa12cb972429b7de50844f29ccedb97377105fcb737e6b71049db0d2015",
+      "source_files": [
+        "haptic/driver.elf"
+      ]
+    },
+    "image-af3cb32dfa07b14c89c70bad86be0a9a3a3cfab62714ccf6048c4168df04c44d.elf": {
+      "bytes": 2164,
+      "sha256": "af3cb32dfa07b14c89c70bad86be0a9a3a3cfab62714ccf6048c4168df04c44d",
+      "source_files": [
+        "powerkey/driver.elf"
+      ]
+    },
+    "image-b0100aea431e046dc7f8a03581917fa40379080cb4e7528255cef205839b9c84.elf": {
+      "bytes": 2816,
+      "sha256": "b0100aea431e046dc7f8a03581917fa40379080cb4e7528255cef205839b9c84",
+      "source_files": [
+        "battery-telem/driver.elf"
+      ]
+    },
+    "image-b0398bf9c56a791dedde07b5a007262ab46a511d8da6403adf16bd95117b00ed.elf": {
+      "bytes": 5488,
+      "sha256": "b0398bf9c56a791dedde07b5a007262ab46a511d8da6403adf16bd95117b00ed",
+      "source_files": [
+        "broadcast/driver.elf"
+      ]
+    },
+    "image-c2cfdcdc6fc3e0f904df8db8b6285d2a610a81208cc4cb90e0d28ed75c7ad35b.elf": {
+      "bytes": 17840,
+      "sha256": "c2cfdcdc6fc3e0f904df8db8b6285d2a610a81208cc4cb90e0d28ed75c7ad35b",
+      "source_files": [
+        "update_apps/driver.elf"
+      ]
+    },
+    "image-c443797f137d959a55eeb20e77d3b703ebdfb41fbb5ed7f34b2fa547b30f307d.elf": {
+      "bytes": 137360,
+      "sha256": "c443797f137d959a55eeb20e77d3b703ebdfb41fbb5ed7f34b2fa547b30f307d",
+      "source_files": [
+        "frequency_generator.elf"
+      ]
+    },
+    "image-c8e084298342d58671e755068271513d201e6e1686bea9fc1fada17a6130e15e.elf": {
+      "bytes": 4748,
+      "sha256": "c8e084298342d58671e755068271513d201e6e1686bea9fc1fada17a6130e15e",
+      "source_files": [
+        "rail/driver.elf"
+      ]
+    },
+    "image-ca2e30237ceee4b218faf8ec94ca9286fd97cf7be09d0fce3ca8a2eab88c6216.elf": {
+      "bytes": 9052,
+      "sha256": "ca2e30237ceee4b218faf8ec94ca9286fd97cf7be09d0fce3ca8a2eab88c6216",
+      "source_files": [
+        "bringup.elf"
+      ]
+    },
+    "image-cbf6e32f35697aa547a075f952cf32dd65fd7946eac067bc3e5115b1008cc7dd.elf": {
+      "bytes": 4760,
+      "sha256": "cbf6e32f35697aa547a075f952cf32dd65fd7946eac067bc3e5115b1008cc7dd",
+      "source_files": [
+        "wifi/driver.elf"
+      ]
+    },
+    "image-cfbb592836763f80a98904aa3aaf6a04c9cb1214f447a42e9df2739f5e259f48.elf": {
+      "bytes": 26352,
+      "sha256": "cfbb592836763f80a98904aa3aaf6a04c9cb1214f447a42e9df2739f5e259f48",
+      "source_files": [
+        "lists.elf"
+      ]
+    },
+    "image-cfd7de71d1949e415ba6662862feba4733e384258670ec73760425436d3fcde1.elf": {
+      "bytes": 1232,
+      "sha256": "cfd7de71d1949e415ba6662862feba4733e384258670ec73760425436d3fcde1",
+      "source_files": [
+        "clock.elf"
+      ]
+    },
+    "image-d59f0eec4a15577b60bbc369a5421eb993f8a6201cb4c95b28bfcf9b8106aa92.elf": {
+      "bytes": 167288,
+      "sha256": "d59f0eec4a15577b60bbc369a5421eb993f8a6201cb4c95b28bfcf9b8106aa92",
+      "source_files": [
+        "springboard.elf"
+      ]
+    },
+    "image-d98389dac7538110d2e36218df292e335c456317b543ecfab8ab979d60761bf9.elf": {
+      "bytes": 83528,
+      "sha256": "d98389dac7538110d2e36218df292e335c456317b543ecfab8ab979d60761bf9",
+      "source_files": [
+        "contexts/driver.elf"
+      ]
+    },
+    "image-e0cbdd1d53c6a1a3e062fac3da40f22200635f4e1f73204bf333bb552b78e108.elf": {
+      "bytes": 12540,
+      "sha256": "e0cbdd1d53c6a1a3e062fac3da40f22200635f4e1f73204bf333bb552b78e108",
+      "source_files": [
+        "s3-radio-iq/driver.elf"
+      ]
+    },
+    "image-e7f0fd2366113a6c04cde171a66b70c82a107e328fa84be07426d73536772f70.elf": {
+      "bytes": 487912,
+      "sha256": "e7f0fd2366113a6c04cde171a66b70c82a107e328fa84be07426d73536772f70",
+      "source_files": [
+        "default.elf"
+      ]
+    },
+    "image-f0589af2ce786867f48f9001b687ad2293bf7f69d6302838c47e111ab83381f4.elf": {
+      "bytes": 140280,
+      "sha256": "f0589af2ce786867f48f9001b687ad2293bf7f69d6302838c47e111ab83381f4",
+      "source_files": [
+        "sharing-ble/driver.elf"
+      ]
+    },
+    "image-fe2ded6556c1733dc308152fdf6f49f1226a6a7a48e5744b595bffe27c81abfc.elf": {
+      "bytes": 146440,
+      "sha256": "fe2ded6556c1733dc308152fdf6f49f1226a6a7a48e5744b595bffe27c81abfc",
+      "source_files": [
+        "stopwatch.elf"
+      ]
+    }
+  },
+  "final_native_and_feed_pending": true,
+  "hardware_tested": false,
+  "product": "waveshare-s3-touch-amoled-206",
+  "recipe_path": "profiles/t023-reproduction.json",
+  "recipe_source": "a214c0a599009ce933e91c7bd0caf4e6f73cdb3c",
+  "schema": "riscrte.core-mirror-assets",
+  "schema_version": 1
+}
