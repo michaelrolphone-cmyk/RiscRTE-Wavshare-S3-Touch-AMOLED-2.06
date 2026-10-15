@@ -1,0 +1,53 @@
+{
+  "baseline_contract_sha256": "a25dd296eafd2bdb604c310b58aa14dbf6d021e76c336c087c5e2bcb8735cc58",
+  "candidate_artifacts": {
+    "bootloader.bin": {
+      "bytes": 22640,
+      "sha256": "d4f2cec05817a638659e74ea754b5b2f582e0eacdf5547b16844a1e263795389"
+    },
+    "factory-candidate-erases-data-0x0.bin": {
+      "bytes": 16777216,
+      "sha256": "28216ef77a5a30d528989bf53270f419290d4b5a3a9e05c835253a046a79a9b8"
+    },
+    "firmware.bin": {
+      "bytes": 1731424,
+      "sha256": "d46a97f230834ca7e77eb75ea2bf1df8270e18a42e6fc667e7069e17c2f5f6fa"
+    },
+    "partitions.bin": {
+      "bytes": 3072,
+      "sha256": "d27edcdba637142baa7d91e29b70df47554c22a4f14de303dc6a0cdcc1e25de8"
+    },
+    "store.bin": {
+      "bytes": 5570560,
+      "sha256": "0b205838bd4ad9a279c4dc75f700932edb87ef53fc94e5c71e4ed987009b5eae"
+    }
+  },
+  "candidate_version": "0.1.49",
+  "evidence_asset": "Runtime-0.4.0-Wave-0.1.49-Native-IDF61-Evidence.zip",
+  "evidence_sha256": "1bd762a43ca1c75b86d486a099d8f9cb5c2d84eece767d7c0eb198747b41a672",
+  "finalized": true,
+  "product": "waveshare",
+  "publication_enabled": true,
+  "qualification_sha256": "45397970a66c1d82fe712e5fe9f3fd4f019fc5f549f2fc0dd3d91e83c41c1ef4",
+  "release_branch": "work/native-idf-6.1",
+  "release_tag": "test-native-idf61-0.1.49",
+  "repository": "michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06",
+  "runtime_artifact_id": 12003895092,
+  "runtime_manifest_sha256": "ddf5e3be350658b53bffa023fd3fbc9771c11fce25065f9bf6021ab5ca015d29",
+  "runtime_release_revision": "659d859acb122640ef4003bb8d7099501d4381be",
+  "runtime_repository": "michaelrolphone-cmyk/RiscRTE",
+  "runtime_revision": "659d859acb122640ef4003bb8d7099501d4381be",
+  "runtime_run_attempt": 1,
+  "runtime_run_id": 38797200408,
+  "runtime_tag": "firmware-v0.4.0",
+  "schema": 1,
+  "sources": {
+    "drivers": "5890721073ebabd781d5d278e447c761947a5c58",
+    "image_helper": "74f7491dc470b92dfa41fce41bf0c500f3714a94",
+    "product": "25c7151a1ac47e1a19a55b93c4cc3eaf2d4a4298",
+    "runtime": "659d859acb122640ef4003bb8d7099501d4381be",
+    "sdk": "fff9895c82d744c7237be8847347bdd1b07c6643",
+    "system": "755cc5174a6deaee120d108cbffe67ae809e1e6f"
+  },
+  "version": "0.1.49"
+}
