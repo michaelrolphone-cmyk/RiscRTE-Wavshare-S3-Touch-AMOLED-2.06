@@ -11,7 +11,7 @@ namespace model {
 enum Op { Init,Add,Acquire,Allocate,Configure,Level,Start,End,Remove,Free,Reset,Count };
 std::array<unsigned,Count> calls{},failAt{};
 esp_err_t endError=ESP_ERR_TIMEOUT;
-bool dmaFailure=false,partialAdd=false,bus=false,device=false,acquired=false,flight=false;
+bool dmaFailure=false,partialAdd=false,bus=false,device=false,acquired=false,flight=false,psramReady=true;
 int core=0;TaskHandle_t task=reinterpret_cast<TaskHandle_t>(1);
 spi_device_t handle;
 spi_transaction_t* descriptor=nullptr;
@@ -37,6 +37,7 @@ void clear(){
  RiscPerf::configure(now,owner,true);
 }
 }
+bool esp_psram_is_initialized(){return model::psramReady;}
 BaseType_t xPortGetCoreID(){return model::core;}
 TaskHandle_t xTaskGetCurrentTaskHandle(){return model::task;}
 void vTaskDelay(TickType_t ticks){model::correctOwner();model::delays.push_back(ticks);model::clockUs+=ticks*1000;}
@@ -167,6 +168,9 @@ int main(int argc,char** argv){
   auto bad=hardware(c);assert(!api->accepts(bad,2)&&!api->open(bad,2));
  }
  assert(std::all_of(calls.begin(),calls.end(),[](unsigned n){return n==0;}));
+ psramReady=false;assert(!api->open(hardware(valid),2)&&!state.owned);
+ assert(std::all_of(calls.begin(),calls.end(),[](unsigned n){return n==0;}));
+ psramReady=true;
  open();
  // Both branches first program brightness zero before DISPON; the explicit
  // probe's later nonzero command is separately checked below.

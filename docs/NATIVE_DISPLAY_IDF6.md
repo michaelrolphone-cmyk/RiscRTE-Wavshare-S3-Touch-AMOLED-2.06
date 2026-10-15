@@ -119,3 +119,17 @@ applicable without a provider change.
 These are source, host-contract and target-object results. They do not qualify
 physical panel output, electrical timing, sleep-current behavior, or a complete
 linked firmware. Hardware qualification remains required before publication.
+
+## Native archive selection and scratch placement
+
+The product profile retains `risc_waveshare_native_display_anchor` so the native
+link extracts the strong selected display backend despite Runtime’s optional weak
+reference. The final candidate checks the allocated anchor and strong hook.
+
+Only the 1,640-byte CPU row-pair scratch is placed in external BSS. The panel
+control state and persistent SPI transaction descriptor remain internal DRAM;
+the separate transfer allocation still requires internal, DMA-capable memory.
+Opening rejects unavailable PSRAM before taking ownership or touching GPIO/SPI.
+The final ELF must prove scratch/control placement and pass the unchanged IQ
+reservation proof. Host tests cover missing-PSRAM rejection without I/O and the
+existing frame, brightness, ownership and retained-failure custody contracts.

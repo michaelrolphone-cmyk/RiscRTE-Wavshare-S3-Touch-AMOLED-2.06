@@ -20,6 +20,7 @@ set(RISC_NATIVE_DEFINITIONS
     RISC_RUNTIME_ATOMIC_KEY_VALUE=1 RISC_NATIVE_STORAGE_CUSTODY=1
     RISC_PERFORMANCE_TRACE=1 RISC_PERFORMANCE_TRACE_CAPACITY=64)
 set(RISC_NATIVE_LINK_OPTIONS
+    "-Wl,-u,risc_waveshare_native_display_anchor"
     "-Wl,-u,risc_paired_store_abi" "-Wl,-u,risc_runtime_update_version"
     "-Wl,-u,risc_usb_phy_resource_enabled" "-Wl,-u,risc_sdmmc_host_abi"
     "-Wl,-u,risc_tcp_listener_abi" "-Wl,-u,risc_entropy_abi"

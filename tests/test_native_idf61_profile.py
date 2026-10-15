@@ -19,6 +19,8 @@ def main():
     assert (a.runtime/'partitions-paired-appdata-expanded.csv').read_bytes()==base('partitions-paired-appdata-expanded.csv')
     assert 'RISC_NATIVE_APPDATA ON' in profile and 'RISC_NATIVE_IQ ON' in profile
     assert 'VendorDisplay.cpp' in profile and 'Arduino' not in profile
+    assert '-Wl,-u,risc_waveshare_native_display_anchor' in profile
+    assert 'extern \"C\" const uint32_t risc_waveshare_native_display_anchor=1;' in (ROOT/'native/VendorDisplayIdf6.inc').read_text()
     assert 'RISC_NATIVE_TARGET "esp32s3-16mb-waveshare-expanded"' in profile
     for symbol in re.findall(r'-Wl,-u,([a-zA-Z0-9_]+)',old):
         assert '-Wl,-u,'+symbol in profile,symbol

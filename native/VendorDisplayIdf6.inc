@@ -7,6 +7,7 @@
 #include <driver/gpio.h>
 #include <esp_attr.h>
 #include <esp_heap_caps.h>
+#include <esp_psram.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include <cstdio>
@@ -27,7 +28,6 @@ struct PanelState {
  spi_device_handle_t device=nullptr;
  spi_transaction_t transaction{};
  uint8_t* dma=nullptr;
- uint16_t paired[PairPixels]{};
  uint32_t pendingRow=UINT32_MAX,nextFrameRow=UINT32_MAX;
  uint8_t requestedBrightness=0;
  Shutdown shutdown=Shutdown::DisplayOff;
@@ -35,6 +35,9 @@ struct PanelState {
 };
 // The descriptor outlives a timed-out poll; the DMA buffer is never caller-owned.
 static DRAM_ATTR PanelState state;
+// CPU-only row pairing scratch is never submitted to DMA. Keep controls and
+// transaction custody internal; copy each completed pair to the internal DMA buffer.
+static EXT_RAM_BSS_ATTR uint16_t paired[PairPixels]{};
 #if RISC_PERFORMANCE_TRACE
 // Owner-task-only bounded aggregates. No allocation, formatting or transport
 // in row/SPI work. The existing `perf` replay drains at most64bytes per poll.
@@ -166,14 +169,14 @@ bool window(uint8_t reg,uint16_t first,uint16_t last){
 }
 bool pair(uint32_t y){
  if(!window(0x2a,OffsetX,OffsetX+Width-1) || !window(0x2b,y,y+1) || !command(0x2c))return false;
- for(size_t i=0;i<PairPixels;++i){state.dma[i*2]=uint8_t(state.paired[i]>>8);state.dma[i*2+1]=uint8_t(state.paired[i]);}
+ for(size_t i=0;i<PairPixels;++i){state.dma[i*2]=uint8_t(paired[i]>>8);state.dma[i*2+1]=uint8_t(paired[i]);}
  spi_transaction_t transaction{};transaction.flags=SPI_TRANS_MODE_QIO;
  transaction.cmd=0x32;transaction.addr=0x003c00;
  transaction.length=PairBytes*8;transaction.tx_buffer=state.dma;
  return transfer(transaction);
 }
 bool fill(uint16_t color){
- for(auto& pixel:state.paired)pixel=color;
+ for(auto& pixel:paired)pixel=color;
  for(unsigned y=0;y<Height;y+=2)if(!pair(y))return false;
  return true;
 }
@@ -206,7 +209,7 @@ bool closePanel(){
  state=PanelState{};return true;
 }
 bool openPanel(const risc_hardware_device_v1& hw,uint8_t physical){
- if(state.owned || !accepts(hw,physical))return false;
+ if(state.owned || !accepts(hw,physical) || !esp_psram_is_initialized())return false;
  const auto& c=*static_cast<const risc_hw_spi_display_v2*>(hw.config);const auto& b=c.base;
  state.owned=true;state.core=xPortGetCoreID();state.task=xTaskGetCurrentTaskHandle();
  const int16_t pins[]={b.bus.sclk,b.bus.mosi,b.bus.miso,c.data2,c.data3,b.cs,b.reset};
@@ -270,13 +273,13 @@ bool row(uint32_t y,const uint16_t* pixels,size_t count){
 #if RISC_PERFORMANCE_TRACE
   frameTiming.accepted(y);
 #endif
-  std::memcpy(state.paired,pixels,Width*sizeof(uint16_t));state.pendingRow=y;
+  std::memcpy(paired,pixels,Width*sizeof(uint16_t));state.pendingRow=y;
  }else{
   if(state.pendingRow!=y-1)return false;
 #if RISC_PERFORMANCE_TRACE
   frameTiming.accepted(y);
 #endif
-  std::memcpy(state.paired+Width,pixels,Width*sizeof(uint16_t));
+  std::memcpy(paired+Width,pixels,Width*sizeof(uint16_t));
 #if RISC_PERFORMANCE_TRACE
   const auto began=frameTiming.begin();
 #endif
@@ -304,3 +307,8 @@ bool brightness(uint8_t value){
 const RiscCpu::DisplayBackend backend={accepts,openPanel,row,brightness,closePanel};
 }
 namespace RiscCpu {const DisplayBackend* selectedDisplayBackend(){return &backend;}}
+
+// A weak optional Runtime reference does not extract this member from an IDF
+// component archive. The selected product retains this distinct anchor; normal
+// strong backend and frame/brightness proof checks still apply to the final ELF.
+extern "C" const uint32_t risc_waveshare_native_display_anchor=1;

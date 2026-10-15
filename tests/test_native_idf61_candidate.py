@@ -31,6 +31,18 @@ spec.loader.exec_module(fixture)
 
 
 class NativeCandidateContracts(unittest.TestCase):
+    def test_selected_display_scratch_external_controls_internal(self):
+        labels = ['(anonymous namespace)::paired', '(anonymous namespace)::state']
+        symbols = {'pixels': {'st_shndx': 1, 'st_size': 1640}, 'state': {'st_shndx': 2, 'st_size': 112}}
+        elf = mock.Mock()
+        elf.get_section.side_effect = lambda index: type('Section', (), {'name': {1: '.ext_ram.bss', 2: '.dram0.data'}[index]})()
+        recipe.verify_display_placement(elf, labels, symbols)
+        for changed in ({'pixels': {'st_shndx': 2, 'st_size': 1640}, 'state': symbols['state']},
+                        {'pixels': symbols['pixels'], 'state': {'st_shndx': 1, 'st_size': 112}},
+                        {'pixels': {'st_shndx': 1, 'st_size': 1638}, 'state': symbols['state']}):
+            with self.assertRaises(ValueError):
+                recipe.verify_display_placement(elf, labels, changed)
+
     def test_runtime_owned_setup_loop_are_not_arduino(self):
         native = ['app_main', 'setup()', 'loop()', 'ArduinoJson::detail::RamString::typeSortKey']
         self.assertEqual(recipe.arduino_runtime_symbols(native), [])
