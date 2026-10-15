@@ -10,6 +10,17 @@ import tarfile
 from package_crash_sdr import APPS, PINS, encoded, git_bytes, require, run, sha
 
 
+def emit_replay_logs(root, stream):
+    """Retain every compiler attempt in the durable outer package log."""
+    for log in sorted(root.rglob('*.log')):
+        relative = log.relative_to(root)
+        if relative.parts[0] in ('sources', 'work'):
+            continue
+        data = log.read_text(errors='replace')
+        print('=== app replay log: ' + relative.as_posix() + ' ===', file=stream)
+        print(data if data else '(empty)', file=stream)
+
+
 def verify_receipt(receipt, root, spec, source_files, compiler):
     require(receipt['product'] == 'wave' and receipt['source_inputs_verified'] is True, 'Replay source verification failed')
     require(set(receipt['apps']) == set(APPS), 'Replay did not build the complete 17-app set')
@@ -59,10 +70,7 @@ def main():
         run(*cmd)
     except subprocess.CalledProcessError:
         # Keep compiler/linker diagnostics in the outer durable package/CI log.
-        for log in sorted(apps.glob('*.log')):
-            data = log.read_text(errors='replace')
-            print('=== app replay log: ' + log.name + ' ===', file=sys.stderr)
-            print(data if data else '(empty)', file=sys.stderr)
+        emit_replay_logs(apps, sys.stderr)
         raise
     receipt = json.loads((apps / 'receipt.json').read_text())
     verify_receipt(receipt, apps, spec, files, a.compiler.resolve())

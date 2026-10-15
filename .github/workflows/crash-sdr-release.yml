@@ -149,6 +149,7 @@ jobs:
           python3 scripts/test_board_profile.py
           python3 scripts/test_native_ui_release.py
           python3 scripts/test_crash_sdr_release.py
+          python3 .source/system/docs/shared-app-crashes/replay/test_checked_xtensa_link.py
           git diff --exit-code
       - name: Exercise native catalog and atomic dispatch together
         working-directory: .source/runtime

@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Exercise source pins, complete-cohort preservation and replay rejection gates."""
 import copy
+import io
 import json
 from pathlib import Path
 import tempfile
 import package_crash_sdr as m
-from replay_crash_sdr_apps import verify_receipt
+from replay_crash_sdr_apps import emit_replay_logs, verify_receipt
 
 passed = 0
 
@@ -20,6 +21,16 @@ def rejected(call):
 
 original_pins = copy.deepcopy(m.PINS)
 original_apps = copy.deepcopy(m.APPS)
+
+# Earlier retry diagnostics survive temporary replay-directory cleanup.
+with tempfile.TemporaryDirectory(prefix='crash-replay-log-guards-') as td:
+    root = Path(td)
+    for name, text in [('waterfall.log', 'last attempt'), ('waterfall-link-attempts/attempt-01.log', 'first abort'), ('waterfall-link-attempts/attempt-02.log', ''), ('sources/ignored.log', 'source log'), ('work/ignored.log', 'work log')]:
+        path = root / name; path.parent.mkdir(parents=True, exist_ok=True); path.write_text(text)
+    output = io.StringIO(); emit_replay_logs(root, output); text = output.getvalue()
+    assert all(value in text for value in ('waterfall.log', 'last attempt', 'waterfall-link-attempts/attempt-01.log', 'first abort', 'attempt-02.log', '(empty)'))
+    assert 'source log' not in text and 'work log' not in text
+
 m.PINS.update(finalized=True, system_revision='1'*40)
 m.verify_final_pins()
 for key, value in [('finalized', False), ('system_revision', None), ('runtime_revision', 'pending'),

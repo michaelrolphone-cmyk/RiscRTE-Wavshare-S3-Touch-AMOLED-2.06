@@ -6,7 +6,7 @@
   "baseline_product": "c294ad235b0c110fc6cfdf4bae66d650fe4a3a81",
   "runtime_revision": "4107eaeedd8c801eeaf7deb1c7bc4a943cd27342",
   "baseline_runtime": "54461e8a7f61b28600b8ec8dcaf27b12cd45e829",
-  "system_revision": "f9f0303043348dc55a7c4c7ed5b6dda8408ca702",
+  "system_revision": "fe238022814c89e3c7cafb3df60a3997e34caf7b",
   "image_helper_revision": "55f3f379b4c2ec7e18412fb2fc887d301bf6e3c0",
   "vendor_revision": "b099739ad0e33b34e5fbaae77f02bd84805d79a3",
   "release_tag": "test-app-crash-sdr-0.1.45",
