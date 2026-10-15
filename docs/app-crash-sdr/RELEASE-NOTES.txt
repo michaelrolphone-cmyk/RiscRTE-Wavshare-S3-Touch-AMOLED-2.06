@@ -1,0 +1,2 @@
+- Fixed crashes across 17 watch apps.
+- Fixed SDR worker starvation of the CPU idle task.
