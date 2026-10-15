@@ -1,0 +1,35 @@
+{
+  "alarm_bytes": 20684,
+  "alarm_manifest_sha256": "d8de271face1fa0464bc23e0f8b8d5f75e82505d9479d6504132368f5e1740a2",
+  "alarm_sha256": "189ce61b0e4a2b08cbd83ff90564a4c79a6c5e9a3d74b4ad4dcc2a61b4b51604",
+  "alarm_version": "0.4.12",
+  "baseline_alarm_version": "0.4.11",
+  "baseline_source": "00009bab3f0daf812af5db51b4ed3a17fc36b5b7",
+  "baseline_transport_sha256": "65256d0031c04ae99742cf2bc8cc07ebc1b391457187c621f3d7dfed57ecf169",
+  "baseline_version": "0.1.49",
+  "builder_sha256": "aabe7e1ce39b6ea7ae73543e9d43fdfb285df3c2a27493cb6b0375e56b9dd342",
+  "changed_store_files": [
+    "alarm-service/driver.elf",
+    "alarm-service/manifest.json",
+    "cohort.json"
+  ],
+  "compiler_sha256": "f556eb8b42ff8c0bb748243afa391a216b3482b7d3724e5c2aa6870952b76b74",
+  "elf_count": 62,
+  "finalized": true,
+  "product": "waveshare",
+  "publication_enabled": true,
+  "release_branch": "release/alarm-sleep-0.1.50",
+  "release_tag": "test-alarm-sleep-0.1.50",
+  "schema": 1,
+  "sources": {
+    "image_helper": "74f7491dc470b92dfa41fce41bf0c500f3714a94",
+    "runtime": "659d859acb122640ef4003bb8d7099501d4381be",
+    "sdk": "fff9895c82d744c7237be8847347bdd1b07c6643",
+    "system": "755cc5174a6deaee120d108cbffe67ae809e1e6f",
+    "utilities": "fc9f93402050f020a3422ee889620b2414c7ad5d",
+    "watch": "2f77e01c19f20418e2f91e7181422bc4aabd3c85"
+  },
+  "toolchain_archive_sha256": "3d50f5cd5f173acfd524e07c1cd69bc99585731a415ca2e5bce879997fe602b8",
+  "toolchain_archive_url": "https://github.com/espressif/crosstool-NG/releases/download/esp-15.2.0_20251204/xtensa-esp-elf-15.2.0_20251204-x86_64-linux-gnu.tar.xz",
+  "version": "0.1.50"
+}
