@@ -1,0 +1,1 @@
+- Restores the selected brightness after LoRa Messages completes its first frame.

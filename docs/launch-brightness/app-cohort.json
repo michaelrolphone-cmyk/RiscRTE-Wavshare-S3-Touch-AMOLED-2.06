@@ -1,0 +1,462 @@
+{
+  "alarms": {
+    "sha256": "7f5cb21cff86d3f993a42dc1e254aa568590aa6488c5217acd6bd899b67b3862",
+    "bytes": 153428,
+    "deployed_sha256": "d45db67ae2f227a26bd9d4124b56e236c768ad287b8ce1546eda4cb94b5f8be7",
+    "old_version": "0.2.5",
+    "proposed_version": "0.2.6",
+    "symbols": {
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strcpy",
+        "strlen",
+        "strncmp"
+      ],
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ]
+    }
+  },
+  "app_store": {
+    "sha256": "88ad0a2cbe8f701c97bb7ae1aabf003a6a1d9463a5d12638381938d2ec99cf6c",
+    "bytes": 133652,
+    "deployed_sha256": "103e13d7a96cbfa43e14ebd51a4c5c1025077cfc3ee9738d6e965bccc1678d55",
+    "old_version": "1.1.8",
+    "proposed_version": "1.1.9",
+    "symbols": {
+      "imports": [
+        "free",
+        "malloc",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strlen"
+      ],
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ]
+    }
+  },
+  "audio_spectrum": {
+    "sha256": "40739fbad6fd30a4f3576e87fc6c59de3e56ca1cf03da9a9ff1f3e5a6febd557",
+    "bytes": 243380,
+    "deployed_sha256": "4b5955a6b4954b9cadceaea1809844515a278c8ce56d22803a1a2a387efdf521",
+    "old_version": "0.5.9",
+    "proposed_version": "0.5.10",
+    "symbols": {
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strcpy",
+        "strlen"
+      ],
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ]
+    }
+  },
+  "battery": {
+    "sha256": "175ed277dea6149f97457a4d44fdf7ab87a63f9024e36e0a2a50553864d19d8c",
+    "bytes": 153440,
+    "deployed_sha256": "f24539010d3ef893b6c569f96fee94727e704df411da5864d244d1637c4a19b5",
+    "old_version": "1.1.3",
+    "proposed_version": "1.1.4",
+    "symbols": {
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strcpy",
+        "strlen",
+        "strncmp"
+      ],
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ]
+    }
+  },
+  "ble_buttons": {
+    "sha256": "b3f4633d8bc0d0612d6410eae3f41d8c66a0586025f076a26dd0f277cac7232d",
+    "bytes": 154028,
+    "deployed_sha256": "7666fa3d3ae7653f92f76bf4d261d0f8a7b27a6ce8b82044a72f8dbde21ded74",
+    "old_version": "0.1.28",
+    "proposed_version": "0.1.29",
+    "symbols": {
+      "imports": [
+        "free",
+        "malloc",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strcpy",
+        "strlen"
+      ],
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ]
+    }
+  },
+  "ble_scanner": {
+    "sha256": "f35588453de3bd03a778fe362625af49e57f7d2efde7d890e8ab10ef778a8b01",
+    "bytes": 157520,
+    "deployed_sha256": "ffa6f68c9e0b06a22b67aac09ba016e713604e4f22cbba4ab95728c306056763",
+    "old_version": "0.2.7",
+    "proposed_version": "0.2.8",
+    "symbols": {
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strcpy",
+        "strlen"
+      ],
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ]
+    }
+  },
+  "ble_touchpad": {
+    "sha256": "a6518bf99d966b4bfefae02fd3f55a214f0ddc4ca9518090c34ee8506f80778e",
+    "bytes": 153972,
+    "deployed_sha256": "dcddd954238a2b7f956707f1fcb8db893d939b8185bf3de87f23370bbf968efd",
+    "old_version": "0.1.17",
+    "proposed_version": "0.1.18",
+    "symbols": {
+      "imports": [
+        "free",
+        "malloc",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strcpy",
+        "strlen"
+      ],
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ]
+    }
+  },
+  "calculator": {
+    "sha256": "d78c5996376b1980ae9a2491b202c1a5ee414f135de03c161f96becc161e392f",
+    "bytes": 145576,
+    "deployed_sha256": "50026efef9f2ff5571340932c25c590233564d200d4f9998290e1ad489cbf992",
+    "old_version": "0.1.9",
+    "proposed_version": "0.1.10",
+    "symbols": {
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "strcmp",
+        "strcpy",
+        "strlen",
+        "strncmp"
+      ],
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ]
+    }
+  },
+  "countdown": {
+    "sha256": "220aff0aedb28dfe4a50d6e57cc49d521381018cc8d0ceaca7bda60efd92b548",
+    "bytes": 149284,
+    "deployed_sha256": "e8cc2d1cd8dbf6b33ac088b68603f3cc0e5b5cd5cf0d91a734dce0a0db43555b",
+    "old_version": "0.1.8",
+    "proposed_version": "0.1.9",
+    "symbols": {
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strcpy",
+        "strlen",
+        "strncmp"
+      ],
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ]
+    }
+  },
+  "file_browser": {
+    "sha256": "252f8add6830bd0d84f0ebe0c8ae71bb87a5b50a2e4c9b3fed12e0dd5e7a74f3",
+    "bytes": 288112,
+    "deployed_sha256": "33847844d88e1ed672c8848651f4cfef1d059f27645ab4658fb5c57ce79165e0",
+    "old_version": "1.5.40",
+    "proposed_version": "1.5.41",
+    "symbols": {
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strchr",
+        "strcmp",
+        "strcpy",
+        "strlen",
+        "strncmp",
+        "strrchr",
+        "strstr"
+      ],
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ]
+    }
+  },
+  "frequency_generator": {
+    "sha256": "d14c37dc9c0ec736a61fa14ae846dec47525b46da9ad1bb21266d48a663fc87c",
+    "bytes": 137924,
+    "deployed_sha256": "5750b55685501b4447ed616f859ca2c9675afd12200bc2225dc43afa48f048f2",
+    "old_version": "0.1.7",
+    "proposed_version": "0.1.8",
+    "symbols": {
+      "imports": [
+        "free",
+        "malloc",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strcpy",
+        "strlen"
+      ],
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ]
+    }
+  },
+  "ota_update": {
+    "sha256": "45f09839daf9de92bea24bca5c7d8575ffb6eb59d5b29027e092d33b7a18bec9",
+    "bytes": 133664,
+    "deployed_sha256": "b8a34946a72e15c793de4415cd3b3d23575aef48a1c497adbbf0f21ecc0bf91e",
+    "old_version": "1.1.8",
+    "proposed_version": "1.1.9",
+    "symbols": {
+      "imports": [
+        "free",
+        "malloc",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strlen"
+      ],
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ]
+    }
+  },
+  "points_in_time": {
+    "sha256": "16b1cd9bfd84b22adcdfc924ae46f591b1c146dddab82437770ff2d33f87f8aa",
+    "bytes": 175928,
+    "deployed_sha256": "245fc99c640350316b6814094333202aafee4d0415c5ba15f4616875a694bf84",
+    "old_version": "0.6.21",
+    "proposed_version": "0.6.22",
+    "symbols": {
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strlen",
+        "strncmp"
+      ],
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ]
+    }
+  },
+  "stopwatch": {
+    "sha256": "fe7226763463b6f82f06abaee8dc7394cb182ffcd341de8311567322ecda78e4",
+    "bytes": 149236,
+    "deployed_sha256": "ec7411295947b9c662b2a88d328a9010bfb16a7533febb4f819125a28de97988",
+    "old_version": "0.1.9",
+    "proposed_version": "0.1.10",
+    "symbols": {
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "strcmp",
+        "strcpy",
+        "strlen",
+        "strncmp"
+      ],
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ]
+    }
+  },
+  "timecard": {
+    "sha256": "bc94c5e4cda24b725e43f7e860bf43a6ebc4387459e06e8c97c7ef41c740667a",
+    "bytes": 169824,
+    "deployed_sha256": "abb455ee4d9db1d823f1a461e7d706d27e28e0e130d4d843b6ff814fe396e291",
+    "old_version": "0.2.16",
+    "proposed_version": "0.2.17",
+    "symbols": {
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strcpy",
+        "strlen",
+        "strncmp"
+      ],
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ]
+    }
+  },
+  "waterfall": {
+    "sha256": "5543af60434887b0d3b63ba0560c6ccc3445cfe4bd9713d154bbb7897e621b5c",
+    "bytes": 252492,
+    "deployed_sha256": "a3f9e4f2ba63b5b035da6696a33c9b5bd3e3ecafd3dc86fc97ec096a0e21189a",
+    "old_version": "0.3.9",
+    "proposed_version": "0.3.10",
+    "symbols": {
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strcpy",
+        "strlen"
+      ],
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ]
+    }
+  },
+  "wifi_settings": {
+    "sha256": "7bb9d98ace7cb783e6f85368c0dfd29360b96a635766c6f3f637b6901ae0d6c8",
+    "bytes": 169460,
+    "deployed_sha256": "66cb5b2019e714bddbb38f202df96ed5739afde0607fce0cb162a97d43aa4575",
+    "old_version": "1.1.32",
+    "proposed_version": "1.1.33",
+    "symbols": {
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strcpy",
+        "strlen"
+      ],
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ]
+    }
+  }
+}
