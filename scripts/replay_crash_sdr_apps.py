@@ -55,7 +55,15 @@ def main():
     cmd = [sys.executable, source / selected[0], '--product', 'wave', '--compiler', a.compiler.resolve(), '--output', apps]
     if a.source_cache:
         cmd += ['--source-cache', a.source_cache.resolve()]
-    run(*cmd)
+    try:
+        run(*cmd)
+    except subprocess.CalledProcessError:
+        # Keep compiler/linker diagnostics in the outer durable package/CI log.
+        for log in sorted(apps.glob('*.log')):
+            data = log.read_text(errors='replace')
+            print('=== app replay log: ' + log.name + ' ===', file=sys.stderr)
+            print(data if data else '(empty)', file=sys.stderr)
+        raise
     receipt = json.loads((apps / 'receipt.json').read_text())
     verify_receipt(receipt, apps, spec, files, a.compiler.resolve())
     proof = dict(system_revision=PINS['system_revision'], repair_system_revision=PINS['repair_system_revision'], recipe_archive_sha256=sha(data), source_files=files, source_archive_isolated=True, complete=True, app_count=17, receipt=receipt)
