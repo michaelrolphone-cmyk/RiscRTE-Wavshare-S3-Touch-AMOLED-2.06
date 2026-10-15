@@ -1,0 +1,32 @@
+Waveshare LoRa Messages 0.1.17 external-media companion
+
+Use with the separately published Waveshare 0.1.45 app-crash/SDR firmware:
+https://github.com/michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06/releases/tag/test-app-crash-sdr-0.1.45
+
+Safely eject or power down before updating the card. Back up the existing card.
+Extract Waveshare-LoRa-0.1.17-SD-card.zip at the SD-card root, preserving the
+Apps/lora_messages directory. Replace only the three supplied files. Do not
+format the card or remove other files. This package contains no firmware image,
+flash action, settings reset or boot-policy update.
+
+Expected ELF path: Apps/lora_messages/lora_messages.elf on volume 12.
+The archive reproduces the complete official 0.1.22 provisioned card with only
+LoRa's ELF, its manifest version and suite-card.json's ELF digest changed.
+The firmware's internal admission manifest remains 0.1.16; the external package
+manifest is 0.1.17. Existing permissions, explicit-media routing and optional
+radio policy remain the firmware's authority. The card manifest does not grant
+new capabilities. Missing media follows the existing unavailable-media path;
+an absent radio remains an unavailable-radio state.
+
+Verify SHA256SUMS.txt before extraction. To revert this media update, restore the
+three backed-up files together or use the official 0.1.22 SD-card archive.
+
+Qualification covers a pinned target-source replay, exact ELF identity and
+symbol/capability comparison, structural loader validation, normal and sanitized
+LoRa controller/shared-input tests, and Runtime removable-media/optional-capability
+regressions. It does not claim device, SD electrical or RF validation.
+
+The legacy standalone renderer fixture fails its send-history assertion with
+both predecessor and repaired sources. Both original failures are retained in
+the evidence archive; the selected production shared-input/policy suite is the
+positive renderer gate, including send-history and unavailable/retained states.

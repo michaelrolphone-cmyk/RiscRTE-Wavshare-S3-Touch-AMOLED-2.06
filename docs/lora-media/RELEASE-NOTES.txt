@@ -1,0 +1,1 @@
+Repairs LoRa Messages shared-data refusal and retained-callback handling on external media. Updates the SD-card application to 0.1.17 and regenerates its content digest.
