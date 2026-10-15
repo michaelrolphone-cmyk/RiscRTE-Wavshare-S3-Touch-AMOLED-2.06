@@ -1,0 +1,57 @@
+name: Update Waveshare 0.1.44 public release notes
+on:
+  push:
+    branches: [docs/release-notes-0.1.44]
+    paths:
+      - .github/workflows/native-ui-release-notes.yml
+      - docs/t030-native-ui/PUBLIC-RELEASE-NOTES.txt
+permissions:
+  contents: read
+concurrency:
+  group: waveshare-0.1.44-release-notes
+  cancel-in-progress: false
+jobs:
+  update-notes:
+    if: github.repository == 'michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Update exact release body and verify unchanged tag and assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06
+        run: |
+          set -euo pipefail
+          gh api "repos/$REPOSITORY/releases/413377737" > before.json
+          gh api "repos/$REPOSITORY/git/ref/tags/test-native-ui-0.1.44" > tag-before.json
+          python3 - <<'PYCODE'
+          import json
+          from pathlib import Path
+          before=json.loads(Path('before.json').read_text())
+          tag=json.loads(Path('tag-before.json').read_text())
+          assert before['id']==413377737 and before['tag_name']=='test-native-ui-0.1.44'
+          assert tag['object']['sha']=='c294ad235b0c110fc6cfdf4bae66d650fe4a3a81'
+          assert len(before['assets'])==8
+          Path('body.json').write_text(json.dumps({'body':Path('docs/t030-native-ui/PUBLIC-RELEASE-NOTES.txt').read_text().rstrip()}))
+          PYCODE
+          gh api --method PATCH "repos/$REPOSITORY/releases/413377737" --input body.json > patch.json
+          gh api "repos/$REPOSITORY/releases/413377737" > after.json
+          gh api "repos/$REPOSITORY/git/ref/tags/test-native-ui-0.1.44" > tag-after.json
+          python3 - <<'PYCODE'
+          import json
+          from pathlib import Path
+          before=json.loads(Path('before.json').read_text())
+          after=json.loads(Path('after.json').read_text())
+          assert after['body']==json.loads(Path('body.json').read_text())['body']
+          assert json.loads(Path('tag-before.json').read_text())==json.loads(Path('tag-after.json').read_text())
+          for key in ('id','tag_name','target_commitish','name','draft','prerelease','assets'):
+              assert after[key]==before[key], key
+          print(after['body'])
+          print('Verified: release body updated; exact source tag and all eight assets unchanged.')
+          PYCODE
