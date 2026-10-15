@@ -1,0 +1,12 @@
+{
+  "vendor_revision": "b099739ad0e33b34e5fbaae77f02bd84805d79a3",
+  "idf_revision": "fff9895c82d744c7237be8847347bdd1b07c6643",
+  "reference_sha256": {
+    "databus/Arduino_ESP32QSPI.cpp": "794be26f298fcf31dbdab55734f21593c515875b2a7cec741846d36fa6d0e84b",
+    "databus/Arduino_ESP32QSPI.h": "4ec773d401d6bfef1d3c23dafde3a1020c30ec061d0fe2762d80b4d7e4353be5",
+    "display/Arduino_CO5300.cpp": "b9a36fe5d81da061f4c9c4ba10354ba2fd5259064c3f4ad14c4bb3412725aa59",
+    "display/Arduino_CO5300.h": "ad26ba2d773471198e65f57365b0b35e17b54b405313407bbb0474e1549fce86",
+    "Arduino_TFT.cpp": "d9dafc1b7cae9bb0de79dd11421aa14686493141c9f6fcf955e239adea9c79ba",
+    "Arduino_OLED.cpp": "b14435b63fc470cf1b029ba5f2c3ab89a46580fa3fc2e0dc13d111db29b8584a"
+  }
+}

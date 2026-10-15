@@ -1,3 +1,9 @@
+#if __has_include(<esp_idf_version.h>)
+#include <esp_idf_version.h>
+#endif
+#if defined(ESP_IDF_VERSION_MAJOR) && ESP_IDF_VERSION_MAJOR >= 6
+#include "VendorDisplayIdf6.inc"
+#else
 // Device-build extension. Vendor panel/transport implementation is pinned and
 // instrumented for checked SPI calls and startup isolation; no NativeSpi calls.
 #include "ports/esp32s3/CpuPort.h"
@@ -159,3 +165,5 @@ bool brightness(uint8_t value){if(!panel)return false;Serial.printf("PANEL_BRIGH
 const RiscCpu::DisplayBackend backend={accepts,openPanel,row,brightness,closePanel};
 }
 namespace RiscCpu {const DisplayBackend* selectedDisplayBackend(){return &backend;}}
+
+#endif // selected SDK
