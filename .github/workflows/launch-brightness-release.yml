@@ -135,7 +135,8 @@ jobs:
       - name: Prepare and test exact native composition
         run: |
           set -euo pipefail
-          python3 -m pip install platformio==6.1.19 esptool==4.11.0 pyelftools==0.32
+          python3 -m pip install platformio==6.1.19 esptool==4.11.0 pyelftools==0.32 pillow==11.3.0
+          python3 -c 'from PIL import Image; import PIL; assert PIL.__version__ == "11.3.0"'
           pio pkg install --global --tool 'espressif/toolchain-xtensa-esp32s3@8.4.0+2021r2-patch5'
           python3 scripts/stage_vendor_display.py --runtime .source/runtime --vendor .source/vendor
           python3 scripts/native_ui_profile.py --runtime .source/runtime
