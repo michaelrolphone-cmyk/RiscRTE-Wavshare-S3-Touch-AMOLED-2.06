@@ -33,7 +33,7 @@
     "springboard.json"
   ],
   "compiler_version": "xtensa-esp32s3-elf-gcc (crosstool-NG esp-2021r2-patch5) 8.4.0",
-  "publication_enabled": false,
+  "publication_enabled": true,
   "performance_trace_capacity": 64,
   "springboard_max_bytes": 180469,
   "baseline_home_sha256": "b805ddcfb80d90983eabb03022c84fc633f9529924c1bffda363825d4ad88b1d"

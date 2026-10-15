@@ -13,6 +13,19 @@ from build_native_ui_target import source_snapshot
 DIMENSIONS = [(160, 160), (239, 293), (240, 240), (320, 320), (320, 390), (410, 502), (800, 1000)]
 
 
+def verify_profile_raster_row(row):
+    require(row['frames'] == 240 and row['render_calls'] == 240,
+            'Host profile did not render all frames')
+    calls = row['instrument_calls']
+    require(isinstance(calls, list) and len(calls) == 16
+            and all(type(value) is int and value >= 0 for value in calls),
+            'Host profile instrumentation counters are malformed')
+    # Final vector scan conversion calls np_pixel with physical coordinates.
+    # Its separate native_watch_pixel branch is the legacy logical rescaler.
+    require(calls[5] > 0, 'Native vector physical-pixel work was not observed')
+    require(calls[6] == 0, 'Springboard used the legacy logical-pixel/scaling path')
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ('system', 'bridges', 'output', 'target-debug-elf', 'target-objdump'):
@@ -114,9 +127,7 @@ def main():
             else:
                 require([(row['width'], row['height']) for row in rows] == [(240, 240), (410, 502)] * 5, 'Host profiling geometry coverage differs')
                 for row in rows:
-                    require(row['frames'] == 240 and row['render_calls'] == 240, 'Host profile did not render all frames')
-                    require(row['instrument_calls'][5] == row['instrument_calls'][6] == 0,
-                            'Springboard used the legacy logical-pixel/scaling path')
+                    verify_profile_raster_row(row)
             reports[label] = rows
             if label.startswith('host-profile'):
                 summary = json.loads((out / 'summary.json').read_text())
@@ -152,6 +163,8 @@ def main():
                   source_archive_sha256=sources['archive_sha256'], product_revision=product_revision,
                   product_provider_source_sha256=product_hashes, reports=reports, suites=suites,
                   native_frame_and_contact_tests_passed=True, legacy_scaling_path_unused=True,
+                  raster_counter_contract=dict(np_pixel_physical_index=5, native_watch_pixel_scaling_index=6,
+                                               physical_calls_required=True, scaling_calls_allowed=0),
                   first_completed_frame_brightness_passed=True, target_debug_elf_sha256=sha(args.target_debug_elf.read_bytes()),
                   host_timing_only=True, calibrated_provider_model_only=True, target_instructions_executed=False,
                   hardware_tested=False, device_accessed=False)

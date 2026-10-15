@@ -173,3 +173,20 @@ with tempfile.TemporaryDirectory(prefix='native-ui-vendor-guards-') as td:
     (source / 'alias.cpp').symlink_to('owned.cpp')
     rejected(lambda: module.verify_vendor_tree(root, revision))
 print(json.dumps(dict(vendor_archive_positive_cases=1, vendor_archive_negative_cases=4, passed=True)))
+
+# Vector scan conversion uses np_pixel physically; native_watch_pixel rescales.
+from qualify_native_ui_sources import verify_profile_raster_row
+good_profile = dict(frames=240, render_calls=240, instrument_calls=[0]*16)
+good_profile['instrument_calls'][5] = 1747387
+verify_profile_raster_row(good_profile)
+profile_negative = 0
+for key in ('frames', 'render_calls'):
+    row = dict(good_profile, **{key: 239})
+    rejected(lambda: verify_profile_raster_row(row)); profile_negative += 1
+for index, value in ((5, 0), (5, -1), (6, 1)):
+    row = dict(good_profile, instrument_calls=list(good_profile['instrument_calls']))
+    row['instrument_calls'][index] = value
+    rejected(lambda: verify_profile_raster_row(row)); profile_negative += 1
+for calls in ([], [0]*6, [0]*17):
+    rejected(lambda: verify_profile_raster_row(dict(good_profile, instrument_calls=calls))); profile_negative += 1
+print(json.dumps(dict(native_raster_profile_positive_cases=1, native_raster_profile_negative_cases=profile_negative, passed=True)))

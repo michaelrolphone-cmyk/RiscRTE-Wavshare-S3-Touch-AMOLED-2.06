@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Reproduce the shipped .43 Springboard, then build the finalized native UI.
+"""Reproduce shipped .43 and build the source-pinned native Springboard release.
 
-Compile only isolated git archives, preserving all existing deployment features.
-Neither this builder nor the packager accesses hardware or publishes assets.
+Use committed System and Watch archives with the pinned deployment toolchain.
+Write compact/debug ELFs and source, font, renderer, profile and stack proofs.
 """
 import argparse
 import hashlib

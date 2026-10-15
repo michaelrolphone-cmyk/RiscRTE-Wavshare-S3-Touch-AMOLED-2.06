@@ -45,6 +45,8 @@ ELF section to identical compact-image addresses and bytes. The diagnostic strin
 is not a gate: linker garbage collection legitimately removes its unused section.
 Each target build also rejects the exact .43 baseline, a marker-only impostor,
 missing call bindings, code/data tampering and altered presenter callbacks.
+Full-feature profiling requires positive np_pixel physical RGB565 writes and zero
+native_watch_pixel logical-rescaling calls; both counters are checked separately.
 Final-source normal/sanitized brightness tests and the calibrated cadence model
 run with the same app diagnostic define. Five repeated full-feature host profiles
 record their timer basis and spread. The independent vector review binds its
