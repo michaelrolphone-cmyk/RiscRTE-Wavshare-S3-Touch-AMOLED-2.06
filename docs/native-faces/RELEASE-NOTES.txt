@@ -1,0 +1,2 @@
+- Render all Home watch faces directly at the display’s native resolution.
+- Keep Home face transitions, native geometry, and full-screen coverage consistent across watch displays.
