@@ -1,172 +1,498 @@
 {
   "alarms": {
-    "baseline_byte_identical": true,
     "bytes": 153428,
-    "capability_strings_unchanged": true,
-    "deployed_sha256": "3f648d893df11c77d0b0abd7c4a9c954a8f5e53d90159eb24f46944c12bad68c",
-    "old_version": "0.2.4",
+    "changed": false,
+    "deployed_sha256": "d45db67ae2f227a26bd9d4124b56e236c768ad287b8ce1546eda4cb94b5f8be7",
+    "manifest_changes": [],
+    "old_version": "0.2.5",
     "proposed_version": "0.2.5",
     "sha256": "d45db67ae2f227a26bd9d4124b56e236c768ad287b8ce1546eda4cb94b5f8be7",
-    "symbols_unchanged": true
+    "symbols": {
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ],
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strcpy",
+        "strlen",
+        "strncmp"
+      ]
+    }
   },
   "app_store": {
-    "baseline_byte_identical": true,
     "bytes": 133364,
-    "capability_strings_unchanged": true,
-    "deployed_sha256": "469a1110c7e57e5db960f069c09989d4c7cf4d903391b153d7c6aefba8758bb4",
-    "old_version": "1.1.7",
+    "changed": false,
+    "deployed_sha256": "103e13d7a96cbfa43e14ebd51a4c5c1025077cfc3ee9738d6e965bccc1678d55",
+    "manifest_changes": [],
+    "old_version": "1.1.8",
     "proposed_version": "1.1.8",
     "sha256": "103e13d7a96cbfa43e14ebd51a4c5c1025077cfc3ee9738d6e965bccc1678d55",
-    "symbols_unchanged": true
+    "symbols": {
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ],
+      "imports": [
+        "free",
+        "malloc",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strlen"
+      ]
+    }
   },
   "audio_spectrum": {
-    "baseline_byte_identical": false,
     "bytes": 243380,
-    "capability_strings_unchanged": true,
-    "deployed_sha256": "8b7286c712d785042f7207fe697d9b23a4710bc10a653a839808cedc1847fec5",
-    "old_version": "0.5.8",
+    "changed": false,
+    "deployed_sha256": "4b5955a6b4954b9cadceaea1809844515a278c8ce56d22803a1a2a387efdf521",
+    "manifest_changes": [],
+    "old_version": "0.5.9",
     "proposed_version": "0.5.9",
     "sha256": "4b5955a6b4954b9cadceaea1809844515a278c8ce56d22803a1a2a387efdf521",
-    "symbols_unchanged": true
+    "symbols": {
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ],
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strcpy",
+        "strlen"
+      ]
+    }
   },
   "battery": {
-    "baseline_byte_identical": true,
     "bytes": 153440,
-    "capability_strings_unchanged": true,
-    "deployed_sha256": "450e49f07d7820980a7c815fc042a7e9cad20312baa88ce0d8ee404e9eaa4c5d",
-    "old_version": "1.1.2",
+    "changed": false,
+    "deployed_sha256": "f24539010d3ef893b6c569f96fee94727e704df411da5864d244d1637c4a19b5",
+    "manifest_changes": [],
+    "old_version": "1.1.3",
     "proposed_version": "1.1.3",
     "sha256": "f24539010d3ef893b6c569f96fee94727e704df411da5864d244d1637c4a19b5",
-    "symbols_unchanged": true
+    "symbols": {
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ],
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strcpy",
+        "strlen",
+        "strncmp"
+      ]
+    }
   },
   "ble_buttons": {
-    "baseline_byte_identical": true,
     "bytes": 154004,
-    "capability_strings_unchanged": true,
-    "deployed_sha256": "07c7fefd6b26f391cdcfabafe819a8524f0db752d9913899ba15df83285b9c7f",
-    "old_version": "0.1.27",
+    "changed": false,
+    "deployed_sha256": "7666fa3d3ae7653f92f76bf4d261d0f8a7b27a6ce8b82044a72f8dbde21ded74",
+    "manifest_changes": [],
+    "old_version": "0.1.28",
     "proposed_version": "0.1.28",
     "sha256": "7666fa3d3ae7653f92f76bf4d261d0f8a7b27a6ce8b82044a72f8dbde21ded74",
-    "symbols_unchanged": true
+    "symbols": {
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ],
+      "imports": [
+        "free",
+        "malloc",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strcpy",
+        "strlen"
+      ]
+    }
   },
   "ble_scanner": {
-    "baseline_byte_identical": true,
     "bytes": 157520,
-    "capability_strings_unchanged": true,
-    "deployed_sha256": "21effc63d83a99d94e295358bf89656605880fadf6cbc07d2696951c4c81a492",
-    "old_version": "0.2.6",
+    "changed": false,
+    "deployed_sha256": "ffa6f68c9e0b06a22b67aac09ba016e713604e4f22cbba4ab95728c306056763",
+    "manifest_changes": [],
+    "old_version": "0.2.7",
     "proposed_version": "0.2.7",
     "sha256": "ffa6f68c9e0b06a22b67aac09ba016e713604e4f22cbba4ab95728c306056763",
-    "symbols_unchanged": true
+    "symbols": {
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ],
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strcpy",
+        "strlen"
+      ]
+    }
   },
   "ble_touchpad": {
-    "baseline_byte_identical": true,
     "bytes": 153972,
-    "capability_strings_unchanged": true,
-    "deployed_sha256": "2ad0ebb4906e7e31cc962d1ca3f8b1c1151f2a80e4f9c37052433af5cd3eba3d",
-    "old_version": "0.1.16",
+    "changed": false,
+    "deployed_sha256": "dcddd954238a2b7f956707f1fcb8db893d939b8185bf3de87f23370bbf968efd",
+    "manifest_changes": [],
+    "old_version": "0.1.17",
     "proposed_version": "0.1.17",
     "sha256": "dcddd954238a2b7f956707f1fcb8db893d939b8185bf3de87f23370bbf968efd",
-    "symbols_unchanged": true
+    "symbols": {
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ],
+      "imports": [
+        "free",
+        "malloc",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strcpy",
+        "strlen"
+      ]
+    }
   },
   "calculator": {
-    "baseline_byte_identical": true,
     "bytes": 145280,
-    "capability_strings_unchanged": true,
-    "deployed_sha256": "4b70994e42e89684f1694b624f80c0f7e15af1a3feb970ef7b3a7ba633dd2d66",
-    "old_version": "0.1.8",
+    "changed": false,
+    "deployed_sha256": "50026efef9f2ff5571340932c25c590233564d200d4f9998290e1ad489cbf992",
+    "manifest_changes": [],
+    "old_version": "0.1.9",
     "proposed_version": "0.1.9",
     "sha256": "50026efef9f2ff5571340932c25c590233564d200d4f9998290e1ad489cbf992",
-    "symbols_unchanged": true
+    "symbols": {
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ],
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "strcmp",
+        "strcpy",
+        "strlen",
+        "strncmp"
+      ]
+    }
   },
   "countdown": {
-    "baseline_byte_identical": true,
     "bytes": 149284,
-    "capability_strings_unchanged": true,
-    "deployed_sha256": "2d8feee57141250f1c03530748c46999bd0eed70ab6813605e7a29ad4068a915",
-    "old_version": "0.1.7",
+    "changed": false,
+    "deployed_sha256": "e8cc2d1cd8dbf6b33ac088b68603f3cc0e5b5cd5cf0d91a734dce0a0db43555b",
+    "manifest_changes": [],
+    "old_version": "0.1.8",
     "proposed_version": "0.1.8",
     "sha256": "e8cc2d1cd8dbf6b33ac088b68603f3cc0e5b5cd5cf0d91a734dce0a0db43555b",
-    "symbols_unchanged": true
+    "symbols": {
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ],
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strcpy",
+        "strlen",
+        "strncmp"
+      ]
+    }
   },
   "file_browser": {
-    "baseline_byte_identical": true,
     "bytes": 287840,
-    "capability_strings_unchanged": true,
-    "deployed_sha256": "51c498f306e12530417ccec6a22d1e7504df5d70278290dcc67628ca778c7c58",
-    "old_version": "1.5.39",
+    "changed": false,
+    "deployed_sha256": "33847844d88e1ed672c8848651f4cfef1d059f27645ab4658fb5c57ce79165e0",
+    "manifest_changes": [],
+    "old_version": "1.5.40",
     "proposed_version": "1.5.40",
     "sha256": "33847844d88e1ed672c8848651f4cfef1d059f27645ab4658fb5c57ce79165e0",
-    "symbols_unchanged": true
+    "symbols": {
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ],
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strchr",
+        "strcmp",
+        "strcpy",
+        "strlen",
+        "strncmp",
+        "strrchr",
+        "strstr"
+      ]
+    }
   },
   "frequency_generator": {
-    "baseline_byte_identical": true,
     "bytes": 137620,
-    "capability_strings_unchanged": true,
-    "deployed_sha256": "c443797f137d959a55eeb20e77d3b703ebdfb41fbb5ed7f34b2fa547b30f307d",
-    "old_version": "0.1.6",
+    "changed": false,
+    "deployed_sha256": "5750b55685501b4447ed616f859ca2c9675afd12200bc2225dc43afa48f048f2",
+    "manifest_changes": [],
+    "old_version": "0.1.7",
     "proposed_version": "0.1.7",
     "sha256": "5750b55685501b4447ed616f859ca2c9675afd12200bc2225dc43afa48f048f2",
-    "symbols_unchanged": true
+    "symbols": {
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ],
+      "imports": [
+        "free",
+        "malloc",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strcpy",
+        "strlen"
+      ]
+    }
   },
   "ota_update": {
-    "baseline_byte_identical": true,
     "bytes": 133376,
-    "capability_strings_unchanged": true,
-    "deployed_sha256": "3557d080b673f070b88a6a0398fb8d54473b5d887015582235fb6de485505545",
-    "old_version": "1.1.7",
+    "changed": false,
+    "deployed_sha256": "b8a34946a72e15c793de4415cd3b3d23575aef48a1c497adbbf0f21ecc0bf91e",
+    "manifest_changes": [],
+    "old_version": "1.1.8",
     "proposed_version": "1.1.8",
     "sha256": "b8a34946a72e15c793de4415cd3b3d23575aef48a1c497adbbf0f21ecc0bf91e",
-    "symbols_unchanged": true
+    "symbols": {
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ],
+      "imports": [
+        "free",
+        "malloc",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strlen"
+      ]
+    }
   },
   "points_in_time": {
-    "baseline_byte_identical": true,
     "bytes": 175928,
-    "capability_strings_unchanged": true,
-    "deployed_sha256": "14b82e1cbe1161b0896632677427b949ccc96521c7dff5b28a58dda59269197f",
-    "old_version": "0.6.20",
+    "changed": false,
+    "deployed_sha256": "245fc99c640350316b6814094333202aafee4d0415c5ba15f4616875a694bf84",
+    "manifest_changes": [],
+    "old_version": "0.6.21",
     "proposed_version": "0.6.21",
     "sha256": "245fc99c640350316b6814094333202aafee4d0415c5ba15f4616875a694bf84",
-    "symbols_unchanged": true
+    "symbols": {
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ],
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strlen",
+        "strncmp"
+      ]
+    }
   },
   "stopwatch": {
-    "baseline_byte_identical": true,
     "bytes": 149236,
-    "capability_strings_unchanged": true,
-    "deployed_sha256": "fe2ded6556c1733dc308152fdf6f49f1226a6a7a48e5744b595bffe27c81abfc",
-    "old_version": "0.1.8",
+    "changed": false,
+    "deployed_sha256": "ec7411295947b9c662b2a88d328a9010bfb16a7533febb4f819125a28de97988",
+    "manifest_changes": [],
+    "old_version": "0.1.9",
     "proposed_version": "0.1.9",
     "sha256": "ec7411295947b9c662b2a88d328a9010bfb16a7533febb4f819125a28de97988",
-    "symbols_unchanged": true
+    "symbols": {
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ],
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "strcmp",
+        "strcpy",
+        "strlen",
+        "strncmp"
+      ]
+    }
   },
   "timecard": {
-    "baseline_byte_identical": true,
     "bytes": 169824,
-    "capability_strings_unchanged": true,
-    "deployed_sha256": "0639799e0793fc1421c74a562127e4fef63be185b828193569055b4314df1d58",
-    "old_version": "0.2.15",
+    "changed": false,
+    "deployed_sha256": "abb455ee4d9db1d823f1a461e7d706d27e28e0e130d4d843b6ff814fe396e291",
+    "manifest_changes": [],
+    "old_version": "0.2.16",
     "proposed_version": "0.2.16",
     "sha256": "abb455ee4d9db1d823f1a461e7d706d27e28e0e130d4d843b6ff814fe396e291",
-    "symbols_unchanged": true
+    "symbols": {
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ],
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strcpy",
+        "strlen",
+        "strncmp"
+      ]
+    }
   },
   "waterfall": {
-    "baseline_byte_identical": false,
-    "bytes": 251648,
-    "capability_strings_unchanged": true,
-    "deployed_sha256": "999abfce25e39bdd5eb440d6e7bd6bd69f54e1e88edc78901ed00b01f25599d1",
-    "old_version": "0.3.7",
-    "proposed_version": "0.3.8",
-    "sha256": "9315f912ac41b24e29e6c86b98b3d505fe7c494ee8740ff1db56e84b5f95af17",
-    "symbols_unchanged": true
+    "bytes": 252240,
+    "changed": true,
+    "deployed_sha256": "9315f912ac41b24e29e6c86b98b3d505fe7c494ee8740ff1db56e84b5f95af17",
+    "manifest_changes": [
+      "version"
+    ],
+    "old_version": "0.3.8",
+    "proposed_version": "0.3.9",
+    "sha256": "a3f9e4f2ba63b5b035da6696a33c9b5bd3e3ecafd3dc86fc97ec096a0e21189a",
+    "symbols": {
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ],
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strcpy",
+        "strlen"
+      ]
+    }
   },
   "wifi_settings": {
-    "baseline_byte_identical": true,
     "bytes": 169460,
-    "capability_strings_unchanged": true,
-    "deployed_sha256": "19d6dc5fde5d25b3c0808c0dcb500a011469350bebfc66a74556369b90c975ba",
-    "old_version": "1.1.31",
+    "changed": false,
+    "deployed_sha256": "66cb5b2019e714bddbb38f202df96ed5739afde0607fce0cb162a97d43aa4575",
+    "manifest_changes": [],
+    "old_version": "1.1.32",
     "proposed_version": "1.1.32",
     "sha256": "66cb5b2019e714bddbb38f202df96ed5739afde0607fce0cb162a97d43aa4575",
-    "symbols_unchanged": true
+    "symbols": {
+      "exports": [
+        "app_main",
+        "app_module_fini",
+        "app_module_init"
+      ],
+      "imports": [
+        "free",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "risc_runtime_get_api",
+        "snprintf",
+        "strcmp",
+        "strcpy",
+        "strlen"
+      ]
+    }
   }
 }

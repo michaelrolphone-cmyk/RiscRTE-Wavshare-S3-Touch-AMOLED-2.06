@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare .45 from a fresh confirmed .44 readback; performs no device I/O."""
+"""Prepare .46 from a fresh confirmed .45 readback; performs no device I/O."""
 import argparse,hashlib,json,subprocess,sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parent

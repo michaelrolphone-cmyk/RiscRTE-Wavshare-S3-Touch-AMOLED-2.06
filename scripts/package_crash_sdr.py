@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Assemble, validate and package repaired watch apps and SDR Runtime over exact .44.
+"""Assemble, validate and package native-resolution RF Spectrum/Waterfall over exact .45.
 Prepare source-bound release artifacts and preserving-update proofs. Never use Python -O.
 """
 import argparse
@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / 'docs/app-crash-sdr'
 PINS = json.loads((DOCS / 'source-pins.json').read_text())
 PRODUCT = 'michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06'
-PREFIX = 'Waveshare-0.1.45-App-Crash-SDR'
+PREFIX = 'Waveshare-0.1.46-Native-SDR'
 APPS = json.loads((DOCS / 'app-cohort.json').read_text())
 FACTORY = PREFIX + '-factory-erases-data-0x0.bin'
 RUNTIME_HELPERS = ('prepare_preserving_update.py', 'paired_bank_images.py', 'spiffs_image.py')
@@ -68,6 +68,8 @@ PRODUCT_INPUTS = (
     'scripts/package_crash_sdr.py', 'scripts/test_crash_sdr_release.py',
     'scripts/replay_crash_sdr_apps.py', 'scripts/verify_crash_sdr_admission.py',
     'scripts/qualify_crash_sdr_sources.py', 'scripts/test_native_ui_release.py',
+    'scripts/stage_sdr_baseline_native.py', 'scripts/test_sdr_baseline_native.py',
+    'scripts/qualify_sdr_native_sources.py', 'scripts/test_sdr_native_qualification.py',
     'scripts/package_native_ui.py', 'scripts/native_ui_profile.py',
     'docs/t030-native-ui/source-pins.json',
     'scripts/verify_t051_admission.py', 'scripts/stage_vendor_display.py',
@@ -75,6 +77,7 @@ PRODUCT_INPUTS = (
     'docs/NATIVE_DISPLAY_TIMING.md', 'scripts/decode_display_perf.py',
     'tests/test_display_perf_decoder.py', '.github/workflows/crash-sdr-release.yml',
     'docs/app-crash-sdr/source-pins.json', 'docs/app-crash-sdr/app-cohort.json',
+    'docs/app-crash-sdr/producer-manifest.json',
     'docs/app-crash-sdr/RELEASE-NOTES.txt', 'docs/app-crash-sdr/RELEASE-ROUTE.txt',
     'docs/app-crash-sdr/PRESERVING-UPDATE.txt',
     'docs/app-crash-sdr/prepare.py', 'docs/app-crash-sdr/verify_readbacks.py',
@@ -92,20 +95,37 @@ def verify_product_source(root, revision, names=PRODUCT_INPUTS):
     return hashes
 
 def verify_baseline_bytes(data):
-    require(len(data) == 0x1000000 and sha(data) == PINS['baseline_sha256'], 'Exact released .44 factory required')
+    require(len(data) == 0x1000000 and sha(data) == PINS['baseline_sha256'], 'Exact released .45 factory required')
 
 def verify_final_pins():
     require(type(PINS.get('publication_enabled')) is bool, 'Explicit publication gate required')
     require(PINS.get('finalized') is True, 'Release source pins are not finalized; STOP')
     require((PINS.get('version'), PINS.get('baseline_version'), PINS.get('release_tag')) ==
-            ('0.1.45', '0.1.44', 'test-app-crash-sdr-0.1.45'), 'Release identity mismatch')
+            ('0.1.46', '0.1.45', 'test-native-sdr-0.1.46'), 'Release identity mismatch')
     require(PINS.get('performance_trace_capacity') == 64, 'Qualified native trace capacity must be 64')
-    for key in ('runtime_revision', 'system_revision', 'repair_system_revision', 'bridge_revision', 'image_helper_revision', 'vendor_revision', 'utilities_revision', 'regression_baseline_system'):
+    for key in ('runtime_revision', 'system_revision', 'repair_system_revision', 'bridge_revision', 'image_helper_revision', 'vendor_revision', 'utilities_revision', 'regression_baseline_system', 'sdr_system_revision', 'sdr_utilities_revision'):
         require(isinstance(PINS.get(key), str) and re.fullmatch('[0-9a-f]{40}', PINS[key]), 'Final immutable source pin required: ' + key)
-    require(PINS.get('native_changed') is True, 'SDR native firmware must be explicitly changed')
-    require(PINS.get('changed_product_native_inputs') == [], 'Product native inputs must match exact .44')
-    require(len(APPS) == PINS.get('app_count') == 17, 'Complete 17-app replacement required')
-    require(PINS['changed_store_files'] == sorted(['cohort.json'] + [name + suffix for name in APPS for suffix in ('.elf', '.json')]), 'Changed file allowlist differs')
+    for key in ('baseline_sha256', 'baseline_evidence_sha256', 'baseline_native_sha256', 'baseline_native_elf_sha256'):
+        require(isinstance(PINS.get(key), str) and re.fullmatch('[0-9a-f]{64}', PINS[key]), 'Pinned baseline artifact digest required: ' + key)
+    require(PINS.get('baseline_product') == '49aecbc116172b89481c6880d74a350643b798ef', 'Exact official .45 product source required')
+    require(PINS.get('baseline_runtime') == PINS.get('runtime_revision') == '4107eaeedd8c801eeaf7deb1c7bc4a943cd27342', 'Native Runtime source must remain exact')
+    producer_data=(DOCS/'producer-manifest.json').read_bytes()
+    require(sha(producer_data)==PINS['producer_manifest_sha256'], 'Final producer manifest digest differs')
+    producer=json.loads(producer_data)
+    require(producer['complete'] is True and producer['producer_commit']==PINS['system_revision'] and producer['baseline_product_source']==PINS['baseline_product'], 'Final producer/baseline closure differs')
+    require(set(producer['apps'])==set(APPS) and producer['changed_apps']==['waterfall'], 'Producer app scope differs')
+    for name,row in APPS.items():
+        source=producer['apps'][name]
+        require(all(row[key]==source[key] for key in ('sha256','bytes','deployed_sha256','old_version')) and row['proposed_version']==source['version'], 'Producer app metadata differs: '+name)
+    require(PINS.get('native_changed') is False, 'Native firmware must remain byte-identical to official .45')
+    require(PINS.get('changed_product_native_inputs') == [], 'Product native inputs must match exact .45')
+    require(len(APPS) == PINS.get('app_count') == 17, 'Complete 17-app replay required')
+    require(PINS.get('changed_apps') == ['waterfall'], 'Only RF Spectrum/Waterfall may change')
+    require(PINS['changed_store_files'] == ['cohort.json', 'waterfall.elf', 'waterfall.json'], 'Changed file allowlist differs')
+    require((APPS['waterfall']['old_version'], APPS['waterfall']['proposed_version']) == ('0.3.8', '0.3.9'), 'Waterfall successor identity differs')
+    for name, row in APPS.items():
+        if name != 'waterfall':
+            require(row['sha256'] == row['deployed_sha256'] and row['old_version'] == row['proposed_version'], 'Unrelated app source output changed: ' + name)
     require('springboard' not in APPS and 'default' not in APPS, 'Preserved baseline apps entered replacement set')
 
 
@@ -115,10 +135,14 @@ def replace_apps(before, replacements):
     for name, row in APPS.items():
         old, new = before[name + '.elf'], replacements[name]
         require(sha(old) == row['deployed_sha256'], 'Deployed app identity mismatch: ' + name)
-        require(sha(new) == row['sha256'] and len(new) == row['bytes'] and new != old, 'Repaired app identity mismatch: ' + name)
+        require(sha(new) == row['sha256'] and len(new) == row['bytes'], 'Replayed app identity mismatch: ' + name)
         require(new[:7] == b'\x7fELF\x01\x01\x01' and new[16:20] == b'\x03\x00\x5e\x00', 'Expected ELF32 Xtensa ET_DYN app')
         manifest = json.loads(before[name + '.json'])
         require(manifest['version'] == row['old_version'], 'Deployed app version mismatch: ' + name)
+        if name not in PINS['changed_apps']:
+            require(new == old and row['proposed_version'] == row['old_version'], 'Unrelated app changed: ' + name)
+            continue
+        require(new != old, 'Changed app must have new bytes: ' + name)
         require(tuple(map(int, row['proposed_version'].split('.'))) > tuple(map(int, row['old_version'].split('.'))), 'Version must advance')
         store[name + '.elf'] = new
         store[name + '.json'] = (json.dumps(dict(manifest, version=row['proposed_version']), separators=(',', ':')) + '\n').encode()
@@ -180,7 +204,7 @@ def verify_sources(runtime, image_helper, vendor):
     for path, revision in ((runtime, PINS['runtime_revision']), (image_helper, PINS['image_helper_revision']), (vendor, PINS['vendor_revision'])):
         require(run('git', '-C', path, 'rev-parse', 'HEAD').strip() == revision, 'Pinned source HEAD mismatch')
         require(not run('git', '-C', path, 'status', '--porcelain', '--untracked-files=no').strip(), 'Tracked source is dirty')
-    # A release must carry a source-owned native build, including retained .43 inputs.
+    # Reused native artifacts stay bound to the original source-owned .45 composition.
     hashes = {'vendor-upstream-archive': verify_vendor_tree(vendor, PINS['vendor_revision'])}
     for name in ('expanded-candidate.ini', 'waveshare-settings-profile.h', 'partitions-paired-appdata-expanded.csv', 'scripts/reproducible_build.py'):
         data = (runtime / name).read_bytes()
@@ -218,7 +242,7 @@ def verify_sources(runtime, image_helper, vendor):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    for name in ('baseline', 'runtime', 'native', 'system', 'compiler', 'image-helper', 'vendor', 'utilities', 'baseline-system', 'output'):
+    for name in ('baseline', 'runtime', 'native', 'system', 'compiler', 'image-helper', 'vendor', 'utilities', 'baseline-system', 'sdr-system', 'sdr-utilities', 'output'):
         parser.add_argument('--' + name, type=Path, required=True)
     parser.add_argument('--source-revision', required=True)
     parser.add_argument('--source-cache', type=Path)
@@ -247,9 +271,9 @@ def main():
     _, old_native, old_store = pair(baseline, 0, geometry)
     before = read_image(old_store, geometry[3])
     original = json.loads(before['cohort.json'])
-    require(original['version'] == '0.1.44' and original['source_revision'] == PINS['baseline_product'], 'Baseline cohort identity mismatch')
+    require(original['version'] == '0.1.45' and original['source_revision'] == PINS['baseline_product'], 'Baseline cohort identity mismatch')
     require(sha(before['springboard.elf']) == PINS['baseline_springboard_sha256'], 'Baseline native-vector Springboard mismatch')
-    native = {name: (native_dir / name).read_bytes() for name in ('firmware.bin', 'firmware.elf', 'bootloader.bin', 'partitions.bin')}
+    native = {name: (native_dir / name).read_bytes() for name in ('firmware.bin', 'firmware.elf', 'partitions.bin')}
     firmware = native['firmware.bin']
     require(0 < len(firmware) <= 0x260000, 'Bounded native firmware required')
     require((firmware != old_native) == PINS['native_changed'], 'Native changed status differs from finalized pins')
@@ -257,6 +281,7 @@ def main():
     esp_image(firmware)
     elf(native['firmware.elf'])
     verify_native_identity(native)
+    require(sha(native['firmware.elf']) == PINS['baseline_native_elf_sha256'], 'Official .45 native ELF changed')
     # Regenerate image from this exact ELF, proving ELF/BIN correspondence.
     with tempfile.TemporaryDirectory(prefix='catalog-native-proof-') as td:
         regenerated = Path(td) / 'firmware.bin'
@@ -269,8 +294,11 @@ def main():
     proof['radio_iq'] = prove(native['firmware.elf'], target_identity='esp32s3-16mb-waveshare-expanded')
     proof['performance_trace']['static_bytes_before_iq_bank'] = proof['radio_iq']['bank_base'] - proof['radio_iq']['heap_start']
     # Do not replace shipped bootloader or partition table on a native update.
-    require(native['partitions.bin'] == baseline[0x8000:0x8000 + len(native['partitions.bin'])], 'Native partition layout differs from installed .44')
-    proof.update(runtime_revision=PINS['runtime_revision'], bin_sha256=sha(firmware), elf_sha256=sha(native['firmware.elf']), elf_bin_identical=True, source_hashes=source_hashes)
+    require(native['partitions.bin'] == baseline[0x8000:0x8000 + len(native['partitions.bin'])], 'Native partition layout differs from installed .45')
+    native_custody = json.loads((native_dir / 'baseline-native-custody.json').read_text())
+    require(native_custody == dict(baseline_product=PINS['baseline_product'], runtime_revision=PINS['runtime_revision'], baseline_factory_sha256=PINS['baseline_sha256'], baseline_evidence_sha256=PINS['baseline_evidence_sha256'], native_sha256=sha(firmware), native_elf_sha256=sha(native['firmware.elf']), native_reused_unchanged=True), 'Native custody receipt differs')
+    proof['official_baseline_custody'] = native_custody
+    proof.update(native_source_product_revision=PINS['baseline_product'], native_reused_unchanged=True, baseline_evidence_sha256=PINS['baseline_evidence_sha256'], runtime_revision=PINS['runtime_revision'], bin_sha256=sha(firmware), elf_sha256=sha(native['firmware.elf']), elf_bin_identical=True, source_hashes=source_hashes)
     with tempfile.TemporaryDirectory(prefix='crash-sdr-replay-') as td:
         target = Path(td) / 'replay'
         command = [sys.executable, ROOT / 'scripts/replay_crash_sdr_apps.py', '--system', args.system.resolve(), '--compiler', args.compiler.resolve(), '--output', target]
@@ -285,6 +313,11 @@ def main():
         run(sys.executable, ROOT / 'scripts/qualify_crash_sdr_sources.py', '--system', args.system.resolve(), '--runtime', runtime, '--utilities', args.utilities.resolve(), '--baseline-system', args.baseline_system.resolve(), '--output', qualified)
         source_qualification = json.loads((qualified / 'qualification.json').read_text())
         qualification_files = {p.relative_to(qualified).as_posix(): p.read_bytes() for p in qualified.rglob('*') if p.is_file() and p.suffix in ('.json', '.log')}
+    with tempfile.TemporaryDirectory(prefix='sdr-native-qualification-') as td:
+        qualified = Path(td) / 'results'
+        run(sys.executable, ROOT / 'scripts/qualify_sdr_native_sources.py', '--system', args.sdr_system.resolve(), '--utilities', args.sdr_utilities.resolve(), '--output', qualified)
+        sdr_qualification = json.loads((qualified / 'qualification.json').read_text())
+        sdr_files = {p.relative_to(qualified).as_posix(): p.read_bytes() for p in qualified.rglob('*') if p.is_file() and p.suffix in ('.json', '.log')}
     springboard = before['springboard.elf']
     store = replace_apps(before, replacements)
     cohort = dict(original, version=PINS['version'], source_revision=args.source_revision, runtime_version=version[0].decode(), firmware_size=len(firmware), firmware_sha256=sha(firmware))
@@ -304,8 +337,8 @@ def main():
         require(candidate[start:end] == baseline[start:end], 'Bytes outside native/store/state changed')
     helpers = {name: (runtime / 'scripts' / name).read_bytes() for name in RUNTIME_HELPERS}
     require(all(data == git_bytes(runtime, PINS['runtime_revision'], 'scripts/' + name) for name, data in helpers.items()), 'Preserving helper source mismatch')
-    metadata = dict(PINS, source_revision=args.source_revision, candidate_sha256=sha(candidate), native_sha256=sha(firmware), native_elf_sha256=sha(native['firmware.elf']), hardware_tested=False, device_accessed=False, verified_hardware_fix=False, system_unchanged=False, native_changed=PINS['native_changed'], all_other_store_payloads_unchanged=True, springboard_sha256=sha(springboard), springboard_manifest_sha256=sha(store['springboard.json']), home_elf_sha256=sha(store['default.elf']), retained_wake_policy_added=False, springboard_unchanged=True, repaired_app_count=17, includes_t023_provisioning=False, factory_erases_saved_data=True, sd_unchanged=True)
-    metadata['artifact_sources'] = {'native': {'runtime_revision': PINS['runtime_revision'], 'product_revision': args.source_revision}, 'springboard': {'system_revision': PINS['baseline_system'], 'product_revision': PINS['baseline_product'], 'sha256': sha(springboard)}, 'repaired_apps': {name: {'producer_revision': PINS['system_revision'], 'recipe': 'docs/shared-app-crashes/replay/wave.json:' + name, 'sha256': row['sha256']} for name, row in APPS.items()}}
+    metadata = dict(PINS, source_revision=args.source_revision, candidate_sha256=sha(candidate), native_sha256=sha(firmware), native_elf_sha256=sha(native['firmware.elf']), hardware_tested=False, device_accessed=False, verified_hardware_fix=False, system_unchanged=False, native_changed=PINS['native_changed'], all_other_store_payloads_unchanged=True, springboard_sha256=sha(springboard), springboard_manifest_sha256=sha(store['springboard.json']), home_elf_sha256=sha(store['default.elf']), retained_wake_policy_added=False, springboard_unchanged=True, replayed_app_count=17, changed_app_count=1, unchanged_elf_count=61, includes_t023_provisioning=False, factory_erases_saved_data=True, sd_unchanged=True)
+    metadata['artifact_sources'] = {'native': {'runtime_revision': PINS['runtime_revision'], 'product_revision': PINS['baseline_product'], 'official_evidence_sha256': PINS['baseline_evidence_sha256'], 'reused_byte_identically': True}, 'springboard': {'system_revision': PINS['baseline_system'], 'product_revision': PINS['baseline_product'], 'sha256': sha(springboard)}, 'replayed_apps': {name: {'producer_revision': PINS['system_revision'], 'recipe': 'docs/shared-app-crashes/replay/wave.json:' + name, 'sha256': row['sha256']} for name, row in APPS.items()}}
     results = []
     def active(image):
         return (max(ota(image[0xff0000 + i * 4096:0xff0020 + i * 4096])[0] for i in range(2) if ota(image[0xff0000 + i * 4096:0xff0020 + i * 4096])) - 1) % 2
@@ -385,7 +418,7 @@ def main():
         for flags in ([], ['--selection']):
             run(sys.executable, kit_dir / 'verify_readbacks.py', '--plan', temporary / 'plan/plan.json', '--readbacks', temporary / 'plan', *flags)
 
-    report = dict(metadata, packing=packing, changed_store_files=changed_store, target_proof=target_proof, source_qualification=source_qualification, store_file_count=len(store), native_proof=proof, preserving_banks=results, kit_prepare_and_simulated_readbacks=True)
+    report = dict(metadata, packing=packing, changed_store_files=changed_store, target_proof=target_proof, source_qualification=source_qualification, sdr_native_qualification=sdr_qualification, store_file_count=len(store), native_proof=proof, preserving_banks=results, kit_prepare_and_simulated_readbacks=True)
     notes = (DOCS / 'RELEASE-NOTES.txt').read_text()
     evidence = {'release.json': encoded(metadata), 'assembly-report.json': encoded(report), 'admission.json': encoded(admission), 'admission-sanitized.json': encoded(sanitized), 'native-proof.json': encoded(proof), 'target-proof.json': encoded(target_proof), 'springboard.elf': springboard, 'springboard.json': store['springboard.json'], 'store-SHA256SUMS.txt': checksums(store), 'firmware.elf': native['firmware.elf'], 'firmware.bin': firmware}
     for name in PRODUCT_INPUTS:
@@ -393,6 +426,8 @@ def main():
     evidence['source-pins.json'] = encoded(PINS)
     for name, data in qualification_files.items():
         evidence['qualification/' + name] = data
+    for name, data in sdr_files.items():
+        evidence['sdr-native-qualification/' + name] = data
     for name, data in replay_files.items():
         evidence['app-replay/' + name] = data
     for name in changed_store:
@@ -410,7 +445,7 @@ def main():
     (args.output / 'RELEASE-NOTES.txt').write_text(notes)
     (args.output / 'decode_display_perf.py').write_bytes((ROOT / 'scripts/decode_display_perf.py').read_bytes())
     (args.output / 'DISPLAY-TIMING.md').write_bytes((ROOT / 'docs/NATIVE_DISPLAY_TIMING.md').read_bytes())
-    archive(args.output / (PREFIX + '-preserving-kit-from-0.1.44.zip'), kit)
+    archive(args.output / (PREFIX + '-preserving-kit-from-0.1.45.zip'), kit)
     archive(args.output / (PREFIX + '-evidence.zip'), evidence)
     files = {path.name: path.read_bytes() for path in args.output.iterdir() if path.is_file()}
     (args.output / 'SHA256SUMS.txt').write_bytes(checksums(files))

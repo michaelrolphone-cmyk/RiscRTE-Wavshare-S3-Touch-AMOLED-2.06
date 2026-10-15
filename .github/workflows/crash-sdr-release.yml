@@ -1,4 +1,4 @@
-name: Waveshare 0.1.45 app-crash and SDR release
+name: Waveshare 0.1.46 native-resolution SDR release
 
 on:
   workflow_dispatch:
@@ -9,12 +9,14 @@ on:
         type: boolean
         default: false
   push:
-    branches: [fix/app-crash-sdr-0.1.45]
+    branches: [release/waveshare-0.1.46-sdr-native]
     paths:
       - .github/workflows/crash-sdr-release.yml
       - scripts/native_ui_profile.py
       - scripts/verify_crash_sdr_admission.py
       - scripts/qualify_crash_sdr_sources.py
+      - scripts/qualify_sdr_native_sources.py
+      - scripts/test_sdr_native_qualification.py
       - scripts/replay_crash_sdr_apps.py
       - docs/catalog-display-custody/target-command.json
       - native/VendorDisplay.cpp
@@ -27,6 +29,8 @@ on:
       - scripts/home_retained_wake_policy.py
       - tests/test_home_retained_wake_policy.py
       - scripts/package_crash_sdr.py
+      - scripts/stage_sdr_baseline_native.py
+      - scripts/test_sdr_baseline_native.py
       - scripts/test_crash_sdr_release.py
       - scripts/verify_t051_admission.py
       - docs/app-crash-sdr/**
@@ -35,7 +39,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: waveshare-test-app-crash-sdr-0.1.45
+  group: waveshare-test-native-sdr-0.1.46
   cancel-in-progress: false
 
 defaults:
@@ -43,8 +47,8 @@ defaults:
     shell: bash
 
 env:
-  BASELINE_TAG: test-native-ui-0.1.44
-  RELEASE_TAG: test-app-crash-sdr-0.1.45
+  BASELINE_TAG: test-app-crash-sdr-0.1.45
+  RELEASE_TAG: test-native-sdr-0.1.46
   PRODUCT_REPOSITORY: michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06
   PYTHONDONTWRITEBYTECODE: '1'
 
@@ -83,7 +87,7 @@ jobs:
           verify_final_pins()
           with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
               print('publication_enabled=' + str(pins['publication_enabled']).lower(), file=out)
-              for key in ('runtime_revision', 'system_revision', 'bridge_revision', 'image_helper_revision', 'vendor_revision', 'utilities_revision', 'regression_baseline_system'):
+              for key in ('runtime_revision', 'system_revision', 'bridge_revision', 'image_helper_revision', 'vendor_revision', 'utilities_revision', 'regression_baseline_system', 'sdr_system_revision', 'sdr_utilities_revision'):
                   if not re.fullmatch('[0-9a-f]{40}', pins[key]):
                       raise SystemExit('Missing final immutable source pin: ' + key)
                   print(key + '=' + pins[key], file=out)
@@ -120,6 +124,22 @@ jobs:
           path: .source/baseline-system
           fetch-depth: 0
           persist-credentials: false
+      - name: Check out focused SDR application source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-System-Apps
+          ref: ${{ steps.pins.outputs.sdr_system_revision }}
+          path: .source/sdr-system
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check out focused SDR test and rendering source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-Utilities
+          ref: ${{ steps.pins.outputs.sdr_utilities_revision }}
+          path: .source/sdr-utilities
+          fetch-depth: 0
+          persist-credentials: false
       - name: Check out image and admission helper
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
@@ -149,6 +169,8 @@ jobs:
           python3 scripts/test_board_profile.py
           python3 scripts/test_native_ui_release.py
           python3 scripts/test_crash_sdr_release.py
+          python3 scripts/test_sdr_baseline_native.py
+          python3 scripts/test_sdr_native_qualification.py
           python3 .source/system/docs/shared-app-crashes/replay/test_checked_xtensa_link.py
           git diff --exit-code
       - name: Exercise native catalog and atomic dispatch together
@@ -163,10 +185,7 @@ jobs:
             SANITIZE="$sanitize" bash test/run_app_catalog_runtime_test.sh
             SANITIZE="$sanitize" NATIVE_SETTINGS_LIFECYCLE=1 bash test/run_atomic_key_value_runtime_test.sh
           done
-      - name: Build real native Runtime with preserved profile
-        working-directory: .source/runtime
-        run: pio run --project-conf native-ui-candidate.ini -e waveshare-t051 -j 1
-      - name: Download and verify exact published .44 baseline
+      - name: Download and verify exact published .45 baseline
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -179,9 +198,18 @@ jobs:
           expected = json.loads(Path('docs/app-crash-sdr/source-pins.json').read_text())['baseline_sha256']
           matches = [p for p in Path('.inputs/downloaded').glob('*.bin') if p.stat().st_size == 0x1000000 and hashlib.sha256(p.read_bytes()).hexdigest() == expected]
           if len(matches) != 1:
-              raise SystemExit('Expected exactly one SHA-verified .44 factory; STOP')
+              raise SystemExit('Expected exactly one SHA-verified .45 factory; STOP')
           Path('.inputs/baseline.bin').write_bytes(matches[0].read_bytes())
           PY
+      - name: Download and stage exact official unchanged native ELF and BIN
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release download "$BASELINE_TAG" --repo "$PRODUCT_REPOSITORY" --pattern 'Waveshare-0.1.45-App-Crash-SDR-evidence.zip' --dir .inputs/downloaded
+          python3 scripts/stage_sdr_baseline_native.py --baseline .inputs/baseline.bin \
+            --evidence .inputs/downloaded/Waveshare-0.1.45-App-Crash-SDR-evidence.zip --runtime .source/runtime
+          pio pkg install --global --tool 'espressif/toolchain-xtensa-esp32s3@8.4.0+2021r2-patch5'
       - name: Assemble, prove native custody, admit complete store and test preserving kit
         run: |
           set -euo pipefail
@@ -189,6 +217,7 @@ jobs:
             --baseline .inputs/baseline.bin --runtime .source/runtime \
             --native .source/runtime/.pio/build/waveshare-t051 \
             --system .source/system --utilities .source/utilities --baseline-system .source/baseline-system \
+            --sdr-system .source/sdr-system --sdr-utilities .source/sdr-utilities \
             --compiler "$HOME/.platformio/packages/toolchain-xtensa-esp32s3/bin/xtensa-esp32s3-elf-gcc" \
             --image-helper .source/image-helper --vendor .source/vendor --source-revision "$GITHUB_SHA" \
             --output dist/crash-sdr
@@ -207,7 +236,7 @@ jobs:
 
   publish:
     needs: package
-    if: needs.package.outputs.publication_enabled == 'true' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.publish == true)) && github.repository == 'michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06' && github.ref == 'refs/heads/fix/app-crash-sdr-0.1.45'
+    if: needs.package.outputs.publication_enabled == 'true' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.publish == true)) && github.repository == 'michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06' && github.ref == 'refs/heads/release/waveshare-0.1.46-sdr-native'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
@@ -257,7 +286,7 @@ jobs:
           PY
           gh release create "$RELEASE_TAG" release-assets/* --repo "$PRODUCT_REPOSITORY" \
             --target "$GITHUB_SHA" --prerelease --latest=false \
-            --title 'Waveshare 0.1.45 app crash and SDR fixes' \
+            --title 'Waveshare 0.1.46 native-resolution SDR' \
             --notes-file release-assets/RELEASE-NOTES.txt
       - name: Verify published source and downloaded asset hashes
         env:
