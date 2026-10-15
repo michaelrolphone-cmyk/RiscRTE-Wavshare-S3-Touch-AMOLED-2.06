@@ -10,6 +10,7 @@ import io
 import json
 import os
 import re
+import struct
 from pathlib import Path
 import subprocess
 import sys
@@ -106,6 +107,125 @@ def app_profile_proof(debug_elf):
                 compile_define='-DPORTABLE_STAGE_PROFILE')
 
 
+def native_vector_proof(debug_elf, compact_elf, vector_source, disassembly):
+    """Bind live presenter callbacks, vector calls and exact outlines to shipped bytes."""
+    from elftools.elf.elffile import ELFFile
+    debug, compact = (ELFFile(io.BytesIO(data)) for data in (debug_elf, compact_elf))
+    for elf in (debug, compact):
+        require(elf.elfclass == 32 and elf.little_endian and elf['e_machine'] == 'EM_XTENSA',
+                'Native vector proof requires the Xtensa ELF32 target')
+    sections = []
+    allocated = lambda elf: {s.name: s for s in elf.iter_sections() if s['sh_flags'] & 2}
+    ds, cs = allocated(debug), allocated(compact)
+    require(ds.keys() == cs.keys(), 'Debug/compact allocated section sets differ')
+    for name, section in ds.items():
+        other = cs[name]
+        for key in ('sh_addr', 'sh_size', 'sh_type', 'sh_flags'):
+            require(section[key] == other[key], 'Debug/compact section layout differs: ' + name)
+        if section['sh_type'] != 'SHT_NOBITS':
+            require(section.data() == other.data(), 'Debug/compact allocated bytes differ: ' + name)
+        sections.append(dict(name=name, address=section['sh_addr'], bytes=section['sh_size']))
+    table = debug.get_section_by_name('.symtab')
+    require(table is not None, 'Native vector debug symbol table absent')
+    symbols = list(table.iter_symbols())
+    def symbol(name, kind):
+        rows = [s for s in symbols if s.name.split('$')[0] == name and s['st_info']['type'] == kind]
+        require(len(rows) == 1 and isinstance(rows[0]['st_shndx'], int), 'Live native symbol missing or ambiguous: ' + name)
+        row = rows[0]; section = debug.get_section(row['st_shndx'])
+        offset = row['st_value'] - section['sh_addr']
+        require(section['sh_flags'] & 2 and row['st_size'] > 0 and offset >= 0 and
+                offset + row['st_size'] <= section['sh_size'], 'Native symbol outside allocated image: ' + name)
+        if kind == 'STT_FUNC':
+            require(section['sh_flags'] & 4, 'Native function is not executable: ' + name)
+        return row, section, offset
+    callbacks = ('np_begin', 'np_circle', 'np_icon', 'np_caption', 'np_contact', 'np_clock')
+    function_names = callbacks + ('np_icon_color', 'np_vector_draw', 'np_vector_quad',
+        'np_vector_cubic', 'np_vector_line', 'np_vector_read', 'np_native_extent',
+        'np_native_measure', 'np_native_text_glyph')
+    functions = {name: symbol(name, 'STT_FUNC')[0] for name in function_names}
+    objects = {}
+    for name, size in dict(np_vector_glyphs=168*18, np_vector_icons=30*8, np_vector_text=190,
+            np_view=28, np_vector_data=19741, np_vector_edges=512*16,
+            np_vector_hits=512*4, np_vector_winding=512, np_vector_coverage=128*2).items():
+        row, section, offset = symbol(name, 'STT_OBJECT')
+        require(row['st_size'] == size, 'Native vector object size changed: ' + name)
+        objects[name] = dict(address=row['st_value'], bytes=size)
+    match = re.search(r'np_vector_packed\[\]\s*=\s*\{([^}]+)\}', vector_source)
+    require(match is not None, 'Committed vector outline payload absent')
+    expected = bytes(int(value) for value in match.group(1).split(',') if value.strip())
+    row, section, offset = symbol('np_vector_packed', 'STT_OBJECT')
+    require(row['st_size'] == len(expected) and section.data()[offset:offset+len(expected)] == expected,
+            'Shipped native outlines differ from committed vector source')
+    objects['np_vector_packed'] = dict(address=row['st_value'], bytes=len(expected), sha256=sha(expected))
+    row, section, offset = symbol('np_view', 'STT_OBJECT')
+    pointers = struct.unpack('<7I', section.data()[offset:offset+28])
+    require(pointers == (28, *(functions[name]['st_value'] for name in callbacks)),
+            'Native presenter callback table does not bind the live native functions')
+    def read_address(address):
+        for section in cs.values():
+            offset = address - section['sh_addr']
+            if section['sh_type'] != 'SHT_NOBITS' and 0 <= offset <= section['sh_size'] - 4:
+                return struct.unpack('<I', section.data()[offset:offset+4])[0]
+        raise ValueError('Native call literal outside the compact image')
+    calls = []
+    for caller, callee in (('np_icon', 'np_icon_color'), ('np_icon_color', 'np_vector_draw'),
+                            ('np_caption', 'np_vector_draw')):
+        row = functions[caller]
+        instructions = []
+        for line in disassembly.splitlines():
+            match = re.match(r'\s*([0-9a-f]+):\s+[0-9a-f]+\s+(\S+)\s*(.*)', line)
+            if match and row['st_value'] <= int(match[1], 16) < row['st_value'] + row['st_size']:
+                instructions.append((int(match[1], 16), match[2], match[3]))
+        found = []
+        for index, (address, opcode, operands) in enumerate(instructions):
+            load = re.match(r'(a\d+),\s*([0-9a-f]+)', operands) if opcode == 'l32r' else None
+            if not load or read_address(int(load[2], 16)) != functions[callee]['st_value']:
+                continue
+            register = load[1]
+            for call_address, op, args in instructions[index+1:]:
+                if op == 'callx8' and args.strip() == register:
+                    found.append(dict(load_address=address, literal_address=int(load[2], 16), call_address=call_address)); break
+                if op.startswith('call') or (args.split(',')[0].strip() == register and
+                        not op.startswith(('s8i', 's16i', 's32i', 'b'))):
+                    break
+        require(found, 'Live native vector call binding absent: ' + caller + ' -> ' + callee)
+        calls.append(dict(caller=caller, callee=callee, bindings=found))
+    return dict(debug_elf_sha256=sha(debug_elf), compact_elf_sha256=sha(compact_elf),
+                allocated_sections_identical=sections, presenter_callbacks=list(callbacks),
+                live_functions={name: dict(address=row['st_value'], bytes=row['st_size'])
+                                for name, row in functions.items()}, vector_objects=objects,
+                live_vector_calls=calls, diagnostic_string_required=False)
+
+
+def test_native_vector_gate(debug_elf, compact_elf, vector_source, disassembly, baseline_debug, baseline):
+    """Exercise the real linked target, including marker-only and byte-tamper impostors."""
+    from elftools.elf.elffile import ELFFile
+    rejected = []
+    def reject(name, debug, compact, source=vector_source, assembly=disassembly):
+        try:
+            native_vector_proof(debug, compact, source, assembly)
+        except ValueError:
+            rejected.append(name)
+        else:
+            raise ValueError('Invalid native vector fixture accepted: ' + name)
+    reject('exact-.43-baseline', baseline_debug, baseline)
+    marker = b'native-springboard-vector-v1\0'
+    reject('marker-only-impostor', baseline_debug + marker, baseline + marker)
+    reject('missing-native-call', debug_elf, compact_elf, assembly=disassembly.replace('callx8', 'retw.n'))
+    elf = ELFFile(io.BytesIO(debug_elf)); rows = list(elf.get_section_by_name('.symtab').iter_symbols())
+    for name in ('np_vector_packed', 'np_view', 'np_vector_draw'):
+        row = next(s for s in rows if s.name.split('$')[0] == name)
+        section = elf.get_section(row['st_shndx']); relative = row['st_value'] - section['sh_addr']
+        other = ELFFile(io.BytesIO(compact_elf)).get_section_by_name(section.name)
+        at = other['sh_offset'] + relative
+        changed = bytearray(compact_elf); changed[at] ^= 1
+        reject('compact-byte-tamper-' + name, debug_elf, bytes(changed))
+        if name != 'np_vector_draw':
+            changed_debug = bytearray(debug_elf); changed_debug[section['sh_offset'] + relative] ^= 1
+            reject('matching-debug-and-compact-tamper-' + name, bytes(changed_debug), bytes(changed))
+    return dict(passed=True, negative_cases=rejected, real_target_positive=True)
+
+
 def vector_stack_proof(system, compiler, debug_path):
     text = run(str(compiler).removesuffix('gcc') + 'objdump', '-d', debug_path)
     frames = {}
@@ -160,6 +280,8 @@ def main():
             font_regeneration = regenerate_fonts(system, bridges, args.font_python) if label == 'candidate' else None
             app_profile = None
             vector_stack = None
+            native_vector = None
+            native_vector_tests = None
             out = args.output / label
             out.mkdir()
             command = deployment_command(system, bridges, args.compiler, out, label == 'candidate')
@@ -182,7 +304,13 @@ def main():
                 require(set(imports) <= set(results[0]['imports']), 'New Springboard Runtime imports require separate review')
                 require(exports == results[0]['exports'], 'Springboard exports changed')
                 require(sha(data) != PINS['baseline_springboard_sha256'], 'Candidate Springboard unchanged')
-                require(b'native-springboard-vector-v1\0' in data, 'Native vector presenter marker absent')
+                debug_data = (out / 'springboard.debug.elf').read_bytes()
+                vector_source = (system / 'lib/PortableApps/fonts/native_vectors.inc').read_text()
+                assembly = run(str(args.compiler).removesuffix('gcc') + 'objdump', '-d', out / 'springboard.debug.elf')
+                native_vector = native_vector_proof(debug_data, data, vector_source, assembly)
+                native_vector_tests = test_native_vector_gate(debug_data, data, vector_source, assembly,
+                    (args.output / 'baseline/springboard.debug.elf').read_bytes(),
+                    (args.output / 'baseline/springboard.elf').read_bytes())
                 require(command.count('-DPORTABLE_STAGE_PROFILE') == 1, 'Bounded app profiling define missing or repeated')
                 app_profile = app_profile_proof((out / 'springboard.debug.elf').read_bytes())
                 vector_stack = vector_stack_proof(system, args.compiler, out / 'springboard.debug.elf')
@@ -192,7 +320,8 @@ def main():
             results.append(dict(profile=label, sha256=sha(data), bytes=len(data), imports=imports,
                                 exports=exports, command=normalized, source=source_proof,
                                 compaction=compaction, elf_validator_passed=True,
-                                font_regeneration=font_regeneration, app_profile=app_profile, vector_stack=vector_stack))
+                                font_regeneration=font_regeneration, app_profile=app_profile, vector_stack=vector_stack,
+                                native_vector=native_vector, native_vector_gate_tests=native_vector_tests))
         report = dict(results=results, bridge=bridge_proof, compiler=version,
                       compiler_binary_sha256=sha(args.compiler.read_bytes()),
                       baseline_reproduced=True, device_accessed=False, hardware_tested=False)

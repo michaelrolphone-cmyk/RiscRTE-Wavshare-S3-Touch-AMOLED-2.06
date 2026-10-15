@@ -38,7 +38,13 @@ and Controls/input/rotation matrices, full-feature host profiling, and source
 custody of native font generation inputs, provenance and retained license texts.
 The compact vector source regenerates byte-identically using Python 3.12.14,
 fontTools 4.61.1 and Brotli 1.1.0. Evidence records the actual pinned decoder
-implementation. The packaged ELF must retain native-springboard-vector-v1.
+implementation. The packaged ELF must retain the native presenter callback table,
+live icon/caption calls into the vector renderer, executable vector functions and
+the exact committed outline payload. Qualification binds every allocated debug
+ELF section to identical compact-image addresses and bytes. The diagnostic string
+is not a gate: linker garbage collection legitimately removes its unused section.
+Each target build also rejects the exact .43 baseline, a marker-only impostor,
+missing call bindings, code/data tampering and altered presenter callbacks.
 Final-source normal/sanitized brightness tests and the calibrated cadence model
 run with the same app diagnostic define. Five repeated full-feature host profiles
 record their timer basis and spread. The independent vector review binds its
