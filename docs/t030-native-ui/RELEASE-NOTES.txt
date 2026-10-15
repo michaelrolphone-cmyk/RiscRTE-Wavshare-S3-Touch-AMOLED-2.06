@@ -1,0 +1,32 @@
+Waveshare 0.1.44 native-resolution Springboard (prerelease)
+
+Built only over the exact published 0.1.43 catalog-acquisition factory. The previous
+catalog fix is retained. The selected source pins and assembly report identify all
+changed components; every other stored application/provider remains byte-for-byte.
+The native-resolution work applies to Springboard; it does not migrate every app or
+Quick Controls to the native raster path. The known-ineligible generic grid retains
+compact bitmap text and fixed controls, with corrected native icons/contact. Renderer fixtures and full-store admission
+are separate checks; neither proves complete app/device acceptance.
+The eligible Springboard honeycomb renders original licensed font/icon outlines
+directly at capability-native dimensions and uses elapsed-time-correct input waits. The existing Home receives
+its missing retained-wake permission so its deep-wake branch is available; its
+ELF and genuine cold-start animation remain unchanged. The adapter restores the
+current brightness/torch level once after its first completed frame when supported.
+The existing 40 ms controller interval remains, at most 25 requested frames/s.
+Software validation is not a hardware speed measurement or proof of a hardware fix.
+Hardware validation of this candidate is pending. The device trace uses a bounded
+64-record history ring with all 64 cumulative counters preserved; capture perf
+soon after a gesture while remaining in Springboard. See the included decoder
+and timing guide for missing/overwritten data and units.
+
+The full 16 MiB factory BIN is flashed at offset 0 and ERASES SAVED INTERNAL DATA.
+For preservation, use the separate kit only with a fresh full-device readback of a
+confirmed exact 0.1.43 installation. Never flash its baseline.bin or candidate.bin.
+Stage the inactive firmware/store/state, verify all readbacks, then write OTA selection
+LAST. Never erase_flash. Follow the included preserving instructions and stop on error.
+The kit does not connect to a device. SD contents are unchanged. T023 provisioning is excluded.
+
+Evidence covers exact source custody, native ELF/BIN/profile/vendor proof, complete
+62-ELF source-bound admission in normal and sanitized modes, both source banks,
+selection interruption cuts, corrupt-input rejection, and packaged planner/readback checks.
+Check every downloaded asset against SHA256SUMS.txt before use.

@@ -1,6 +1,7 @@
 // Device-build extension. Vendor panel/transport implementation is pinned and
 // instrumented for checked SPI calls and startup isolation; no NativeSpi calls.
 #include "ports/esp32s3/CpuPort.h"
+#include "diagnostics/Performance.h"
 #include <Arduino_GFX.h>
 #include <databus/Arduino_ESP32QSPI.h>
 #include <display/Arduino_CO5300.h>
@@ -20,6 +21,42 @@ bool panelReady=false,panelOff=false;
 static bool probed=false;
 #endif
 uint16_t paired[820];uint32_t pendingRow=UINT32_MAX;
+#if RISC_PERFORMANCE_TRACE
+// Owner-task-only bounded aggregates. No allocation, formatting or transport
+// in row/SPI work. The existing `perf` replay drains at most64bytes per poll.
+// Phases34..39 are device-build diagnostic aggregates, not hardware ABI.
+static constexpr char riscVendorDisplayTimingMarker[]="RISCRTE_VENDOR_DISPLAY_TIMING_V1";
+struct FrameTiming {
+ uint64_t start=0,lastEnd=0,transfer=0,gap=0,maxTransfer=0,maxGap=0;
+ uint32_t rows=0,windows=0;bool active=false;
+ void accepted(uint32_t y){
+  if(!y){
+   // Referenced in live code so --gc-sections retains binary-bound build proof.
+   asm volatile("" : : "r"(riscVendorDisplayTimingMarker));
+   *this={};if(!RiscPerf::allowed())return;start=lastEnd=RiscPerf::now();active=true;
+  }
+  if(active)++rows;
+ }
+ uint64_t begin(){return active?RiscPerf::now():0;}
+ void end(uint64_t began,bool complete){
+  if(!active)return;
+  const auto ended=RiscPerf::now();
+  const auto elapsed=ended>=began?ended-began:0;
+  const auto idle=began>=lastEnd?began-lastEnd:0;
+  transfer+=elapsed;gap+=idle;++windows;lastEnd=ended;
+  if(elapsed>maxTransfer)maxTransfer=elapsed;if(idle>maxGap)maxGap=idle;
+  if(complete){
+   RiscPerf::aggregate(34,rows,ended>=start?ended-start:0);
+   RiscPerf::aggregate(35,windows,transfer);
+   RiscPerf::aggregate(36,windows,gap);
+   RiscPerf::aggregate(37,1,maxTransfer);
+   RiscPerf::aggregate(38,1,maxGap);
+   active=false;
+  }
+ }
+ void abort(){if(active){const auto ended=RiscPerf::now();RiscPerf::aggregate(39,rows,ended>=start?ended-start:0);active=false;}}
+} frameTiming;
+#endif
 bool accepts(const risc_hardware_device_v1& hw,uint8_t physical){
  if(physical!=2 || strcmp(hw.compatible,"chipone,co5300") || strcmp(hw.config_type,"display.spi") ||
     hw.config_version!=2 || hw.config_size!=sizeof(risc_hw_spi_display_v2) || !hw.config)return false;
@@ -38,6 +75,9 @@ void pads(const char* stage){
 #endif
 }
 bool closePanel(){
+#if RISC_PERFORMANCE_TRACE
+ frameTiming.abort();
+#endif
  // All vendor writes are synchronous. Keep objects and ownership on cleanup
  // refusal; caller retries without unloading its provider dependency.
  // Send vendor DISPOFF/SLPIN while SPI still exists; never resend on a
@@ -95,11 +135,25 @@ bool row(uint32_t y,const uint16_t* pixels,size_t count){
 #endif
  // The vendor LVGL rounder requires even starts and odd ends on both axes.
  // Retain one row; send only complete 410x2 windows with inclusive odd ends.
- if(!(y&1u)){if(pendingRow!=UINT32_MAX)return false;memcpy(paired,pixels,count*sizeof(uint16_t));pendingRow=y;return true;}
+ if(!(y&1u)){if(pendingRow!=UINT32_MAX)return false;
+#if RISC_PERFORMANCE_TRACE
+ frameTiming.accepted(y);
+#endif
+ memcpy(paired,pixels,count*sizeof(uint16_t));pendingRow=y;return true;}
  if(pendingRow!=y-1)return false;
+#if RISC_PERFORMANCE_TRACE
+ frameTiming.accepted(y);
+#endif
  memcpy(paired+width,pixels,count*sizeof(uint16_t));
+#if RISC_PERFORMANCE_TRACE
+ const auto transferBegan=frameTiming.begin();
+#endif
  panel->startWrite();panel->writeAddrWindow(0,y-1,width,2);
- panel->writePixels(paired,width*2);panel->endWrite();pendingRow=UINT32_MAX;return true;
+ panel->writePixels(paired,width*2);panel->endWrite();pendingRow=UINT32_MAX;
+#if RISC_PERFORMANCE_TRACE
+ frameTiming.end(transferBegan,y+1==height);
+#endif
+ return true;
 }
 bool brightness(uint8_t value){if(!panel)return false;Serial.printf("PANEL_BRIGHTNESS value=%u\n",unsigned(value));pads("brightness");panel->setBrightness(value);return true;}
 const RiscCpu::DisplayBackend backend={accepts,openPanel,row,brightness,closePanel};
