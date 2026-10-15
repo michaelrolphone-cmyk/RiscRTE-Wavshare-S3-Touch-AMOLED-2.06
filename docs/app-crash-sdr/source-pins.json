@@ -57,12 +57,13 @@
     "wifi_settings.json"
   ],
   "compiler_version": "xtensa-esp32s3-elf-gcc (crosstool-NG esp-2021r2-patch5) 8.4.0",
-  "publication_enabled": false,
+  "publication_enabled": true,
   "performance_trace_capacity": 64,
   "baseline_home_sha256": "b805ddcfb80d90983eabb03022c84fc633f9529924c1bffda363825d4ad88b1d",
   "repair_system_revision": "b8086d45ffa8259f982acac5974e7d6e4a6aa88b",
   "baseline_springboard_manifest_sha256": "b1af20c3db60b9fe90febd9791245eb168256fcbd8a237d63972868ec73b72c1",
   "app_count": 17,
   "utilities_revision": "cc56de34f2a1c6efa9761b28d92ed1cb8e8240e5",
-  "regression_baseline_system": "ffe0295eff869f0d33d56f98548f9b435975d584"
+  "regression_baseline_system": "ffe0295eff869f0d33d56f98548f9b435975d584",
+  "app_repair_scope": "17 internal-store applications; external-media application binaries are outside this cohort"
 }

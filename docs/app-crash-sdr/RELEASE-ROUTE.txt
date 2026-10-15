@@ -1,7 +1,7 @@
 Waveshare 0.1.45 source-owned composition
 
 Baseline: exact official 0.1.44 factory, SHA-256 4bd5baf748e17e0e36f8a6376b85b9e691014c9b703a0da6a5846792b4c6ffa9.
-Rebuild the 17 repaired apps with the finalized public System replay driver/spec; require all exact ELF hashes, sizes, symbols and transitive source inputs. Update only their version fields and the cohort identity. Preserve all other 45 ELFs, including the official native-vector Springboard, and every other store member.
+Rebuild the 17 repaired apps with the finalized public System replay driver/spec; require all exact ELF hashes, sizes, symbols and transitive source inputs. Update only their version fields and the cohort identity. Preserve all other 45 ELFs, including the official native-vector Springboard, and every other store member. External-media app binaries, including LoRa Messages, are outside this internal-store repair cohort.
 Rebuild Runtime 4107eae with the exact 0.1.44 product native profile/vendor source, including trace=1 and capacity=64. Verify native ELF/BIN correspondence, source identity, IQ reservation and bounded trace storage.
 Run 192 fixed shared-custody cases and eight baseline reproductions from isolated pinned source checkouts; run native IQ lifecycle/radio/catalog/atomic/trace suites. Admit all 62 installed ELFs against the actual native image in normal and sanitizer modes with zero hardware/storage calls.
 Require full store round-trip and unchanged bank layout. Exercise both active-bank preserving plans, all 33 selection-write interruption boundaries, protected ranges, corrupt candidate and invalid snapshot guards. The preserving kit accepts only exact confirmed 0.1.44. Full-image flashing erases saved internal data. Hardware validation remains separate.
