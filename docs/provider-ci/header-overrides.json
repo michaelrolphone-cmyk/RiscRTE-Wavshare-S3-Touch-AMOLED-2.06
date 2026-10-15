@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "watch_revision": "e49a3da30682eef7bf55716fa8223ac615eebb02",
+  "runtime_revision": "4107eaeedd8c801eeaf7deb1c7bc4a943cd27342",
+  "overrides": {
+    "GardenPlatformV1.h": {
+      "previous": {
+        "owner": "watch",
+        "path": "sdk/driver/GardenPlatformV1.h",
+        "sha256": "4419cafe44b19ab7535c573b71137f13513672260d4e1e21713ea65dad2247ce"
+      },
+      "selected": {
+        "owner": "runtime",
+        "path": "sdk/driver/GardenPlatformV1.h",
+        "sha256": "2e8e32f52554b706fafce1af27a5fbaf99187f67ecb55dc0cf333144b48ef9d2"
+      }
+    },
+    "RiscProviderV2.h": {
+      "previous": {
+        "owner": "watch",
+        "path": "sdk/driver/RiscProviderV2.h",
+        "sha256": "2935d83493a411e19ee98b8c7e805b86f4adf98c6bde66fd031df7cc379bdc17"
+      },
+      "selected": {
+        "owner": "runtime",
+        "path": "sdk/driver/RiscProviderV2.h",
+        "sha256": "62478822fa8943ddfd1607f8923de52d7b5b6fc8a0db2df6ca07c65c95c62d41"
+      }
+    },
+    "RiscSpiQuadV1.h": {
+      "previous": {
+        "owner": "watch",
+        "path": "sdk/driver/RiscSpiQuadV1.h",
+        "sha256": "c59eeb65fe5d802b3b7156a6705e4e423cae305d0579405dd8b072e0eecc2aa1"
+      },
+      "selected": {
+        "owner": "runtime",
+        "path": "sdk/driver/RiscSpiQuadV1.h",
+        "sha256": "9f62ada4f4b5ecc62284afe6096ab039409a75769f61f08f57f73d68da9af6fe"
+      }
+    },
+    "RiscKeyValueV1.h": {
+      "previous": {
+        "owner": "watch",
+        "path": "sdk/app/RiscKeyValueV1.h",
+        "sha256": "5d5524ffd27b164f31505c5f538f528b39b35e356922e03e2eb59a9c68677b56"
+      },
+      "selected": {
+        "owner": "runtime",
+        "path": "sdk/app/RiscKeyValueV1.h",
+        "sha256": "0e73bf29c402be030baf52f5b2b324f5b872549cdf58aa31f45b72bd70977179"
+      }
+    },
+    "RiscRuntimeV1.h": {
+      "previous": {
+        "owner": "watch",
+        "path": "sdk/app/RiscRuntimeV1.h",
+        "sha256": "6fbfacaa46d532bfef083e8c7dd3bbe36613e557279fdda887d814d53915526b"
+      },
+      "selected": {
+        "owner": "runtime",
+        "path": "sdk/app/RiscRuntimeV1.h",
+        "sha256": "80198965ebe3dda4d9cadbb5a6d64a44016041e8c2f610a6f636d915c6851831"
+      }
+    }
+  }
+}
