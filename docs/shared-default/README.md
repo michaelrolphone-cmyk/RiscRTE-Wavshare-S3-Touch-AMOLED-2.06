@@ -2,7 +2,7 @@
 
 This source-only candidate uses the existing fresh-build, exact-source shared-default
 release machinery. Source pins are finalized; publication is disabled. Runtime is
-`21c6d64c51470158e1e8fb26d403b194f27ea38c`; Watch is
+`b2381db693f1ff12b4ed9089db0a1987bd56f3ce`; Watch is
 `8132d73c828c0e4763f6c89a3d6a4a883314056a`. Fresh full native qualification
 and release enablement remain required. A source pin or previous qualification
 receipt alone does not qualify this candidate.
@@ -64,3 +64,10 @@ The historical alarm-sleep and native-IDF61 contracts remain frozen by hash.
 
 The factory image erases saved data. Back up first. No data-preserving update kit
 is supplied, and standalone firmware/store assets must not be flashed independently.
+
+## Serial workspace correction
+
+The pinned Runtime reserves its owner-task serial and private-provider workspace
+in conditional external BSS. Ownership gates remain internal. The fixed IQ bank
+and overlap guard are unchanged; the corrected native link must pass the guard
+on every clean build. No hardware qualification is implied.
