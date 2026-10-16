@@ -1,0 +1,567 @@
+{
+  "DriverHardware.h": {
+    "path": "include/DriverHardware.h",
+    "role": "product",
+    "sha256": "3393199de17e48910d136c3685eb41342221ae8ea732d212ab501898472d326c"
+  },
+  "DriverSupport.h": {
+    "path": "include/DriverSupport.h",
+    "role": "product",
+    "sha256": "1a3147c10fd695c88aacb2613d9621af16e8fa8bbdf482f9a335232b2eff6ed7"
+  },
+  "DriverUtil.h": {
+    "path": "include/DriverUtil.h",
+    "role": "product",
+    "sha256": "8303bef501c6638953c66318bb6df84e416aaa38b2718079609b2e167765cc04"
+  },
+  "GardenPlatformV1.h": {
+    "path": "sdk/driver/GardenPlatformV1.h",
+    "role": "runtime",
+    "sha256": "2e8e32f52554b706fafce1af27a5fbaf99187f67ecb55dc0cf333144b48ef9d2"
+  },
+  "GardenRadioAsyncV1.h": {
+    "path": "sdk/driver/GardenRadioAsyncV1.h",
+    "role": "runtime",
+    "sha256": "2cd46090528452cdb1f9d8368fa3f4afc568c0403f7acb38613fe63c6ac3b6aa"
+  },
+  "PortableMotionTap.h": {
+    "path": "include/PortableMotionTap.h",
+    "role": "watch",
+    "sha256": "73fe7e58159860dab4ed1b2bf9a2a5e85b0a94c7bef39718a15e04a5d49cfc50"
+  },
+  "PortablePowerStatus.h": {
+    "path": "include/PortablePowerStatus.h",
+    "role": "watch",
+    "sha256": "957925504f2032963d1f2411bc676f2f6b493b41db3f9317182c2cca1a3067e4"
+  },
+  "PortableTapSettings.h": {
+    "path": "include/PortableTapSettings.h",
+    "role": "watch",
+    "sha256": "f6ff75e400224f2285f131d2088bd32985f9d18feefac64aa408f8b63c764132"
+  },
+  "ProviderLog.h": {
+    "path": "include/ProviderLog.h",
+    "role": "product",
+    "sha256": "f3c4528faab6d96efe0d503be4502dec0a9a845a6eb1b947970e369c7c021212"
+  },
+  "RiscAppCatalogV1.h": {
+    "path": "sdk/app/RiscAppCatalogV1.h",
+    "role": "runtime",
+    "sha256": "34550d01d90513459ff7f3284681c4c108af9e64d5c20af6ae4696a1c051b0c5"
+  },
+  "RiscAppDataExportV1.h": {
+    "path": "sdk/app/RiscAppDataExportV1.h",
+    "role": "runtime",
+    "sha256": "56f9afd075f0fe3d8e7e8cdbec2d34813018dfe6cb3de3f18b326c4de948cddd"
+  },
+  "RiscAppDataV1.h": {
+    "path": "sdk/app/RiscAppDataV1.h",
+    "role": "runtime",
+    "sha256": "9eb18840ea691f88e85cca6ede3de4833467745ec29225a51a58cb84c0aac84e"
+  },
+  "RiscAudioPcmV1.h": {
+    "path": "include/RiscAudioPcmV1.h",
+    "role": "product",
+    "sha256": "2a7c5417aa4453440e3b8112d664a93530aeb4d5567a3b2eb3c93f929a46d321"
+  },
+  "RiscBankStoreV1.h": {
+    "path": "sdk/driver/RiscBankStoreV1.h",
+    "role": "runtime",
+    "sha256": "4c20c21500f1c0724221f30cb5664e99b8316e3d0a9594319f63a206ed0e25a8"
+  },
+  "RiscBatteryGaugeV1.h": {
+    "path": "sdk/driver/RiscBatteryGaugeV1.h",
+    "role": "watch",
+    "sha256": "03d2f2b78e8f261cfb10f5c44bcabc1495bfecb17d7953586a58c27dce151b86"
+  },
+  "RiscBluetoothHciV1.h": {
+    "path": "sdk/driver/RiscBluetoothHciV1.h",
+    "role": "watch",
+    "sha256": "191a5d8509cd6122bed4eccd510fac8037b8fbb03bf9801633dd2e0ca155b9a7"
+  },
+  "RiscBoundAppDataAsyncV1.h": {
+    "path": "sdk/driver/RiscBoundAppDataAsyncV1.h",
+    "role": "runtime",
+    "sha256": "3bdc04e0b27ba119139fe8ac81bcc59e3c979ca83847425ccff98f147242f7be"
+  },
+  "RiscBoundAppDataV1.h": {
+    "path": "sdk/driver/RiscBoundAppDataV1.h",
+    "role": "runtime",
+    "sha256": "f4c6b9e475409515ee3b385a85790f592e8d943b0f811707926a32be4e1a6a42"
+  },
+  "RiscBoundKeyValueV1.h": {
+    "path": "sdk/driver/RiscBoundKeyValueV1.h",
+    "role": "runtime",
+    "sha256": "4a4c7ce1ea9a941e833afc0a5c796cae1b7ec49a813350288e4220a6b52bb4d3"
+  },
+  "RiscBoundKeyValueV2.h": {
+    "path": "sdk/driver/RiscBoundKeyValueV2.h",
+    "role": "runtime",
+    "sha256": "f9c6589a346e6a79e784c37862228cc0c3ad3fe0c4cd8d6664800605f239b606"
+  },
+  "RiscDeepSleepV1.h": {
+    "path": "sdk/driver/RiscDeepSleepV1.h",
+    "role": "runtime",
+    "sha256": "0949cf9591ef0f07b61c1306897287ea2eb1533755b5e569bfe1cb2c9b236161"
+  },
+  "RiscDiagnosticCheckpointV1.h": {
+    "path": "sdk/app/RiscDiagnosticCheckpointV1.h",
+    "role": "runtime",
+    "sha256": "2c41504823df54a43e383baafa07f45191869f6ea5de4adaaf2651c2d78af017"
+  },
+  "RiscDiagnosticSourceV1.h": {
+    "path": "sdk/driver/RiscDiagnosticSourceV1.h",
+    "role": "runtime",
+    "sha256": "a2e246858df68fc5ad452f0d4b07d8eba10267176f75f17346417ef2b83fa845"
+  },
+  "RiscDisplayBackendV1.h": {
+    "path": "include/RiscDisplayBackendV1.h",
+    "role": "product",
+    "sha256": "ac21e77652597e7f211b5630c447327efe75536b7f13c468e2c168797f3f38f2"
+  },
+  "RiscDisplayOutputV1.h": {
+    "path": "sdk/driver/RiscDisplayOutputV1.h",
+    "role": "watch",
+    "sha256": "8111c8fb6d28542f3d2f5ae7ce7497891b1c89bd2488735c817542b955bdd726"
+  },
+  "RiscDisplayPowerV1.h": {
+    "path": "sdk/driver/RiscDisplayPowerV1.h",
+    "role": "watch",
+    "sha256": "4ba5303d82c1b9a97ba1abada14456f882e449331bc04bf9caa70ded23d1560b"
+  },
+  "RiscDisplaySpiV2.h": {
+    "path": "include/RiscDisplaySpiV2.h",
+    "role": "product",
+    "sha256": "362c056e5512fc99d500451f7758dba023cf7d096536959e3fab8b05cd1001ce"
+  },
+  "RiscEntropyV1.h": {
+    "path": "sdk/driver/RiscEntropyV1.h",
+    "role": "runtime",
+    "sha256": "08b4d52e71b1349a57d1713e54bcc7872ae63d55edf647ec17b0bbb2f509c0d1"
+  },
+  "RiscFailureEvidenceV1.h": {
+    "path": "sdk/app/RiscFailureEvidenceV1.h",
+    "role": "runtime",
+    "sha256": "f2b024c21780155bacf78bd67a279d8959365c1d25ff1ba421449dd5d3b35265"
+  },
+  "RiscFileOpenSourceV1.h": {
+    "path": "sdk/app/RiscFileOpenSourceV1.h",
+    "role": "runtime",
+    "sha256": "6f4592ea20f26262125e9a1a1ae030aa13bbc08d06eb319c7d7f09417598ad02"
+  },
+  "RiscGpioBankV1.h": {
+    "path": "sdk/driver/RiscGpioBankV1.h",
+    "role": "runtime",
+    "sha256": "58cb736872a689413f6ffcf24cc5cc1bce5187e7d7cfb6fcffe10ad854e7a35c"
+  },
+  "RiscGpioSdmmcV1.h": {
+    "path": "include/RiscGpioSdmmcV1.h",
+    "role": "product",
+    "sha256": "00d7788c381be557deec18a959b55d474bad7edc0331ae8331b878a618b9818f"
+  },
+  "RiscHardwareConfigV1.h": {
+    "path": "sdk/hardware/RiscHardwareConfigV1.h",
+    "role": "runtime",
+    "sha256": "47fa4cd7d4f09f571a5aedc87376d2f57520ad7873f5556af0a932011633e240"
+  },
+  "RiscHciControllerStatusV1.h": {
+    "path": "sdk/driver/RiscHciControllerStatusV1.h",
+    "role": "runtime",
+    "sha256": "235b388d91ed7e0becbb44dd476a29ef526fb2f7d9bf44b1072b86cbe5860e0e"
+  },
+  "RiscHttpClientV1.h": {
+    "path": "sdk/driver/RiscHttpClientV1.h",
+    "role": "runtime",
+    "sha256": "e966177d426d3fadcb420f5fa9dd7226d3450a208f7ed333808d6466ba7bf8d6"
+  },
+  "RiscI2cBusV1.h": {
+    "path": "sdk/driver/RiscI2cBusV1.h",
+    "role": "watch",
+    "sha256": "a6b769efbbf7f3837a6a348689b0aee84bf687ae8e18a31d0296f3bfa6ac2004"
+  },
+  "RiscI2cFunctionV1.h": {
+    "path": "include/RiscI2cFunctionV1.h",
+    "role": "product",
+    "sha256": "2706be5fb3ace2f85d37ac24e4559631c6a941e96f8a99a57d0067c3b24bf13c"
+  },
+  "RiscI2sStandardConfigV1.h": {
+    "path": "include/RiscI2sStandardConfigV1.h",
+    "role": "product",
+    "sha256": "45d9f1f080b2a8e118045286582612a750f95e41449add9bf75d1713152aa282"
+  },
+  "RiscI2sStandardV1.h": {
+    "path": "include/RiscI2sStandardV1.h",
+    "role": "product",
+    "sha256": "22b2624c25f07085bb768d49e295f3a7e4ebf2891f5fb9948b12ead826cd35c0"
+  },
+  "RiscInputNavigationV1.h": {
+    "path": "sdk/driver/RiscInputNavigationV1.h",
+    "role": "watch",
+    "sha256": "2644754feb7238d066908658ac9d4fe25537d4d5e424a6aef1365fabea600a26"
+  },
+  "RiscInstallationMediaV1.h": {
+    "path": "sdk/driver/RiscInstallationMediaV1.h",
+    "role": "runtime",
+    "sha256": "bfceaef18bca72c67855adb7f0846c6a9cac92c6ac3b396ee8318aac5ddb7481"
+  },
+  "RiscInstallationV1.h": {
+    "path": "sdk/driver/RiscInstallationV1.h",
+    "role": "runtime",
+    "sha256": "cbf51953a4b8b11cfa0891cd3f16796123bc3e546e22b62b43285a83aa1496f4"
+  },
+  "RiscInternalPackageVolumeV1.h": {
+    "path": "sdk/driver/RiscInternalPackageVolumeV1.h",
+    "role": "runtime",
+    "sha256": "398d0003d98d4bed49bd0e667b25d76180d2657486c784ffeab10139d910dc9c"
+  },
+  "RiscKeyValueAtomicV1.h": {
+    "path": "sdk/app/RiscKeyValueAtomicV1.h",
+    "role": "runtime",
+    "sha256": "552b0be1890eced2c688700671832bbd1ec15b3663801d59ae946173f94313c5"
+  },
+  "RiscKeyValueAvailabilityV1.h": {
+    "path": "sdk/app/RiscKeyValueAvailabilityV1.h",
+    "role": "runtime",
+    "sha256": "7cf7765c26af74813f86a1a041a0a92495840c883f5e231c391294dd928ad976"
+  },
+  "RiscKeyValueV1.h": {
+    "path": "sdk/app/RiscKeyValueV1.h",
+    "role": "runtime",
+    "sha256": "0e73bf29c402be030baf52f5b2b324f5b872549cdf58aa31f45b72bd70977179"
+  },
+  "RiscKeyValueV2.h": {
+    "path": "sdk/app/RiscKeyValueV2.h",
+    "role": "runtime",
+    "sha256": "c66337a93c6f5fff6dac9507e011655f4827c3d0ec06b3e6d9d039084b3ec4d3"
+  },
+  "RiscLightSleepV1.h": {
+    "path": "sdk/driver/RiscLightSleepV1.h",
+    "role": "runtime",
+    "sha256": "43cbd671265959ec2db7904bf6185e97a87c4cde9d389cdccf6fbb7c916f3b94"
+  },
+  "RiscMemoryHeapV1.h": {
+    "path": "sdk/app/RiscMemoryHeapV1.h",
+    "role": "runtime",
+    "sha256": "369965f04303c7dae3d52b5e3d47aeb01f417ab0a566919fdb94677a1d64dced"
+  },
+  "RiscPackageResourcesV1.h": {
+    "path": "sdk/driver/RiscPackageResourcesV1.h",
+    "role": "runtime",
+    "sha256": "8aff53415cf68a46e8e492dd02d12bde802ce2a1d69629dd4f3b0aad5794e459"
+  },
+  "RiscPerformanceV1.h": {
+    "path": "sdk/app/RiscPerformanceV1.h",
+    "role": "runtime",
+    "sha256": "c1e52e2e257a057dbbbc371fb8d83d9262bcea674f28f6ce9c56725b0d6dd14d"
+  },
+  "RiscPlatformClockV1.h": {
+    "path": "sdk/driver/RiscPlatformClockV1.h",
+    "role": "runtime",
+    "sha256": "41a12f6529f38731ee874f8bc166e1cf89fe376a1448fe5a4dd4c9abac90e5e2"
+  },
+  "RiscPlatformClockWaitV1.h": {
+    "path": "sdk/driver/RiscPlatformClockWaitV1.h",
+    "role": "runtime",
+    "sha256": "c09d95c418f930f56c6e66004e07e38cb5726d8c7e5cd49b579bafbeebbe831c"
+  },
+  "RiscPlatformRealtimeV1.h": {
+    "path": "sdk/driver/RiscPlatformRealtimeV1.h",
+    "role": "runtime",
+    "sha256": "ed642c0f37350f7f1402342c7710564019db9c4750f3572f153d2ef1e37eca98"
+  },
+  "RiscPowerKeyV1.h": {
+    "path": "sdk/driver/RiscPowerKeyV1.h",
+    "role": "watch",
+    "sha256": "65acb08b7527a7597ea24a6adae6d70e7182413705b957cdb88e27e2a985e75f"
+  },
+  "RiscPowerRailV1.h": {
+    "path": "include/RiscPowerRailV1.h",
+    "role": "product",
+    "sha256": "e9f81f7582dadde095c5b73362a70a171ba04c2cf6513e5c95886eec2f9083b6"
+  },
+  "RiscPowerSleepV1.h": {
+    "path": "sdk/driver/RiscPowerSleepV1.h",
+    "role": "watch",
+    "sha256": "2ca96de4ddb76b511c2b9d23571a060e19efff3ebf793714324c5ac012c5179c"
+  },
+  "RiscPreferenceStoreV1.h": {
+    "path": "sdk/app/RiscPreferenceStoreV1.h",
+    "role": "runtime",
+    "sha256": "dc5fb37d8158117cc4418957de0bb23b4723035860e6d27aa7d398887cb785a6"
+  },
+  "RiscProtectedSettingsPath.h": {
+    "path": "sdk/app/RiscProtectedSettingsPath.h",
+    "role": "runtime",
+    "sha256": "d7b894658ad802fbb9c15b17f0f3953dfd9bd48e0a3ffffbc5c1b21f457ec750"
+  },
+  "RiscProviderPromotionV1.h": {
+    "path": "sdk/app/RiscProviderPromotionV1.h",
+    "role": "runtime",
+    "sha256": "751585fed0336bf068cdde488d65b2e0191f113184e48eecbfb4f80861512c51"
+  },
+  "RiscProviderSyncV1.h": {
+    "path": "include/RiscProviderSyncV1.h",
+    "role": "product",
+    "sha256": "c0981bde804b20c1b963323f91c4e9804c144c56535160bfd467be7e93028f45"
+  },
+  "RiscProviderV2.h": {
+    "path": "sdk/driver/RiscProviderV2.h",
+    "role": "runtime",
+    "sha256": "62478822fa8943ddfd1607f8923de52d7b5b6fc8a0db2df6ca07c65c95c62d41"
+  },
+  "RiscRadioAsyncV1.h": {
+    "path": "sdk/driver/RiscRadioAsyncV1.h",
+    "role": "runtime",
+    "sha256": "2b5a916cfe9e1fb6520043c2b8f3e8c13ea8e022166fcbdfa6b50ce691ebfe48"
+  },
+  "RiscRadioIqResourceV1.h": {
+    "path": "sdk/driver/RiscRadioIqResourceV1.h",
+    "role": "runtime",
+    "sha256": "5a1cc689b067ea59ca15ef62d943ef6fb8d4f75a887de210c859fb7e0f471874"
+  },
+  "RiscRadioScanV1.h": {
+    "path": "sdk/driver/RiscRadioScanV1.h",
+    "role": "runtime",
+    "sha256": "696227eecfd124f941023673680e0a15917d5b03c8f769756ed12ec34f7ccc9b"
+  },
+  "RiscRandomV1.h": {
+    "path": "sdk/app/RiscRandomV1.h",
+    "role": "runtime",
+    "sha256": "67e10d8b6d8b96f0ead5f0071e0eabbf73e30d2a6e0968e8bdd371ad492b6b57"
+  },
+  "RiscRealtimeV1.h": {
+    "path": "sdk/app/RiscRealtimeV1.h",
+    "role": "runtime",
+    "sha256": "639781f728841cda6d40c3033877436b9e5d59519a4b15e11a9bc99b2365395d"
+  },
+  "RiscResidentShellV1.h": {
+    "path": "sdk/app/RiscResidentShellV1.h",
+    "role": "runtime",
+    "sha256": "1a84715c03fcc7fae7f75cb72c0daf875e761567dda5d1b39ec0dc8b14fba8bd"
+  },
+  "RiscRetainedWakeV1.h": {
+    "path": "sdk/app/RiscRetainedWakeV1.h",
+    "role": "runtime",
+    "sha256": "7c7b6f0d56631f3aab521a43499d2ea840d075084536e4afa654a74c52e1e511"
+  },
+  "RiscRuntimeCheckpointV1.h": {
+    "path": "sdk/app/RiscRuntimeCheckpointV1.h",
+    "role": "runtime",
+    "sha256": "dcc3bb7d76aa2d39f45d6cc648f38b6e4e3708cafcff463d21bee96275fd17f0"
+  },
+  "RiscRuntimeHostControlV1.h": {
+    "path": "sdk/app/RiscRuntimeHostControlV1.h",
+    "role": "runtime",
+    "sha256": "697f710f7512dc724c2986bac0abc86756c9ae0739577b4f4ab20583a2743815"
+  },
+  "RiscRuntimeV1.h": {
+    "path": "sdk/app/RiscRuntimeV1.h",
+    "role": "runtime",
+    "sha256": "e8ddeb072831b0951ebe4eb3c68e54c08d778560b866537f86eaf78d2aae34fc"
+  },
+  "RiscSerialStreamSessionV1.h": {
+    "path": "sdk/app/RiscSerialStreamSessionV1.h",
+    "role": "runtime",
+    "sha256": "66d328c2a201625a7be348507c8dbedcaa937dfb46f86b05ecd04d60e3fba0b7"
+  },
+  "RiscSpiFrameV1.h": {
+    "path": "include/RiscSpiFrameV1.h",
+    "role": "product",
+    "sha256": "189493301b8480f8f59a63bd894fa46a747d63e7e790d26da56d7469e88a1461"
+  },
+  "RiscSpiQuadV1.h": {
+    "path": "include/RiscSpiQuadV1.h",
+    "role": "product",
+    "sha256": "9f62ada4f4b5ecc62284afe6096ab039409a75769f61f08f57f73d68da9af6fe"
+  },
+  "RiscStorageAsyncAdapterV1.h": {
+    "path": "sdk/driver/RiscStorageAsyncAdapterV1.h",
+    "role": "runtime",
+    "sha256": "4b0df57b80046eeed82afddac4233dcbf378378b300805bdaca836ad238223e0"
+  },
+  "RiscStorageExportV1.h": {
+    "path": "sdk/driver/RiscStorageExportV1.h",
+    "role": "runtime",
+    "sha256": "4ba5a0cec6bd9514dd5f77982f1b94c22aeca72bf94d0c79b11f1f5b689189a2"
+  },
+  "RiscStorageFilesCatalogV1.h": {
+    "path": "sdk/app/RiscStorageFilesCatalogV1.h",
+    "role": "runtime",
+    "sha256": "c06e05c2d808cca87d8a83ce2253166ac0bb553b6307290a641feca427a70e87"
+  },
+  "RiscStorageFilesDirectoryV1.h": {
+    "path": "sdk/app/RiscStorageFilesDirectoryV1.h",
+    "role": "runtime",
+    "sha256": "bf19f85ef1d4d0fa9664056026ac61dfbd3dc58b96600273a877489b8a576639"
+  },
+  "RiscStorageFilesIdentityV1.h": {
+    "path": "sdk/app/RiscStorageFilesIdentityV1.h",
+    "role": "runtime",
+    "sha256": "4e6561f5a1f3402501ad12a13e097c019c7f3dfd6df2311071d7f2d5515716d7"
+  },
+  "RiscStorageFilesV1.h": {
+    "path": "sdk/app/RiscStorageFilesV1.h",
+    "role": "runtime",
+    "sha256": "0699725f95e574a22ef7892416e76a33cd0a57d06b96cc42021e10ba0aeb215b"
+  },
+  "RiscStorageNativeCapacityV1.h": {
+    "path": "sdk/driver/RiscStorageNativeCapacityV1.h",
+    "role": "runtime",
+    "sha256": "5eabb6202e062cc66d73b8645c0faa25ad7bc9eb57f0ed3e1a59846e3b305db2"
+  },
+  "RiscStoragePackageAsyncV1.h": {
+    "path": "sdk/driver/RiscStoragePackageAsyncV1.h",
+    "role": "runtime",
+    "sha256": "5a3703aede3c7ae523d0d0eb1ea31ab0e9915424af7b9db6d9c7d8f23118534f"
+  },
+  "RiscStorageSessionAdmissionV1.h": {
+    "path": "sdk/driver/RiscStorageSessionAdmissionV1.h",
+    "role": "runtime",
+    "sha256": "eccf8e59cba6ec58a2456d00bcbd07131d1e4ec8d5ac36f23b35f793a33284fc"
+  },
+  "RiscStorageVolumeAsyncV1.h": {
+    "path": "sdk/driver/RiscStorageVolumeAsyncV1.h",
+    "role": "runtime",
+    "sha256": "e395dccfa5c89e1585acaed0e5c8932d8487940261759741e3e60b483aafcaec"
+  },
+  "RiscStorageVolumeFsV1.h": {
+    "path": "sdk/driver/RiscStorageVolumeFsV1.h",
+    "role": "runtime",
+    "sha256": "e487352157e3c3d5c10a28a16fdfcce76db693bf45c612ff4e2f31ee83e9a329"
+  },
+  "RiscStorageVolumeStateV1.h": {
+    "path": "sdk/driver/RiscStorageVolumeStateV1.h",
+    "role": "runtime",
+    "sha256": "1f2f7dbfe9ec7ac27a57149ac720cf7f3a4801d6d34b5532f77c77db252b87a1"
+  },
+  "RiscStorageVolumeV1.h": {
+    "path": "include/RiscStorageVolumeV1.h",
+    "role": "product",
+    "sha256": "d477167a06004640b2c07c05d662c103be6e1b9e4a4d866f6fce13e754ef02f5"
+  },
+  "RiscStorageWorkerAdmissionV1.h": {
+    "path": "sdk/driver/RiscStorageWorkerAdmissionV1.h",
+    "role": "runtime",
+    "sha256": "013322a0db332ee9e7b124399ac12dfe050c53fd4b018feb7c278edd2ef8d8bd"
+  },
+  "RiscStorageWorkerV1.h": {
+    "path": "sdk/driver/RiscStorageWorkerV1.h",
+    "role": "runtime",
+    "sha256": "9e859235403292a0108fd10b8122218d72c1c2d1dd460d94304d919f77b83b6f"
+  },
+  "RiscStreamClientV1.h": {
+    "path": "sdk/app/RiscStreamClientV1.h",
+    "role": "runtime",
+    "sha256": "ef5deb9a3bf8d20c0af9859a83977b93acfb8e480a851d0dcf96caf2795babcb"
+  },
+  "RiscStreamProviderV1.h": {
+    "path": "sdk/driver/RiscStreamProviderV1.h",
+    "role": "runtime",
+    "sha256": "0fe306e060321387c816bb70ec4370a501a423f4fe19a20c9be80aa1b98f3432"
+  },
+  "RiscStreamResultV1.h": {
+    "path": "sdk/driver/RiscStreamResultV1.h",
+    "role": "runtime",
+    "sha256": "af140ee9ca4f6286c5f1beeecb0a0952264b14eb40d3ba4f313ff952e8824a6f"
+  },
+  "RiscStreamSessionProviderV1.h": {
+    "path": "sdk/driver/RiscStreamSessionProviderV1.h",
+    "role": "runtime",
+    "sha256": "fe463661530c43ae7d1dd8b9c8227fdc6a7e4380bca3f5c8a13287cb0db9e873"
+  },
+  "RiscTcpListenerV1.h": {
+    "path": "sdk/driver/RiscTcpListenerV1.h",
+    "role": "runtime",
+    "sha256": "63ed934c4cb1a505de539d06ad04c1551ec23f64d56b6ea07129698dde0ba886"
+  },
+  "RiscTimedSleepV1.h": {
+    "path": "sdk/driver/RiscTimedSleepV1.h",
+    "role": "runtime",
+    "sha256": "475ba9bfaf6c7497ace7baeb93f2bd9a6abe1e3a91f62eed24862a88d60dbf34"
+  },
+  "RiscTouchI2cV2.h": {
+    "path": "sdk/hardware/RiscTouchI2cV2.h",
+    "role": "runtime",
+    "sha256": "78179bc7a8d2dbbb5fb738d1ffabe02b31312173e70c9573941d1c8a4fcad3cf"
+  },
+  "RiscTouchV1.h": {
+    "path": "sdk/driver/RiscTouchV1.h",
+    "role": "watch",
+    "sha256": "fe18fab3ac20fda95747388f1428408b7795e5da3511c7a9fff07c16ddfd2c7d"
+  },
+  "RiscUsbPhyResourceV1.h": {
+    "path": "sdk/driver/RiscUsbPhyResourceV1.h",
+    "role": "runtime",
+    "sha256": "fe668ff8e8f83ea454eafd059c61c633d2213bc2a77504d8794a64c1dc11b016"
+  },
+  "RiscWakeSetV1.h": {
+    "path": "sdk/driver/RiscWakeSetV1.h",
+    "role": "runtime",
+    "sha256": "0b5a4914ac67d37b420e1ea19b591a71440f6e4c20149ca4324e1049517ba375"
+  },
+  "T5FileOpenApi.h": {
+    "path": "sdk/app/T5FileOpenApi.h",
+    "role": "runtime",
+    "sha256": "c1b873e364dba81ce39d8c8a62668db618735407a6291dca87b9795ce4accc30"
+  },
+  "TWatchHardwareV1.h": {
+    "path": "sdk/hardware/TWatchHardwareV1.h",
+    "role": "runtime",
+    "sha256": "ca48ca21a944565ae185f7c4e8cc0e73bcc18871d79b966f7e7da916e7ab2c99"
+  },
+  "TWatchPlatformV1.h": {
+    "path": "sdk/driver/TWatchPlatformV1.h",
+    "role": "runtime",
+    "sha256": "88457c6cd36a8d2550c964ede1060b4006b72be5d290cff7cd108087bacc16dd"
+  },
+  "WatchCapabilities.h": {
+    "path": "include/WatchCapabilities.h",
+    "role": "watch",
+    "sha256": "755564c0b8fa5d58bfe5e06aeefab5f2cd2315d9aa16f4eaa75306dafe27c3b5"
+  },
+  "WatchCapabilityClients.h": {
+    "path": "include/WatchCapabilityClients.h",
+    "role": "watch",
+    "sha256": "eee3c8b07e38782666b90bc152460264594033e356d6dcdbf9454120e555aaf1"
+  },
+  "WatchHomeLayout.h": {
+    "path": "include/WatchHomeLayout.h",
+    "role": "watch",
+    "sha256": "7ec8b4d61ff2401de889bfa36d7668f02b44319f7a65d8fcddddd37189c12be4"
+  },
+  "WatchLayout.h": {
+    "path": "include/WatchLayout.h",
+    "role": "watch",
+    "sha256": "dfb6ff0d6a66ba38ffd069a1ccf7aece9ca36644ff78b36e2d31b12c3de2058f"
+  },
+  "WatchTapPolicy.h": {
+    "path": "include/WatchTapPolicy.h",
+    "role": "watch",
+    "sha256": "7ad285d44f25be75c0b16f9dfddecd607a28a82bef21591b4048d4a8e8dffef1"
+  },
+  "WatchViewport.h": {
+    "path": "include/WatchViewport.h",
+    "role": "watch",
+    "sha256": "e2fe3c809d44e44796e2a027067473afd2d13ac6fa305c7ae6b183225a5a981c"
+  },
+  "twatch_calendar.h": {
+    "path": "include/twatch_calendar.h",
+    "role": "watch",
+    "sha256": "67e4a670e4ee8a485843e99be0d198d0b60d84a0bc8d84fc77a3d0e4bde39733"
+  },
+  "twatch_caps.h": {
+    "path": "include/twatch_caps.h",
+    "role": "watch",
+    "sha256": "86ef4a9c1d92cc6ed9c4d8d18f4d09d9bebf148419852f63eb6e9c963cd60d32"
+  },
+  "twatch_power.h": {
+    "path": "include/twatch_power.h",
+    "role": "watch",
+    "sha256": "3e805e4b6b195f0d6ecd32db28a2b41c2b72f8cebd37aad5a2a6a4b024ea3b8d"
+  },
+  "twatch_util.h": {
+    "path": "include/twatch_util.h",
+    "role": "watch",
+    "sha256": "8303bef501c6638953c66318bb6df84e416aaa38b2718079609b2e167765cc04"
+  }
+}
