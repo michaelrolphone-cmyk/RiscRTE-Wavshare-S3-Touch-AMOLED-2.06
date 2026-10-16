@@ -1,0 +1,93 @@
+{
+  "added_store_files": [
+    "installed-apps/driver.elf",
+    "installed-apps/manifest.json",
+    "pkg-internal/driver.elf",
+    "pkg-internal/manifest.json"
+  ],
+  "alarm_sha256": "189ce61b0e4a2b08cbd83ff90564a4c79a6c5e9a3d74b4ad4dcc2a61b4b51604",
+  "baseline_contract_sha256": "7fb86c6675fbee5ae8a001ddbe2c8606f1869154a48c469892d6a00ee37b47f1",
+  "baseline_version": "0.1.52",
+  "brightness_diagnostics_revision": "afe17271c63c7ade67e85662188748a58074d8b8",
+  "catalog_bytes": 85660,
+  "catalog_original_sha256": "cba8c11a3866afe03936ddfaca3386fe5b03fb7a696d2c5ba5a4510545a5041f",
+  "catalog_sha256": "67d8c5b8ceeb3c06490bcb3ba4cb9f41ded0983f91d5fe725f2ae49d9bc2fb60",
+  "changed_store_files": [
+    "boot.json",
+    "cohort.json",
+    "default.elf",
+    "default.json"
+  ],
+  "default_bytes": 625648,
+  "default_manifest_sha256": "37be8bc578456c4fff51f2576ac7a657d5ee96fdd3d6a536abaf8db598653e44",
+  "default_sha256": "db23f172746ab32c0ba9c94d4c7a93d99be5f16247b6f267b48af8d7ca252d6f",
+  "drivers_revision": "5890721073ebabd781d5d278e447c761947a5c58",
+  "feed_product": "waveshare-s3-touch-amoled-206",
+  "feed_url": "https://github.com/michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06/releases/download/test-provisioning-0.1.53/native-packages-v1.json",
+  "finalized": true,
+  "historical_contracts": {
+    ".github/workflows/alarm-sleep-release.yml": "41a945c95d790a82fab4223f3e91a94b75ed02a3d73490540dc4e6bf2e0b1b39",
+    "docs/alarm-sleep/source-pins.json": "6dc4c6bc7d9f86e3832993468299efa8ddef2b34aa69a3a66953b6f53c1044fb",
+    "docs/native-idf61/release-transport.json": "65256d0031c04ae99742cf2bc8cc07ebc1b391457187c621f3d7dfed57ecf169",
+    "docs/shared-default/history/0.1.51/README.md": "65a4deb32d3a9086d0aacffe8aec0163ed9163548c81d617430904f771e2c4a2",
+    "docs/shared-default/history/0.1.51/native-idf61.cmake": "629e64959cd2f5fe2ccdf5e3c916b8c2dc1867ddb8927a47c24dc69ba478f74d",
+    "docs/shared-default/history/0.1.51/source-pins.json": "9052dc3a9925713b9b72591b65fa54dcaca0a54104df55a5ca403f8869636495",
+    "docs/shared-default/source-pins.json": "54a4189ba659f438eb0bb4a87d510e4f69133c1ca373db122e43ef96111f2e33",
+    "profiles/native-idf61-settings.h": "37ddfd9feb4b70fbcd9f87b523dec3847a77d4c4bcb6d9b9da5f7fc39fb5382b",
+    "profiles/native-idf61.cmake": "59a8d368b4b5ec01c68fb690349e0c11620f9b6ee535cd95047b99d218295187",
+    "scripts/build_shared_default_native.py": "c391c45e548b03857f9ad28f00e2c9a0ca06291a8340c54b11c2dfcb6c658e7c",
+    "scripts/native_idf61_build.py": "6221d18e2557e024e9fc38881c046dc5b953b72f00466a8a324b8e889052d796",
+    "scripts/native_idf61_candidate.py": "cb8ed732facd42b8b041f84e939ac0202083ff11daa54291b9c42b61cf06aeb2",
+    "scripts/native_idf61_qualification.py": "7626be8291240b17889a9158fdb289f5bcc6ce391ce4a6a9a757f8a112a8a619",
+    "scripts/package_alarm_sleep.py": "7d970f87ddab2ea15cdaef50e67d8c934601c0a64535bb0ecea488a5b4bb7cc4",
+    "scripts/package_shared_default.py": "a1258a42bc3077b25a0a6e6f007a113503e75f0ef5f0cf45fc5854ab01a6a1b6",
+    "scripts/shared_default_qualification.py": "f0dc1a3e44aab95026862e5816b3be5c78d1fc248995f84688edf7474a56fc26",
+    "scripts/test_alarm_sleep_package.py": "05de35f9921036b1f16b36904c839d84e35c5ca5b214e4b6c4931b17b880e18c"
+  },
+  "image_helper_revision": "74f7491dc470b92dfa41fce41bf0c500f3714a94",
+  "internal_sha256": "5e410adc7ad42bf6bfeb8cf65606e87a832bb6a4a5e167ff055f89c3d100407d",
+  "native_input_sha256": {
+    "native/VendorDisplayIdf6.inc": "ad2aca42c6023989ecf7771de47f968f2165580b55805b2ce2ed004e04ff461a"
+  },
+  "native_profile": "profiles/provisioning-native.cmake",
+  "previous_release_profile": "docs/shared-default/history/0.1.51/native-idf61.cmake",
+  "product": "waveshare",
+  "publication_enabled": true,
+  "release_branch": "release/provisioning-0.1.53",
+  "release_tag": "test-provisioning-0.1.53",
+  "runtime_revision": "7110261067ea4a0030becb0632f92796fbf41534",
+  "schema": 1,
+  "sdk_revision": "fff9895c82d744c7237be8847347bdd1b07c6643",
+  "serial_files": {
+    "active_boot_bank_writable": false,
+    "application_grants_reused": false,
+    "boot_export_enabled": false,
+    "dispatch": "settled-owner-checkpoint",
+    "flags": {
+      "RISC_NATIVE_SERIAL_APPDATA_FILES": 1,
+      "RISC_NATIVE_SERIAL_FILES": 1,
+      "RISC_NATIVE_SERIAL_SD": 1
+    },
+    "hardware_tested": false,
+    "namespaces": [
+      {
+        "id": 2,
+        "label": "Serial files",
+        "private_root": "/appdata/.serial-files",
+        "writable": true
+      },
+      {
+        "backend_instance": 12,
+        "backend_provider": "sdmmc-fatfs",
+        "id": 12,
+        "label": "SD card",
+        "writable": true
+      }
+    ]
+  },
+  "system_revision": "bb0cadf3cec3445a64e11513b47b2676f3fdd92d",
+  "time_server": "time.cloudflare.com",
+  "utilities_revision": "4fdcad2495c33fe63f5f6faca9b11ced3c739a5b",
+  "version": "0.1.53",
+  "watch_revision": "bc72f4dd6ed492943881f4dfab1d04db9ec41aa8"
+}

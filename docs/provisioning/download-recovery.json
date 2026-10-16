@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "operation": "read immutable public0.1.52 release assets",
+  "initial_session": 48992,
+  "initial_poll_error": "Unified exec process failed: automatic approval review was cancelled",
+  "authorized_retry_poll_error": "Unknown process id 48992",
+  "files_after_terminal_poll": [],
+  "recovery_session": 85739,
+  "recovery": "completed with exact bytes and hashes",
+  "asset_names": [
+    "release.json",
+    "Waveshare-0.1.52-Shared-Default-factory-erases-data-0x0.bin",
+    "store.bin"
+  ]
+}
