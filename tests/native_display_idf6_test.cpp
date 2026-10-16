@@ -6,6 +6,13 @@
 #include <cstdlib>
 #include <algorithm>
 
+namespace RiscDiagnostics {
+void line(const char* text){
+ assert(text&&std::strlen(text)<112&&!std::strchr(text,'\n'));
+ std::printf("DIAGNOSTIC_SINK %s\n",text);
+}
+}
+
 struct spi_device_t{};
 namespace model {
 enum Op { Init,Add,Acquire,Allocate,Configure,Level,Start,End,Remove,Free,Reset,Count };
@@ -204,6 +211,20 @@ int main(int argc,char** argv){
  task=reinterpret_cast<TaskHandle_t>(2);assert(!api->close()&&calls==callsBefore);task=reinterpret_cast<TaskHandle_t>(1);
  assert(api->brightness(0)&&packets.back().bytes[0]==0);closed();
  assert(registerCount(0x28)==1&&registerCount(0x10)==1&&resets.size()==7);
+ // Actual Home ordering: blank before rendering, complete at zero, then
+ // restore the selected level. Repeat a retained-provider child return and a
+ // fresh provider reopen; no implicit/default nonzero command may win.
+ clear();open();assert(api->brightness(0));frame();
+ assert(state.frameComplete&&state.requestedBrightness==0&&lit()==0);
+ assert(api->brightness(102)&&packets.back().address==0x5100&&packets.back().bytes[0]==102);
+ assert(api->brightness(0));frame();assert(packets.back().command==0x32);
+ assert(api->brightness(163)&&packets.back().bytes[0]==163);closed();
+ // An early requested level is superseded by explicit blanking until the app
+ // requests visibility again. An already complete frame permits that restore.
+ clear();open();assert(api->brightness(102)&&api->brightness(0));frame();
+ assert(state.frameComplete&&state.requestedBrightness==0&&lit()==0);
+ assert(api->brightness(26)&&packets.back().bytes[0]==26);closed();
+ std::puts("Native brightness lifecycle: first frame at zero, selected restore, retained return and fresh reopen PASS");
  // No full-frame gate from an out-of-order set of pairs.
  clear();open();assert(api->brightness(90));assert(api->row(2,line,410)&&api->row(3,line,410));
  for(unsigned y=4;y<502;++y)assert(api->row(y,line,410));assert(!state.frameComplete&&lit()==0);closed();
