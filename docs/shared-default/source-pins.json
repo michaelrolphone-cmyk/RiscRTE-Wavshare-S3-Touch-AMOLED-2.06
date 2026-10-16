@@ -33,7 +33,7 @@
   },
   "previous_release_profile": "docs/shared-default/history/0.1.51/native-idf61.cmake",
   "product": "waveshare",
-  "publication_enabled": false,
+  "publication_enabled": true,
   "release_branch": "release/shared-default-0.1.52",
   "release_tag": "test-shared-default-0.1.52",
   "runtime_revision": "9f8d67029181f6cd064e247aa949a295854fc494",

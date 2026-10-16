@@ -1,11 +1,13 @@
-# Serial-enabled shared default candidate 0.1.52
+# Serial-enabled shared default release 0.1.52
 
-This source-only candidate uses the existing fresh-build, exact-source shared-default
-release machinery. Source pins are finalized; publication is disabled. Runtime is
+This release uses the existing fresh-build, exact-source shared-default
+release machinery. Source pins are finalized; publication is enabled only on the
+exact release branch after its new native qualification. Runtime is
 `9f8d67029181f6cd064e247aa949a295854fc494`; Watch is
-`8132d73c828c0e4763f6c89a3d6a4a883314056a`. Fresh full native qualification
-and release enablement remain required. A source pin or previous qualification
-receipt alone does not qualify this candidate.
+`8132d73c828c0e4763f6c89a3d6a4a883314056a`. Preflight run38940013524 passed a fresh native build, complete production-loader
+admission and factory extraction at92be7bd0. The final release branch performs
+a new exact-source native build and verifies every public asset. Hardware remains
+untested; prior qualification does not replace that final build.
 
 The common Home 0.18.0 default is identical for both products: 617424 bytes,
 SHA256 `9f10c7150cdc175ff5af0dbc1410e455ead4f18868dd56555e10860781103f2f`.
