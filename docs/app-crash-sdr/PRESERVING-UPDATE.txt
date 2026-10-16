@@ -1,0 +1,14 @@
+Waveshare 0.1.45 -> 0.1.46 offline preserving kit
+
+This kit installs the source-pinned native-resolution SDR app and unchanged native pair. It requires a fresh full 16 MiB readback of the user's own confirmed exact 0.1.45 device. It requires the exact published .45 active firmware/store pair. It does not connect to or flash a device.
+
+1. Keep the device in ROM download mode. Obtain a fresh full-device snapshot. Save it safely. Confirm the installed version is exactly the published .45 release.
+2. Run: python3 prepare.py --snapshot YOUR-FRESH-READBACK.bin --output NEW-PLAN-DIRECTORY
+3. Review plan.json. Stage only firmware.bin, store.bin and bank-state.bin at the exact plan offsets. Do not reset and do not write OTA selection yet.
+4. Read back each of those exact regions into a separate directory using the corresponding plan filenames and lengths. Run: python3 verify_readbacks.py --plan NEW-PLAN-DIRECTORY/plan.json --readbacks READBACK-DIRECTORY
+5. Only after all three hashes match, write ota-selection-LAST.bin at its plan offset. Read back that exact selection sector and run the same verification command with --selection.
+6. Reset only after selection readback verification. Existing bootloader health confirmation and rollback apply. A failed update may roll back to .45.
+
+Never erase_flash. Never write the full baseline.bin or candidate.bin. The full factory image overwrites internal saved data. The planner preserves NVS, app-data, active native/store/state and SD contents. Do not use invented or older readbacks; the active pair must exactly match .45. Stop on any error or mismatch. Do not bypass the integrity checks.
+
+The included full baseline/candidate files are planner inputs only. Readback tests in release evidence use software fixtures, not measurements from hardware. Hardware validation is pending.

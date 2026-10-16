@@ -40,6 +40,8 @@ def main():
  for n in names:
   origin='waveshare' if n in rows['waveshare'] else 'watch';m=json.loads(old[origin][n]);elf=m['file_name']
   common[elf]=home if elf=='default.elf' else lora if elf=='lora_messages.elf' else old[origin][elf]
+ from shared_springboard_selection import verify as verify_springboard
+ verify_springboard(common['springboard.elf'])
  assert len(common)==26
  result={};records={}
  for product in ('watch','waveshare'):
@@ -57,7 +59,11 @@ def main():
     persistent=grant['capability'] in ('storage.key-value','storage.shared-data')
     already=any(g['capability']==grant['capability'] and g['api']==grant['api'] for g in policy['grants'])
     if persistent or not already:add_unique(policy['grants'],[grant])
+   from spectrum_storage_policy import provision as spectrum_storage
+   manifest,policy=spectrum_storage(manifest,policy)
    if n=='default.json':manifest['version']='0.15.1'
+   if n in ('default.json','springboard.json','bringup.json'):manifest['launcher_visible']=False
+   if n=='file_browser.json':manifest.update(display_name='Files',icon='solid:f07c')
    if n=='lora_messages.json':
     manifest['version']='0.1.16';manifest['display_name']='LoRa Messages';manifest['icon']='solid:f27a'
     add_unique(manifest['requires'],[{'capability':c,'api':1} for c in ('input.power-key','power.sleep','display.power','app.catalog')])

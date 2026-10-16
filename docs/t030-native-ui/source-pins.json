@@ -1,0 +1,40 @@
+{
+  "version": "0.1.44",
+  "baseline_version": "0.1.43",
+  "baseline_tag": "test-catalog-acquire-0.1.43",
+  "baseline_sha256": "1a67657a58254e26f99f674e71a5d9742fb023633e16b7e412b4a0f13a73754a",
+  "baseline_product": "9db48cef5bdb11206ff7f3601178cc2f32d326b8",
+  "runtime_revision": "54461e8a7f61b28600b8ec8dcaf27b12cd45e829",
+  "baseline_runtime": "a2c2c9fa692b0b36f9750d44fac807c9149b9434",
+  "system_revision": "f31f89636304d202c49884e2e9b2e0b2ec5fb891",
+  "image_helper_revision": "55f3f379b4c2ec7e18412fb2fc887d301bf6e3c0",
+  "vendor_revision": "b099739ad0e33b34e5fbaae77f02bd84805d79a3",
+  "release_tag": "test-native-ui-0.1.44",
+  "baseline_system": "326396614def41f4a3b11c8c193c3ac1bbb75ab0",
+  "baseline_springboard_sha256": "f0dd72760ece4c9102aa316281663ddd4d90eeabc54ca39f326766ce521f05a7",
+  "baseline_native_sha256": "ee25fe658bd72ddb771fc13ca0bbf03fab20ad1df325f15cac195b0b3e819af1",
+  "baseline_native_elf_sha256": "c2bb3f7447c40b581e7b3b3f43e05d0fba836a31e66c549ccf748dd7f882503a",
+  "bridge_revision": "6e82fdcaec0b73ed700d2104cfb4d94f011c19d4",
+  "finalized": true,
+  "native_changed": true,
+  "springboard_manifest_version": "1.7.17",
+  "changed_product_native_inputs": [
+    "native/VendorDisplay.cpp"
+  ],
+  "remove_springboard_flags": [],
+  "add_springboard_flags": [
+    "-DPORTABLE_STAGE_PROFILE"
+  ],
+  "changed_store_files": [
+    "boot.json",
+    "cohort.json",
+    "default.json",
+    "springboard.elf",
+    "springboard.json"
+  ],
+  "compiler_version": "xtensa-esp32s3-elf-gcc (crosstool-NG esp-2021r2-patch5) 8.4.0",
+  "publication_enabled": true,
+  "performance_trace_capacity": 64,
+  "springboard_max_bytes": 180469,
+  "baseline_home_sha256": "b805ddcfb80d90983eabb03022c84fc633f9529924c1bffda363825d4ad88b1d"
+}

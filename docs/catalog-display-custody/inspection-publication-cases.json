@@ -1,0 +1,53 @@
+[
+  {
+    "command": [
+      "/tmp/wave37-publication/publication-probe",
+      "inventory",
+      "/tmp/wave37-publication/settings-unavailable.tsv",
+      "410",
+      "502"
+    ],
+    "returncode": -6,
+    "stdout": "",
+    "stderr": "Assertion failed: (refresh_changed_catalog()), function check_pin_rebinding, file runtime_app_catalog_test.c, line 167.\n"
+  },
+  {
+    "command": [
+      "/tmp/wave37-publication/publication-probe",
+      "inventory",
+      "/tmp/wave37-publication/actual-store.tsv",
+      "410",
+      "502",
+      "1"
+    ],
+    "returncode": 0,
+    "stdout": "Runtime inventory 24 entries at 410x502 fault 1: metadata, launch authority and custody PASS\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/tmp/wave37-publication/publication-probe",
+      "inventory",
+      "/tmp/wave37-publication/actual-store.tsv",
+      "410",
+      "502",
+      "5"
+    ],
+    "returncode": 0,
+    "stdout": "Runtime inventory 24 entries at 410x502 fault 5: metadata, launch authority and custody PASS\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/tmp/wave37-publication/publication-probe",
+      "startup-recovery",
+      "/tmp/wave37-publication/actual-store.tsv",
+      "410",
+      "502",
+      "0"
+    ],
+    "returncode": 0,
+    "stdout": "Actual launcher recovers a delayed native catalog without stale launch PASS\n",
+    "stderr": ""
+  }
+]

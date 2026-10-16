@@ -1,0 +1,27 @@
+Waveshare 0.1.48 launch-brightness test release
+
+Restores the current selected or Quick-preview brightness, including torch,
+after the first successfully completed RGB frame in 17 shared apps and the
+LoRa Messages 0.1.18 SD-card companion. Failed or retained frame custody never
+incorrectly triggers this first-frame restoration. Preferences are not rewritten.
+
+Includes the preceding native-resolution SDR and watch-face improvements.
+Native Home 0.16.0, Springboard, native firmware, drivers and boot authority are
+preserved byte-for-byte from 0.1.47. Both watches use the same shared repair.
+
+This is a qualified source/host test build, not a hardware-confirmed fix for all
+reported intermittent black screens. Existing Springboard already restores
+brightness after COMPLETE; its separate intermittent failure was not reproduced
+in the actual-controller host matrix. No newer device serial trace was available.
+
+Device check: choose a visible brightness, then repeatedly open Springboard,
+SDR and ordinary apps, both immediately after boot and after waiting. Return
+with the crown between launches. Check Quick preview and torch as well. If a
+screen remains black, capture serial output from launch through crown return,
+including RTE_SOURCE, app-load, provider and PANEL_BRIGHTNESS lines. At 40%,
+Wave's expected PANEL_BRIGHTNESS value is 102; draw/submit/COMPLETE phases are
+4/5/6. Include whether the second attempt works.
+
+The factory image erases saved data. The preserving kit requires a fresh,
+confirmed 0.1.47 readback and follows its supplied instructions. Install the
+matching LoRa 0.1.18 SD card companion separately when using removable media.

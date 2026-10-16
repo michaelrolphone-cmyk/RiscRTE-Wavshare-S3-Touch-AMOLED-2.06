@@ -1,0 +1,26 @@
+[
+  {
+    "sanitized": false,
+    "mode": "refresh",
+    "returncode": 0,
+    "stdout": "mode=refresh ok=1 retained=0 pending=0 status_calls=5\n",
+    "stderr": "init\ninit done\nrefresh\nrefresh done\nstatus 0\nstatus 1\nstatus 2\nstatus 3\nstatus 4\n"
+  },
+  {
+    "sanitized": false,
+    "mode": "launch",
+    "returncode": 0,
+    "stdout": "mode=launch ok=1 retained=0 pending=0 status_calls=5\n",
+    "stderr": "init\ninit done\nrefresh\nrefresh done\nstatus 0\nstatus 1\nstatus 2\nstatus 3\nstatus 4\n"
+  },
+  {
+    "sanitized": true,
+    "mode": "refresh",
+    "outcome": "timeout10s"
+  },
+  {
+    "sanitized": true,
+    "mode": "launch",
+    "outcome": "timeout10s"
+  }
+]

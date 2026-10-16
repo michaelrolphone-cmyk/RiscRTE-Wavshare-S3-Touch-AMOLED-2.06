@@ -1,0 +1,117 @@
+{
+  "grants": [
+    {
+      "api": 1,
+      "capability": "display.output",
+      "instance_id": 5
+    },
+    {
+      "api": 1,
+      "capability": "input.touch.raw",
+      "instance_id": 6
+    },
+    {
+      "api": 1,
+      "capability": "board.battery",
+      "instance_id": 4
+    },
+    {
+      "api": 1,
+      "capability": "storage.key-value",
+      "instance_id": 9
+    },
+    {
+      "api": 1,
+      "capability": "alarm.service",
+      "instance_id": 0
+    },
+    {
+      "api": 1,
+      "capability": "storage.key-value",
+      "instance_id": 1
+    },
+    {
+      "api": 2,
+      "capability": "rtc.clock",
+      "instance_id": 8
+    },
+    {
+      "api": 1,
+      "capability": "net.wifi",
+      "instance_id": 15
+    },
+    {
+      "api": 1,
+      "capability": "bluetooth.hci",
+      "instance_id": 16
+    },
+    {
+      "api": 1,
+      "capability": "motion.accel",
+      "instance_id": 7
+    },
+    {
+      "api": 1,
+      "capability": "telemetry.broadcast",
+      "instance_id": 0
+    },
+    {
+      "api": 1,
+      "capability": "contexts.service",
+      "instance_id": 0
+    },
+    {
+      "api": 1,
+      "capability": "storage.shared-data",
+      "file": "context-fingerprints.cfp",
+      "instance_id": 2
+    },
+    {
+      "api": 1,
+      "capability": "storage.shared-data",
+      "file": "context-fingerprints.cfp",
+      "instance_id": 3
+    },
+    {
+      "api": 1,
+      "capability": "storage.shared-data",
+      "file": "context-rules.ctx",
+      "instance_id": 4
+    },
+    {
+      "api": 1,
+      "capability": "storage.key-value",
+      "instance_id": 3
+    },
+    {
+      "api": 1,
+      "capability": "ui.text-input",
+      "instance_id": 0
+    },
+    {
+      "api": 1,
+      "capability": "input.power-key",
+      "instance_id": 0
+    },
+    {
+      "api": 1,
+      "capability": "power.sleep",
+      "instance_id": 0
+    },
+    {
+      "api": 1,
+      "capability": "display.power",
+      "instance_id": 0
+    },
+    {
+      "api": 1,
+      "capability": "app.catalog",
+      "instance_id": 0
+    }
+  ],
+  "image_source": {
+    "path": "Apps/lora_messages/lora_messages.elf",
+    "volume_instance": 12
+  },
+  "manifest": "lora_messages.json"
+}

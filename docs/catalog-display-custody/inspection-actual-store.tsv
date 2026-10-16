@@ -1,0 +1,24 @@
+Alarms	alarms.elf	solid:f0f3	1	alarms
+App Store	app_store.elf	solid:f00a	1	app_store
+Audio Spectrum	audio_spectrum.elf	solid:f130	1	audio_spectrum
+Battery	battery.elf	solid:f240	1	battery
+BLE Buttons	ble_buttons.elf	solid:f11c	1	ble_buttons
+BLE Scanner	ble_scanner.elf	solid:f7c0	1	ble_scanner
+BLE Touchpad	ble_touchpad.elf	solid:f245	1	ble_touchpad
+Calculator	calculator.elf	solid:f1ec	1	calculator
+Clock	clock.elf	solid:f017	1	twatch-clock-return
+Contexts	contexts.elf	solid:f015	1	contexts
+Countdown	countdown.elf	solid:f254	1	countdown
+Files	file_browser.elf	solid:f07c	1	file_browser
+Frequency Generator	frequency_generator.elf	solid:f028	1	frequency_generator
+Lists	lists.elf	solid:f274	1	lists
+LoRa Messages	lora_messages.elf	solid:f27a	1	lora_messages
+3D Viewer	model_viewer.elf	regular:f03e	1	model_viewer
+Firmware Update	ota_update.elf	solid:f019	1	ota_update
+Points in Time	points_in_time.elf	solid:f783	1	points_in_time
+Settings	settings.elf	solid:f013	1	settings
+Stopwatch	stopwatch.elf	solid:f2f2	1	stopwatch
+Timecard	timecard.elf	solid:f274	1	timecard
+Waterfall	waterfall.elf	solid:f0ec	1	waterfall
+Wi-Fi	wifi_settings.elf	solid:f1eb	1	wifi_settings
+usb_sd_transfer	usb_sd_transfer.elf		1	usb_sd_transfer

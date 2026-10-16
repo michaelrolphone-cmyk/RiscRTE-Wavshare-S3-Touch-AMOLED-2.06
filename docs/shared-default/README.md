@@ -1,0 +1,75 @@
+# Serial-enabled shared default release 0.1.52
+
+This release uses the existing fresh-build, exact-source shared-default
+release machinery. Source pins are finalized; publication is enabled only on the
+exact release branch after its new native qualification. Runtime is
+`9f8d67029181f6cd064e247aa949a295854fc494`; Watch is
+`8132d73c828c0e4763f6c89a3d6a4a883314056a`. Preflight run38940013524 passed a fresh native build, complete production-loader
+admission and factory extraction at92be7bd0. The final release branch performs
+a new exact-source native build and verifies every public asset. Hardware remains
+untested; prior qualification does not replace that final build.
+
+The common Home 0.18.0 default is identical for both products: 617424 bytes,
+SHA256 `9f10c7150cdc175ff5af0dbc1410e455ead4f18868dd56555e10860781103f2f`.
+Its ordinary owner loop uses the settled Runtime serial checkpoint. The manifest
+SHA256 is `0888f82c0f69d48210d94bd9507e359833200d2756a1327323580324f314e3b1`.
+
+## Explicit serial authority
+
+Both profiles explicitly enable `RISC_NATIVE_SERIAL_FILES=1` and
+`RISC_NATIVE_SERIAL_APPDATA_FILES=1`. Writable namespace 2 is a separate
+Runtime-owned session rooted only at `/appdata/.serial-files`. It is unrelated
+to application AppData id 2 and does not reuse application grants.
+
+Waveshare also explicitly enables `RISC_NATIVE_SERIAL_SD=1`: writable namespace
+12 uses its own Runtime-owned grant to exactly `sdmmc-fatfs`, instance 12.
+Card absence or failed optional activation stays unavailable without fallback.
+
+Neither product enables a boot-store export. No serial write reaches the active
+paired boot bank. The private provider reopens bounded I/O under the existing
+AppData mount/resource custody; it does not mount, format or change partition
+identity. Capacity/contention may leave the optional namespace unavailable.
+An uncertain close/sync retains custody and fences teardown rather than claiming
+cleanup succeeded.
+
+Use the exact pinned Runtime's `scripts/serial_files.py`,
+`docs/SERIAL_FILES.md` and `docs/NATIVE_SERIAL_STORAGE.md`. The RTEF1 protocol
+supports individual binary/empty files, directories, exclusive create and explicit
+in-place replacement. Replacement is not atomic; interruption or abort can leave
+a partial file. The connection must be owner-trusted; no authentication or
+encryption is provided. No port discovery, device access or flashing is implied.
+
+## Preservation and qualification
+
+The frozen alarm-sleep factory remains the input baseline. Only `default.elf`,
+`default.json`, `boot.json` and `cohort.json` change in its installed store.
+All unrelated applications, provider ELFs, board data and alarm-service bytes
+remain byte-identical. Existing native qualification also checks every profile
+flag in actual compile commands. The serial gate additionally checks exact
+compiled Runtime source digests, linked implementations and the private root.
+Full normal/sanitized production-loader admission and independent factory
+extraction remain required. These are software checks, not hardware qualification.
+
+The native display diagnostic/test union is pinned to published branch commit
+`afe17271c63c7ade67e85662188748a58074d8b8`. Its checked records use the existing
+`RiscDiagnostics::line` owner queue because native libc stdout is disabled; no
+second console writer is introduced. The capture procedure is
+`docs/brightness-diagnostics/capture-procedure.json`.
+It changes the compiled `native/VendorDisplayIdf6.inc` source hash. The new pin and
+fresh native provenance record that change explicitly; historical source contracts
+are untouched. Diagnostics report checked brightness/frame completion only.
+The reported physical zero-brightness failure remains unresolved.
+
+The previous 0.1.51 pins, native profile and qualification narrative are archived unchanged
+under `history/0.1.51/` and hash-guarded. Its receipts apply only to that release.
+The historical alarm-sleep and native-IDF61 contracts remain frozen by hash.
+
+The factory image erases saved data. Back up first. No data-preserving update kit
+is supplied, and standalone firmware/store assets must not be flashed independently.
+
+## Serial workspace correction
+
+The pinned Runtime reserves its owner-task serial and private-provider workspace
+in conditional external BSS. Ownership gates remain internal. The fixed IQ bank
+and overlap guard are unchanged; the corrected native link must pass the guard
+on every clean build. No hardware qualification is implied.

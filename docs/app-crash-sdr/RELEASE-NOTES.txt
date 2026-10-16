@@ -1,0 +1,2 @@
+- Renders RF Spectrum and Waterfall at the display’s native resolution.
+- Keeps room and event recognition status below the plot and frequency axes.

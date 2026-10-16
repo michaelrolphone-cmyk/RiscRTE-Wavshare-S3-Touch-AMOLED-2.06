@@ -1,0 +1,17 @@
+Waveshare 0.1.48 cumulative launch-brightness repair
+
+Requires the exact verified official 0.1.47 factory and native evidence. Strictly
+replay all 17 shared app recipes from System 24270c36, with adapter 96742a20 and
+native SDR preserved. Advance only those app manifest versions and cohort
+identity. Preserve native Home 0.16.0, Springboard, drivers, native firmware,
+boot authority, persistent-data paths and store layout. Full 62-ELF admission
+runs normally and with ASan/UBSan, with zero hardware/storage calls. Preserve
+both-bank update/interruption/readback tests. Repeat pinned shared custody,
+brightness, baseline dark-launch, actual Springboard-controller and native RF
+raster tests. Source/host checks do not qualify physical hardware.
+
+After the factory package, run the source-owned external-media helper against
+that exact factory/source and the published LoRa 0.1.17 card. Attach the 0.1.18
+card, evidence and metadata to the same 0.1.48 release. Rebuild the top-level
+checksum manifest after adding those assets. Never replace an existing tag or
+binary. Publication remains disabled until the complete package is qualified.

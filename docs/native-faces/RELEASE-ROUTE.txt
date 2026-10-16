@@ -1,0 +1,7 @@
+Waveshare 0.1.47 native Home release
+
+Use the exact official 0.1.46 factory and evidence hashes in source-pins.json. Keep the native BIN, native ELF, bootloader, partition table, all saved-data regions, all other 61 ELFs, and every unrelated manifest byte-identical. Rebuild only shared Home 0.16.0 with atomic preferences and crash volume 12 from immutable Watch/System/Utilities commits. Preserve deployed default.json grants and fields, advancing only its version; update cohort identity.
+
+The pinned SPIFFS builder must round-trip every file and retain at least two free erase blocks. Admit all 62 ELFs against the unchanged native ELF with normal and sanitizer harnesses and zero hardware/storage calls. Exercise both active-bank preserving plans, all 33 selection-write interruption cuts, protected ranges, corrupt candidates and invalid snapshots. Verify the included offline prepare/readback tools against fixtures.
+
+The official workflow repeats target compilation, renderer/controller/sanitizer tests, source ownership, full store admission and preserving-update proofs. It creates a new release/tag and never overwrites an existing version or asset. Freshly download all assets and verify both their SHA-256 manifests and installed content before catalog publication. No device is accessed during these checks; physical-device validation remains separate.

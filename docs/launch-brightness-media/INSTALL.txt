@@ -1,0 +1,16 @@
+Waveshare 0.1.48 LoRa Messages 0.1.18 external-media companion
+
+Use with Waveshare 0.1.48 from the same release. This archive updates external
+media only; installing firmware from the catalog does not update an SD card.
+Safely eject or power down before updating the card. Back up the existing card.
+Extract Waveshare-0.1.48-LoRa-0.1.18-SD-card.zip at the SD-card root, preserving
+Apps/lora_messages. Replace only its three supplied files. Do not format the
+card or remove other files. No flash action or settings reset is included.
+
+Expected image path: Apps/lora_messages/lora_messages.elf, volume 12.
+The internal admission manifest remains 0.1.16; the external manifest becomes
+0.1.18. Existing permissions and optional-radio policy remain authoritative.
+Missing media/radio follows the existing unavailable state. Verify checksums
+before extraction. To revert, restore the three backed-up files together or
+use the published LoRa 0.1.17 SD-card archive. Hardware/SD/RF validation has not
+been performed. Source/host checks do not establish physical reliability.

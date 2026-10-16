@@ -1,0 +1,70 @@
+T030 native Springboard .44 release route (source preparation)
+
+Baseline is only published .43 factory SHA-256
+1a67657a58254e26f99f674e71a5d9742fb023633e16b7e412b4a0f13a73754a.
+Published product source is 9db48cef5bdb11206ff7f3601178cc2f32d326b8.
+The .43 catalog-acquisition correction must remain in the selected Runtime source.
+
+The source pins deliberately remain finalized=false until final component workers
+complete their aggregate tests. Runtime and System revisions, manifest version,
+changed vendor inputs, native changed status and qualification contract must be
+immutable and source-owned before producing release assets.
+
+Springboard builder reproduces the shipped .43 ELF from isolated git archives,
+then rebuilds the final System revision with the identical deployment flags except
+explicit source-pinned changes. The only added app define is
+PORTABLE_STAGE_PROFILE for bounded timing aggregates. FORCE_FULL_FRAMES remains selected. No new app
+capabilities or Runtime ELF imports are silently accepted. All 61 other ELFs and
+all unrelated store members remain byte-identical. The cohort and Springboard
+manifest version change with the built Springboard. The source-owned retained-wake
+transform adds only runtime.retained-wake@1 instance 0 to the existing Home
+requirement/policy in default.json and boot.json. Its shipped default.elf remains
+byte-identical, including genuine cold-start animation. Other provider replacements
+require an explicit source-owned builder and added release guards. The measured
+replacement ELF ceiling is 180,469 bytes with the required two free SPIFFS blocks;
+including the 110-byte retained-wake metadata addition;
+final image construction and independent readback remain authoritative.
+
+Native profile is generated from exact .43 expanded-candidate.ini with only
+RISC_PERFORMANCE_TRACE=1 and RISC_PERFORMANCE_TRACE_CAPACITY=64 appended. Runtime tracked profiles stay unchanged.
+The final product VendorDisplay.cpp and staging recipe are source-bound and the
+staged vendor tree is regenerated independently. The native firmware is rebuilt,
+its ELF/BIN correspondence, marker profile, flash bounds and partition identity
+are checked; admission uses the exact traced native profile and ELF.
+
+Required final qualification includes native 410x502 renderer/frame/contact tests,
+normal and sanitized regression coverage, the complete capability/feature/fallback
+and Controls/input/rotation matrices, full-feature host profiling, and source
+custody of native font generation inputs, provenance and retained license texts.
+The compact vector source regenerates byte-identically using Python 3.12.14,
+fontTools 4.61.1 and Brotli 1.1.0. Evidence records the actual pinned decoder
+implementation. The packaged ELF must retain the native presenter callback table,
+live icon/caption calls into the vector renderer, executable vector functions and
+the exact committed outline payload. Qualification binds every allocated debug
+ELF section to identical compact-image addresses and bytes. The diagnostic string
+is not a gate: linker garbage collection legitimately removes its unused section.
+Each target build also rejects the exact .43 baseline, a marker-only impostor,
+missing call bindings, code/data tampering and altered presenter callbacks.
+Full-feature profiling requires positive np_pixel physical RGB565 writes and zero
+native_watch_pixel logical-rescaling calls; both counters are checked separately.
+Final-source normal/sanitized brightness tests and the calibrated cadence model
+run with the same app diagnostic define. Five repeated full-feature host profiles
+record their timer basis and spread. The independent vector review binds its
+malformed-input/edge/recursion checks to the final target debug ELF.
+Host timing and simulated provider costs are not a hardware latency promise. Springboard fixture acceptance is
+separate from whole-app/Quick Controls/device acceptance.
+
+The package runs complete 62-ELF source-bound admission in normal and sanitized
+modes. Its preserving kit is strict .43-only; both active banks, protected ranges,
+33 interrupted-selection cuts per bank and corrupt inputs are checked. Selection
+is written last only after staged-region readback verification. Every full factory
+image carries the saved-data erasure warning. No device I/O is performed here.
+
+CI on fix/t030-native-ui-0.1.44 first builds and retains checksum-bound assets.
+Publication requires the source-owned publication_enabled=true pin, set only after
+final coordination. The dedicated release-branch push triggers that exact source
+commit; workflow_dispatch with publish=true is an optional additional route when
+available. Publication passes the exact commit/asset digest and refuses existing
+tag/release overwrite,
+then downloads the published assets and verifies hashes and tag source. Do not
+publish any source or release until final aggregate validation and coordination.

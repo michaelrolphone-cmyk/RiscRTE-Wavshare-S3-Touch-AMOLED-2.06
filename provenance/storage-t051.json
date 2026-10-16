@@ -1,0 +1,22 @@
+{
+  "repository": "michaelrolphone-cmyk/RiscRTE-Drivers",
+  "commit": "11bc45d263f830c70cea53a8c8749e4fcf17b041",
+  "imported": "lib/StorageFatFs",
+  "destination": "lib/storage_fatfs",
+  "files": {
+    "README.md": "006b4e8fb5c0f484b6095a88fe7a38820ad5bebb3fddb90c2b820478b77a25af",
+    "UPSTREAM.json": "fc48e148ae17c51518a1ca50b817b98d640fefbeeaa44db69cf998a393101ccb",
+    "fatfs/LICENSE.txt": "b896e32fb2cdb3fc8b3b6fd854706fca4ac55619fbb6d5eb2429cb05ee338966",
+    "fatfs/README.md": "71f25ff5d78cbb7a5fe2bafd3f4545e5e80f70a283cf69892d49bde403b31ceb",
+    "fatfs/diskio.h": "901d6670aeea2c4fcc6e1c2f38866e142069627a95c9b023eb7a4bf991e47a04",
+    "fatfs/ff.c": "69d24a03aa19a212cb827f978b3de5abcfd7a533a62d97eb0f44381b3fbd75d5",
+    "fatfs/ff.h": "2a5ea07637ee8863b20d73a7a51a24d715b964dba52c82c7368bb60b09dbf1a0",
+    "fatfs/ffconf.h": "760941150f5ed2e0c466db3816e1bfdc86d444fe714445f5e124f95bc9324395",
+    "fatfs/ffunicode.c": "6cd4dc4a664386ebd108e56d367582c35f005fc20381486366b5d77ac58119bd",
+    "fs_extensions.inc": "22643739ad2a9a5c3d07c2b19c76926f126270388d9774ffe61448486ae725fc",
+    "sd_protocol.h": "1590b7009fde866a0b944c8ecb2d613de90961a811440d8215886ff58860dd5d",
+    "volume.c": "4f99ec31ad9e7848fdabd3d642e64c24a4facf4c64765d5724fce1ecd8d8e86c"
+  },
+  "modifications": [],
+  "hardware_verified": false
+}

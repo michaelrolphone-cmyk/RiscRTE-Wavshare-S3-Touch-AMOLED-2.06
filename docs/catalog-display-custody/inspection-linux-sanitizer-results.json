@@ -1,0 +1,21 @@
+{
+  "container": "shared-suite-0122-tests",
+  "flags": [
+    "-fsanitize=address,undefined",
+    "-fno-sanitize-recover=all",
+    "-no-pie"
+  ],
+  "ASAN_OPTIONS": "detect_leaks=0",
+  "results": [
+    {
+      "mode": "refresh",
+      "returncode": 0,
+      "stdout": "mode=refresh ok=1 retained=0 pending=0 status_calls=5\n"
+    },
+    {
+      "mode": "launch",
+      "returncode": 0,
+      "stdout": "mode=launch ok=1 retained=0 pending=0 status_calls=5\n"
+    }
+  ]
+}

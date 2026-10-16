@@ -1,0 +1,9 @@
+Spectrum production shared input normal deployed-policy-retained PASS
+Spectrum production shared input normal full-contexts-startup PASS
+Spectrum production shared input normal waterfall-mode-capture PASS
+Spectrum production shared input normal waterfall-mode-full-history PASS
+Spectrum production shared input ASan/UBSan deployed-policy-retained PASS
+Spectrum production shared input ASan/UBSan full-contexts-startup PASS
+Spectrum production shared input ASan/UBSan waterfall-mode-capture PASS
+Spectrum production shared input ASan/UBSan waterfall-mode-full-history PASS
+Evidence: /utilities-spectrum-t069/build/t069-diagnostics/qualification.json

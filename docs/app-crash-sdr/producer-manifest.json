@@ -1,0 +1,548 @@
+{
+  "schema": 2,
+  "product": "wave",
+  "complete": true,
+  "producer_commit": "2b95468957ec59563d55849cfca941b52d13c9ef",
+  "baseline_product_source": "49aecbc116172b89481c6880d74a350643b798ef",
+  "baseline_factory_sha256": "d45bb897c07000eb095bcb8c482d964e1c74e4ba80b43595e32333cfed898d3a",
+  "runtime_repair": "4107eaeedd8c801eeaf7deb1c7bc4a943cd27342",
+  "waterfall_system_source": "e49bded76400ff746dc9851b107ee9b6ab0c629f",
+  "waterfall_utilities_source": "d987d2bbfeb02a516dbf5182b599e25346a7c5b3",
+  "replay_receipt_sha256": "ea3209ea4627de35a5bd20d7f92391d174b12fc094a5c671422e1c78725e3328",
+  "hardware_tested": false,
+  "changed_apps": [
+    "waterfall"
+  ],
+  "apps": {
+    "battery": {
+      "file": "/workspace/shared/watch-sdr-native-20261015/cohorts/wave/battery.elf",
+      "sha256": "f24539010d3ef893b6c569f96fee94727e704df411da5864d244d1637c4a19b5",
+      "bytes": 153440,
+      "deployed_sha256": "f24539010d3ef893b6c569f96fee94727e704df411da5864d244d1637c4a19b5",
+      "old_version": "1.1.3",
+      "version": "1.1.3",
+      "changed": false,
+      "symbols": {
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp"
+        ],
+        "exports": [
+          "app_main",
+          "app_module_fini",
+          "app_module_init"
+        ]
+      },
+      "manifest_changes": [],
+      "hardware_tested": false
+    },
+    "calculator": {
+      "file": "/workspace/shared/watch-sdr-native-20261015/cohorts/wave/calculator.elf",
+      "sha256": "50026efef9f2ff5571340932c25c590233564d200d4f9998290e1ad489cbf992",
+      "bytes": 145280,
+      "deployed_sha256": "50026efef9f2ff5571340932c25c590233564d200d4f9998290e1ad489cbf992",
+      "old_version": "0.1.9",
+      "version": "0.1.9",
+      "changed": false,
+      "symbols": {
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp"
+        ],
+        "exports": [
+          "app_main",
+          "app_module_fini",
+          "app_module_init"
+        ]
+      },
+      "manifest_changes": [],
+      "hardware_tested": false
+    },
+    "stopwatch": {
+      "file": "/workspace/shared/watch-sdr-native-20261015/cohorts/wave/stopwatch.elf",
+      "sha256": "ec7411295947b9c662b2a88d328a9010bfb16a7533febb4f819125a28de97988",
+      "bytes": 149236,
+      "deployed_sha256": "ec7411295947b9c662b2a88d328a9010bfb16a7533febb4f819125a28de97988",
+      "old_version": "0.1.9",
+      "version": "0.1.9",
+      "changed": false,
+      "symbols": {
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp"
+        ],
+        "exports": [
+          "app_main",
+          "app_module_fini",
+          "app_module_init"
+        ]
+      },
+      "manifest_changes": [],
+      "hardware_tested": false
+    },
+    "frequency_generator": {
+      "file": "/workspace/shared/watch-sdr-native-20261015/cohorts/wave/frequency_generator.elf",
+      "sha256": "5750b55685501b4447ed616f859ca2c9675afd12200bc2225dc43afa48f048f2",
+      "bytes": 137620,
+      "deployed_sha256": "5750b55685501b4447ed616f859ca2c9675afd12200bc2225dc43afa48f048f2",
+      "old_version": "0.1.7",
+      "version": "0.1.7",
+      "changed": false,
+      "symbols": {
+        "imports": [
+          "free",
+          "malloc",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen"
+        ],
+        "exports": [
+          "app_main",
+          "app_module_fini",
+          "app_module_init"
+        ]
+      },
+      "manifest_changes": [],
+      "hardware_tested": false
+    },
+    "alarms": {
+      "file": "/workspace/shared/watch-sdr-native-20261015/cohorts/wave/alarms.elf",
+      "sha256": "d45db67ae2f227a26bd9d4124b56e236c768ad287b8ce1546eda4cb94b5f8be7",
+      "bytes": 153428,
+      "deployed_sha256": "d45db67ae2f227a26bd9d4124b56e236c768ad287b8ce1546eda4cb94b5f8be7",
+      "old_version": "0.2.5",
+      "version": "0.2.5",
+      "changed": false,
+      "symbols": {
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp"
+        ],
+        "exports": [
+          "app_main",
+          "app_module_fini",
+          "app_module_init"
+        ]
+      },
+      "manifest_changes": [],
+      "hardware_tested": false
+    },
+    "countdown": {
+      "file": "/workspace/shared/watch-sdr-native-20261015/cohorts/wave/countdown.elf",
+      "sha256": "e8cc2d1cd8dbf6b33ac088b68603f3cc0e5b5cd5cf0d91a734dce0a0db43555b",
+      "bytes": 149284,
+      "deployed_sha256": "e8cc2d1cd8dbf6b33ac088b68603f3cc0e5b5cd5cf0d91a734dce0a0db43555b",
+      "old_version": "0.1.8",
+      "version": "0.1.8",
+      "changed": false,
+      "symbols": {
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp"
+        ],
+        "exports": [
+          "app_main",
+          "app_module_fini",
+          "app_module_init"
+        ]
+      },
+      "manifest_changes": [],
+      "hardware_tested": false
+    },
+    "ble_touchpad": {
+      "file": "/workspace/shared/watch-sdr-native-20261015/cohorts/wave/ble_touchpad.elf",
+      "sha256": "dcddd954238a2b7f956707f1fcb8db893d939b8185bf3de87f23370bbf968efd",
+      "bytes": 153972,
+      "deployed_sha256": "dcddd954238a2b7f956707f1fcb8db893d939b8185bf3de87f23370bbf968efd",
+      "old_version": "0.1.17",
+      "version": "0.1.17",
+      "changed": false,
+      "symbols": {
+        "imports": [
+          "free",
+          "malloc",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen"
+        ],
+        "exports": [
+          "app_main",
+          "app_module_fini",
+          "app_module_init"
+        ]
+      },
+      "manifest_changes": [],
+      "hardware_tested": false
+    },
+    "ble_buttons": {
+      "file": "/workspace/shared/watch-sdr-native-20261015/cohorts/wave/ble_buttons.elf",
+      "sha256": "7666fa3d3ae7653f92f76bf4d261d0f8a7b27a6ce8b82044a72f8dbde21ded74",
+      "bytes": 154004,
+      "deployed_sha256": "7666fa3d3ae7653f92f76bf4d261d0f8a7b27a6ce8b82044a72f8dbde21ded74",
+      "old_version": "0.1.28",
+      "version": "0.1.28",
+      "changed": false,
+      "symbols": {
+        "imports": [
+          "free",
+          "malloc",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen"
+        ],
+        "exports": [
+          "app_main",
+          "app_module_fini",
+          "app_module_init"
+        ]
+      },
+      "manifest_changes": [],
+      "hardware_tested": false
+    },
+    "audio_spectrum": {
+      "file": "/workspace/shared/watch-sdr-native-20261015/cohorts/wave/audio_spectrum.elf",
+      "sha256": "4b5955a6b4954b9cadceaea1809844515a278c8ce56d22803a1a2a387efdf521",
+      "bytes": 243380,
+      "deployed_sha256": "4b5955a6b4954b9cadceaea1809844515a278c8ce56d22803a1a2a387efdf521",
+      "old_version": "0.5.9",
+      "version": "0.5.9",
+      "changed": false,
+      "symbols": {
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen"
+        ],
+        "exports": [
+          "app_main",
+          "app_module_fini",
+          "app_module_init"
+        ]
+      },
+      "manifest_changes": [],
+      "hardware_tested": false
+    },
+    "waterfall": {
+      "file": "/workspace/shared/watch-sdr-native-20261015/cohorts/wave/waterfall.elf",
+      "sha256": "a3f9e4f2ba63b5b035da6696a33c9b5bd3e3ecafd3dc86fc97ec096a0e21189a",
+      "bytes": 252240,
+      "deployed_sha256": "9315f912ac41b24e29e6c86b98b3d505fe7c494ee8740ff1db56e84b5f95af17",
+      "old_version": "0.3.8",
+      "version": "0.3.9",
+      "changed": true,
+      "symbols": {
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen"
+        ],
+        "exports": [
+          "app_main",
+          "app_module_fini",
+          "app_module_init"
+        ]
+      },
+      "manifest_changes": [
+        "version"
+      ],
+      "hardware_tested": false
+    },
+    "app_store": {
+      "file": "/workspace/shared/watch-sdr-native-20261015/cohorts/wave/app_store.elf",
+      "sha256": "103e13d7a96cbfa43e14ebd51a4c5c1025077cfc3ee9738d6e965bccc1678d55",
+      "bytes": 133364,
+      "deployed_sha256": "103e13d7a96cbfa43e14ebd51a4c5c1025077cfc3ee9738d6e965bccc1678d55",
+      "old_version": "1.1.8",
+      "version": "1.1.8",
+      "changed": false,
+      "symbols": {
+        "imports": [
+          "free",
+          "malloc",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strlen"
+        ],
+        "exports": [
+          "app_main",
+          "app_module_fini",
+          "app_module_init"
+        ]
+      },
+      "manifest_changes": [],
+      "hardware_tested": false
+    },
+    "ota_update": {
+      "file": "/workspace/shared/watch-sdr-native-20261015/cohorts/wave/ota_update.elf",
+      "sha256": "b8a34946a72e15c793de4415cd3b3d23575aef48a1c497adbbf0f21ecc0bf91e",
+      "bytes": 133376,
+      "deployed_sha256": "b8a34946a72e15c793de4415cd3b3d23575aef48a1c497adbbf0f21ecc0bf91e",
+      "old_version": "1.1.8",
+      "version": "1.1.8",
+      "changed": false,
+      "symbols": {
+        "imports": [
+          "free",
+          "malloc",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strlen"
+        ],
+        "exports": [
+          "app_main",
+          "app_module_fini",
+          "app_module_init"
+        ]
+      },
+      "manifest_changes": [],
+      "hardware_tested": false
+    },
+    "file_browser": {
+      "file": "/workspace/shared/watch-sdr-native-20261015/cohorts/wave/file_browser.elf",
+      "sha256": "33847844d88e1ed672c8848651f4cfef1d059f27645ab4658fb5c57ce79165e0",
+      "bytes": 287840,
+      "deployed_sha256": "33847844d88e1ed672c8848651f4cfef1d059f27645ab4658fb5c57ce79165e0",
+      "old_version": "1.5.40",
+      "version": "1.5.40",
+      "changed": false,
+      "symbols": {
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strchr",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strrchr",
+          "strstr"
+        ],
+        "exports": [
+          "app_main",
+          "app_module_fini",
+          "app_module_init"
+        ]
+      },
+      "manifest_changes": [],
+      "hardware_tested": false
+    },
+    "timecard": {
+      "file": "/workspace/shared/watch-sdr-native-20261015/cohorts/wave/timecard.elf",
+      "sha256": "abb455ee4d9db1d823f1a461e7d706d27e28e0e130d4d843b6ff814fe396e291",
+      "bytes": 169824,
+      "deployed_sha256": "abb455ee4d9db1d823f1a461e7d706d27e28e0e130d4d843b6ff814fe396e291",
+      "old_version": "0.2.16",
+      "version": "0.2.16",
+      "changed": false,
+      "symbols": {
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp"
+        ],
+        "exports": [
+          "app_main",
+          "app_module_fini",
+          "app_module_init"
+        ]
+      },
+      "manifest_changes": [],
+      "hardware_tested": false
+    },
+    "ble_scanner": {
+      "file": "/workspace/shared/watch-sdr-native-20261015/cohorts/wave/ble_scanner.elf",
+      "sha256": "ffa6f68c9e0b06a22b67aac09ba016e713604e4f22cbba4ab95728c306056763",
+      "bytes": 157520,
+      "deployed_sha256": "ffa6f68c9e0b06a22b67aac09ba016e713604e4f22cbba4ab95728c306056763",
+      "old_version": "0.2.7",
+      "version": "0.2.7",
+      "changed": false,
+      "symbols": {
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen"
+        ],
+        "exports": [
+          "app_main",
+          "app_module_fini",
+          "app_module_init"
+        ]
+      },
+      "manifest_changes": [],
+      "hardware_tested": false
+    },
+    "wifi_settings": {
+      "file": "/workspace/shared/watch-sdr-native-20261015/cohorts/wave/wifi_settings.elf",
+      "sha256": "66cb5b2019e714bddbb38f202df96ed5739afde0607fce0cb162a97d43aa4575",
+      "bytes": 169460,
+      "deployed_sha256": "66cb5b2019e714bddbb38f202df96ed5739afde0607fce0cb162a97d43aa4575",
+      "old_version": "1.1.32",
+      "version": "1.1.32",
+      "changed": false,
+      "symbols": {
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen"
+        ],
+        "exports": [
+          "app_main",
+          "app_module_fini",
+          "app_module_init"
+        ]
+      },
+      "manifest_changes": [],
+      "hardware_tested": false
+    },
+    "points_in_time": {
+      "file": "/workspace/shared/watch-sdr-native-20261015/cohorts/wave/points_in_time.elf",
+      "sha256": "245fc99c640350316b6814094333202aafee4d0415c5ba15f4616875a694bf84",
+      "bytes": 175928,
+      "deployed_sha256": "245fc99c640350316b6814094333202aafee4d0415c5ba15f4616875a694bf84",
+      "old_version": "0.6.21",
+      "version": "0.6.21",
+      "changed": false,
+      "symbols": {
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strlen",
+          "strncmp"
+        ],
+        "exports": [
+          "app_main",
+          "app_module_fini",
+          "app_module_init"
+        ]
+      },
+      "manifest_changes": [],
+      "hardware_tested": false
+    }
+  }
+}

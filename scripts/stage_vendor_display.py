@@ -2,10 +2,25 @@
 """Stage pinned vendor source plus cleanup lifecycle extension and checked SPI return codes."""
 from pathlib import Path
 import argparse,shutil,json,hashlib,subprocess
-p=argparse.ArgumentParser();p.add_argument('--vendor',type=Path,required=True);p.add_argument('--runtime',type=Path,required=True);a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--vendor',type=Path,required=True);p.add_argument('--runtime',type=Path,required=True);p.add_argument('--idf',type=Path,help='Select the pinned native IDF6 bridge instead of Arduino_GFX');a=p.parse_args()
 root=Path(__file__).resolve().parents[1]
-assert subprocess.check_output(['git','-C',str(a.vendor),'rev-parse','HEAD'],text=True).strip()=='b099739ad0e33b34e5fbaae77f02bd84805d79a3'
+if subprocess.check_output(['git','-C',str(a.vendor),'rev-parse','HEAD'],text=True).strip()!='b099739ad0e33b34e5fbaae77f02bd84805d79a3':
+ raise RuntimeError('Vendor revision differs from the audited source')
 src=a.vendor/'examples/arduino/libraries/Arduino_GFX';dst=a.runtime/'lib/WaveshareVendorGfx'
+if a.idf:
+ provenance=json.loads((root/'native/vendor-idf6-provenance.json').read_text())
+ revision=subprocess.check_output(['git','-C',str(a.idf),'rev-parse','HEAD'],text=True).strip()
+ if revision!=provenance['idf_revision']:raise RuntimeError('Native display requires the audited ESP-IDF revision')
+ for name,expected in provenance['reference_sha256'].items():
+  if hashlib.sha256((src/'src'/name).read_bytes()).hexdigest()!=expected:raise RuntimeError('Changed vendor reference: '+name)
+ if dst.exists():raise RuntimeError('Native staging requires a Runtime without a staged Arduino_GFX library')
+ (a.runtime/'src').mkdir(parents=True,exist_ok=True)
+ for name in ('VendorDisplay.cpp','VendorDisplayIdf6.inc'):
+  shutil.copy2(root/'native'/name,a.runtime/'src'/name)
+ provenance['native_sha256']={name:hashlib.sha256((root/'native'/name).read_bytes()).hexdigest() for name in ('VendorDisplay.cpp','VendorDisplayIdf6.inc')}
+ (a.runtime/'native-display-idf6-staging.json').write_text(json.dumps(provenance,indent=2)+'\n')
+ print('Pinned native IDF6 CO5300 bridge staged; no Arduino_GFX dependency.')
+ raise SystemExit(0)
 shutil.copytree(src,dst,dirs_exist_ok=True)
 selected=['Arduino_G.cpp','Arduino_DataBus.cpp','Arduino_GFX.cpp','Arduino_TFT.cpp','Arduino_OLED.cpp','databus/Arduino_ESP32QSPI.cpp','display/Arduino_CO5300.cpp']
 proof={x:hashlib.sha256((src/'src'/x).read_bytes()).hexdigest() for x in selected}
