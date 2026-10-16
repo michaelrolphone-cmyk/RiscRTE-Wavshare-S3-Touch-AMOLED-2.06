@@ -1,0 +1,150 @@
+{
+  "schema": 1,
+  "tested_at_utc": "2026-10-16T10:46:04Z",
+  "reported_version": "Waveshare 0.1.51",
+  "reported_hardware_result": "zero brightness in Springboard and Audio spectrogram",
+  "hardware_status": "failed_report_unresolved",
+  "functional_cause": "not_reproduced",
+  "public_firmware_changed": false,
+  "diagnostic_source_commit": "ddee2f916d448c07330e8cd028177abbb8f349f0",
+  "base_product_revision": "51242f0bb9e20b5298b3a213a977fc3a18384f4a",
+  "shipped_runtime_revision": "e697c3677eca661892517c2bf4c0c6b2f764985c",
+  "shared_home_revision": "4937fc4612edc6904c7ceae2855db7147fb680e9",
+  "shared_home_test_repair_commit": "b4bc6895d14e8919560939eb5de48729428d8baa",
+  "app_evidence": {
+    "hardware_tested": false,
+    "public_version": "0.1.51",
+    "prior_repair": "24270c36cd4bc1edb7bb2e8d860501eaa5105d43",
+    "apps": [
+      {
+        "app": "battery",
+        "sha256": "175ed277dea6149f97457a4d44fdf7ab87a63f9024e36e0a2a50553864d19d8c",
+        "matches_brightness_repair": true
+      },
+      {
+        "app": "calculator",
+        "sha256": "d78c5996376b1980ae9a2491b202c1a5ee414f135de03c161f96becc161e392f",
+        "matches_brightness_repair": true
+      },
+      {
+        "app": "stopwatch",
+        "sha256": "fe7226763463b6f82f06abaee8dc7394cb182ffcd341de8311567322ecda78e4",
+        "matches_brightness_repair": true
+      },
+      {
+        "app": "frequency_generator",
+        "sha256": "d14c37dc9c0ec736a61fa14ae846dec47525b46da9ad1bb21266d48a663fc87c",
+        "matches_brightness_repair": true
+      },
+      {
+        "app": "alarms",
+        "sha256": "7f5cb21cff86d3f993a42dc1e254aa568590aa6488c5217acd6bd899b67b3862",
+        "matches_brightness_repair": true
+      },
+      {
+        "app": "countdown",
+        "sha256": "220aff0aedb28dfe4a50d6e57cc49d521381018cc8d0ceaca7bda60efd92b548",
+        "matches_brightness_repair": true
+      },
+      {
+        "app": "ble_touchpad",
+        "sha256": "a6518bf99d966b4bfefae02fd3f55a214f0ddc4ca9518090c34ee8506f80778e",
+        "matches_brightness_repair": true
+      },
+      {
+        "app": "ble_buttons",
+        "sha256": "b3f4633d8bc0d0612d6410eae3f41d8c66a0586025f076a26dd0f277cac7232d",
+        "matches_brightness_repair": true
+      },
+      {
+        "app": "audio_spectrum",
+        "sha256": "40739fbad6fd30a4f3576e87fc6c59de3e56ca1cf03da9a9ff1f3e5a6febd557",
+        "matches_brightness_repair": true
+      },
+      {
+        "app": "waterfall",
+        "sha256": "5543af60434887b0d3b63ba0560c6ccc3445cfe4bd9713d154bbb7897e621b5c",
+        "matches_brightness_repair": true
+      },
+      {
+        "app": "app_store",
+        "sha256": "88ad0a2cbe8f701c97bb7ae1aabf003a6a1d9463a5d12638381938d2ec99cf6c",
+        "matches_brightness_repair": true
+      },
+      {
+        "app": "ota_update",
+        "sha256": "45f09839daf9de92bea24bca5c7d8575ffb6eb59d5b29027e092d33b7a18bec9",
+        "matches_brightness_repair": true
+      },
+      {
+        "app": "file_browser",
+        "sha256": "252f8add6830bd0d84f0ebe0c8ae71bb87a5b50a2e4c9b3fed12e0dd5e7a74f3",
+        "matches_brightness_repair": true
+      },
+      {
+        "app": "timecard",
+        "sha256": "bc94c5e4cda24b725e43f7e860bf43a6ebc4387459e06e8c97c7ef41c740667a",
+        "matches_brightness_repair": true
+      },
+      {
+        "app": "ble_scanner",
+        "sha256": "f35588453de3bd03a778fe362625af49e57f7d2efde7d890e8ab10ef778a8b01",
+        "matches_brightness_repair": true
+      },
+      {
+        "app": "wifi_settings",
+        "sha256": "7bb9d98ace7cb783e6f85368c0dfd29360b96a635766c6f3f637b6901ae0d6c8",
+        "matches_brightness_repair": true
+      },
+      {
+        "app": "points_in_time",
+        "sha256": "16b1cd9bfd84b22adcdfc924ae46f591b1c146dddab82437770ff2d33f87f8aa",
+        "matches_brightness_repair": true
+      }
+    ]
+  },
+  "springboard": {
+    "source_revision": "f31f89636304d202c49884e2e9b2e0b2ec5fb891",
+    "shipped_elf_sha256": "e6b9e0739f8dda47a8ecf4f326c6e1afc0d90386415a91c9ef86889a310bc69b",
+    "matches_preserved_release_pin": true,
+    "first_completed_frame_restore_present": true,
+    "sanitized_cases": 40,
+    "real_controller_cases": 8,
+    "invocations_per_controller_case": 3
+  },
+  "shared_adapter": {
+    "source_revision": "24270c36cd4bc1edb7bb2e8d860501eaa5105d43",
+    "cases": 126,
+    "normal_and_asan_ubsan": true,
+    "failed_cases": []
+  },
+  "native": {
+    "sdk_revision": "fff9895c82d744c7237be8847347bdd1b07c6643",
+    "trace_probe_combinations": 4,
+    "normal_host": "passed",
+    "asan_ubsan_host": "passed",
+    "xtensa_target_compile": "passed",
+    "leak_detector": "disabled: unsupported under this environment ptrace",
+    "source_sha256": {
+      "native/VendorDisplayIdf6.inc": "219e3531542bf5dadd999faa70641fa0dccb0e5eb5863362bcff17299c7ebc98",
+      "tests/native_display_idf6_test.cpp": "b7f5a0e92b276f4cad47fad41a43972f7d2b0b030f874bb0f8f219caca4d38cc",
+      "tests/test_vendor_idf6.py": "55e8940aeb1daf9a3048c4dee73da1d7cf7747dfcfbb02a19739c369f46700fa"
+    }
+  },
+  "home": {
+    "generic_preference_cases": 180,
+    "fast_wake_410x502_atomic": "normal and ASan/UBSan passed",
+    "fast_wake_410x502_atomic_crash_report": "normal and ASan/UBSan passed with test-only repair"
+  },
+  "common_path": [
+    "app first-completed-frame brightness restoration",
+    "display.output provider panel_vendor",
+    "Runtime CpuDisplayBackend token and owner checks",
+    "native IDF6 CO5300 first-full-frame brightness gate"
+  ],
+  "next_evidence": [
+    "capture app launch and first-frame/brightness transitions on affected hardware",
+    "compare a failed and successful launch before changing display behavior"
+  ],
+  "physical_visibility_claimed": false
+}
