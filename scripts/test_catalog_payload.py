@@ -5,6 +5,8 @@ import hashlib
 import io
 import json
 import unittest
+import subprocess
+import sys
 import zipfile
 import warnings
 import audit_catalog_payload as a
@@ -13,21 +15,35 @@ C = json.loads(a.CONTRACT.read_bytes())
 
 class PayloadTests(unittest.TestCase):
     def test_complete_declared_inventory(self):
-        p = a.payload_inputs(C, 'create')
+        p = a.payload_inputs(C, 'create', 'sensitive')
         self.assertEqual(p['totals'], {'bytes': 138235, 'file_count': 3})
         self.assertEqual([x['destination'] for x in p['files']],
                          ['/' + n for n in sorted(C['companion']['files'])])
         self.assertEqual(p['bindings'][0]['namespace_id'], '12')
         self.assertNotIn('method_id', p)
 
+    def test_exact_paths_work_with_either_selected_naming_mode(self):
+        sensitive = a.payload_inputs(C, 'create', 'sensitive')
+        folded = a.payload_inputs(C, 'create', 'ascii-insensitive')
+        self.assertEqual(sensitive['files'], folded['files'])
+        self.assertEqual(sensitive['directories'], folded['directories'])
+        self.assertNotEqual(sensitive['inventory_sha256'], folded['inventory_sha256'])
+        self.assertEqual(folded['volumes'][0]['requirements']['case_semantics'], 'ascii-insensitive')
+
+    def test_naming_semantics_must_be_explicit(self):
+        for mode in (None, '', 'fatfs', 'unknown'):
+            with self.subTest(mode=mode), self.assertRaises(ValueError):
+                a.payload_inputs(C, 'create', mode)
+        with self.assertRaises(TypeError): a.payload_inputs(C, 'create')
+
     def test_digest_is_canonical(self):
-        p = a.payload_inputs(C, 'create'); digest = p.pop('inventory_sha256')
+        p = a.payload_inputs(C, 'create', 'sensitive'); digest = p.pop('inventory_sha256')
         self.assertEqual(hashlib.sha256(a.encoded(p)).hexdigest(), digest)
 
     def test_each_operation_is_explicit(self):
         for mode in ('create', 'replace'):
             with self.subTest(mode=mode):
-                p = a.payload_inputs(C, mode)
+                p = a.payload_inputs(C, mode, 'sensitive')
                 self.assertEqual({x['operation'] for x in p['files']}, {mode})
                 self.assertEqual([x['previous'] for x in p['files']], [None] * 3)
                 self.assertEqual(p['volumes'][0]['requirements']['operations'][-1], mode)
@@ -35,10 +51,10 @@ class PayloadTests(unittest.TestCase):
     def test_reject_implicit_operations(self):
         for mode in ('upsert', 'copy-tree', 'delete', '', None):
             with self.subTest(mode=mode), self.assertRaises(ValueError):
-                a.payload_inputs(C, mode)
+                a.payload_inputs(C, mode, 'sensitive')
 
     def test_exact_parent_closure(self):
-        p = a.payload_inputs(C, 'create')
+        p = a.payload_inputs(C, 'create', 'sensitive')
         self.assertEqual([x['path'] for x in p['directories']], ['/Apps', '/Apps/lora_messages'])
         self.assertTrue(all(x['operation'] == 'ensure-directory' for x in p['directories']))
 
@@ -77,6 +93,24 @@ class PayloadTests(unittest.TestCase):
         for key in ('volumes', 'files'):
             broken = copy.deepcopy(s); broken['properties']['payload']['properties'][key]['minItems'] = 0
             with self.subTest(key=key), self.assertRaises(ValueError): a.verify_schema(broken)
+
+    def test_recorded_external_elf_qualification_matches_exact_inputs(self):
+        q=json.loads((a.CONTRACT.parent / 'external-elf/qualification.json').read_bytes())
+        self.assertEqual(q['runtime_commit'], C['runtime_revision'])
+        self.assertEqual(q['lora_elf_sha256'], C['companion']['files'][a.ELF]['sha256'])
+        self.assertEqual(q['required_capability_count'], len(C['internal_lora_manifest']['requires']))
+        self.assertEqual(q['delivered_lora_policy'], C['external_app_policies'][0])
+        self.assertEqual({x['sanitized'] for x in q['tests']}, {False, True})
+        self.assertTrue(all(x['missing_import_rejections']==11 and
+                            x['production_removable_image_snapshots']==2 for x in q['tests']))
+        self.assertFalse(q['target_instructions_executed'])
+        self.assertFalse(q['hardware_tested'])
+
+    def test_external_qualification_rejects_optimization(self):
+        p=subprocess.run([sys.executable, '-O', str(a.ROOT / 'scripts/qualify_external_lora.py')],
+                         capture_output=True, text=True)
+        self.assertNotEqual(p.returncode, 0)
+        self.assertIn('Python optimization disables qualification assertions', p.stderr)
 
     def synthetic_companion(self, mutate=None, extra=None):
         c = copy.deepcopy(C); internal = c['internal_lora_manifest']

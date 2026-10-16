@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Reproduce the delivered Wave storage/admission audit. Never emits an installer.
+"""Verify Wave 0.1.52 firmware and the complete existing LoRa 0.1.17 payload.
 
-Verify the complete firmware-owned boot store and separately published LoRa
-companion. The existing internal policy consumes the external ELF through the
-explicit namespace12 provider binding; no application is moved by this audit.
+The internal boot policy consumes the external LoRa ELF through the explicitly
+bound namespace12 provider. Exact release bytes and immutable sources establish
+inventory and admission without changing existing application placement.
 """
 import argparse
 import hashlib
@@ -121,9 +121,11 @@ def companion_files(contract, assets, firmware_files):
 ELF = 'Apps/lora_messages/lora_messages.elf'
 
 
-def payload_inputs(contract, operation):
-    """Schema-shaped payload; incomplete product/install identity is never fabricated."""
+def payload_inputs(contract, operation, case_semantics):
+    """Generate the payload shape for an explicitly selected provider naming mode."""
     require(operation in ('create', 'replace'), 'Explicit per-file operation required')
+    require(case_semantics in ('sensitive', 'ascii-insensitive'),
+            'Select naming semantics from the trusted provider profile')
     fid = contract['release_tag']
     # store.bin is the exact asset containing boot.json and the internal manifest;
     # the audit extracts and checks both, rather than relying on a package label.
@@ -137,7 +139,7 @@ def payload_inputs(contract, operation):
     payload = {'id': 'waveshare-lora-0.1.17', 'owner': 'waveshare-lora-companion',
         'volumes': [{'id': 'application-content', 'consumer': {'id': 'lora_messages',
             'firmware_id': fid, 'evidence': evidence}, 'requirements': {
-                'case_semantics': 'ascii-insensitive', 'hierarchical': True,
+                'case_semantics': case_semantics, 'hierarchical': True,
                 'operations': ['stat', 'get', 'mkdir', operation], 'path_encoding': 'utf-8-exact'}}],
         'bindings': [{'firmware_id': fid, 'volume': 'application-content',
                       'namespace_id': '12', 'evidence': binding}],
@@ -240,6 +242,8 @@ def main():
     parser.add_argument('--companion-assets', type=Path, required=True)
     parser.add_argument('--source', action='append', default=[], metavar='ROLE=REPOSITORY')
     parser.add_argument('--download', action='store_true', help='Fetch exact public baseline assets')
+    parser.add_argument('--case-semantics', choices=('sensitive', 'ascii-insensitive'),
+                        help='Selected trusted provider naming mode; omit to audit without payload fragments')
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     contract = json.loads(CONTRACT.read_bytes())
@@ -267,8 +271,10 @@ def main():
     result = audit(contract, assets, companion, checked)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_bytes(encoded(result))
-    for operation in ('create', 'replace'):
-        args.output.with_name('payload-' + operation + '.json').write_bytes(encoded(payload_inputs(contract, operation)))
+    if args.case_semantics:
+        for operation in ('create', 'replace'):
+            args.output.with_name('payload-' + operation + '.json').write_bytes(
+                encoded(payload_inputs(contract, operation, args.case_semantics)))
     print('Exact firmware and complete existing companion inventory PASS; builder inputs remain explicit.')
 
 

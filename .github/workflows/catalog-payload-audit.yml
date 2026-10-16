@@ -1,17 +1,19 @@
 name: Catalog payload admission support
 on:
   push:
-    branches: [work/catalog-payload-admission-audit]
+    branches: [main, work/catalog-payload-admission-audit]
     paths:
       - .github/workflows/catalog-payload-audit.yml
       - scripts/audit_catalog_payload.py
       - scripts/test_catalog_payload.py
+      - scripts/qualify_external_lora.py
       - docs/catalog-payload/**
   pull_request:
     paths:
       - .github/workflows/catalog-payload-audit.yml
       - scripts/audit_catalog_payload.py
       - scripts/test_catalog_payload.py
+      - scripts/qualify_external_lora.py
       - docs/catalog-payload/**
 permissions:
   contents: read

@@ -1,9 +1,8 @@
 # Existing firmware-associated payload preparation
 
-This support-only audit pairs the exact delivered Wave `test-shared-default-0.1.52`
-firmware with the existing `test-lora-media-0.1.17` companion. It changes no product
-profile, Runtime pin, executable, internal boot file or application placement.
-It does not publish a release, reserve a product version or operate hardware.
+Wave `test-shared-default-0.1.52` firmware consumes the existing
+`test-lora-media-0.1.17` companion through its admitted external LoRa route.
+This audit verifies the complete three-file payload and exact firmware lineage.
 
 ## Complete inventory and actual consumers
 
@@ -31,9 +30,9 @@ internal application fallback. Optional `radio.lora` remains unavailable on this
 product when no compatible hardware/provider is present.
 
 Runtime `9f8d67029181f6cd064e247aa949a295854fc494` `src/main.cpp` explicitly binds
-the separate serial client to the selected `sdmmc-fatfs` provider instance12.
-`NativeSerialStorage.cpp` admits that client as namespace12. This is source-proved
-binding, not routing inferred from its label. Private namespace2 is isolated
+the separate serial client to the selected `sdmmc-fatfs` provider instance 12.
+`NativeSerialStorage.cpp` admits that client as namespace 12. This is source-proved
+binding, not routing inferred from its label. Private namespace 2 is isolated
 `/appdata/.serial-files`; it does not satisfy this application destination.
 The active boot bank is not a writable serial destination.
 
@@ -41,7 +40,7 @@ The active boot bank is not a writable serial destination.
 
 `python scripts/test_catalog_payload.py` runs focused negative and inventory tests.
 The complete audit verifies all baseline asset bytes, factory/store extraction,
-all128 internal file hashes, every external image-source declaration, all three
+all 128 internal file hashes, every external image-source declaration, all three
 companion files, companion provenance and manifest equivalence. It reads exact
 Git objects, independent of the checkout's current branch:
 
@@ -55,28 +54,31 @@ python scripts/audit_catalog_payload.py \
 
 The repositories must contain the immutable objects listed in `baseline.json`.
 `--download` fetches only exact public release assets and rejects byte changes.
-The output includes a factual audit plus canonical `payload-create.json` and
-`payload-replace.json` **payload fragments**, matching schema1.0.0's payload shape.
+The output is a factual audit. With an explicitly selected trusted provider
+naming mode (`--case-semantics sensitive` or `--case-semantics ascii-insensitive`),
+it also generates canonical `payload-create.json` and `payload-replace.json`
+**payload fragments**, matching schema 1.0.0's payload shape.
 They are not complete installable manifests, containers or trusted catalog
 contexts. Create and replace are separate, explicit per-file selections; no
 implicit upsert, folder replacement, deletion or formatting is introduced.
 
 The pinned manifest schema is at Runtime
 `908355b0509907c05a6dc47a1ccc8e078d6e23b0/docs/catalog-payload/1.0.0`.
-No schema modification or synthetic sentinel is used.
 
 ## Remaining catalog/builder inputs and qualification
 
-The current release catalog record (revision1, checked2026-10-16) explicitly
+The current release catalog record (revision 1, checked 2026-10-16) explicitly
 admits profile `waveshare`, full factory asset
-`Waveshare-0.1.52-Shared-Default-factory-erases-data-0x0.bin`, offset0, size16777216.
+`Waveshare-0.1.52-Shared-Default-factory-erases-data-0x0.bin`, offset 0, size 16777216.
 It does not expose a generic `method_id`, accepted hardware-revision list or a
-trusted namespace-capability/budget profile. Profile `waveshare` revision1 also
+trusted namespace-capability/budget profile. Profile `waveshare` revision 1 also
 lacks those generic fields. The website builder must supply those exact existing
 installer/profile facts and bind the eventual manifest/container digests to the
 selected immutable catalog revision. This source does not invent such IDs or
-self-authorize a context. The expected case-insensitive ASCII naming requirement
-in the payload fragment must be checked against that trusted provider profile.
+self-authorize a context. These exact ASCII paths do not require case-insensitive lookup: they also work
+unchanged on a case-sensitive provider. The payload generator requires the naming
+mode explicitly so the selected trusted profile determines collision checks.
+It neither infers a mode from a backend label nor imposes case-insensitivity.
 
 Select firmware → payload → verify for this factory pairing. Factory flashing
 erases saved settings and internal data. External-volume preservation is not
@@ -88,7 +90,42 @@ selected file is destructive and non-atomic; interruption may leave it partial.
 Unrelated siblings remain outside the transfer inventory. Missing/retained/I/O
 provider states are not file absence and must not trigger fallback/retry.
 
-Exact external-ELF admission against the delivered native export table, full
-installer integration and physical end-to-end usability remain separate evidence
-requirements. Product publication and hardware qualification remain behind the
-recorded X4 catalog-update pass. A source audit or CI pass does not satisfy them.
+## Exact external ELF qualification
+
+[The recorded qualification](external-elf/qualification.json) passed normal and
+ASan/UBSan runs against the delivered native ELF and immutable Runtime:
+
+- All eleven LoRa imports occur in the native's 51 compiled public exports.
+- Production structural/application admission accepts the unchanged LoRa ELF.
+- Eleven missing-import cases, wrong driver role, unsafe state, three truncated
+  lengths and corrupted magic are rejected.
+- Production removable-image loading copies the actual ELF through read-only
+  volume fixtures with both 4,096-byte and forced 37-byte reads before admission.
+- All 17 required capability/API pairs are explicitly granted; optional radio.lora
+  remains ungranted. Existing provider/dependency closure is retained.
+
+The existing published normal/sanitized 62-internal-ELF cohort proof is inherited
+and digest-checked against all 128 delivered store files, rather than rerun here.
+The external LoRa ELF is additional to those 62 internal ELFs.
+
+Reproduce using Python with pyelftools installed, cc and c++:
+
+```sh
+python scripts/qualify_external_lora.py \
+  --base /path/to/verified-input-root --work /path/to/fresh-output \
+  --helper-repo /path/to/twatch \
+  --native-evidence /path/to/Waveshare-0.1.52-Shared-Default-Evidence.zip
+```
+
+The input root contains the exact `runtime/`, `baseline/` (including extracted
+`store/`) and `lora/Waveshare-LoRa-0.1.17-SD-card/` inputs used above. The script
+checks immutable Runtime/helper revisions, published native-evidence and
+qualification hashes, native firmware and LoRa bytes. It reads exact native ELF
+members from the verified archive and rejects Python optimization. Outputs are
+`qualification.json`, `admission.cpp`, `normal.log` and `sanitized.log`.
+
+These host checks do not execute Xtensa instructions, native symbol resolution,
+relocation, a physical provider or the app-level external-media lifecycle.
+Complete installer integration and physical end-to-end usability remain pending.
+Product publication and hardware qualification remain behind the recorded X4
+catalog-update pass.
