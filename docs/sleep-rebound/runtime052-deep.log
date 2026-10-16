@@ -1,0 +1,9 @@
+Actual CPU deep entry: terminal success, static hold, claimed pulls, refusal/partial rollback, DMA readiness, busy/reentrant and retained failures PASS
+Deep preparation: legacy dark-session reproduction, single/timed/set refusal, every rollback, output restoration, retry and terminal retention PASS
+Actual CPU timed sleep: old ABI, absent suffix, bounds, owned input, busy/reentrant, independent partial cleanup, stale timer exclusion and retained/terminal semantics PASS
+Owned wake set: ABI, foreign/stale/output claims, bounds, polarity, both inputs/timer, cleanup isolation, retry, exit barriers, radio exclusion and terminal retention PASS
+Native sleep SDK shim: actual timer/Light/Deep adapters, 64-bit bounds, both sources, wake causes, every-stage faults, cleanup, stack guard and entry PASS
+Native sleep SDK shim: actual timer/Light/Deep adapters, 64-bit bounds, both sources, wake causes, every-stage faults, cleanup, stack guard and entry PASS
+Native sleep SDK shim: actual timer/Light/Deep adapters, 64-bit bounds, both sources, wake causes, every-stage faults, cleanup, stack guard and entry PASS
+Native sleep SDK shim: actual timer/Light/Deep adapters, 64-bit bounds, both sources, wake causes, every-stage faults, cleanup, stack guard and entry PASS
+Actual runtime + dynamic provider/app: six timed/untimed terminal deep entries and fresh-process wake boots, fresh BSS/grants, no old-stack resume or deep-entry teardown PASS

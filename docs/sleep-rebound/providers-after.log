@@ -1,0 +1,10 @@
+ES8311/ES7210: shared duplex clock, stereo PCM/gain/mute, no analog boost, warmup, all startup/codec-close faults and retained transport PASS
+ERM haptic: timed pulses, both polarities, alternate pins, explicit stop and cleanup failures PASS
+QMI8658: coherent milli-g, tap protocol, passive wake observation, rollback and retained faults PASS
+CO5300 production driver: 410x502 pixels, x+22 window, vendor RAMWR/WRMC framing, command-only probe, frame lifetime, brightness, sleep/resume, startup/transfer cleanup PASS
+AXP2101: battery admission/charger preservation/active-high key/sleep/failure cleanup PASS
+Power untimed/timed/set: zero never enters timer suffix; legacy callbacks and bounds PASS
+Power rail: cold-off/incorrect-voltage/already-on states, exact masked writes, unrelated-register preservation, readback failures and retained claims PASS
+PCF85063 RTC: time, leap-year, oscillator flag, BCD, alarms and cleanup PASS
+FT3168 touch: 410x502 coordinates, reset, replacement order, multi-touch, gaps and cleanup PASS
+Vendor display facade: full RGB565 frame, generic brightness, PMIC read-only and retained cleanup PASS

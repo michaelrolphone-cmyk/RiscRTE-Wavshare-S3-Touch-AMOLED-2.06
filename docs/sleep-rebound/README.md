@@ -62,3 +62,32 @@ support it. These host checks do not establish hardware sleep/wake behavior.
 Full firmware must be built and qualified by exact-source GitHub CI before
 candidate publication. Hardware retest must record sleep mode, tap wake setting,
 on-screen stage/code and elapsed time before unsolicited wake.
+
+## Production Home policy boundary
+
+`tests/power_home_sleep_fixture.c` compiles the production shared Home sleep
+helpers with the actual power provider. With the released provider source and
+exact Watch `8132d73c828c0e4763f6c89a3d6a4a883314056a`, the first Hybrid case
+prints `result=0 stage=6 detail=-1` and fails: the timer returned successfully,
+but the subsequent untimed Deep was refused and the panel restored. With 0.1.3,
+that same case reaches the modeled terminal Deep boundary without panel restore.
+The modeled native timer callbacks enforce the real Runtime zero-duration rule;
+this is not a test on hardware or the physical SDK sleep entry.
+
+Seven cases pass normally and under ASan/UBSan: untimed Light and Deep, timed
+Deep, Hybrid to untimed Deep, Hybrid to timed Deep for a later alarm, nearer alarm
+wake, and GPIO wake taking precedence over the Hybrid transition. The actual
+Runtime at released `9f8d670` also independently passes its complete
+`test/run_deep_sleep_test.sh` suite: timed bounds, wake sets, SDK shims, rollback,
+retained/terminal behavior and fresh-process wake lifecycle.
+
+```
+python3 scripts/test_power_home_sleep.py --watch /path/to/Watch8132 --system /path/to/System --utilities /path/to/Utilities
+ASAN_OPTIONS=detect_leaks=0 python3 scripts/test_power_home_sleep.py --watch /path/to/Watch8132 --system /path/to/System --utilities /path/to/Utilities --sanitize
+```
+
+The `--provider-source` option substitutes a recovered historical provider file
+without changing the current source. Utilities' AlarmServiceV1 header is
+byte-identical to released `fc9f93402050f020a3422ee889620b2414c7ad5d` (SHA256
+`c70c087550306c123255e1ace41aeb504809e16b0193e382ec8dfbd7cb5531f5`). The sleep-policy
+header is byte-identical to System `cb483470887b5198e2f3cd2457586ef6622142a9`.

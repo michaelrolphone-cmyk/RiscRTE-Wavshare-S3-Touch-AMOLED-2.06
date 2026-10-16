@@ -1,0 +1,4 @@
+mode=0 deadline=0 result=1 stage=5 detail=0
+mode=2 deadline=1005 result=1 stage=5 detail=0
+mode=2 deadline=0 result=1 stage=5 detail=0
+Actual Home -> Waveshare power: untimed/timed Light/Deep, Hybrid transition, alarm and GPIO wake priority PASS
