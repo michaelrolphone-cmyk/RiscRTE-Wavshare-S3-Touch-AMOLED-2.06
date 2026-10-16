@@ -1,0 +1,297 @@
+{
+  "app_image_source": {
+    "internal_application_fallback_supported": false,
+    "migration_selected": false,
+    "selected_by_delivered_product": true
+  },
+  "associated_external_payload": {
+    "authority": "internal lora_messages.json and boot app_capabilities",
+    "distribution_metadata_files": [
+      "Apps/lora_messages/manifest.json",
+      "suite-card.json"
+    ],
+    "files": {
+      "Apps/lora_messages/lora_messages.elf": {
+        "bytes": 136960,
+        "sha256": "81877ba548ae0c45f4ebbbe71c53753159a4b3a28282ac9ce3c5ef63ad90c0f5"
+      },
+      "Apps/lora_messages/manifest.json": {
+        "bytes": 932,
+        "sha256": "6a07f83bb276c6f662000ffec7fd68c19ed00d4de1889a14e012b5fa09466743"
+      },
+      "suite-card.json": {
+        "bytes": 343,
+        "sha256": "3e9c22cfd15605efa78640b86d6a1119be06fd65834b64d84c6b0020f0826cf3"
+      }
+    },
+    "runtime_consumed_files": [
+      "Apps/lora_messages/lora_messages.elf"
+    ],
+    "status": "verified-existing-companion"
+  },
+  "audit_status": "passed",
+  "baseline_version": "0.1.52",
+  "candidate_status": "inventory-qualified-installer-profile-input-pending",
+  "candidate_version_reserved": false,
+  "firmware_store": {
+    "bytes": 5011431,
+    "elf_count": 62,
+    "externally_sourced_executables": [
+      {
+        "grants": [
+          {
+            "api": 1,
+            "capability": "display.output",
+            "instance_id": 5
+          },
+          {
+            "api": 1,
+            "capability": "input.touch.raw",
+            "instance_id": 6
+          },
+          {
+            "api": 1,
+            "capability": "board.battery",
+            "instance_id": 4
+          },
+          {
+            "api": 1,
+            "capability": "storage.key-value",
+            "instance_id": 9
+          },
+          {
+            "api": 1,
+            "capability": "alarm.service",
+            "instance_id": 0
+          },
+          {
+            "api": 1,
+            "capability": "storage.key-value",
+            "instance_id": 1
+          },
+          {
+            "api": 2,
+            "capability": "rtc.clock",
+            "instance_id": 8
+          },
+          {
+            "api": 1,
+            "capability": "net.wifi",
+            "instance_id": 15
+          },
+          {
+            "api": 1,
+            "capability": "bluetooth.hci",
+            "instance_id": 16
+          },
+          {
+            "api": 1,
+            "capability": "motion.accel",
+            "instance_id": 7
+          },
+          {
+            "api": 1,
+            "capability": "telemetry.broadcast",
+            "instance_id": 0
+          },
+          {
+            "api": 1,
+            "capability": "contexts.service",
+            "instance_id": 0
+          },
+          {
+            "api": 1,
+            "capability": "storage.shared-data",
+            "file": "context-fingerprints.cfp",
+            "instance_id": 2
+          },
+          {
+            "api": 1,
+            "capability": "storage.shared-data",
+            "file": "context-fingerprints.cfp",
+            "instance_id": 3
+          },
+          {
+            "api": 1,
+            "capability": "storage.shared-data",
+            "file": "context-rules.ctx",
+            "instance_id": 4
+          },
+          {
+            "api": 1,
+            "capability": "storage.key-value",
+            "instance_id": 3
+          },
+          {
+            "api": 1,
+            "capability": "ui.text-input",
+            "instance_id": 0
+          },
+          {
+            "api": 1,
+            "capability": "input.power-key",
+            "instance_id": 0
+          },
+          {
+            "api": 1,
+            "capability": "power.sleep",
+            "instance_id": 0
+          },
+          {
+            "api": 1,
+            "capability": "display.power",
+            "instance_id": 0
+          },
+          {
+            "api": 1,
+            "capability": "app.catalog",
+            "instance_id": 0
+          }
+        ],
+        "image_source": {
+          "path": "Apps/lora_messages/lora_messages.elf",
+          "volume_instance": 12
+        },
+        "manifest": "lora_messages.json"
+      }
+    ],
+    "file_count": 128,
+    "internal_missing_elf_resolved_by_external_policy": [
+      "lora_messages.elf"
+    ],
+    "json_count": 66,
+    "ownership": "firmware-owned boot-store contents"
+  },
+  "flash": {
+    "external_volume_effect": "unknown; payload transferred after flash",
+    "external_volume_physical_test": "not_performed",
+    "internal_saved_data": "erased",
+    "method": "existing full initial factory image",
+    "offset": 0,
+    "paired_transfer_order": [
+      "firmware",
+      "payload",
+      "verify"
+    ],
+    "preserving_update_kit": false,
+    "settings": "erased"
+  },
+  "hardware_tested": false,
+  "missing_builder_inputs": [
+    "supported method_id for declared catalog full factory flash",
+    "exact accepted hardware revision and trusted namespace12 profile bounds",
+    "trusted manifest/container association with the selected catalog revision"
+  ],
+  "product": "waveshare",
+  "product_release_published": false,
+  "runtime_revision": "9f8d67029181f6cd064e247aa949a295854fc494",
+  "schema": 1,
+  "serial_admission": [
+    {
+      "namespace_id": "2",
+      "required_incoming_payload_consumer_proved": false,
+      "role": "isolated private serial workspace",
+      "writable": true
+    },
+    {
+      "namespace_id": "12",
+      "required_incoming_payload_consumer_proved": true,
+      "role": "explicit product file-volume binding; existing external LoRa executable",
+      "writable": true
+    }
+  ],
+  "source_evidence": [
+    {
+      "path": "src/main.cpp",
+      "revision": "9f8d67029181f6cd064e247aa949a295854fc494",
+      "role": "runtime",
+      "sha256": "aeb0e256a82c48c5929cf1feb82f3ab2e66239ad97f14cd015c72cf353bb865c"
+    },
+    {
+      "path": "src/ports/esp32s3/NativeSerialStorage.cpp",
+      "revision": "9f8d67029181f6cd064e247aa949a295854fc494",
+      "role": "runtime",
+      "sha256": "73dbe646121be8795050d608f78807eeb249a84bf4be2ec513fdeccf6504e566"
+    },
+    {
+      "path": "src/ports/esp32s3/NativeRuntimeFiles.h",
+      "revision": "9f8d67029181f6cd064e247aa949a295854fc494",
+      "role": "runtime",
+      "sha256": "447c3082ec033922a85ae9b36dc3ba05f3c4947f9544401ae6247299e2f019b2"
+    },
+    {
+      "path": "src/bootstrap/Runtime.cpp",
+      "revision": "9f8d67029181f6cd064e247aa949a295854fc494",
+      "role": "runtime",
+      "sha256": "ef76df16c776ec2763cd697c0b11878a962ee350127db2657c4d652347f3ae55"
+    },
+    {
+      "path": "src/bootstrap/RemovableAppsRuntime.inc",
+      "revision": "9f8d67029181f6cd064e247aa949a295854fc494",
+      "role": "runtime",
+      "sha256": "46cd542f7b7f91bd99016e474a9da732344a2fdedfcbb06068ecc7f610679bb1"
+    },
+    {
+      "path": "src/bootstrap/InstallationRuntime.inc",
+      "revision": "9f8d67029181f6cd064e247aa949a295854fc494",
+      "role": "runtime",
+      "sha256": "d52f76d917ba6847c8ce8e8bf96be1487ed51a84b10c03289ad71b3eb47714ae"
+    },
+    {
+      "path": "src/bootstrap/InstalledFilesRuntime.inc",
+      "revision": "9f8d67029181f6cd064e247aa949a295854fc494",
+      "role": "runtime",
+      "sha256": "916256b6710337e12ef65f7374e512d867fed65daa6ece971d795f88824dce37"
+    },
+    {
+      "path": "docs/catalog-payload/1.0.0/manifest.schema.json",
+      "revision": "908355b0509907c05a6dc47a1ccc8e078d6e23b0",
+      "role": "schema",
+      "sha256": "735c3895826bcec9feba7cc8b4cd10d6610cbeae8d011e398287aa885daf4333"
+    },
+    {
+      "path": "profiles/native-idf61.cmake",
+      "revision": "3368c0719597116fcb4b583b4a596f41a79d5263",
+      "role": "product",
+      "sha256": "59a8d368b4b5ec01c68fb690349e0c11620f9b6ee535cd95047b99d218295187"
+    },
+    {
+      "path": "scripts/serial_files_product.py",
+      "revision": "3368c0719597116fcb4b583b4a596f41a79d5263",
+      "role": "product",
+      "sha256": "d415cd8d216a0d84b44759eb73c8632fd671d03b38d688e52d9eb433f2d0ee82"
+    },
+    {
+      "path": "scripts/package_shared_default.py",
+      "revision": "3368c0719597116fcb4b583b4a596f41a79d5263",
+      "role": "product",
+      "sha256": "a1258a42bc3077b25a0a6e6f007a113503e75f0ef5f0cf45fc5854ab01a6a1b6"
+    },
+    {
+      "path": "docs/shared-default/source-pins.json",
+      "revision": "3368c0719597116fcb4b583b4a596f41a79d5263",
+      "role": "product",
+      "sha256": "54a4189ba659f438eb0bb4a87d510e4f69133c1ca373db122e43ef96111f2e33"
+    },
+    {
+      "path": "apps/clock/clock_crash.inc",
+      "revision": "8132d73c828c0e4763f6c89a3d6a4a883314056a",
+      "role": "watch",
+      "sha256": "7172575ae401f0e09356c44582e1752d9f161f5a2e41c8d9af12821e88f6dc3b"
+    },
+    {
+      "path": "docs/SHARED_DEFAULT_CAPABILITIES.md",
+      "revision": "8132d73c828c0e4763f6c89a3d6a4a883314056a",
+      "role": "watch",
+      "sha256": "ab6179cdcefdfb1150bdc476cc9fd3f5f17b4c0cef0d9d8bb170edd0f8eccd92"
+    },
+    {
+      "path": "scripts/read_only_spiffs.py",
+      "revision": "74f7491dc470b92dfa41fce41bf0c500f3714a94",
+      "role": "image_helper",
+      "sha256": "e48d3b2422c60f81fdae6371ff3c5b65c5cbaa9dd250b4a2925c74c0b45f040d"
+    }
+  ],
+  "source_revision": "3368c0719597116fcb4b583b4a596f41a79d5263",
+  "upstream_release_id": "415315710"
+}
