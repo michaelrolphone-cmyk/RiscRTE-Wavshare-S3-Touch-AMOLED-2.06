@@ -293,6 +293,9 @@ bool row(uint32_t y,const uint16_t* pixels,size_t count){
  if(!state.frameComplete && state.nextFrameRow==Height){
   state.frameComplete=true;
   if(state.requestedBrightness && !byte(0x51,state.requestedBrightness)){state.failed=true;return false;}
+  // One owner-task record per native open. Completion proves SPI custody, not
+  // visible pixels; preserve that distinction when diagnosing a dark launch.
+  std::printf("PANEL_FRAME completed=1 brightness=%u visibility=unverified\n",unsigned(state.requestedBrightness));
  }
  return true;
 }
@@ -300,8 +303,14 @@ bool brightness(uint8_t value){
  if(!owner() || !state.ready || state.closing || state.failed)return false;
  state.requestedBrightness=value;
  // Boot black clearing cannot open this gate; only a complete checked frame.
- if(!state.frameComplete && value)return true;
+ if(!state.frameComplete && value){
+  std::printf("PANEL_BRIGHTNESS value=%u state=deferred frame=0 visibility=unverified\n",unsigned(value));
+  return true;
+ }
  if(!byte(0x51,value)){state.failed=true;return false;}
+ // Restore the old backend's brightness evidence, including zero, only after
+ // the checked command completes. Do not log successful writes on refusal.
+ std::printf("PANEL_BRIGHTNESS value=%u state=applied frame=%u visibility=unverified\n",unsigned(value),unsigned(state.frameComplete));
  return true;
 }
 const RiscCpu::DisplayBackend backend={accepts,openPanel,row,brightness,closePanel};

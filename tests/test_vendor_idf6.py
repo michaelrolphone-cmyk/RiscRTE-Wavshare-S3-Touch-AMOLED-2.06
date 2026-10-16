@@ -63,6 +63,15 @@ for trace in (0, 1):
             command += [str(ROOT / 'tests/native_display_idf6_test.cpp'), '-o', str(binary)]
             run(command, 'host-compile-' + name, entry['directory'])
             output = run([str(binary)], 'host-run-' + name)
+            for evidence in (
+                'PANEL_BRIGHTNESS value=102 state=deferred frame=0 visibility=unverified',
+                'PANEL_FRAME completed=1 brightness=0 visibility=unverified',
+                'PANEL_BRIGHTNESS value=102 state=applied frame=1 visibility=unverified',
+                'PANEL_BRIGHTNESS value=163 state=applied frame=1 visibility=unverified',
+                'PANEL_BRIGHTNESS value=26 state=applied frame=1 visibility=unverified',
+                'Native brightness lifecycle: first frame at zero, selected restore, retained return and fresh reopen PASS',
+            ):
+                assert evidence in output, 'Missing native brightness evidence: ' + evidence
             print(output.strip().splitlines()[-1], flush=True)
             assert (b'RISCRTE_VENDOR_DISPLAY_TIMING_V1' in binary.read_bytes()) == bool(trace)
             if probe:
