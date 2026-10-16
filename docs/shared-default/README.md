@@ -2,7 +2,7 @@
 
 This source-only candidate uses the existing fresh-build, exact-source shared-default
 release machinery. Source pins are finalized; publication is disabled. Runtime is
-`b2381db693f1ff12b4ed9089db0a1987bd56f3ce`; Watch is
+`9f8d67029181f6cd064e247aa949a295854fc494`; Watch is
 `8132d73c828c0e4763f6c89a3d6a4a883314056a`. Fresh full native qualification
 and release enablement remain required. A source pin or previous qualification
 receipt alone does not qualify this candidate.

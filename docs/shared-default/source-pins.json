@@ -36,7 +36,7 @@
   "publication_enabled": false,
   "release_branch": "release/shared-default-0.1.52",
   "release_tag": "test-shared-default-0.1.52",
-  "runtime_revision": "b2381db693f1ff12b4ed9089db0a1987bd56f3ce",
+  "runtime_revision": "9f8d67029181f6cd064e247aa949a295854fc494",
   "schema": 1,
   "sdk_revision": "fff9895c82d744c7237be8847347bdd1b07c6643",
   "serial_files": {
