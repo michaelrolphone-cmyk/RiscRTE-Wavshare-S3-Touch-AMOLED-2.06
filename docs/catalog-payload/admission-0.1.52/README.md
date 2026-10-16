@@ -120,7 +120,8 @@ python scripts/qualify_external_lora.py \
 The input root contains the exact `runtime/`, `baseline/` (including extracted
 `store/`) and `lora/Waveshare-LoRa-0.1.17-SD-card/` inputs used above. The script
 checks immutable Runtime/helper revisions, published native-evidence and
-qualification hashes, native firmware and LoRa bytes. It reads exact native ELF
+qualification hashes, native firmware and LoRa bytes. Staged, unstaged and
+untracked (including ignored) Runtime compile inputs are rejected. It reads exact native ELF
 members from the verified archive and rejects Python optimization. Outputs are
 `qualification.json`, `admission.cpp`, `normal.log` and `sanitized.log`.
 

@@ -7,6 +7,8 @@ import json
 import unittest
 import subprocess
 import sys
+from unittest import mock
+import qualify_external_lora as q
 import zipfile
 import warnings
 import audit_catalog_payload as a
@@ -111,6 +113,21 @@ class PayloadTests(unittest.TestCase):
                          capture_output=True, text=True)
         self.assertNotEqual(p.returncode, 0)
         self.assertIn('Python optimization disables qualification assertions', p.stderr)
+
+    def test_runtime_tree_guard_includes_index_changes(self):
+        with mock.patch.object(q, 'git', side_effect=[C['runtime_revision'], 'staged change']) as git:
+            with self.assertRaisesRegex(AssertionError, 'Modified Runtime'): q.check_runtime_inputs('repo')
+            self.assertEqual(git.call_args_list[1].args, ('repo','diff','HEAD','--','src','lib','sdk','test'))
+
+    def test_runtime_tree_guard_includes_ignored_untracked_inputs(self):
+        with mock.patch.object(q, 'git', side_effect=[C['runtime_revision'], '', 'src/generated.h']) as git:
+            with self.assertRaisesRegex(AssertionError, 'Untracked Runtime'): q.check_runtime_inputs('repo')
+            self.assertEqual(git.call_args_list[2].args,
+                             ('repo','ls-files','--others','--','src','lib','sdk','test'))
+
+    def test_runtime_tree_guard_rejects_other_revision(self):
+        with mock.patch.object(q, 'git', return_value='0'*40):
+            with self.assertRaises(AssertionError): q.check_runtime_inputs('repo')
 
     def synthetic_companion(self, mutate=None, extra=None):
         c = copy.deepcopy(C); internal = c['internal_lora_manifest']

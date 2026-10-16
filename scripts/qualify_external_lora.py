@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only qualification of published LoRa media against published Wave .52.
+"""Qualify LoRa 0.1.17 against the exact delivered Wave 0.1.52 native exports.
 
 No Xtensa instructions run. Host tests execute exact production source for ELF
 structure/admission and volume-image snapshots, with a read-only POSIX-backed
@@ -10,7 +10,6 @@ from pathlib import Path
 
 if not __debug__:
     raise RuntimeError('Python optimization disables qualification assertions')
-from elftools.elf.elffile import ELFFile
 
 
 def sha(x): return hashlib.sha256(x).hexdigest()
@@ -19,7 +18,16 @@ def run(cmd, **kw):
 def git(path, *args):
     return subprocess.check_output(['git','-C',str(path),*args],text=True).strip()
 
+def check_runtime_inputs(runtime):
+    assert git(runtime, 'rev-parse', 'HEAD') == '9f8d67029181f6cd064e247aa949a295854fc494'
+    paths = ('src', 'lib', 'sdk', 'test')
+    assert not git(runtime, 'diff', 'HEAD', '--', *paths), 'Modified Runtime compile input'
+    # Include ignored files: an untracked header can still affect compilation.
+    assert not git(runtime, 'ls-files', '--others', '--', *paths), 'Untracked Runtime compile input'
+
+
 def main():
+    from elftools.elf.elffile import ELFFile
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--base', type=Path, required=True,
                         help='Root containing exact runtime/, baseline/, and lora/ inputs')
@@ -37,8 +45,7 @@ def main():
     v = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(v)
 
-    assert git(RUNTIME,'rev-parse','HEAD') == '9f8d67029181f6cd064e247aa949a295854fc494'
-    assert not git(RUNTIME,'diff','--','src','lib','sdk','test')
+    check_runtime_inputs(RUNTIME)
     archive=args.native_evidence.resolve()
     assert sha(archive.read_bytes()) == 'f44c8c70057c9b87be9131cd3135e31367bca0d8e0ea8813d8c908c63a353ea5'
     with zipfile.ZipFile(archive) as z:
