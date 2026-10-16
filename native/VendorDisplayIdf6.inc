@@ -2,6 +2,7 @@
 // Waveshare vendor b099739ad0e33b34e5fbaae77f02bd84805d79a3; see
 // docs/NATIVE_DISPLAY_IDF6.md. No Arduino or app-facing hardware API is used.
 #include "ports/esp32s3/CpuPort.h"
+#include "ports/esp32s3/SleepDiagnostics.h"
 #include "diagnostics/Performance.h"
 #include <driver/spi_master.h>
 #include <driver/gpio.h>
@@ -35,6 +36,17 @@ struct PanelState {
 };
 // The descriptor outlives a timed-out poll; the DMA buffer is never caller-owned.
 static DRAM_ATTR PanelState state;
+void evidence(const char* format,unsigned value,unsigned frame=0){
+#if RISC_DIAGNOSTIC_ADAPTER
+ // IDF stdout is disabled in this product. Use the existing bounded owner
+ // diagnostic adapter, never a second USB writer or a libc console fallback.
+ char text[112];
+ const int count=std::snprintf(text,sizeof(text),format,value,frame);
+ if(count>0 && size_t(count)<sizeof(text))RiscDiagnostics::line(text);
+#else
+ (void)format;(void)value;(void)frame;
+#endif
+}
 // CPU-only row pairing scratch is never submitted to DMA. Keep controls and
 // transaction custody internal; copy each completed pair to the internal DMA buffer.
 static EXT_RAM_BSS_ATTR uint16_t paired[PairPixels]{};
@@ -295,7 +307,7 @@ bool row(uint32_t y,const uint16_t* pixels,size_t count){
   if(state.requestedBrightness && !byte(0x51,state.requestedBrightness)){state.failed=true;return false;}
   // One owner-task record per native open. Completion proves SPI custody, not
   // visible pixels; preserve that distinction when diagnosing a dark launch.
-  std::printf("PANEL_FRAME completed=1 brightness=%u visibility=unverified\n",unsigned(state.requestedBrightness));
+  evidence("PANEL_FRAME completed=1 brightness=%u visibility=unverified",unsigned(state.requestedBrightness));
  }
  return true;
 }
@@ -304,13 +316,13 @@ bool brightness(uint8_t value){
  state.requestedBrightness=value;
  // Boot black clearing cannot open this gate; only a complete checked frame.
  if(!state.frameComplete && value){
-  std::printf("PANEL_BRIGHTNESS value=%u state=deferred frame=0 visibility=unverified\n",unsigned(value));
+  evidence("PANEL_BRIGHTNESS value=%u state=deferred frame=0 visibility=unverified",unsigned(value));
   return true;
  }
  if(!byte(0x51,value)){state.failed=true;return false;}
  // Restore the old backend's brightness evidence, including zero, only after
  // the checked command completes. Do not log successful writes on refusal.
- std::printf("PANEL_BRIGHTNESS value=%u state=applied frame=%u visibility=unverified\n",unsigned(value),unsigned(state.frameComplete));
+ evidence("PANEL_BRIGHTNESS value=%u state=applied frame=%u visibility=unverified",unsigned(value),unsigned(state.frameComplete));
  return true;
 }
 const RiscCpu::DisplayBackend backend={accepts,openPanel,row,brightness,closePanel};

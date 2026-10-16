@@ -1,12 +1,11 @@
 {
   "schema": 1,
-  "tested_at_utc": "2026-10-16T10:46:04Z",
+  "tested_at_utc": "2026-10-16T10:53:12Z",
   "reported_version": "Waveshare 0.1.51",
   "reported_hardware_result": "zero brightness in Springboard and Audio spectrogram",
   "hardware_status": "failed_report_unresolved",
   "functional_cause": "not_reproduced",
   "public_firmware_changed": false,
-  "diagnostic_source_commit": "ddee2f916d448c07330e8cd028177abbb8f349f0",
   "base_product_revision": "51242f0bb9e20b5298b3a213a977fc3a18384f4a",
   "shipped_runtime_revision": "e697c3677eca661892517c2bf4c0c6b2f764985c",
   "shared_home_revision": "4937fc4612edc6904c7ceae2855db7147fb680e9",
@@ -126,9 +125,18 @@
     "xtensa_target_compile": "passed",
     "leak_detector": "disabled: unsupported under this environment ptrace",
     "source_sha256": {
-      "native/VendorDisplayIdf6.inc": "219e3531542bf5dadd999faa70641fa0dccb0e5eb5863362bcff17299c7ebc98",
-      "tests/native_display_idf6_test.cpp": "b7f5a0e92b276f4cad47fad41a43972f7d2b0b030f874bb0f8f219caca4d38cc",
-      "tests/test_vendor_idf6.py": "55e8940aeb1daf9a3048c4dee73da1d7cf7747dfcfbb02a19739c369f46700fa"
+      "native/VendorDisplayIdf6.inc": "ad2aca42c6023989ecf7771de47f968f2165580b55805b2ce2ed004e04ff461a",
+      "tests/native_display_idf6_test.cpp": "912b761e608cc1595b1e908ae1093ec40e909353f39298e8c02868cc768a7551",
+      "tests/test_vendor_idf6.py": "2290a2570609223b39b51d03b52c7a3382b34a38677b6324b6131c45babaaee9"
+    },
+    "diagnostic_transport": {
+      "sdk_console": "CONFIG_ESP_CONSOLE_NONE",
+      "sink": "RiscDiagnostics::line",
+      "host_sink_assertions": "passed in all4 trace/probe combinations, normal and ASan/UBSan",
+      "target_sink_symbol": "required in all4 Xtensa variants",
+      "direct_printf_symbol": "rejected in non-probe target variants",
+      "second_usb_writer": false,
+      "display_wire_behavior_changed": false
     }
   },
   "home": {
@@ -146,5 +154,6 @@
     "capture app launch and first-frame/brightness transitions on affected hardware",
     "compare a failed and successful launch before changing display behavior"
   ],
-  "physical_visibility_claimed": false
+  "physical_visibility_claimed": false,
+  "initial_diagnostic_checkpoint": "ddee2f916d448c07330e8cd028177abbb8f349f0"
 }

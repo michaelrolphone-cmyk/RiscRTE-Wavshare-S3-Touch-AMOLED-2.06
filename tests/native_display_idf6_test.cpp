@@ -6,6 +6,13 @@
 #include <cstdlib>
 #include <algorithm>
 
+namespace RiscDiagnostics {
+void line(const char* text){
+ assert(text&&std::strlen(text)<112&&!std::strchr(text,'\n'));
+ std::printf("DIAGNOSTIC_SINK %s\n",text);
+}
+}
+
 struct spi_device_t{};
 namespace model {
 enum Op { Init,Add,Acquire,Allocate,Configure,Level,Start,End,Remove,Free,Reset,Count };

@@ -57,6 +57,7 @@ for trace in (0, 1):
             binary = out / ('host-' + name)
             command = [os.environ.get('CXX', 'c++'), '-std=c++17', '-O1', '-g', '-Wall', '-Wextra', '-Werror',
                        '-Wno-misleading-indentation', '-Wno-missing-field-initializers',
+                       '-DRISC_NATIVE_ESP_IDF=1', '-DRISC_CONSOLE_USB_SERIAL_JTAG=1',
                        '-I' + str(ROOT / 'tests/native_display_idf6_shim'), *includes, *defines]
             if a.sanitize:
                 command += ['-fsanitize=address,undefined', '-fno-sanitize-recover=all', '-fno-omit-frame-pointer']
@@ -71,7 +72,8 @@ for trace in (0, 1):
                 'PANEL_BRIGHTNESS value=26 state=applied frame=1 visibility=unverified',
                 'Native brightness lifecycle: first frame at zero, selected restore, retained return and fresh reopen PASS',
             ):
-                assert evidence in output, 'Missing native brightness evidence: ' + evidence
+                prefix = '' if evidence.startswith('Native brightness lifecycle:') else 'DIAGNOSTIC_SINK '
+                assert prefix + evidence in output, 'Missing routed native brightness evidence: ' + evidence
             print(output.strip().splitlines()[-1], flush=True)
             assert (b'RISCRTE_VENDOR_DISPLAY_TIMING_V1' in binary.read_bytes()) == bool(trace)
             if probe:
@@ -93,6 +95,9 @@ for trace in (0, 1):
             symbols = run([nm, '-u', str(target)], 'target-symbols-' + name)
             assert 'spi_device_polling_start' in symbols and 'spi_device_polling_end' in symbols
             assert 'Arduino' not in symbols and 'ESP32QSPI' not in symbols and 'Serial' not in symbols
+            assert '_ZN15RiscDiagnostics4lineEPKc' in symbols, 'Native evidence must use the owned diagnostic sink'
+            if not probe:
+                assert 'printf' not in {line.split()[-1] for line in symbols.splitlines()}, 'Disabled IDF stdout cannot carry native evidence'
             print('Actual pinned Xtensa SDK target ' + name + ': PASS', flush=True)
 
 if a.vendor:
