@@ -12,7 +12,7 @@
   "default_manifest_sha256": "d75c5a1945fe59f573043280cfa1a3be948063757416df4afd305f9eab477db5",
   "default_sha256": "b60579dddf0123907e11b6c3ec862e28c76547482bcc325de349e55f06db2dd6",
   "drivers_revision": "5890721073ebabd781d5d278e447c761947a5c58",
-  "finalized": false,
+  "finalized": true,
   "historical_contracts": {
     ".github/workflows/alarm-sleep-release.yml": "41a945c95d790a82fab4223f3e91a94b75ed02a3d73490540dc4e6bf2e0b1b39",
     "docs/alarm-sleep/source-pins.json": "6dc4c6bc7d9f86e3832993468299efa8ddef2b34aa69a3a66953b6f53c1044fb",
@@ -25,7 +25,7 @@
   },
   "image_helper_revision": "74f7491dc470b92dfa41fce41bf0c500f3714a94",
   "product": "waveshare",
-  "publication_enabled": false,
+  "publication_enabled": true,
   "release_branch": "release/shared-default-0.1.51",
   "release_tag": "test-shared-default-0.1.51",
   "runtime_revision": "e697c3677eca661892517c2bf4c0c6b2f764985c",
