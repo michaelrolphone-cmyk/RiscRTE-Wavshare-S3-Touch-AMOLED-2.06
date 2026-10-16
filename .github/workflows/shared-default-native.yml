@@ -1,12 +1,13 @@
 name: Shared default native firmware
 on:
   push:
-    branches: [work/shared-default-package, release/shared-default-0.1.51]
+    branches: [work/serial-files-native, release/shared-default-0.1.52]
     paths:
       - .github/workflows/shared-default-native.yml
       - scripts/build_shared_default_native.py
       - scripts/shared_default_qualification.py
       - scripts/package_shared_default.py
+      - scripts/serial_files_product.py
       - scripts/shared_default_release.py
       - scripts/publish_shared_default_release.py
       - scripts/test_shared_default_release.py
@@ -14,6 +15,10 @@ on:
       - scripts/run_shared_default_native_ci.sh
       - docs/shared-default/**
       - profiles/native-idf61.cmake
+      - native/VendorDisplayIdf6.inc
+      - tests/native_display_idf6_test.cpp
+      - tests/test_vendor_idf6.py
+      - docs/brightness-diagnostics/**
 permissions:
   contents: read
 concurrency:

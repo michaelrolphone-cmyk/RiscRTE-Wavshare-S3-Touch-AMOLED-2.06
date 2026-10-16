@@ -2,21 +2,25 @@
   "alarm_sha256": "189ce61b0e4a2b08cbd83ff90564a4c79a6c5e9a3d74b4ad4dcc2a61b4b51604",
   "baseline_contract_sha256": "e9f7fac15094f5c3f648c1a53e44c96c01e0fbc8ededa009f0c2285852d0de75",
   "baseline_version": "0.1.50",
+  "brightness_diagnostics_revision": "afe17271c63c7ade67e85662188748a58074d8b8",
   "changed_store_files": [
     "boot.json",
     "cohort.json",
     "default.elf",
     "default.json"
   ],
-  "default_bytes": 616752,
-  "default_manifest_sha256": "d75c5a1945fe59f573043280cfa1a3be948063757416df4afd305f9eab477db5",
-  "default_sha256": "b60579dddf0123907e11b6c3ec862e28c76547482bcc325de349e55f06db2dd6",
+  "default_bytes": 617424,
+  "default_manifest_sha256": "0888f82c0f69d48210d94bd9507e359833200d2756a1327323580324f314e3b1",
+  "default_sha256": "9f10c7150cdc175ff5af0dbc1410e455ead4f18868dd56555e10860781103f2f",
   "drivers_revision": "5890721073ebabd781d5d278e447c761947a5c58",
   "finalized": true,
   "historical_contracts": {
     ".github/workflows/alarm-sleep-release.yml": "41a945c95d790a82fab4223f3e91a94b75ed02a3d73490540dc4e6bf2e0b1b39",
     "docs/alarm-sleep/source-pins.json": "6dc4c6bc7d9f86e3832993468299efa8ddef2b34aa69a3a66953b6f53c1044fb",
     "docs/native-idf61/release-transport.json": "65256d0031c04ae99742cf2bc8cc07ebc1b391457187c621f3d7dfed57ecf169",
+    "docs/shared-default/history/0.1.51/README.md": "65a4deb32d3a9086d0aacffe8aec0163ed9163548c81d617430904f771e2c4a2",
+    "docs/shared-default/history/0.1.51/native-idf61.cmake": "629e64959cd2f5fe2ccdf5e3c916b8c2dc1867ddb8927a47c24dc69ba478f74d",
+    "docs/shared-default/history/0.1.51/source-pins.json": "9052dc3a9925713b9b72591b65fa54dcaca0a54104df55a5ca403f8869636495",
     "scripts/native_idf61_build.py": "6221d18e2557e024e9fc38881c046dc5b953b72f00466a8a324b8e889052d796",
     "scripts/native_idf61_candidate.py": "cb8ed732facd42b8b041f84e939ac0202083ff11daa54291b9c42b61cf06aeb2",
     "scripts/native_idf61_qualification.py": "7626be8291240b17889a9158fdb289f5bcc6ce391ce4a6a9a757f8a112a8a619",
@@ -24,15 +28,46 @@
     "scripts/test_alarm_sleep_package.py": "05de35f9921036b1f16b36904c839d84e35c5ca5b214e4b6c4931b17b880e18c"
   },
   "image_helper_revision": "74f7491dc470b92dfa41fce41bf0c500f3714a94",
+  "native_input_sha256": {
+    "native/VendorDisplayIdf6.inc": "ad2aca42c6023989ecf7771de47f968f2165580b55805b2ce2ed004e04ff461a"
+  },
+  "previous_release_profile": "docs/shared-default/history/0.1.51/native-idf61.cmake",
   "product": "waveshare",
-  "publication_enabled": true,
-  "release_branch": "release/shared-default-0.1.51",
-  "release_tag": "test-shared-default-0.1.51",
-  "runtime_revision": "e697c3677eca661892517c2bf4c0c6b2f764985c",
+  "publication_enabled": false,
+  "release_branch": "release/shared-default-0.1.52",
+  "release_tag": "test-shared-default-0.1.52",
+  "runtime_revision": "9f8d67029181f6cd064e247aa949a295854fc494",
   "schema": 1,
   "sdk_revision": "fff9895c82d744c7237be8847347bdd1b07c6643",
+  "serial_files": {
+    "active_boot_bank_writable": false,
+    "application_grants_reused": false,
+    "boot_export_enabled": false,
+    "dispatch": "settled-owner-checkpoint",
+    "flags": {
+      "RISC_NATIVE_SERIAL_APPDATA_FILES": 1,
+      "RISC_NATIVE_SERIAL_FILES": 1,
+      "RISC_NATIVE_SERIAL_SD": 1
+    },
+    "hardware_tested": false,
+    "namespaces": [
+      {
+        "id": 2,
+        "label": "Serial files",
+        "private_root": "/appdata/.serial-files",
+        "writable": true
+      },
+      {
+        "backend_instance": 12,
+        "backend_provider": "sdmmc-fatfs",
+        "id": 12,
+        "label": "SD card",
+        "writable": true
+      }
+    ]
+  },
   "system_revision": "cb483470887b5198e2f3cd2457586ef6622142a9",
   "utilities_revision": "fc9f93402050f020a3422ee889620b2414c7ad5d",
-  "version": "0.1.51",
-  "watch_revision": "4937fc4612edc6904c7ceae2855db7147fb680e9"
+  "version": "0.1.52",
+  "watch_revision": "8132d73c828c0e4763f6c89a3d6a4a883314056a"
 }

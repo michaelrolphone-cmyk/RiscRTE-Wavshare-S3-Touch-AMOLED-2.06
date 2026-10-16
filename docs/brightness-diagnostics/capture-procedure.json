@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "purpose": "Capture an unresolved Waveshare zero-brightness transition without claiming physical visibility from SPI completion.",
+  "firmware_gate": "Use only a paired diagnostic firmware/store release whose source union includes the qualified brightness diagnostic sink correction. Version and factory checksum must come from that release; public0.1.51 lacks these native records.",
+  "transport": {
+    "kind": "ESP32-S3 USB Serial/JTAG",
+    "baud": 115200,
+    "format": "8N1",
+    "flow_control": "none",
+    "notes": [
+      "Use one serial client at a time; do not run file upload or a second monitor during capture.",
+      "Begin saving the complete unfiltered serial stream before resetting the watch. The USB port may disconnect across reset; reconnect to the same device and continue saving.",
+      "Keep the RTE_SOURCE identity. Runtime prints it again after metadata admission if early boot output is missed."
+    ]
+  },
+  "steps": [
+    "Record the exact firmware version/source identity, selected visible brightness and whether torch is off. Keep the same selection through both successful and failed runs.",
+    "From a visible Home, open Springboard soon after startup. Record the time and whether the screen appears; allow10seconds for the result. If black, keep recording before pressing the crown once to return.",
+    "From visible Springboard, launch Audio Spectrum using the same action that failed on0.1.51. Record the time, whether it appears, and whether any audio activity is present. If black, keep recording before returning with the crown.",
+    "Repeat Home → Springboard → Audio Spectrum → crown return several times, including once after Home has remained active for30seconds. Save at least one successful and one failed transition if the failure recurs.",
+    "On a failure, leave the serial capture running through the next crown return and record whether Home becomes visible. Do not reset or change brightness first; those actions erase the transition comparison.",
+    "Share the complete log plus the action times and observed screen outcomes. A photograph or short video of the failure can disambiguate a dark display from an app that has not drawn."
+  ],
+  "records_to_keep": [
+    "RTE_SOURCE",
+    "app load/entry/return and provider messages",
+    "PANEL_FRAME completed=1 brightness=... visibility=unverified",
+    "PANEL_BRIGHTNESS value=... state=deferred frame=0 visibility=unverified",
+    "PANEL_BRIGHTNESS value=... state=applied frame=... visibility=unverified",
+    "RTE_LOG lost=... truncated=..."
+  ],
+  "interpretation_limits": [
+    "PANEL_FRAME is emitted once per fresh native panel open, so retained-provider launches may have no new PANEL_FRAME line.",
+    "A successful selected40percent brightness request scales to102/255. Match the actual selected level; do not assume40percent.",
+    "deferred means the request was held until the first full checked frame; applied means the checked brightness command completed. Neither proves visible pixels.",
+    "A missing line alone is inconclusive if RTE_LOG reports dropped/truncated output or the host disconnected.",
+    "If the failure does not recur, report the number and order of successful attempts. Do not mark the defect fixed from this source qualification alone."
+  ]
+}
