@@ -1,7 +1,7 @@
 name: Waveshare boot-test full image
 on:
   push:
-    branches: [feat/universal-watch]
+    branches: [feat/universal-watch, fix/legacy-boot-fixture-20261017]
     paths: ['.github/workflows/boot-test.yml', 'scripts/build_boot_test.py', 'scripts/boot_watch_providers.py', 'scripts/boot_watch_apps.py', 'drivers/rtc_pcf85063/**', 'scripts/validate_boot_test.py', 'profiles/shared-home.json', 'profiles/home-artifact.json', 'docs/BOOT_TEST_0.1.8.md', 'drivers/panel_co5300/**', 'drivers/panel_vendor/**', 'native/**', 'scripts/stage_vendor_display.py', 'include/RiscDisplayBackendV1.h', 'drivers/display_rail_axp2101/**', 'drivers/power_axp2101/**', 'include/RiscSpiFrameV1.h', 'include/RiscSpiQuadV1.h', 'include/RiscI2cFunctionV1.h', 'hardware/**', 'scripts/test_boot_pins.py', 'include/RiscPowerRailV1.h', 'include/ProviderLog.h', 'tests/test_vendor_native.py', 'tests/test_panel.c', 'tests/test_rail.c', 'tests/test_power.c']
   workflow_dispatch:
 permissions:
@@ -195,6 +195,8 @@ jobs:
           cd .source/runtime
           pio run --project-conf boot-test.ini -e esp32s3-16mb-boot-test -j 1
           pio pkg install --global --tool 'platformio/tool-mkspiffs@2.230.0'
+      - name: Verify fixed historical manifest compatibility
+        run: python3 tests/test_legacy_boot_manifest.py --runtime .source/runtime
       - name: Assemble, admit, unpack and verify full image
         run: |
           python3 scripts/build_boot_test.py --runtime .source/runtime --shared .source/shared --diagnostic_shared .source/diagnostic_shared --home_system .source/home_system --modern_system .source/modern_system --productivity .source/productivity --scanner_utilities .source/scanner_utilities --bridge_shared .source/bridge_shared --controllers .source/controllers --generic .source/generic --system .source/system --utilities .source/utilities --service_utilities .source/service_utilities --watch_system .source/watch_system --temporal .source/temporal --native .source/runtime/.pio/build/esp32s3-16mb-boot-test --cc "$HOME/.platformio/packages/toolchain-xtensa-esp32s3/bin/xtensa-esp32s3-elf-gcc" --mkspiffs "$HOME/.platformio/packages/tool-mkspiffs/mkspiffs_espressif32_arduino" --output dist/boot-test | tee evidence/assembly.txt

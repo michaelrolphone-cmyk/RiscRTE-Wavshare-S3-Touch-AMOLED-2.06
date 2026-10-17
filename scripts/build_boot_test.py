@@ -36,6 +36,10 @@ def json_write(path,value):
  path.write_text(json.dumps(value,indent=2)+'\n')
 def files(root):return {p.relative_to(root).as_posix():p.read_bytes() for p in root.rglob('*') if p.is_file()}
 def run(*command,**kw):return subprocess.run(list(map(str,command)),check=True,**kw)
+def legacy_diagnostic_manifest():
+ # Runtime 56036e51's strict app schema predates launcher_visible.
+ return {'type':'application','id':'watch-bringup','version':'0.1.0','architecture':'xtensa-esp32s3','entry':'app_main'}
+
 def main():
  p=argparse.ArgumentParser(description=__doc__)
  for name in (*PINS,'native','cc','mkspiffs','output'):
@@ -109,7 +113,9 @@ def main():
  # Keep diagnostics under their own name; never alias a launcher/settings entry.
  diagnostic=dirs['diagnostic_shared']
  build(diagnostic/'apps/bringup/main.c',store/'bringup.elf',[diagnostic/'sdk/app',diagnostic/'sdk/driver',diagnostic/'include'],'app_main',[diagnostic/'apps/clock/viewport.c'])
- diagnostics={'type':'application','id':'watch-bringup','launcher_visible':False,'version':'0.1.0','architecture':'xtensa-esp32s3','entry':'app_main'}
+ # This fixed historical Runtime rejects launcher_visible as an unknown key.
+ # Keep its original manifest schema; current product recipes own visibility.
+ diagnostics=legacy_diagnostic_manifest()
  grants=[('display.output',1,5),('input.touch.raw',1,6),('board.battery',1,4),('rtc.clock',2,8),('motion.accel',1,7),('haptic.effect',1,9)]
  application('bringup',diagnostics,grants)
  system=dirs['watch_system']
