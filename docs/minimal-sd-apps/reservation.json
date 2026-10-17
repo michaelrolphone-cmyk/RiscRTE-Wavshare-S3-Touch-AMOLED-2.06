@@ -1,0 +1,10 @@
+{
+  "version": "0.1.57",
+  "release_tag": "test-sd-apps-0.1.57",
+  "checked_at": "2026-10-17T06:23:06Z",
+  "matching_github_refs": [],
+  "matching_github_releases": [],
+  "matching_catalog_including_archived": [],
+  "coordinated_with_parent": true,
+  "status": "reserved for minimal internal apps and complete SD payload"
+}
