@@ -19,10 +19,10 @@ jobs:
             runtime: 070d5c7e347f74357f2e8843312409315aca5762
             expect: baseline
           - label: fixed
-            runtime: 3f3587a0dbd06c898a80cce1f97455b23aa19ec6
+            runtime: 4b3998f8091d1948a702a281757a1935d401ea4a
             expect: fixed
           - label: fixed-fence-disabled-negative
-            runtime: 3f3587a0dbd06c898a80cce1f97455b23aa19ec6
+            runtime: 4b3998f8091d1948a702a281757a1935d401ea4a
             expect: baseline
     steps:
       - uses: actions/checkout@v4

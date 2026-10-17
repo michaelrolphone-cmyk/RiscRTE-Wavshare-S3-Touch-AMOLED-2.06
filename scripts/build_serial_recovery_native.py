@@ -185,6 +185,9 @@ def qualify(args, sources, proof):
     from test_serial_stat_home import qualify as qualify_boundaries
     serial_boundaries = qualify_boundaries(sources['runtime'], sources['watch'], sources['system'], sources['utilities'], args.catalog.parent / 'sdk', args.native_build / 'native-build-evidence/serial-stat-home')
     require(len(serial_boundaries['cases']) == 14, 'Serial/Home boundary matrix incomplete')
+    from test_native_serial_scheduler import qualify as qualify_scheduler
+    native_serial_scheduler = qualify_scheduler(sources['runtime'], args.catalog.parent / 'sdk', args.native_build / 'native-build-evidence/native-serial-scheduler', 'fixed')
+    require(native_serial_scheduler['passed'] and not native_serial_scheduler['runtime_dirty'], 'Native serial scheduler regression missing')
     payload_zip=make_archive(payload)
     assets = {'factory-candidate-erases-data-0x0.bin': factory, 'firmware.bin': blobs['firmware_bin'],
               'bootloader.bin': blobs['bootloader'], 'partitions.bin': blobs['partitions'], 'store.bin': packed}
@@ -198,7 +201,7 @@ def qualify(args, sources, proof):
                   input_lock=lock, controlled_build=closure, native=native_proof, native_rebuilt=True, mirrors=mirrors,
                   default=canonical_proof, serial_files=serial_proof, provisioning=provisioning_proof, baseline_contract=contract, preservation=preservation, public_imports=imports,
                   admission=admission, admission_sanitized=admission_sanitized, preservation_software_model=fault_model,
-                  packing=packing, feed=feed, serial_stat_boundaries=serial_boundaries, external_apps=external_proof, navigation=navigation, historical_springboard_client=client, artifacts={n: record(b) for n, b in assets.items()})
+                  packing=packing, feed=feed, serial_stat_boundaries=serial_boundaries, native_serial_scheduler=native_serial_scheduler, external_apps=external_proof, navigation=navigation, historical_springboard_client=client, artifacts={n: record(b) for n, b in assets.items()})
     assets.update({'qualification.json': encoded(report), 'source-lock.json': args.lock.read_bytes(),
                    'source-pins.json': (package.DOCS / 'source-pins.json').read_bytes(), 'default.elf': default, 'default.json': manifest})
     evidence = {'qualification.json': assets['qualification.json'], 'canonical-a.json': (args.first / 'build.json').read_bytes(),

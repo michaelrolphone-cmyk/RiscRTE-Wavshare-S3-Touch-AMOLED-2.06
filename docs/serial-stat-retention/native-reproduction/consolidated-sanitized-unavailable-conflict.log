@@ -1,0 +1,20 @@
+APP_START continuing=0 discovering=0 pinned=0 session=0
+SERIAL_BEFORE command=HELLO continuing=0 discovering=0 pinned=0 session=0 volume=0 dispatch=0
+SERIAL_PROBE command=HELLO checkpoint=0 continuing=0 discovering=0 pinned=0 session=0 volume=0 client_retained=0 app_exit=1 dispatch=1 wire=RTEF1 12345678 1 0 HELLO 48 511 1
+
+SERIAL_BEFORE command=NS 0 continuing=0 discovering=0 pinned=0 session=0 volume=0 dispatch=1
+SERIAL_PROBE command=NS 0 checkpoint=0 continuing=0 discovering=0 pinned=0 session=0 volume=0 client_retained=0 app_exit=1 dispatch=2 wire=RTEF1 12345678 2 0 NS 12 1 53442063617264
+
+SERIAL_BEFORE command=PATH 0 2f6f7264696e6172792e747874 continuing=0 discovering=0 pinned=0 session=0 volume=0 dispatch=2
+SERIAL_PROBE command=PATH 0 2f6f7264696e6172792e747874 checkpoint=0 continuing=0 discovering=0 pinned=0 session=0 volume=0 client_retained=0 app_exit=1 dispatch=3 wire=RTEF1 12345678 3 0 PATH 13
+
+SERIAL_BEFORE command=STAT 12 continuing=1 discovering=1 pinned=1 session=1 volume=1 dispatch=3
+SERIAL_PROBE command=STAT 12 checkpoint=1 continuing=1 discovering=1 pinned=1 session=1 volume=1 client_retained=0 app_exit=1 dispatch=3 wire=
+DEFERRED previous request still pending
+DEFERRED_RESPONSE rc=0 wire=RTEF1 12345678 4 0 STAT 6 4
+
+PROBE_END active=1 closed=1 continuing=0 exit=1 pinned=0
+SERIAL_BEFORE command=STAT 12 continuing=0 discovering=0 pinned=0 session=0 volume=0 dispatch=4
+SERIAL_PROBE command=STAT 12 checkpoint=0 continuing=0 discovering=0 pinned=0 session=0 volume=0 client_retained=0 app_exit=1 dispatch=5 wire=RTEF1 12345678 5 0 STAT 6 4
+
+FINAL ran=1 retained=0 error= lifecycle_retained=0 exit_safe=1 pinned=0 serial_retained=0

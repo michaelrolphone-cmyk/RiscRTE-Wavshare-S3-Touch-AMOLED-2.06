@@ -6,6 +6,8 @@ import json
 from pathlib import Path
 import sys
 import unittest
+import tempfile
+from unittest.mock import patch
 import package_serial_recovery as p
 
 
@@ -17,10 +19,12 @@ class Contract(unittest.TestCase):
         self.assertEqual(p.REPLACEMENTS, {'installed-apps/driver.elf', 'installed-apps/manifest.json'})
 
     def test_unqualified_pin_rejected(self):
-        if p.pins()['finalized']:
-            self.skipTest('Candidate pins are finalized')
-        with self.assertRaisesRegex(ValueError, 'Qualified Runtime pin'):
-            p.pins(final=True)
+        candidate = dict(p.pins(), finalized=False, runtime_revision=None)
+        with tempfile.TemporaryDirectory() as tmp:
+            docs = Path(tmp)
+            (docs/'source-pins.json').write_bytes(p.encoded(candidate))
+            with patch.object(p, 'DOCS', docs), self.assertRaisesRegex(ValueError, 'Qualified Runtime pin'):
+                p.pins(final=True)
 
 
 class Replay(unittest.TestCase):
