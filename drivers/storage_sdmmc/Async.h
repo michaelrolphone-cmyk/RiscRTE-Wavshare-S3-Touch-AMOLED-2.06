@@ -6,7 +6,7 @@ static bool async_owner(void){return guard&&guard->is_owner(guard->context);}
 static int32_t observe_state(void*c){
  (void)c;if(export_state==EXPORT_RETAINED)return RISC_STORAGE_STATE_RETAINED;
  if(export_state!=EXPORT_LOCAL||async_adapter.session)return RISC_STORAGE_STATE_UNAVAILABLE;
- if(poisoned||async_adapter.retained)return RISC_STORAGE_STATE_RETAINED;
+ if(poisoned||async_adapter.retained||sleep_state==SLEEP_RETAINED)return RISC_STORAGE_STATE_RETAINED;
  if(io_failed)for(unsigned i=0;i<FILE_SLOTS;++i)if(files[i].handle&&(files[i].flags&RISC_STORAGE_OPEN_WRITE))return RISC_STORAGE_STATE_RETAINED;
  return started&&mounted&&card_ready&&!io_failed&&!power_down_prepared?RISC_STORAGE_STATE_READY:RISC_STORAGE_STATE_UNAVAILABLE;
 }
@@ -17,7 +17,7 @@ static int32_t async_begin_checked(void*c,uint64_t*t){
  if(!t)return RISC_STORAGE_ASYNC_INVALID;
  if(export_state==EXPORT_RETAINED)return RISC_STORAGE_ASYNC_RETAINED;
  if(export_state!=EXPORT_LOCAL||async_adapter.session)return RISC_STORAGE_ASYNC_BUSY;
- if(poisoned||async_adapter.retained)return RISC_STORAGE_ASYNC_RETAINED;
+ if(poisoned||async_adapter.retained||sleep_state==SLEEP_RETAINED)return RISC_STORAGE_ASYNC_RETAINED;
  if(!started||!lock_token||!worker_scope_claimed||guard_held||worker_guard||power_down_prepared||has_handles()||async_adapter.operation||async_adapter.file||async_adapter.directory||async_adapter.writing||async_adapter.written||async_adapter.ending||async_adapter.cleanup)return RISC_STORAGE_ASYNC_BUSY;
  return risc_storage_async_begin(&async_adapter,t);
 }
@@ -30,14 +30,14 @@ static int32_t capacity_check(void*c,const risc_storage_native_capacity_result_v
  (void)c;if(!async_owner())return RISC_STORAGE_ASYNC_BUSY;
  if(!q||!q->serial||!q->mount_epoch)return RISC_STORAGE_ASYNC_INVALID;
  if(async_adapter.session||async_adapter.operation)return RISC_STORAGE_ASYNC_BUSY;
- if(poisoned||async_adapter.retained)return RISC_STORAGE_ASYNC_RETAINED;
+ if(poisoned||async_adapter.retained||sleep_state==SLEEP_RETAINED)return RISC_STORAGE_ASYNC_RETAINED;
  if(!mounted||!card_ready||io_failed||power_down_prepared||has_handles()||native_mount_epoch!=q->mount_epoch)return RISC_STORAGE_ASYNC_IO;
  return !memcmp(q,&async_adapter.capacity_receipt,sizeof(*q))?RISC_STORAGE_ASYNC_OK:RISC_STORAGE_ASYNC_INVALID;
 }
 static void publish_async(void){
- // Export is independent of unsupported deep-sleep suffixes.
+ // Preserve the complete checked sleep transaction through every async suffix.
  // Existing ordinary file and power-preparation prefixes retain their layout.
- state_api.prepared.base.sleep.terminal.power=api;
+ state_api.prepared.base.sleep=api;
  state_api.prepared.base.sleep.terminal.power.volume.base.struct_size=sizeof(capacity_api);
  risc_storage_volume_api_v1_export_prepare *xp=&state_api.prepared;
  xp->base.export_tag=RISC_STORAGE_EXPORT_TAG;xp->base.export_version=1;

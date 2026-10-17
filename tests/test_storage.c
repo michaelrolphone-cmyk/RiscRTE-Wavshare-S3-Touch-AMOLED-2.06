@@ -43,7 +43,8 @@ static void make_disk(void) {
 }
 static void clean(void){assert(quiesce());assert(!opened_&&!selected_&&!created_&&!locked_);}
 int main(int argc,char**argv) {
- make_disk();const risc_storage_volume_api_v1*v=&api.volume.base;const risc_storage_volume_api_v1_ext*x=&api.volume;
+ make_disk();const risc_storage_volume_api_v1*v=t5_driver_get(2)->capability;const risc_storage_volume_api_v1_ext*x=risc_storage_volume_extension(v);
+ const risc_storage_volume_api_v1_power*power=risc_storage_volume_power(v);assert(x&&power);
  if(argc==2){
   assert(start(deps_,4));cut_=writes_+(unsigned)strtoul(argv[1],NULL,10);
   uint32_t h=v->file_open_write(NULL,"/uncertain.txt");
@@ -74,7 +75,7 @@ int main(int argc,char**argv) {
  char actual[2048];assert(v->file_read(NULL,file,actual,sizeof(actual))==sizeof(actual)&&!memcmp(actual,payload,sizeof(actual)));assert(x->file_seek(NULL,file,512));assert(v->file_read(NULL,file,actual,128)==128&&!memcmp(actual,payload+512,128));assert(v->file_close(NULL,file,true));
  assert(!v->file_read(NULL,file,actual,1));assert(x->rename(NULL,"/Books/a long name.txt","/Books/renamed.txt"));
  uint32_t dir=v->dir_open(NULL,"/Books");assert(dir);risc_storage_dirent_v1 ent;assert(v->dir_next(NULL,dir,&ent)&&!strcmp(ent.name,"renamed.txt"));assert(x->dir_close_checked(NULL,dir));
- assert(!v->file_open_write(NULL,"/../invalid"));assert(api.prepare_power_down(NULL));assert(!v->ready(NULL));assert(api.cancel_power_down(NULL));assert(v->ready(NULL));
+ assert(!v->file_open_write(NULL,"/../invalid"));assert(power->prepare_power_down(NULL));assert(!v->ready(NULL));assert(power->cancel_power_down(NULL));assert(v->ready(NULL));
  assert(v->refresh(NULL)&&v->ready(NULL));file=v->file_open_read(NULL,"/Books/renamed.txt",&size);assert(file&&size==2048);assert(v->file_close(NULL,file,true));
  fail_release_=true;assert(!quiesce()&&opened_&&selected_&&created_&&!locked_);fail_release_=false;clean();
  assert(start(deps_,4));fail_destroy_=true;assert(!quiesce()&&created_&&!opened_&&!selected_);fail_destroy_=false;clean();
