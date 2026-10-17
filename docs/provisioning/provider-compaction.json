@@ -1,0 +1,48 @@
+{
+  "installed-apps": {
+    "after_bytes": 85892,
+    "after_sha256": "e10e8f48e175dc38348d119fb63a2fb29d0eb39762137031c7819ba81e89323e",
+    "before_bytes": 179056,
+    "before_sha256": "272b96c72fc9d414cc4587cbe58b2453264d46b50b28ed1a20982b899267929e",
+    "checker_sha256": "07936b7ccbc53809ef8d907b19d434b047e4b7e4a2a8501bd32bd9465f691d55",
+    "options": [
+      "--remove-section=.xt.lit",
+      "--remove-section=.xt.prop",
+      "--discard-all"
+    ],
+    "original_elf_retained": true,
+    "profile": "loader-metadata-v3",
+    "removed_sections": [
+      ".debug_abbrev",
+      ".debug_aranges",
+      ".debug_info",
+      ".debug_line",
+      ".debug_line_str",
+      ".debug_str",
+      ".xt.lit",
+      ".xt.prop"
+    ],
+    "retained_loader_sections_symbols_relocations_unchanged": true,
+    "tool": "GNU objcopy (crosstool-NG esp-15.2.0_20251204) 2.45"
+  },
+  "pkg-internal": {
+    "after_bytes": 3164,
+    "after_sha256": "ed994405adad60aad06d297d53dddc613f38739ac0206fc579837ede37882a6b",
+    "before_bytes": 3776,
+    "before_sha256": "5e410adc7ad42bf6bfeb8cf65606e87a832bb6a4a5e167ff055f89c3d100407d",
+    "checker_sha256": "07936b7ccbc53809ef8d907b19d434b047e4b7e4a2a8501bd32bd9465f691d55",
+    "options": [
+      "--remove-section=.xt.lit",
+      "--remove-section=.xt.prop",
+      "--discard-all"
+    ],
+    "original_elf_retained": true,
+    "profile": "loader-metadata-v3",
+    "removed_sections": [
+      ".xt.lit",
+      ".xt.prop"
+    ],
+    "retained_loader_sections_symbols_relocations_unchanged": true,
+    "tool": "GNU objcopy (crosstool-NG esp-15.2.0_20251204) 2.45"
+  }
+}

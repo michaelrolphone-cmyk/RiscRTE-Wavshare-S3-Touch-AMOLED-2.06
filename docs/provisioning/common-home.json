@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "default_sha256": "db23f172746ab32c0ba9c94d4c7a93d99be5f16247b6f267b48af8d7ca252d6f",
-  "default_bytes": 625648,
+  "default_sha256": "5797b757e228f2055f4fda3384659e91830f77ff03a636f9b3f605aeca8ace0d",
+  "default_bytes": 552616,
   "manifest_sha256": "37be8bc578456c4fff51f2576ac7a657d5ee96fdd3d6a536abaf8db598653e44",
   "independent_builds_identical": true,
   "product_extractions": [],
