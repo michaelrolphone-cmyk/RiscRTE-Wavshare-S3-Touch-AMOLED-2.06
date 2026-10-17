@@ -8,6 +8,9 @@ from pathlib import Path, PurePosixPath
 import re
 import zipfile
 
+import serial_files_product
+from package_shared_default import clean_source
+
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / 'docs/minimal-sd-apps'
 CORE = ('clock.json', 'default.json', 'settings.json', 'springboard.json', 'wifi_settings.json')
@@ -32,8 +35,10 @@ def encoded(value):
     return (json.dumps(value, sort_keys=True, indent=2) + '\n').encode()
 
 
-def baseline_contract():
-    return json.loads((DOCS / 'baseline-0.1.56.json').read_bytes())
+def baseline_contract(p=None):
+    c=json.loads((DOCS / 'baseline-0.1.56.json').read_bytes())
+    c.update(product='waveshare',elf_count=64,factory_bytes=c['factory']['bytes'],factory_sha256=c['factory']['sha256'],store_sha256=c['store']['sha256'])
+    return c
 
 
 def pins(final=False):
@@ -43,8 +48,10 @@ def pins(final=False):
             p['release_branch'] == 'release/sd-apps-' + p['version'], 'Release destination differs')
     require(p['feed_url'].endswith('/provisioning-index/' + p['version'] + '/native-packages-v1.json'), 'Feed must be versioned')
     require(p.get('publication_authorized') is True, 'Publication scope missing')
+    for path,digest in p.get('historical_contracts',{}).items():
+        require(sha((ROOT/path).read_bytes())==digest,'Historical recipe changed: '+path)
     if final:
-        require(p['finalized'] is True and p['mounted_card_repair']['status'] == 'qualified', 'Unqualified component pins')
+        require(p['finalized'] is True and p['mounted_card_repair']['status'] == 'components-qualified-native-product-pending', 'Unqualified component pins')
         require(set(p['store_replacements']) <= REPLACEMENTS and
                 {'default.elf', 'installed-apps/driver.elf', 'sd-volume/driver.elf'} <= set(p['store_replacements']), 'Required replacement locks missing')
     for role in ('runtime', 'watch', 'system', 'utilities', 'drivers', 'sdk', 'image_helper'):
