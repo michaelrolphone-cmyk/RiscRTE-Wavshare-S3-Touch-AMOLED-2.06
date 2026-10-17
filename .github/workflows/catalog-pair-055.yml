@@ -43,4 +43,4 @@ jobs:
       - name: Existing support and frozen-schema regressions
         run: |
           python product/scripts/test_catalog_payload.py
-          python runtime/docs/catalog-payload/1.0.0/test_validate.py
+          python proof/schema/test_validate.py

@@ -28,7 +28,12 @@ def main():
  run('qualify_catalog_pair_lora_055.py','--base',a.work,'--work',a.work/'fresh-external','--helper-repo',helper,'--native-evidence',public/'Waveshare-0.1.55-WiFi-Footer-Evidence.zip')
  fresh=json.loads((a.work/'fresh-external/qualification.json').read_bytes());saved=json.loads((ROOT/'docs/catalog-payload/pair-0.1.55/external-elf/qualification.json').read_bytes())
  if fresh!=saved:raise ValueError('Fresh external proof differs')
- schema=runtime/'docs/catalog-payload/1.0.0'
+ schema=a.work/'schema';schema.mkdir()
+ revision='908355b0509907c05a6dc47a1ccc8e078d6e23b0';prefix='docs/catalog-payload/1.0.0/'
+ paths=subprocess.check_output(['git','-C',str(runtime),'ls-tree','-r','--name-only',revision,'--',prefix],text=True).splitlines()
+ if not paths:raise ValueError('Missing immutable schema object')
+ for path in paths:
+  target=schema/path.removeprefix(prefix);target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(subprocess.check_output(['git','-C',str(runtime),'show',revision+':'+path]))
  run('build_catalog_pair_055.py','--assets',public,'--companion',companion,'--runtime',runtime,'--schema',schema,'--output',a.work/'candidate')
  run('test_catalog_pair_055.py','--candidate',a.work/'candidate','--schema',schema)
  for mode in ('create','replace'):
