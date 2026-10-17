@@ -1,0 +1,11 @@
+{
+  "version": "0.1.58",
+  "tag": "test-sd-apps-0.1.58",
+  "branch": "release/sd-apps-0.1.58",
+  "checked_at": "2026-10-17T08:04:00Z",
+  "github_tag_exists": false,
+  "github_recent_release_exists": false,
+  "catalog_including_archived_exists": false,
+  "task": "3fc5653c-3b56-4569-901e-a78310de3785",
+  "status": "reserved-unqualified"
+}

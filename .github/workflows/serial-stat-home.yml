@@ -1,0 +1,54 @@
+name: Serial STAT and Home boundaries
+on:
+  push:
+    branches: [fix/sd-stat-retention, main]
+    paths: ['tests/serial_stat_home/**', 'scripts/test_serial_stat_home.py', '.github/workflows/serial-stat-home.yml']
+  pull_request:
+    paths: ['tests/serial_stat_home/**', 'scripts/test_serial_stat_home.py', '.github/workflows/serial-stat-home.yml']
+permissions:
+  contents: read
+jobs:
+  host:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE
+          ref: 070d5c7e347f74357f2e8843312409315aca5762
+          path: .runtime
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-Watch
+          ref: b00d4e7d36fc69c8defd250a82f6af077c732137
+          path: .watch
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-System-Apps
+          ref: bb0cadf3cec3445a64e11513b47b2676f3fdd92d
+          path: .system
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-Utilities
+          ref: 4fdcad2495c33fe63f5f6faca9b11ced3c739a5b
+          path: .utilities
+          persist-credentials: false
+      - name: Replay14 exact provider and Home cases
+        run: |
+          mkdir .sdk
+          cp .watch/sdk/driver/*.h .sdk/
+          cp .runtime/sdk/{driver,hardware,app}/*.h .sdk/
+          python3 scripts/test_serial_stat_home.py --runtime .runtime --watch .watch --system .system --utilities .utilities --sdk .sdk --output evidence
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: serial-stat-home-${{ github.event.pull_request.head.sha || github.sha }}
+          path: evidence
+          if-no-files-found: error

@@ -1,0 +1,23 @@
+APP_START continuing=0 discovering=0 pinned=0 session=0
+SERIAL_PROBE command=HELLO checkpoint=0 continuing=0 discovering=0 pinned=0 session=0 volume=0 client_retained=0 app_exit=1 dispatch=1 wire=RTEF1 12345678 1 0 HELLO 48 511 1
+
+SERIAL_PROBE command=NS 0 checkpoint=0 continuing=0 discovering=0 pinned=0 session=0 volume=0 client_retained=0 app_exit=1 dispatch=2 wire=RTEF1 12345678 2 0 NS 12 1 53442063617264
+
+SERIAL_PROBE command=PATH 0 2f6f7264696e6172792e747874 checkpoint=0 continuing=0 discovering=0 pinned=0 session=0 volume=0 client_retained=0 app_exit=1 dispatch=3 wire=RTEF1 12345678 3 0 PATH 13
+
+PIN owner=1 prepared=0 retained=0 nativeRead=0 metadata=0 promotion=0 graphSafe=1 installation=1 metadataPtr=1 policies=1 handlers=1 policyCap=28 max=28
+SERIAL_PROBE command=STAT 12 checkpoint=0 continuing=1 discovering=1 pinned=1 session=1 volume=1 client_retained=0 app_exit=1 dispatch=4 wire=RTEF1 12345678 4 -3 STAT 0 0
+
+SERIAL_PROBE command=STAT 12 checkpoint=-2 continuing=0 discovering=0 pinned=1 session=0 volume=0 client_retained=1 app_exit=1 dispatch=5 wire=RTEF1 12345678 5 -6 STAT 0 0
+
+FINAL ran=0 retained=1 error=serial file custody retained; restart required lifecycle_retained=1 exit_safe=0 pinned=1 serial_retained=1
+APP_AUTHORITY_LOST
+Traceback (most recent call last):
+  File "/tmp/wave-native-serial-20261017/wave/tests/t054/run.py", line 29, in <module>
+    run([o/'test',o,case,o/case],timeout=60,env={**os.environ,'WAVE_CARD':str(card)})
+  File "/tmp/wave-native-serial-20261017/wave/tests/t054/run.py", line 4, in run
+    def run(cmd,**kw):subprocess.run([str(x) for x in cmd],check=True,**kw)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/tmp/wave-native-serial-20261017/fallback-none/test', '/tmp/wave-native-serial-20261017/fallback-none', 'unavailable-conflict', '/tmp/wave-native-serial-20261017/fallback-none/unavailable-conflict']' returned non-zero exit status 2.
