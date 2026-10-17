@@ -1,0 +1,1656 @@
+{
+  "admission": [
+    {
+      "name": "admission-plain-1.json",
+      "native_elf_sha256": "89ecc15dfb9a3462acd869786fcd744fab4508f35fe0fdcb3b0af6f59185e991",
+      "result": {
+        "active_platform_count": 22,
+        "active_store_sha256": "7f88c68e65ec10b107f21e3e9eb301387c51ba4f4b7cd256db97198fd185c9d3",
+        "app_policy_rows": 32,
+        "candidate_platform_count": 22,
+        "candidate_store_sha256": "072ba6390df890c7747b5fa6c7e6d5d441c24b01a722c2d7ffc5dcfe0966cbef",
+        "cohort_validated": true,
+        "cooperative_yields": 188,
+        "elf_count": 43,
+        "error": "",
+        "hardware_calls": 0,
+        "native_composition": {
+          "bounds": {
+            "RISC_APP_POLICY_ROWS": 32,
+            "RISC_APP_REQUIREMENT_ROWS": 32,
+            "RISC_INSTALLED_APP_CAPACITY": 64,
+            "RISC_PLATFORM_CAPACITY": 32,
+            "RISC_PROVIDER_CAPACITY": 40
+          },
+          "file_source_enabled": true,
+          "native_layout": {
+            "marker_address": 1008147074,
+            "marker_bytes": 24,
+            "marker_symbol": "risc_paired_store_abi",
+            "store_abi": 3
+          },
+          "product_profile_sha256": "09139d46447e197b09453ada915327886682ac8b6a3ca1d0e3182c31f62c7d83",
+          "runtime_commit": "070d5c7e347f74357f2e8843312409315aca5762",
+          "store_abi": 3
+        },
+        "native_elf_sha256": "89ecc15dfb9a3462acd869786fcd744fab4508f35fe0fdcb3b0af6f59185e991",
+        "prepared": true,
+        "storage_calls": 0,
+        "target_instructions_executed": false
+      },
+      "sanitized": false
+    },
+    {
+      "name": "admission-plain-2.json",
+      "native_elf_sha256": "89ecc15dfb9a3462acd869786fcd744fab4508f35fe0fdcb3b0af6f59185e991",
+      "result": {
+        "active_platform_count": 22,
+        "active_store_sha256": "7f88c68e65ec10b107f21e3e9eb301387c51ba4f4b7cd256db97198fd185c9d3",
+        "app_policy_rows": 32,
+        "candidate_platform_count": 22,
+        "candidate_store_sha256": "3888cd98944bd3c397ffafeaaf7216e26efdacd46e43273cfb57fac13b9421db",
+        "cohort_validated": false,
+        "cooperative_yields": 0,
+        "elf_count": 0,
+        "error": "",
+        "hardware_calls": 0,
+        "native_composition": {
+          "bounds": {
+            "RISC_APP_POLICY_ROWS": 32,
+            "RISC_APP_REQUIREMENT_ROWS": 32,
+            "RISC_INSTALLED_APP_CAPACITY": 64,
+            "RISC_PLATFORM_CAPACITY": 32,
+            "RISC_PROVIDER_CAPACITY": 40
+          },
+          "file_source_enabled": true,
+          "native_layout": {
+            "marker_address": 1008147074,
+            "marker_bytes": 24,
+            "marker_symbol": "risc_paired_store_abi",
+            "store_abi": 3
+          },
+          "product_profile_sha256": "09139d46447e197b09453ada915327886682ac8b6a3ca1d0e3182c31f62c7d83",
+          "runtime_commit": "070d5c7e347f74357f2e8843312409315aca5762",
+          "store_abi": 3
+        },
+        "native_elf_sha256": "89ecc15dfb9a3462acd869786fcd744fab4508f35fe0fdcb3b0af6f59185e991",
+        "prepared": true,
+        "storage_calls": 0,
+        "target_instructions_executed": false
+      },
+      "sanitized": false
+    },
+    {
+      "name": "admission-plain-3.json",
+      "native_elf_sha256": "89ecc15dfb9a3462acd869786fcd744fab4508f35fe0fdcb3b0af6f59185e991",
+      "result": {
+        "active_platform_count": 22,
+        "active_store_sha256": "072ba6390df890c7747b5fa6c7e6d5d441c24b01a722c2d7ffc5dcfe0966cbef",
+        "app_policy_rows": 32,
+        "candidate_platform_count": 22,
+        "candidate_store_sha256": "072ba6390df890c7747b5fa6c7e6d5d441c24b01a722c2d7ffc5dcfe0966cbef",
+        "cohort_validated": true,
+        "cooperative_yields": 188,
+        "elf_count": 43,
+        "error": "",
+        "hardware_calls": 0,
+        "native_composition": {
+          "bounds": {
+            "RISC_APP_POLICY_ROWS": 32,
+            "RISC_APP_REQUIREMENT_ROWS": 32,
+            "RISC_INSTALLED_APP_CAPACITY": 64,
+            "RISC_PLATFORM_CAPACITY": 32,
+            "RISC_PROVIDER_CAPACITY": 40
+          },
+          "file_source_enabled": true,
+          "native_layout": {
+            "marker_address": 1008147074,
+            "marker_bytes": 24,
+            "marker_symbol": "risc_paired_store_abi",
+            "store_abi": 3
+          },
+          "product_profile_sha256": "09139d46447e197b09453ada915327886682ac8b6a3ca1d0e3182c31f62c7d83",
+          "runtime_commit": "070d5c7e347f74357f2e8843312409315aca5762",
+          "store_abi": 3
+        },
+        "native_elf_sha256": "89ecc15dfb9a3462acd869786fcd744fab4508f35fe0fdcb3b0af6f59185e991",
+        "prepared": true,
+        "storage_calls": 0,
+        "target_instructions_executed": false
+      },
+      "sanitized": false
+    },
+    {
+      "name": "admission-sanitized-1.json",
+      "native_elf_sha256": "89ecc15dfb9a3462acd869786fcd744fab4508f35fe0fdcb3b0af6f59185e991",
+      "result": {
+        "active_platform_count": 22,
+        "active_store_sha256": "7f88c68e65ec10b107f21e3e9eb301387c51ba4f4b7cd256db97198fd185c9d3",
+        "app_policy_rows": 32,
+        "candidate_platform_count": 22,
+        "candidate_store_sha256": "072ba6390df890c7747b5fa6c7e6d5d441c24b01a722c2d7ffc5dcfe0966cbef",
+        "cohort_validated": true,
+        "cooperative_yields": 188,
+        "elf_count": 43,
+        "error": "",
+        "hardware_calls": 0,
+        "native_composition": {
+          "bounds": {
+            "RISC_APP_POLICY_ROWS": 32,
+            "RISC_APP_REQUIREMENT_ROWS": 32,
+            "RISC_INSTALLED_APP_CAPACITY": 64,
+            "RISC_PLATFORM_CAPACITY": 32,
+            "RISC_PROVIDER_CAPACITY": 40
+          },
+          "file_source_enabled": true,
+          "native_layout": {
+            "marker_address": 1008147074,
+            "marker_bytes": 24,
+            "marker_symbol": "risc_paired_store_abi",
+            "store_abi": 3
+          },
+          "product_profile_sha256": "09139d46447e197b09453ada915327886682ac8b6a3ca1d0e3182c31f62c7d83",
+          "runtime_commit": "070d5c7e347f74357f2e8843312409315aca5762",
+          "store_abi": 3
+        },
+        "native_elf_sha256": "89ecc15dfb9a3462acd869786fcd744fab4508f35fe0fdcb3b0af6f59185e991",
+        "prepared": true,
+        "storage_calls": 0,
+        "target_instructions_executed": false
+      },
+      "sanitized": true
+    },
+    {
+      "name": "admission-sanitized-2.json",
+      "native_elf_sha256": "89ecc15dfb9a3462acd869786fcd744fab4508f35fe0fdcb3b0af6f59185e991",
+      "result": {
+        "active_platform_count": 22,
+        "active_store_sha256": "7f88c68e65ec10b107f21e3e9eb301387c51ba4f4b7cd256db97198fd185c9d3",
+        "app_policy_rows": 32,
+        "candidate_platform_count": 22,
+        "candidate_store_sha256": "3888cd98944bd3c397ffafeaaf7216e26efdacd46e43273cfb57fac13b9421db",
+        "cohort_validated": false,
+        "cooperative_yields": 0,
+        "elf_count": 0,
+        "error": "",
+        "hardware_calls": 0,
+        "native_composition": {
+          "bounds": {
+            "RISC_APP_POLICY_ROWS": 32,
+            "RISC_APP_REQUIREMENT_ROWS": 32,
+            "RISC_INSTALLED_APP_CAPACITY": 64,
+            "RISC_PLATFORM_CAPACITY": 32,
+            "RISC_PROVIDER_CAPACITY": 40
+          },
+          "file_source_enabled": true,
+          "native_layout": {
+            "marker_address": 1008147074,
+            "marker_bytes": 24,
+            "marker_symbol": "risc_paired_store_abi",
+            "store_abi": 3
+          },
+          "product_profile_sha256": "09139d46447e197b09453ada915327886682ac8b6a3ca1d0e3182c31f62c7d83",
+          "runtime_commit": "070d5c7e347f74357f2e8843312409315aca5762",
+          "store_abi": 3
+        },
+        "native_elf_sha256": "89ecc15dfb9a3462acd869786fcd744fab4508f35fe0fdcb3b0af6f59185e991",
+        "prepared": true,
+        "storage_calls": 0,
+        "target_instructions_executed": false
+      },
+      "sanitized": true
+    },
+    {
+      "name": "admission-sanitized-3.json",
+      "native_elf_sha256": "89ecc15dfb9a3462acd869786fcd744fab4508f35fe0fdcb3b0af6f59185e991",
+      "result": {
+        "active_platform_count": 22,
+        "active_store_sha256": "072ba6390df890c7747b5fa6c7e6d5d441c24b01a722c2d7ffc5dcfe0966cbef",
+        "app_policy_rows": 32,
+        "candidate_platform_count": 22,
+        "candidate_store_sha256": "072ba6390df890c7747b5fa6c7e6d5d441c24b01a722c2d7ffc5dcfe0966cbef",
+        "cohort_validated": true,
+        "cooperative_yields": 188,
+        "elf_count": 43,
+        "error": "",
+        "hardware_calls": 0,
+        "native_composition": {
+          "bounds": {
+            "RISC_APP_POLICY_ROWS": 32,
+            "RISC_APP_REQUIREMENT_ROWS": 32,
+            "RISC_INSTALLED_APP_CAPACITY": 64,
+            "RISC_PLATFORM_CAPACITY": 32,
+            "RISC_PROVIDER_CAPACITY": 40
+          },
+          "file_source_enabled": true,
+          "native_layout": {
+            "marker_address": 1008147074,
+            "marker_bytes": 24,
+            "marker_symbol": "risc_paired_store_abi",
+            "store_abi": 3
+          },
+          "product_profile_sha256": "09139d46447e197b09453ada915327886682ac8b6a3ca1d0e3182c31f62c7d83",
+          "runtime_commit": "070d5c7e347f74357f2e8843312409315aca5762",
+          "store_abi": 3
+        },
+        "native_elf_sha256": "89ecc15dfb9a3462acd869786fcd744fab4508f35fe0fdcb3b0af6f59185e991",
+        "prepared": true,
+        "storage_calls": 0,
+        "target_instructions_executed": false
+      },
+      "sanitized": true
+    }
+  ],
+  "external_apps": {
+    "all_required_capabilities_explicitly_granted": true,
+    "apps": [
+      {
+        "elf": {
+          "bytes": 153428,
+          "sha256": "7f5cb21cff86d3f993a42dc1e254aa568590aa6488c5217acd6bd899b67b3862"
+        },
+        "id": "alarms",
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp"
+        ],
+        "path": "Apps/alarms/alarms.elf",
+        "tests": [
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 12,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": false,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 4187
+          },
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 12,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": true,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 4187
+          }
+        ]
+      },
+      {
+        "elf": {
+          "bytes": 133652,
+          "sha256": "88ad0a2cbe8f701c97bb7ae1aabf003a6a1d9463a5d12638381938d2ec99cf6c"
+        },
+        "id": "app_store",
+        "imports": [
+          "free",
+          "malloc",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strlen"
+        ],
+        "path": "Apps/app_store/app_store.elf",
+        "tests": [
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 9,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": false,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 3648
+          },
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 9,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": true,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 3648
+          }
+        ]
+      },
+      {
+        "elf": {
+          "bytes": 243380,
+          "sha256": "40739fbad6fd30a4f3576e87fc6c59de3e56ca1cf03da9a9ff1f3e5a6febd557"
+        },
+        "id": "audio_spectrum",
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen"
+        ],
+        "path": "Apps/audio_spectrum/audio_spectrum.elf",
+        "tests": [
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 11,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": false,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 6640
+          },
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 11,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": true,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 6640
+          }
+        ]
+      },
+      {
+        "elf": {
+          "bytes": 153440,
+          "sha256": "175ed277dea6149f97457a4d44fdf7ab87a63f9024e36e0a2a50553864d19d8c"
+        },
+        "id": "battery",
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp"
+        ],
+        "path": "Apps/battery/battery.elf",
+        "tests": [
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 12,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": false,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 4188
+          },
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 12,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": true,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 4188
+          }
+        ]
+      },
+      {
+        "elf": {
+          "bytes": 154028,
+          "sha256": "b3f4633d8bc0d0612d6410eae3f41d8c66a0586025f076a26dd0f277cac7232d"
+        },
+        "id": "ble_buttons",
+        "imports": [
+          "free",
+          "malloc",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen"
+        ],
+        "path": "Apps/ble_buttons/ble_buttons.elf",
+        "tests": [
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 10,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": false,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 4203
+          },
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 10,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": true,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 4203
+          }
+        ]
+      },
+      {
+        "elf": {
+          "bytes": 157520,
+          "sha256": "f35588453de3bd03a778fe362625af49e57f7d2efde7d890e8ab10ef778a8b01"
+        },
+        "id": "ble_scanner",
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen"
+        ],
+        "path": "Apps/ble_scanner/ble_scanner.elf",
+        "tests": [
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 11,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": false,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 4299
+          },
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 11,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": true,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 4299
+          }
+        ]
+      },
+      {
+        "elf": {
+          "bytes": 153972,
+          "sha256": "a6518bf99d966b4bfefae02fd3f55a214f0ddc4ca9518090c34ee8506f80778e"
+        },
+        "id": "ble_touchpad",
+        "imports": [
+          "free",
+          "malloc",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen"
+        ],
+        "path": "Apps/ble_touchpad/ble_touchpad.elf",
+        "tests": [
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 10,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": false,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 4202
+          },
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 10,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": true,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 4202
+          }
+        ]
+      },
+      {
+        "elf": {
+          "bytes": 9052,
+          "sha256": "ca2e30237ceee4b218faf8ec94ca9286fd97cf7be09d0fce3ca8a2eab88c6216"
+        },
+        "id": "watch-bringup",
+        "imports": [
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcpy"
+        ],
+        "path": "Apps/watch-bringup/bringup.elf",
+        "tests": [
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 7,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": false,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 250
+          },
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 7,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": true,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 250
+          }
+        ]
+      },
+      {
+        "elf": {
+          "bytes": 145576,
+          "sha256": "d78c5996376b1980ae9a2491b202c1a5ee414f135de03c161f96becc161e392f"
+        },
+        "id": "calculator",
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp"
+        ],
+        "path": "Apps/calculator/calculator.elf",
+        "tests": [
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 11,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": false,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 3973
+          },
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 11,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": true,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 3973
+          }
+        ]
+      },
+      {
+        "elf": {
+          "bytes": 63840,
+          "sha256": "a3b4b678eeee6a1d5ebc4a605b6c7d8ee176d806bd8ad059815bb4d979a56410"
+        },
+        "id": "contexts",
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen"
+        ],
+        "path": "Apps/contexts/contexts.elf",
+        "tests": [
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 11,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": false,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 1744
+          },
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 11,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": true,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 1744
+          }
+        ]
+      },
+      {
+        "elf": {
+          "bytes": 149284,
+          "sha256": "220aff0aedb28dfe4a50d6e57cc49d521381018cc8d0ceaca7bda60efd92b548"
+        },
+        "id": "countdown",
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp"
+        ],
+        "path": "Apps/countdown/countdown.elf",
+        "tests": [
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 12,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": false,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 4074
+          },
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 12,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": true,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 4074
+          }
+        ]
+      },
+      {
+        "elf": {
+          "bytes": 288112,
+          "sha256": "252f8add6830bd0d84f0ebe0c8ae71bb87a5b50a2e4c9b3fed12e0dd5e7a74f3"
+        },
+        "id": "file_browser",
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strchr",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strrchr",
+          "strstr"
+        ],
+        "path": "Apps/file_browser/file_browser.elf",
+        "tests": [
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 15,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": false,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 7860
+          },
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 15,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": true,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 7860
+          }
+        ]
+      },
+      {
+        "elf": {
+          "bytes": 137924,
+          "sha256": "d14c37dc9c0ec736a61fa14ae846dec47525b46da9ad1bb21266d48a663fc87c"
+        },
+        "id": "frequency_generator",
+        "imports": [
+          "free",
+          "malloc",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen"
+        ],
+        "path": "Apps/frequency_generator/frequency_generator.elf",
+        "tests": [
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 10,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": false,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 3764
+          },
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 10,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": true,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 3764
+          }
+        ]
+      },
+      {
+        "elf": {
+          "bytes": 26352,
+          "sha256": "cfbb592836763f80a98904aa3aaf6a04c9cb1214f447a42e9df2739f5e259f48"
+        },
+        "id": "lists",
+        "imports": [
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strlen"
+        ],
+        "path": "Apps/lists/lists.elf",
+        "tests": [
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 8,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": false,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 722
+          },
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 8,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": true,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 722
+          }
+        ]
+      },
+      {
+        "elf": {
+          "bytes": 136960,
+          "sha256": "81877ba548ae0c45f4ebbbe71c53753159a4b3a28282ac9ce3c5ef63ad90c0f5"
+        },
+        "id": "lora_messages",
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen"
+        ],
+        "path": "Apps/lora_messages/lora_messages.elf",
+        "tests": [
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 11,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": false,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 3738
+          },
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 11,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": true,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 3738
+          }
+        ]
+      },
+      {
+        "elf": {
+          "bytes": 43068,
+          "sha256": "8b4cb6c789afcaa9c6bb6a4d348f9b7b2618baeca70831fd25819f275c1c874d"
+        },
+        "id": "model_viewer",
+        "imports": [
+          "calloc",
+          "free",
+          "malloc",
+          "memchr",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strchr",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strrchr",
+          "strstr"
+        ],
+        "path": "Apps/model_viewer/model_viewer.elf",
+        "tests": [
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 15,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": false,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 1177
+          },
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 15,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": true,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 1177
+          }
+        ]
+      },
+      {
+        "elf": {
+          "bytes": 133664,
+          "sha256": "45f09839daf9de92bea24bca5c7d8575ffb6eb59d5b29027e092d33b7a18bec9"
+        },
+        "id": "ota_update",
+        "imports": [
+          "free",
+          "malloc",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strlen"
+        ],
+        "path": "Apps/ota_update/ota_update.elf",
+        "tests": [
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 9,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": false,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 3648
+          },
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 9,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": true,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 3648
+          }
+        ]
+      },
+      {
+        "elf": {
+          "bytes": 175928,
+          "sha256": "16b1cd9bfd84b22adcdfc924ae46f591b1c146dddab82437770ff2d33f87f8aa"
+        },
+        "id": "points_in_time",
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strlen",
+          "strncmp"
+        ],
+        "path": "Apps/points_in_time/points_in_time.elf",
+        "tests": [
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 11,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": false,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 4800
+          },
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 11,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": true,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 4800
+          }
+        ]
+      },
+      {
+        "elf": {
+          "bytes": 149236,
+          "sha256": "fe7226763463b6f82f06abaee8dc7394cb182ffcd341de8311567322ecda78e4"
+        },
+        "id": "stopwatch",
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp"
+        ],
+        "path": "Apps/stopwatch/stopwatch.elf",
+        "tests": [
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 11,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": false,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 4073
+          },
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 11,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": true,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 4073
+          }
+        ]
+      },
+      {
+        "elf": {
+          "bytes": 169824,
+          "sha256": "bc94c5e4cda24b725e43f7e860bf43a6ebc4387459e06e8c97c7ef41c740667a"
+        },
+        "id": "timecard",
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp"
+        ],
+        "path": "Apps/timecard/timecard.elf",
+        "tests": [
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 12,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": false,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 4634
+          },
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 12,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": true,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 4634
+          }
+        ]
+      },
+      {
+        "elf": {
+          "bytes": 252492,
+          "sha256": "5543af60434887b0d3b63ba0560c6ccc3445cfe4bd9713d154bbb7897e621b5c"
+        },
+        "id": "waterfall",
+        "imports": [
+          "free",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen"
+        ],
+        "path": "Apps/waterfall/waterfall.elf",
+        "tests": [
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 11,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": false,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 6889
+          },
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 11,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": true,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 6889
+          }
+        ]
+      },
+      {
+        "elf": {
+          "bytes": 64808,
+          "sha256": "6cfbd343633677a2498456d2a6664632ed83f2c7e6f966c7cba4349bfbc28e86"
+        },
+        "id": "usb_sd_transfer",
+        "imports": [
+          "free",
+          "malloc",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "risc_runtime_get_api",
+          "snprintf",
+          "strcmp",
+          "strcpy",
+          "strlen"
+        ],
+        "path": "Apps/usb_sd_transfer/usb_sd_transfer.elf",
+        "tests": [
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 10,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": false,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 1770
+          },
+          {
+            "driver_role_rejected": true,
+            "malformed_or_truncated_rejections": 4,
+            "missing_import_rejections": 10,
+            "production_application_admission": true,
+            "production_removable_image_snapshots": 2,
+            "production_structural_validation": true,
+            "sanitized": true,
+            "target_instructions_executed": false,
+            "unsafe_rejected": true,
+            "volume_reads": 1770
+          }
+        ]
+      }
+    ],
+    "commands": [
+      [
+        "cc",
+        "-std=c11",
+        "-I/tmp/wave-sd-successor/runtime/src",
+        "-I/tmp/wave-sd-successor/runtime/sdk/app",
+        "-I/tmp/wave-sd-successor/runtime/sdk/driver",
+        "-I/tmp/wave-sd-successor/runtime/sdk/hardware",
+        "-I/tmp/wave-sd-successor/runtime/lib/elf_loader/include",
+        "-I/tmp/wave-sd-successor/runtime/test/native_bank_stubs",
+        "-c",
+        "/tmp/wave-sd-successor/runtime/lib/elf_loader/src/esp_elf_validate.c",
+        "-o",
+        "/tmp/wave-sd-successor/external-diagnostic056/validator-normal.o"
+      ],
+      [
+        "c++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-I/tmp/wave-sd-successor/runtime/src",
+        "-I/tmp/wave-sd-successor/runtime/sdk/app",
+        "-I/tmp/wave-sd-successor/runtime/sdk/driver",
+        "-I/tmp/wave-sd-successor/runtime/sdk/hardware",
+        "-I/tmp/wave-sd-successor/runtime/lib/elf_loader/include",
+        "-I/tmp/wave-sd-successor/runtime/test/native_bank_stubs",
+        "/tmp/wave-sd-successor/external-diagnostic056/admission.cpp",
+        "/tmp/wave-sd-successor/external-diagnostic056/validator-normal.o",
+        "-o",
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/alarms/alarms.elf",
+        "/Apps/alarms/alarms.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/alarms-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/app_store/app_store.elf",
+        "/Apps/app_store/app_store.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/app_store-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/audio_spectrum/audio_spectrum.elf",
+        "/Apps/audio_spectrum/audio_spectrum.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/audio_spectrum-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/battery/battery.elf",
+        "/Apps/battery/battery.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/battery-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/ble_buttons/ble_buttons.elf",
+        "/Apps/ble_buttons/ble_buttons.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/ble_buttons-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/ble_scanner/ble_scanner.elf",
+        "/Apps/ble_scanner/ble_scanner.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/ble_scanner-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/ble_touchpad/ble_touchpad.elf",
+        "/Apps/ble_touchpad/ble_touchpad.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/ble_touchpad-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/watch-bringup/bringup.elf",
+        "/Apps/watch-bringup/bringup.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/watch-bringup-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/calculator/calculator.elf",
+        "/Apps/calculator/calculator.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/calculator-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/contexts/contexts.elf",
+        "/Apps/contexts/contexts.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/contexts-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/countdown/countdown.elf",
+        "/Apps/countdown/countdown.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/countdown-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/file_browser/file_browser.elf",
+        "/Apps/file_browser/file_browser.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/file_browser-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/frequency_generator/frequency_generator.elf",
+        "/Apps/frequency_generator/frequency_generator.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/frequency_generator-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/lists/lists.elf",
+        "/Apps/lists/lists.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/lists-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/lora_messages/lora_messages.elf",
+        "/Apps/lora_messages/lora_messages.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/lora_messages-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/model_viewer/model_viewer.elf",
+        "/Apps/model_viewer/model_viewer.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/model_viewer-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/ota_update/ota_update.elf",
+        "/Apps/ota_update/ota_update.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/ota_update-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/points_in_time/points_in_time.elf",
+        "/Apps/points_in_time/points_in_time.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/points_in_time-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/stopwatch/stopwatch.elf",
+        "/Apps/stopwatch/stopwatch.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/stopwatch-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/timecard/timecard.elf",
+        "/Apps/timecard/timecard.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/timecard-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/waterfall/waterfall.elf",
+        "/Apps/waterfall/waterfall.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/waterfall-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-normal",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/usb_sd_transfer/usb_sd_transfer.elf",
+        "/Apps/usb_sd_transfer/usb_sd_transfer.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/usb_sd_transfer-imports.txt"
+      ],
+      [
+        "cc",
+        "-std=c11",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-fno-omit-frame-pointer",
+        "-no-pie",
+        "-I/tmp/wave-sd-successor/runtime/src",
+        "-I/tmp/wave-sd-successor/runtime/sdk/app",
+        "-I/tmp/wave-sd-successor/runtime/sdk/driver",
+        "-I/tmp/wave-sd-successor/runtime/sdk/hardware",
+        "-I/tmp/wave-sd-successor/runtime/lib/elf_loader/include",
+        "-I/tmp/wave-sd-successor/runtime/test/native_bank_stubs",
+        "-c",
+        "/tmp/wave-sd-successor/runtime/lib/elf_loader/src/esp_elf_validate.c",
+        "-o",
+        "/tmp/wave-sd-successor/external-diagnostic056/validator-sanitized.o"
+      ],
+      [
+        "c++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-fno-omit-frame-pointer",
+        "-no-pie",
+        "-I/tmp/wave-sd-successor/runtime/src",
+        "-I/tmp/wave-sd-successor/runtime/sdk/app",
+        "-I/tmp/wave-sd-successor/runtime/sdk/driver",
+        "-I/tmp/wave-sd-successor/runtime/sdk/hardware",
+        "-I/tmp/wave-sd-successor/runtime/lib/elf_loader/include",
+        "-I/tmp/wave-sd-successor/runtime/test/native_bank_stubs",
+        "/tmp/wave-sd-successor/external-diagnostic056/admission.cpp",
+        "/tmp/wave-sd-successor/external-diagnostic056/validator-sanitized.o",
+        "-o",
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/alarms/alarms.elf",
+        "/Apps/alarms/alarms.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/alarms-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/app_store/app_store.elf",
+        "/Apps/app_store/app_store.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/app_store-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/audio_spectrum/audio_spectrum.elf",
+        "/Apps/audio_spectrum/audio_spectrum.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/audio_spectrum-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/battery/battery.elf",
+        "/Apps/battery/battery.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/battery-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/ble_buttons/ble_buttons.elf",
+        "/Apps/ble_buttons/ble_buttons.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/ble_buttons-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/ble_scanner/ble_scanner.elf",
+        "/Apps/ble_scanner/ble_scanner.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/ble_scanner-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/ble_touchpad/ble_touchpad.elf",
+        "/Apps/ble_touchpad/ble_touchpad.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/ble_touchpad-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/watch-bringup/bringup.elf",
+        "/Apps/watch-bringup/bringup.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/watch-bringup-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/calculator/calculator.elf",
+        "/Apps/calculator/calculator.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/calculator-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/contexts/contexts.elf",
+        "/Apps/contexts/contexts.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/contexts-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/countdown/countdown.elf",
+        "/Apps/countdown/countdown.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/countdown-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/file_browser/file_browser.elf",
+        "/Apps/file_browser/file_browser.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/file_browser-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/frequency_generator/frequency_generator.elf",
+        "/Apps/frequency_generator/frequency_generator.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/frequency_generator-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/lists/lists.elf",
+        "/Apps/lists/lists.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/lists-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/lora_messages/lora_messages.elf",
+        "/Apps/lora_messages/lora_messages.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/lora_messages-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/model_viewer/model_viewer.elf",
+        "/Apps/model_viewer/model_viewer.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/model_viewer-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/ota_update/ota_update.elf",
+        "/Apps/ota_update/ota_update.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/ota_update-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/points_in_time/points_in_time.elf",
+        "/Apps/points_in_time/points_in_time.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/points_in_time-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/stopwatch/stopwatch.elf",
+        "/Apps/stopwatch/stopwatch.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/stopwatch-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/timecard/timecard.elf",
+        "/Apps/timecard/timecard.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/timecard-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/waterfall/waterfall.elf",
+        "/Apps/waterfall/waterfall.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/waterfall-imports.txt"
+      ],
+      [
+        "/tmp/wave-sd-successor/external-diagnostic056/admission-sanitized",
+        "/tmp/wave-sd-successor/external-diagnostic056/payload/Apps/usb_sd_transfer/usb_sd_transfer.elf",
+        "/Apps/usb_sd_transfer/usb_sd_transfer.elf",
+        "/tmp/wave-sd-successor/external-diagnostic056/usb_sd_transfer-imports.txt"
+      ]
+    ],
+    "external_app_count": 22,
+    "fixture_sha256": "688d7ca30c2041ea98ca659f3fd925fe92830aa72eca7e551f3186013ecd41ca",
+    "hardware_tested": false,
+    "native_elf_sha256": "89ecc15dfb9a3462acd869786fcd744fab4508f35fe0fdcb3b0af6f59185e991",
+    "native_store_abi": {
+      "marker_address": 1008147074,
+      "marker_bytes": 24,
+      "marker_symbol": "risc_paired_store_abi",
+      "store_abi": 3
+    },
+    "public_export_count": 51,
+    "runtime_commit": "070d5c7e347f74357f2e8843312409315aca5762",
+    "schema": 1,
+    "source_files_sha256": {
+      "lib/elf_loader/src/esp_elf_validate.c": "eae1709151f3daeff27ed4644926cbb3cca6dae661dc2a18c93c622a97540131",
+      "src/bootstrap/RemovableAppImage.h": "40189da8fa55fb10efbc64d5e72db31c065caaee498584018699985e1c6685ca",
+      "src/bootstrap/RuntimeFileImage.h": "bd2740b672e9553101f2e6fb23e576937347072fc5c37f1a29b923c0752ae098",
+      "src/ports/esp32s3/NativeBankStore.cpp": "7ea38899fae6895671feb876793347e08f07771482c9849a49ed27574dbbb847",
+      "src/runtime/packages/ElfAdmission.h": "e10410b569dd4909a82483713871ec3577c8a2be30ee92a63b8ef1ba854824f3",
+      "src/runtime/storage/VolumeImageFiles.h": "5655c690b96c39745b579e21ad410bd35b5e16f3250e17885cb0ca70f66ccc50"
+    },
+    "target_instructions_executed": false,
+    "target_symbol_resolver_executed": false
+  },
+  "feed": {
+    "exact_image_url_size_digest_selected": true,
+    "files_selected": 111,
+    "fixture_sha256": "55a16641ef492c271a3dcee0047edbe183a14ff66d49190ff053ee2192dcfccf",
+    "hardware_tested": false,
+    "native_firmware_identity_matched": true,
+    "production_feed_sha256": "7bb5fdc55bb889bdf141c916fd3aa71e4859400d6e23e253eccf77c82ce68f7a",
+    "queue_calls": 1,
+    "result": "Complete111-file core parsed and exact image request queued; no target/hardware execution",
+    "target_instructions_executed": false
+  },
+  "hardware_tested": false,
+  "schema": 1,
+  "scope": "Host preparation diagnostics using old .56 native export table; final .57 native CI required",
+  "target_instructions_executed": false
+}

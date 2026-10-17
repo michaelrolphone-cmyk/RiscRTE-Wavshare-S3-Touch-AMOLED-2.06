@@ -4,6 +4,7 @@ import copy
 import json
 from pathlib import Path
 import unittest
+import tempfile
 from unittest.mock import patch
 import package_minimal_sd as package
 import minimal_sd_release as release
@@ -55,6 +56,24 @@ class Contracts(unittest.TestCase):
         self.assertTrue(publisher.check_tags([row],'test-sd-apps-0.1.57','0.1.57','1'*40))
         with self.assertRaises(ValueError):publisher.check_tags([row],'test-sd-apps-0.1.57','0.1.57','2'*40)
         with self.assertRaises(ValueError):publisher.check_tags([dict(row,ref='refs/tags/test-other-0.1.57')],'test-sd-apps-0.1.57','0.1.57','1'*40)
+    def test_canonical_extension_resume_verifies_base(self):
+        p=package.pins();r='1'*40;tag=p['release_tag'];base={'SHA256SUMS':b'sums','RELEASE-NOTES.txt':b'notes'}
+        row={'tag_name':tag,'name':'Waveshare '+p['version']+' complete SD apps, hardware pending','body':'notes','prerelease':True,'draft':False,'html_url':'https://example.test/release',
+             'assets':[{'name':name,'state':'uploaded'} for name in base]+[{'name':'Waveshare-'+p['version']+'-SD-Apps-known-lora.zip','state':'uploaded'}]}
+        ref={'ref':'refs/tags/'+tag,'object':{'type':'commit','sha':r}}
+        calls=[]
+        def api(*args,**kwargs):return [[ref]] if '--paginate' in args else ref
+        def gh(*args,**kwargs):
+            self.assertEqual(args[:2],('release','download'));calls.append(args)
+            name=args[args.index('--pattern')+1];Path(args[args.index('--dir')+1],name).write_bytes(base[name])
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            for name,data in base.items():(root/name).write_bytes(data)
+            with patch.object(publisher,'verify_output') as verify,patch.object(publisher,'object_json',side_effect=api),patch.object(publisher,'find_release',return_value=row),patch.object(publisher,'gh',side_effect=gh):
+                publisher.publish(root,'2'*64,r);self.assertEqual(verify.call_count,2)
+            self.assertEqual(len(calls),2)
+            row['assets'][-1]['name']='unexpected.zip'
+            with patch.object(publisher,'verify_output'),patch.object(publisher,'object_json',side_effect=api),patch.object(publisher,'find_release',return_value=row),self.assertRaises(ValueError):publisher.publish(root,'2'*64,r)
     def test_published_release_cannot_be_incomplete(self):
         row={'tag_name':'test-sd-apps-0.1.57','prerelease':True,'draft':False,'assets':[]}
         with self.assertRaises(ValueError):publisher.check_release(row,row['tag_name'],{'factory.bin'})

@@ -55,6 +55,14 @@ def check_release(row, tag, names, title=None, body=None):
     return names - set(actual)
 
 
+def pair_asset_names(version):
+    result={'PAIR-QUALIFICATION.json','PAIR-SHA256SUMS'}
+    for mode in ('create','replace','known-lora'):
+        stem='Waveshare-'+version+'-SD-Apps-'+mode
+        result.update(stem+suffix for suffix in ('.zip','.json','-context.json','-descriptor.json'))
+    return result
+
+
 def publish(root, digest, revision):
     p = package.pins()
     require(p['publication_enabled'] is True, 'Product release publication not selected')
@@ -75,6 +83,17 @@ def publish(root, digest, revision):
            '--title', title,
            '--notes-file', str(root / 'RELEASE-NOTES.txt'))
         row = find_release(repo, tag)
+    if row is not None and not row['draft'] and set(a['name'] for a in row['assets'])-names:
+        actual=[a['name'] for a in row['assets']]
+        require(len(actual)==len(set(actual)) and set(actual)<=names|pair_asset_names(p['version']), 'Unexpected canonical extension')
+        base=dict(row,assets=[a for a in row['assets'] if a['name'] in names])
+        require(not check_release(base,tag,names,title,body),'Published base is incomplete')
+        with tempfile.TemporaryDirectory(prefix='wave-base-resume-') as tmp:
+            for name in sorted(names):gh('release','download',tag,'--repo',repo,'--pattern',name,'--dir',tmp)
+            verify_output(Path(tmp),digest,revision)
+        # The following pair publication step regenerates and verifies every
+        # allowed sidecar. This branch attests only the immutable base release.
+        print(row['html_url']);return
     missing = check_release(row, tag, names, title, body)
     # A resumed upload may only add missing names. Existing bytes must match;
     # no tag/asset replacement or deletion is performed.
