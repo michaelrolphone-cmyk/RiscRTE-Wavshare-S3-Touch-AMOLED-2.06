@@ -1,0 +1,59 @@
+{
+  "hardware_tested": false,
+  "live_capacity_verified": false,
+  "policy_sha256": "d5d7076a9ccda68fc3345dab5f6e2956221fcd16409c4d0ff743cf10c62696af",
+  "producer_revision": "1606e7070753c87a9ba6160933331dbcc0d50162",
+  "publication_enabled": false,
+  "results": {
+    "create": {
+      "bytes": 138235,
+      "catalog_release": "RiscRTE-Wavshare-S3-Touch-AMOLED-2.06:test-wifi-footer-0.1.55",
+      "file_count": 3,
+      "firmware_id": "test-wifi-footer-0.1.55",
+      "fixture": false,
+      "live_gates_required": [
+        "confirm-selected-device-and-firmware",
+        "verify-actual-admission-and-provider",
+        "stat-all-destinations-and-parents",
+        "confirm-selected-file-replacement-and-check-declared-guards",
+        "recheck-after-flash-before-file-mutation",
+        "readback-all-files-after-final-flash",
+        "establish-target-consumer-usability"
+      ],
+      "mutation_performed": false,
+      "order": [
+        "firmware",
+        "payload",
+        "verify"
+      ],
+      "payload_id": "waveshare-lora-0.1.17",
+      "status": "static-preflight-passed"
+    },
+    "replace": {
+      "bytes": 138235,
+      "catalog_release": "RiscRTE-Wavshare-S3-Touch-AMOLED-2.06:test-wifi-footer-0.1.55",
+      "file_count": 3,
+      "firmware_id": "test-wifi-footer-0.1.55",
+      "fixture": false,
+      "live_gates_required": [
+        "confirm-selected-device-and-firmware",
+        "verify-actual-admission-and-provider",
+        "stat-all-destinations-and-parents",
+        "confirm-selected-file-replacement-and-check-declared-guards",
+        "recheck-after-flash-before-file-mutation",
+        "readback-all-files-after-final-flash",
+        "establish-target-consumer-usability"
+      ],
+      "mutation_performed": false,
+      "order": [
+        "firmware",
+        "payload",
+        "verify"
+      ],
+      "payload_id": "waveshare-lora-0.1.17",
+      "status": "static-preflight-passed"
+    }
+  },
+  "runtime_revision": "f410c8592ecb37a520df3f29db8d88234dc7ddc9",
+  "schema_revision": "908355b0509907c05a6dc47a1ccc8e078d6e23b0"
+}

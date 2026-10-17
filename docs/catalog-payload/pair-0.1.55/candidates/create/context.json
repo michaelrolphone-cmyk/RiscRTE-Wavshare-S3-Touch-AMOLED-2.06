@@ -1,0 +1,46 @@
+{
+  "context_version": "1.0.0",
+  "fixture": false,
+  "hardware_profile": "waveshare",
+  "hardware_revision": "unspecified",
+  "installed_firmware_id": null,
+  "limits": {
+    "container_bytes": 18000000,
+    "inventory_files": 3
+  },
+  "namespaces": [
+    {
+      "case_semantics": "ascii-insensitive",
+      "firmware_id": "test-wifi-footer-0.1.55",
+      "forbid_trailing_dot_space": true,
+      "forbidden_characters": ":\\*?\"<>|",
+      "hierarchical": true,
+      "max_component_bytes": 127,
+      "max_file_bytes": 136960,
+      "max_path_bytes": 511,
+      "namespace_id": "12",
+      "operations": [
+        "stat",
+        "get",
+        "mkdir",
+        "create",
+        "replace"
+      ],
+      "writable": true,
+      "write_budget_bytes": 138235
+    }
+  ],
+  "product_id": "waveshare-esp32-s3-touch-amoled-2.06",
+  "supported_methods": [
+    "esptool-full-0x0"
+  ],
+  "trusted_binding_sha256": [
+    "15b589175eb999e1a25206c2e876fd5cc797d9852a6a148c3bf6fd24920ad79b"
+  ],
+  "trusted_consumer_sha256": [
+    "a04e1e1c2300ac2fa8eb09f12adb21a32fa96bacdc50b11905f88663eaedf179"
+  ],
+  "trusted_container_sha256": "5e69a6efc7aaf250585abf3638bb956314fc19808fefe037814bed8ea0ce06fe",
+  "trusted_install_sha256": "e70b3fdec8d69d96a272979d7804ce1d07bb0d5fd56ba7679b4d80a114d5817d",
+  "trusted_manifest_sha256": "f89c885c3dc1671954f7d1105a29c2ba7555e94908bdb15601811c99843d7951"
+}

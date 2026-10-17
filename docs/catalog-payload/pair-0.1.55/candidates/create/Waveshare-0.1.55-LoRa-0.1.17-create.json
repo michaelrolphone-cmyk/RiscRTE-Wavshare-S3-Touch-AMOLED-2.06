@@ -1,0 +1,168 @@
+{
+  "catalog_release": {
+    "id": "RiscRTE-Wavshare-S3-Touch-AMOLED-2.06:test-wifi-footer-0.1.55",
+    "release_id": "415527412",
+    "repository": "michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06",
+    "revision": 1,
+    "source_commit": "1606e7070753c87a9ba6160933331dbcc0d50162",
+    "tag": "test-wifi-footer-0.1.55"
+  },
+  "container_format": "risc-catalog-payload-zip-store-v1",
+  "description": "Software-qualified .55 full factory plus existing complete LoRa .17 companion. Unpublished candidate; hardware and X4 rollout gates remain. Explicit create selected per file.",
+  "firmware": {
+    "artifacts": [
+      {
+        "bytes": 16777216,
+        "id": "factory-image",
+        "sha256": "96581ff5d4df7ff1e71b89d936d033af16c37622192fc35fad0df60943352879",
+        "source": "firmware/Waveshare-0.1.55-WiFi-Footer-factory-erases-data-0x0.bin"
+      }
+    ],
+    "id": "test-wifi-footer-0.1.55",
+    "install": {
+      "artifact_ids": [
+        "factory-image"
+      ],
+      "erase_disclosure": "Full factory image at offset 0 erases saved settings and internal device data. Back up first. Transfer the complete external payload after flashing; external-volume survival is not assumed.",
+      "evidence": {
+        "sha256": "064300fd06a6663a78239f4d429a330baf775144b066b5715b4ee3c8ff6dcdc3",
+        "url": "https://github.com/michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06/releases/download/test-wifi-footer-0.1.55/release.json"
+      },
+      "kind": "factory",
+      "method_id": "esptool-full-0x0",
+      "settings_effect": "erased",
+      "volume_effects": [
+        {
+          "effect": "unknown",
+          "evidence": {
+            "sha256": "064300fd06a6663a78239f4d429a330baf775144b066b5715b4ee3c8ff6dcdc3",
+            "url": "https://github.com/michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06/releases/download/test-wifi-footer-0.1.55/release.json"
+          },
+          "volume": "application-content"
+        }
+      ]
+    },
+    "source_commit": "1606e7070753c87a9ba6160933331dbcc0d50162",
+    "version": "0.1.55"
+  },
+  "fixture": false,
+  "payload": {
+    "bindings": [
+      {
+        "evidence": {
+          "sha256": "aeb0e256a82c48c5929cf1feb82f3ab2e66239ad97f14cd015c72cf353bb865c",
+          "url": "https://github.com/michaelrolphone-cmyk/RiscRTE/blob/f410c8592ecb37a520df3f29db8d88234dc7ddc9/src/main.cpp"
+        },
+        "firmware_id": "test-wifi-footer-0.1.55",
+        "namespace_id": "12",
+        "volume": "application-content"
+      }
+    ],
+    "directories": [
+      {
+        "operation": "ensure-directory",
+        "path": "/Apps",
+        "volume": "application-content"
+      },
+      {
+        "operation": "ensure-directory",
+        "path": "/Apps/lora_messages",
+        "volume": "application-content"
+      }
+    ],
+    "files": [
+      {
+        "bytes": 136960,
+        "destination": "/Apps/lora_messages/lora_messages.elf",
+        "operation": "create",
+        "owner": "waveshare-lora-companion",
+        "previous": null,
+        "sha256": "81877ba548ae0c45f4ebbbe71c53753159a4b3a28282ac9ce3c5ef63ad90c0f5",
+        "source": "payload/Apps/lora_messages/lora_messages.elf",
+        "volume": "application-content"
+      },
+      {
+        "bytes": 932,
+        "destination": "/Apps/lora_messages/manifest.json",
+        "operation": "create",
+        "owner": "waveshare-lora-companion",
+        "previous": null,
+        "sha256": "6a07f83bb276c6f662000ffec7fd68c19ed00d4de1889a14e012b5fa09466743",
+        "source": "payload/Apps/lora_messages/manifest.json",
+        "volume": "application-content"
+      },
+      {
+        "bytes": 343,
+        "destination": "/suite-card.json",
+        "operation": "create",
+        "owner": "waveshare-lora-companion",
+        "previous": null,
+        "sha256": "3e9c22cfd15605efa78640b86d6a1119be06fd65834b64d84c6b0020f0826cf3",
+        "source": "payload/suite-card.json",
+        "volume": "application-content"
+      }
+    ],
+    "id": "waveshare-lora-0.1.17",
+    "inventory_sha256": "5726b84318a4007efdcc169396e333849bf3ba6643d342bd3fb7694481fe8fa2",
+    "owner": "waveshare-lora-companion",
+    "totals": {
+      "bytes": 138235,
+      "file_count": 3
+    },
+    "volumes": [
+      {
+        "consumer": {
+          "evidence": {
+            "sha256": "b1d6915d48884d15fc520deb172d39dc636bc266b9f0ed758e2d4b26fdd3094a",
+            "url": "https://github.com/michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06/releases/download/test-wifi-footer-0.1.55/store.bin"
+          },
+          "firmware_id": "test-wifi-footer-0.1.55",
+          "id": "lora_messages"
+        },
+        "id": "application-content",
+        "requirements": {
+          "case_semantics": "ascii-insensitive",
+          "hierarchical": true,
+          "operations": [
+            "stat",
+            "get",
+            "mkdir",
+            "create"
+          ],
+          "path_encoding": "utf-8-exact"
+        }
+      }
+    ]
+  },
+  "plan": {
+    "order": [
+      "firmware",
+      "payload",
+      "verify"
+    ],
+    "policy": {
+      "completion": "all-required-files-readable-by-target-consumer",
+      "on_partial_file": "retain-and-reconcile-selected-file",
+      "on_uncertain_result": "stop-inspect-no-automatic-retry",
+      "replacement": "explicit-selected-file-in-place-nonatomic",
+      "rollback": "none",
+      "unrelated_files": "preserve",
+      "verification": "commit-crc32-then-full-sha256-readback"
+    },
+    "pre_firmware_id": null,
+    "purpose": "bootstrap"
+  },
+  "product": {
+    "hardware_profiles": [
+      "waveshare"
+    ],
+    "hardware_revisions": [
+      "unspecified"
+    ],
+    "id": "waveshare-esp32-s3-touch-amoled-2.06",
+    "serial_contract_version": "1.0.0",
+    "storage_abi": "RiscStorageFilesV1",
+    "wire_protocol": "RTEF1"
+  },
+  "schema_version": "1.0.0"
+}
