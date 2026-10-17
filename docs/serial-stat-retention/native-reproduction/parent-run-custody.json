@@ -1,0 +1,21 @@
+{
+  "scope": "Prior exact-source native scheduler runs, complete logs preserved. Consolidated reproducer is tested separately.",
+  "baseline_runtime": "070d5c7e347f74357f2e8843312409315aca5762",
+  "fixed_runtime": "3f3587a0dbd06c898a80cce1f97455b23aa19ec6",
+  "product_base": "aa0664c2905abb264a6b07f35d027b4879562c68",
+  "inputs": {
+    "/tmp/wave-native-serial-20261017/wave/tests/t054/prepare.py": "f2b8add391fe7a8fb6d4da6f434baa832b65627168fbbb01c7b97e1765519b79",
+    "/tmp/wave-native-serial-20261017/wave/tests/t054/run.py": "e39e14d54ec474b8fb224e63832853414b70e05067c3f3cfc611eb9905599841",
+    "/tmp/wave-native-serial-20261017/wave/tests/t051/sd_fixture.c": "ad0354bbbd92398a817032fca9b155018b74e1e4a4bd0d86d33ee6c45516a7da"
+  },
+  "hardware_tested": false,
+  "generic_hardware_barrier_cause_proven": false,
+  "fixed_runtime_local_commit": "4dc58fa08bcafaf2db46cf872549b6029c62c64a",
+  "fixed_runtime_identical_tree": "12c000716698aa30685b01225a6d2bb10bc81b30",
+  "log_scopes": {
+    "baseline7.log": "Baseline continued discovery: active copied session -3 then closed-session/native-pin conflict -6 and explicit serial custody retention. Post-dispatch continuing=0 reflects retention; the probe entered from continuing=true/pinned=true.",
+    "return-baseline.log": "Baseline returns after first clean -3; Runtime exits cleanly.",
+    "fixed1.log": "Fixed deferred request for absent ordinary.txt returns clean missing status1; Runtime exits cleanly.",
+    "fixed-sanitized.log": "Fixed fixture seeds ordinary.txt with four bytes; deferred request returns status0 STAT6 4. Normalized consolidated fixture seeds this same file for both builds."
+  }
+}

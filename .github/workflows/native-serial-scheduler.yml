@@ -1,0 +1,57 @@
+name: Native serial ownership scheduling
+on:
+  push:
+    branches: [fix/sd-stat-retention, main]
+    paths: ['tests/serial_native_scheduler/**', 'scripts/test_native_serial_scheduler.py', '.github/workflows/native-serial-scheduler.yml']
+  pull_request:
+    paths: ['tests/serial_native_scheduler/**', 'scripts/test_native_serial_scheduler.py', '.github/workflows/native-serial-scheduler.yml']
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: released-baseline
+            runtime: 070d5c7e347f74357f2e8843312409315aca5762
+            expect: baseline
+          - label: fixed
+            runtime: 3f3587a0dbd06c898a80cce1f97455b23aa19ec6
+            expect: fixed
+          - label: fixed-fence-disabled-negative
+            runtime: 3f3587a0dbd06c898a80cce1f97455b23aa19ec6
+            expect: baseline
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE
+          ref: ${{ matrix.runtime }}
+          path: .runtime
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-Watch
+          ref: b00d4e7d36fc69c8defd250a82f6af077c732137
+          path: .watch
+          persist-credentials: false
+      - name: Replay actual native lifecycle and serial endpoint, normal and sanitized
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libssl-dev
+          mkdir .sdk
+          cp .watch/sdk/driver/*.h .sdk/
+          cp .runtime/sdk/{driver,hardware,app}/*.h .sdk/
+          PYTHONDONTWRITEBYTECODE=1 python3 scripts/test_native_serial_scheduler.py --runtime .runtime --sdk .sdk --output evidence --expect ${{ matrix.expect }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-serial-${{ matrix.label }}-${{ github.event.pull_request.head.sha || github.sha }}
+          path: evidence
+          if-no-files-found: error
