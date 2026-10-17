@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "checked_at": "2026-10-17T07:19:53Z",
+  "catalog": {
+    "id": "RiscRTE-Wavshare-S3-Touch-AMOLED-2.06:test-sd-apps-0.1.57",
+    "revision": 1,
+    "github_release_id": 415643536,
+    "source_commit": "aa0664c2905abb264a6b07f35d027b4879562c68"
+  },
+  "payload_plan": {
+    "release_revision": 1,
+    "revision": 1,
+    "catalog_revision": 1,
+    "payload_manifest": {
+      "container": {
+        "asset_name": "Waveshare-0.1.57-SD-Apps-known-lora.zip",
+        "bytes": 19923653,
+        "sha256": "9b579e8c2dffff503f8ed35594be1a03a4d8ca891aa9b035bb3d535047f24b5f"
+      },
+      "manifest": {
+        "asset_name": "Waveshare-0.1.57-SD-Apps-known-lora.json",
+        "bytes": 25781,
+        "sha256": "d609cd19b9b7b61a639822724f5c0a1a0046eb06a7ceda420378d1103104af8e"
+      },
+      "schema_version": "1.0.0"
+    },
+    "firmware_asset": "Waveshare-0.1.57-SD-Apps-factory-erases-data-0x0.bin",
+    "context": {
+      "context_version": "1.0.0",
+      "fixture": false,
+      "hardware_profile": "waveshare",
+      "hardware_revision": "unspecified",
+      "installed_firmware_id": null,
+      "limits": {
+        "container_bytes": 19923653,
+        "inventory_files": 45
+      },
+      "namespaces": [
+        {
+          "case_semantics": "ascii-insensitive",
+          "firmware_id": "test-sd-apps-0.1.57",
+          "forbid_trailing_dot_space": true,
+          "forbidden_characters": ":\\*?\"<>|",
+          "hierarchical": true,
+          "max_component_bytes": 127,
+          "max_file_bytes": 288112,
+          "max_path_bytes": 511,
+          "namespace_id": "12",
+          "operations": [
+            "stat",
+            "get",
+            "mkdir",
+            "create",
+            "replace"
+          ],
+          "writable": true,
+          "write_budget_bytes": 3113484
+        }
+      ],
+      "product_id": "waveshare-esp32-s3-touch-amoled-2.06",
+      "supported_methods": [
+        "esptool-full-0x0"
+      ],
+      "trusted_binding_sha256": [
+        "d020dcfe641fd2cbfe269cf06fd37f87af37bd715feedd318c6029f147889395"
+      ],
+      "trusted_consumer_sha256": [
+        "e38422bba127359eaca7235eb1b60517b62601fb88f720ddf5c27c61d0b109a5"
+      ],
+      "trusted_container_sha256": "9b579e8c2dffff503f8ed35594be1a03a4d8ca891aa9b035bb3d535047f24b5f",
+      "trusted_install_sha256": "0f4cd212237f1e73cc8ce6415b46b066cf32a51aa15be75f22e311b11bdc85c4",
+      "trusted_manifest_sha256": "d609cd19b9b7b61a639822724f5c0a1a0046eb06a7ceda420378d1103104af8e"
+    },
+    "stale": false,
+    "approved": true,
+    "identity": {
+      "id": "RiscRTE-Wavshare-S3-Touch-AMOLED-2.06:test-sd-apps-0.1.57",
+      "revision": 1,
+      "repo": "RiscRTE-Wavshare-S3-Touch-AMOLED-2.06",
+      "tag": "test-sd-apps-0.1.57"
+    }
+  },
+  "firmware_verification": {
+    "available": true,
+    "release_id": "RiscRTE-Wavshare-S3-Touch-AMOLED-2.06:test-sd-apps-0.1.57",
+    "asset_name": "Waveshare-0.1.57-SD-Apps-factory-erases-data-0x0.bin",
+    "bytes": 16777216,
+    "sha256": "4b040de94b3d25c5f383a29f6bff56fb6e39a1cca75ababd968c5405543a8c5c",
+    "checksum_verified": true,
+    "orchestrated_flash_available": true
+  },
+  "physical_tested": false
+}
