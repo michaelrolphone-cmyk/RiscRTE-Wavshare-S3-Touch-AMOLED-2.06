@@ -1,36 +1,46 @@
-# Waveshare Deep -3 lifecycle repair
+# Waveshare no-card Light-to-Deep repair
 
-This directory prepares the 0.1.54 successor to the immutable 0.1.53 release.
-The user observed `Sleep Err Deep -3` on 0.1.52 and reported that they had not
-used serial SD. The exact Runtime defines -3 as BUSY. The 0.1.53 repair fixes a
-separate untimed-sleep INVALID(-1) dispatch defect.
+The 0.1.54 candidate repairs a generic Runtime serial-disconnect state bug over
+the immutable 0.1.53 release. The user reported `Sleep Err Deep -3` on 0.1.52
+with no SD card inserted and no serial transfer: Battery Status, return Home,
+then an untouched sleep/wake loop. The earlier 0.1.53 correction addressed the
+separate zero-duration untimed-sleep INVALID(-1) dispatch defect.
 
-The user subsequently confirmed that no SD card was inserted. Their only
-interaction since installation was Battery Status, then returning Home, followed
-by an untouched sleep/wake loop. The mounted-SD defect described below is a
-separate reproduction; its absent-card control enters modeled Deep and therefore
-does not explain the reported no-card sequence on its own. The current priority
-is post-Battery resource/ownership cleanup and the remaining BUSY guards.
+## Reproduced cause
 
-`released-baseline.json` records every file extracted from the public 0.1.53
-factory image. The independent read-only decoder found 128 files and 62 ELFs.
-The paired firmware and store extracted from that factory match their published
-standalone assets byte-for-byte. This is an artifact-preservation baseline,
-not hardware evidence or qualification of the pending 0.1.54 implementation.
+The delivered Runtime's successful Light return calls serial disconnect for
+HWCDC recovery. Disconnect latches cancellation even when no host, transfer,
+handle or provider operation exists. Home's Hybrid timer path proceeds directly
+to Deep without a service checkpoint. CpuPort observes serial exit safety as
+false and returns BUSY(-3). The actual Runtime source fixture reproduces this
+with no provider calls and fails when correct Deep entry is required.
 
-The lifecycle investigation covers automatic startup mounting, without a user
-serial transfer. A mounted idle SD controller can conflict with native Deep
-readiness, which requires it closed. The source repair must preserve readiness
-and ownership guards and provide checked preparation and reversal at the owning
-Runtime/provider boundaries. Other BUSY guards remain relevant until the exact
-hardware path is identified.
+The narrow repair clears only an idle protocol session's RAM synchronously.
+Active, reentrant and retained-custody operations continue to require the
+existing settled owner checkpoint. Sleep readiness guards are not bypassed.
+This does not require a Home, app, SDK ABI or provider change.
 
-Required software evidence includes a failing pre-fix reproduction, idle-mounted
-and absent-card cases, active-transfer/open-handle refusal, partial preparation
-rollback, Light resume, Deep commit, owner/token misuse, complete final-store
-admission, unchanged unrelated payloads, final native linked-memory fit and exact
-published bytes. Factory installation erases internal saved data. Hardware
-testing remains a separate outcome.
+The independent idle-mounted-SD readiness defect remains separately tracked.
+Its absent-card control succeeds; it is not the established cause of this
+reported no-card sequence and is not folded into this narrow candidate.
+
+## Exact preservation and qualification
+
+`released-baseline.json` records all 128 files and 62 ELFs extracted from public
+0.1.53 factory bytes. Paired firmware and store match their standalone assets.
+All 62 application/provider ELFs, manifests and boot grants remain byte-identical;
+only `cohort.json` binds the rebuilt native Runtime and candidate identity.
+Home and the retained power provider are independently rebuilt twice and checked
+against the exact preserved hashes. Retained Battery source lineage is recorded
+in `retained-battery.json`; no Battery source rebuild is required or claimed.
+
+The source-owned native workflow builds the exact Runtime on ESP-IDF 6.1 and
+GCC 15.2, runs focused regressions, admits the complete store through the real
+loader normally and under sanitizers, verifies final IQ-linked memory fit,
+round-trips the final factory and verifies every published byte. Synthetic
+preservation/fault tests are software evidence; they do not make the factory
+installation data-preserving. Factory installation erases internal saved data.
+Hardware testing remains pending.
 
 Baseline release:
 https://github.com/michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06/releases/tag/test-sleep-rebound-0.1.53
