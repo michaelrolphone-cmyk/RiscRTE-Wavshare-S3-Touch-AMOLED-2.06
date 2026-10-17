@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "transformation": "Only runner/fixture relative paths changed; generated C++ sources match tested normal/sanitized source exactly.",
+  "generated_cpp_identical": true,
+  "product_dependency_hashes_verified": true,
+  "files": [
+    {
+      "tested_path": "/tmp/wave-ns-059/scripts/test_native_serial_scheduler.py",
+      "published_path": "scripts/test_native_serial_liveness.py",
+      "tested_sha256": "524aede768b6709900158524b86a2755535f1d8e8314b0f66be2410c7258e9be",
+      "published_sha256": "36778c51a01671ee794f1e8062c0c14f81d1acb9da72f0a958bc3c2e5f9814e4"
+    },
+    {
+      "tested_path": "/tmp/wave-ns-059/tests/serial_native_scheduler/prepare.py",
+      "published_path": "tests/native_serial_liveness/prepare.py",
+      "tested_sha256": "6712540ea3d711f410beef5b4fb4e4a25d0ea0dd5c8a08aee1c9fe4dafe94975",
+      "published_sha256": "752383d4e30db18c63af31bde2fb8afa2849acfd043d369b227ed788f120cc49"
+    },
+    {
+      "tested_path": "/tmp/wave-ns-059/tests/serial_native_scheduler/sd_fixture.c",
+      "published_path": "tests/native_serial_liveness/sd_fixture.c",
+      "tested_sha256": "73d07d77305fc85fe840bdd2f42a4ec128bf797fab5e7d0317232e426dc33006",
+      "published_sha256": "73d07d77305fc85fe840bdd2f42a4ec128bf797fab5e7d0317232e426dc33006"
+    },
+    {
+      "tested_path": "/tmp/wave-ns-059/full_transfer_fixture.txt",
+      "published_path": "tests/native_serial_liveness/full_transfer_fixture.inc",
+      "tested_sha256": "47d573b35bee5769f03f2756afcedf275a6e328a8202618e716c915cf75fc72e",
+      "published_sha256": "47d573b35bee5769f03f2756afcedf275a6e328a8202618e716c915cf75fc72e"
+    }
+  ]
+}

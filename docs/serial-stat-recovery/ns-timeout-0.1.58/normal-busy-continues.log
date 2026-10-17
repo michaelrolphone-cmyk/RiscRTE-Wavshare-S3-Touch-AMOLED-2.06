@@ -1,0 +1,1 @@
+HOME_NS_CONTROL case=busy-continues clock_ms=30050 checkpoint_calls=269 busy=269 after_window=40095 grants=53 releases=53 health_failure=0 frame_failure=0 visible=1 pixels_preserved=1 completed_token=270 PASS

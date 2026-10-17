@@ -1,0 +1,92 @@
+{
+  "baseline": {
+    "bytes": 552856,
+    "sha256": "2488ba37935dfa1601904b6c62802293fabcaab8000c203377e70707bf6685cf",
+    "sections": {
+      "": 0,
+      ".hash": 76,
+      ".dynsym": 224,
+      ".dynstr": 110,
+      ".rela.dyn": 29724,
+      ".rela.plt": 1524,
+      ".text": 127000,
+      ".rodata": 388596,
+      ".got.loc": 2392,
+      ".data.rel.ro": 1172,
+      ".dynamic": 160,
+      ".got": 4,
+      ".data": 28,
+      ".bss": 265772,
+      ".comment": 47,
+      ".xtensa.info": 56,
+      ".symtab": 560,
+      ".strtab": 119,
+      ".shstrtab": 152
+    },
+    "imports": [
+      "free",
+      "malloc",
+      "memchr",
+      "memcmp",
+      "memcpy",
+      "memmove",
+      "memset",
+      "risc_runtime_get_api",
+      "snprintf",
+      "strcmp",
+      "strlen",
+      "strncmp"
+    ],
+    "exports": [
+      "app_main"
+    ]
+  },
+  "fixed": {
+    "bytes": 554744,
+    "sha256": "f376d722b07c52184cf4cd27df306054920cdf742ccb8bdd4d476a08e35aef54",
+    "sections": {
+      "": 0,
+      ".hash": 76,
+      ".dynsym": 224,
+      ".dynstr": 110,
+      ".rela.dyn": 30636,
+      ".rela.plt": 1524,
+      ".text": 127816,
+      ".rodata": 388724,
+      ".got.loc": 2424,
+      ".data.rel.ro": 1172,
+      ".dynamic": 160,
+      ".got": 4,
+      ".data": 28,
+      ".bss": 265776,
+      ".comment": 47,
+      ".xtensa.info": 56,
+      ".symtab": 560,
+      ".strtab": 119,
+      ".shstrtab": 152
+    },
+    "imports": [
+      "free",
+      "malloc",
+      "memchr",
+      "memcmp",
+      "memcpy",
+      "memmove",
+      "memset",
+      "risc_runtime_get_api",
+      "snprintf",
+      "strcmp",
+      "strlen",
+      "strncmp"
+    ],
+    "exports": [
+      "app_main"
+    ]
+  },
+  "scope": "Exact target-compiled common automatic-provision Home, first-exit checkpoint and phase3 BUSY confirmation defer; no target execution",
+  "compiler": "xtensa-esp32s3-elf-gcc15.2.0 esp-15.2.0_20251204",
+  "crown_sha256": "78d867e6349c38231d6902a6530affa50e26b719147f7af7749e2e9379ed4891",
+  "elf_growth_bytes": 1888,
+  "structural_admission": "passed",
+  "same_dynamic_imports_exports": true
+}
