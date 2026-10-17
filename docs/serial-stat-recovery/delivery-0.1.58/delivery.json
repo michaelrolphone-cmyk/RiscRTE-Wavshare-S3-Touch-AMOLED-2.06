@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "version": "0.1.58",
+  "tag": "test-sd-apps-0.1.58",
+  "producer": "a4427d9622eedf46715574f94618991ea2cd1400",
+  "producer_tree": "52abef02739779d04d09a1b99d9877d98e769b81",
+  "main_merge": "606e071fba8fdfa271b62efa1c183cc06b3e4c19",
+  "runtime": "4b3998f8091d1948a702a281757a1935d401ea4a",
+  "native_ci": {
+    "id": 39017549382,
+    "attempt": 1,
+    "conclusion": "success"
+  },
+  "main_ci": [
+    {
+      "id": 39018673001,
+      "conclusion": "success"
+    },
+    {
+      "id": 39018673091,
+      "conclusion": "success"
+    },
+    {
+      "id": 39018673413,
+      "conclusion": "success"
+    }
+  ],
+  "public_asset_count": 35,
+  "catalog_revision": 1,
+  "payload_revision": 1,
+  "known_lora_plan": {
+    "guarded_replacements": 3,
+    "creates": 42,
+    "approved": true,
+    "stale": false
+  },
+  "prior_physical_failure": {
+    "version": "0.1.57",
+    "result": "STAT unavailable followed by generic native retention barrier; complete device cause remains unproven"
+  },
+  "hardware_tested": false,
+  "hardware_next": "From installed0.1.57, flash repaired0.1.58 then explicitly reconnect on Home, transfer and verify every required SD file. Stop on any preflight mismatch, STAT or retention error. Factory erases internal data; no SD clearing or unrelated-file replacement. Then test SD app operation and card-present sleep/wake."
+}
