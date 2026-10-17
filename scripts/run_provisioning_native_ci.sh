@@ -81,7 +81,7 @@ python "$NATIVE_ROOT/sources/system/scripts/build_installed_apps.py" --runtime-r
  --output-dir "$NATIVE_ROOT/catalog" --internal-packages --boot-profiles --native-feed --feed-url "$feed_url" --feed-product waveshare-s3-touch-amoled-206 --time-server time.cloudflare.com
 python "$NATIVE_ROOT/sources/system/scripts/build_internal_packages.py" --runtime-repo "$NATIVE_ROOT/sources/runtime" --output-dir "$NATIVE_ROOT/internal"
 python "$product/scripts/compact_provisioning_providers.py" --watch "$NATIVE_ROOT/sources/watch" --compiler "$NATIVE_APP_CC" --catalog "$NATIVE_ROOT/catalog" --internal "$NATIVE_ROOT/internal" --originals "$NATIVE_ROOT/provider-sidecars"
-python "$product/scripts/test_provisioning_package.py" --baseline "$NATIVE_ROOT/inputs/released-factory.bin" --home "$NATIVE_ROOT/default-a" --catalog "$NATIVE_ROOT/catalog" --internal "$NATIVE_ROOT/internal" -v
+PYTHONPATH="$NATIVE_ROOT/sources/image_helper/scripts" python "$product/scripts/test_provisioning_package.py" --baseline "$NATIVE_ROOT/inputs/released-factory.bin" --home "$NATIVE_ROOT/default-a" --catalog "$NATIVE_ROOT/catalog" --internal "$NATIVE_ROOT/internal" -v
 source_args=(--source "product=$product" --source "sdk=$IDF_PATH")
 while IFS=$'\t' read -r role repository revision; do source_args+=(--source "$role=$NATIVE_ROOT/sources/$role"); done < "$NATIVE_ROOT/metadata/source-roles.tsv"
 python "$product/scripts/build_provisioning_native.py" "${source_args[@]}" --compiler "$compiler" \

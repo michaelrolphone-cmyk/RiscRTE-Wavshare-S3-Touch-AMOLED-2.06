@@ -286,6 +286,7 @@ class ReleaseContracts(unittest.TestCase):
         self.assertNotIn('--clobber',workflow)
         self.assertIn('verify every asset before publication',workflow)
         self.assertIn('for build in a b',script.read_text())
+        self.assertIn('PYTHONPATH="$NATIVE_ROOT/sources/image_helper/scripts" python "$product/scripts/test_provisioning_package.py" --baseline',script.read_text())
         self.assertIn('build_provisioning_native.py',script.read_text())
         self.assertIn('provisioning_release.py',script.read_text())
         self.assertIn('preservation_model = native.local_qualification().preservation_model',(package.ROOT/'scripts/build_provisioning_native.py').read_text())
