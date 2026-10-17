@@ -1,1 +1,1 @@
-HOME_NS_CONTROL case=context-return clock_ms=18270 checkpoint_calls=146 busy=145 after_window=51 grants=41 releases=29 health_failure=0 frame_failure=0 visible=1 PASS
+HOME_NS_CONTROL case=context-return clock_ms=18270 checkpoint_calls=146 busy=145 after_window=51 grants=41 releases=29 health_failure=0 frame_failure=0 visible=1 pixels_preserved=1 completed_token=146 PASS
