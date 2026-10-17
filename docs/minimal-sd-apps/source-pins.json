@@ -1,10 +1,11 @@
 {
   "baseline_source": "907b9551b0d8208a7f979b0a722a7a47618e0402",
   "baseline_version": "0.1.56",
-  "default_bytes": 552616,
-  "default_manifest_sha256": "37be8bc578456c4fff51f2576ac7a657d5ee96fdd3d6a536abaf8db598653e44",
-  "default_sha256": "5797b757e228f2055f4fda3384659e91830f77ff03a636f9b3f605aeca8ace0d",
+  "default_bytes": 552856,
+  "default_manifest_sha256": "96219ef201e9da5e325f09e19e371cc0aaaf6154d062a532ee923149f43b1d43",
+  "default_sha256": "2488ba37935dfa1601904b6c62802293fabcaab8000c203377e70707bf6685cf",
   "drivers_revision": "5890721073ebabd781d5d278e447c761947a5c58",
+  "feed_product": "waveshare-s3-touch-amoled-206",
   "feed_url": "https://raw.githubusercontent.com/michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06/provisioning-index/0.1.57/native-packages-v1.json",
   "finalized": false,
   "frozen_payload_schema": "908355b0509907c05a6dc47a1ccc8e078d6e23b0",
@@ -12,20 +13,26 @@
   "mounted_card_repair": {
     "included": true,
     "product_candidate": "6393f7658bfe4db7a5429795fe1f105bfcff4e3f",
+    "product_main": "0bb9ef177e63f857f5259f11809cad2f48aa7a23",
     "runtime_candidate": "b074879f6e9eef7f7204fccaf0bd5ea055d22f6b",
-    "status": "awaiting-parent-merged-receipts",
-    "watch_candidate": "42d54d130e110488637e799f097d763fae8a783c"
+    "runtime_main": "070d5c7e347f74357f2e8843312409315aca5762",
+    "runtime_tree": "39a137793c65e39b224fab116bed1ccfaa5c0191",
+    "status": "components-qualified-native-product-pending",
+    "watch_candidate": "42d54d130e110488637e799f097d763fae8a783c",
+    "watch_main": "b00d4e7d36fc69c8defd250a82f6af077c732137",
+    "watch_tree": "e703bd647f1832f3fd88d5876c862e8a99d92394"
   },
   "product": "waveshare",
   "publication_authorized": true,
   "release_branch": "release/sd-apps-0.1.57",
   "release_tag": "test-sd-apps-0.1.57",
-  "runtime_revision": "51520408a5cfbcb7b8b1bcea482a2e4357224d10",
+  "runtime_revision": "070d5c7e347f74357f2e8843312409315aca5762",
   "schema": 1,
   "sdk_revision": "fff9895c82d744c7237be8847347bdd1b07c6643",
   "source_base": "23d40324d600f7bdebb4ed4cd2a10bcf3b4fef38",
   "system_revision": "bb0cadf3cec3445a64e11513b47b2676f3fdd92d",
+  "time_server": "time.cloudflare.com",
   "utilities_revision": "4fdcad2495c33fe63f5f6faca9b11ced3c739a5b",
   "version": "0.1.57",
-  "watch_revision": "2be519c2047b2323e4d399c1de19b0591dc87c59"
+  "watch_revision": "b00d4e7d36fc69c8defd250a82f6af077c732137"
 }

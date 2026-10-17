@@ -15,6 +15,7 @@ SPECIALIZED = {
     'test_storage': 'test_storage.py',
     'test_storage_async': 'test_storage_async.py',
     'test_storage_export': 'test_storage_export.py',
+    'test_storage_sleep': 'test_storage_sleep.py',
     'test_usb_storage': 'test_usb_storage.py',
 }
 

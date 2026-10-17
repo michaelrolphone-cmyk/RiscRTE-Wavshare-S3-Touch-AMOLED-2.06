@@ -12,7 +12,7 @@ import test_drivers
 class Routing(unittest.TestCase):
     def test_all_storage_integrations_have_dedicated_runners(self):
         self.assertEqual(set(test_drivers.SPECIALIZED), {
-            'test_storage', 'test_storage_async', 'test_storage_export', 'test_usb_storage'})
+            'test_storage', 'test_storage_async', 'test_storage_export', 'test_storage_sleep', 'test_usb_storage'})
         standalone = {p.stem for p in test_drivers.standalone_sources()}
         self.assertFalse(standalone & test_drivers.SPECIALIZED.keys())
         for test, runner in test_drivers.SPECIALIZED.items():

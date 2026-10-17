@@ -80,6 +80,8 @@ jobs:
           python3 scripts/test_storage_async.py --sdk .source/provider-sdk --support-include include --sanitize
           python3 scripts/test_storage_export.py --sdk .source/provider-sdk --support-include include
           python3 scripts/test_storage_export.py --sdk .source/provider-sdk --support-include include --sanitize
+          python3 scripts/test_storage_sleep.py --sdk .source/provider-sdk --support-include include
+          python3 scripts/test_storage_sleep.py --sdk .source/provider-sdk --support-include include --sanitize
           python3 scripts/test_usb_storage.py --sdk .source/provider-sdk --support-include include --reader .source/reader --tinyusb .source/tinyusb
           python3 scripts/test_usb_storage.py --sdk .source/provider-sdk --support-include include --reader .source/reader --tinyusb .source/tinyusb --sanitize
           python3 .source/drivers/scripts/test_audio.py --wave "$PWD" --watch .source/shared
