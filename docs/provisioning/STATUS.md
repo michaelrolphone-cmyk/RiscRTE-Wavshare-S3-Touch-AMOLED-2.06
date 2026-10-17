@@ -1,12 +1,12 @@
 # Waveshare provisioning source checkpoint
 
-Work paused before native CI while the released0.1.52 sleep regression is investigated. This is incomplete source preparation, not a runnable release or firmware delivery. No binaries, feeds, release or catalog entry have been published.
+Historical checkpoint before the sleep-repair detour. Resumption measurements are recorded below. This is incomplete source preparation, not a runnable release or firmware delivery. No binaries, feeds, release or catalog entry have been published.
 
-Candidate0.1.53 is proposed over product main ff558f13c2b97c3d40a3c04d0b9f3d0103fc7038. The exact0.1.52 release was downloaded and its factory/store/release metadata hashes verified. All existing tracked source and historical recipes are unchanged. New candidate scripts are isolated.
+The historical, never-delivered draft candidate 0.1.53 was proposed over product main ff558f13c2b97c3d40a3c04d0b9f3d0103fc7038. The exact0.1.52 release was downloaded and its factory/store/release metadata hashes verified. All existing tracked source and historical recipes are unchanged. New candidate scripts are isolated.
 
 ## Verified inputs
 
-- Common Home0.19.0 was independently built twice by the T-Watch integration task:625648 bytes; SHA256db23f172746ab32c0ba9c94d4c7a93d99be5f16247b6f267b48af8d7ca252d6f. The identical raw ELF is selected for both products.
+- Common Home0.19.0 was independently built twice by the T-Watch integration task:625648 bytes; SHA256db23f172746ab32c0ba9c94d4c7a93d99be5f16247b6f267b48af8d7ca252d6f. That historical selection was later superseded by the smaller common Home below.
 - Exact released Settings remains157124 bytes, SHA256a7558b3bd2cd0c2a0edee95e4a8a69477a63772e8300e33e8e7332a2558f8d41. No replacement Settings or Springboard is selected.
 - Newly selected installed-apps links179064 bytes. Checked loader-metadata-v4 compaction yields85660 bytes while preserving loaded sections, symbols, relocation targets and segments. Internal package adapter is3776 bytes.
 
@@ -20,8 +20,33 @@ Do not substitute an older store or claim packing/native qualification. The exis
 
 The package composer and mirror-policy helper are source drafts. build_provisioning_native.py is an unfinished draft: provisioning_qualification and provisioning_feed modules do not exist yet. No workflow is attached to this checkpoint. Complete host mutation controls, capacity resolution, retained platform graph count, exact native compilation/source closure, IQ/workspace placement, whole-store production admission and credential-free complete feed construction remain.
 
-Factory self-admission must be distinguished from0.1.52→candidate preserving-transition admission. Home gains existing Wi-Fi namespace6. No preserving migration authority or update kit has been established. Preserve rejection controls; do not weaken the validator. Hardware first-start/profile acceptance and the reported sleep regression remain separate.
+Factory self-admission must be distinguished from0.1.52→candidate preserving-transition admission. Home gains existing Wi-Fi namespace6. No preserving migration authority or update kit has been established. Preserve rejection controls; do not weaken the validator. Hardware first-start/profile acceptance remain separate. The sleep repair has since been delivered in 0.1.54.
 
 ## Source Atlas coverage
 
 Source set872eb870-e62e-495a-a7e5-ede6e2959342 pins product ff558f13, Watch bc72f4d and Runtime7110261. At23:34UTC, product was missing; Watch12/266 and Runtime12/3361 text records were indexed. No matching compiler configuration was indexed. Empty trace results do not establish absence. Exact checked-out source was inspected directly.
+
+## Resume over delivered 0.1.54
+
+Current main 42cb28ded2440f4386f3295138831a0d1cc68799 is incorporated without changing
+its released recipes. Verified public 0.1.54 checksums file b5a3b12fa6df2c15d583b52183d912288a7d7a13236757dbfd8648473cff9c03
+provides the new retained inventory. The qualified common Home 712127b109568431f1b34d4e947db46386945964
+(610872 bytes, b5d8d7b545da737879a1d369160cd4c6eea4cee8876d09ce783cf00560f70231)
+does not yet make the complete composition fit. See resumed-capacity-0.1.54.json:
+132 files, 64 ELFs, 62 mirrors occupy 20,583 pages against 20,340 permitted pages with 4
+free blocks. This is a 243-page deficit. The oversized scratch generator was used
+only to count occupied pages, not to select a partition layout or create a product.
+
+The original .53 preparation remains an unbuildable draft, not a new release identity.
+Version .55 belongs to the independent Wi-Fi footer repair; a subsequent cumulative
+baseline and identity must be coordinated. No native candidate or release was built.
+
+Catalog linkage audit: allocated text 71,169 and rodata 3,662 bytes dominate after
+loader-safe metadata compaction. Function/data sections plus linker garbage
+collection grows the compact ELF from 85,660 to 86,548 bytes. Prior Oz/LTO probe 82,756
+only saves 2,904 bytes. Neither is selected. All retained .54 ELFs remain exact.
+
+Source Atlas set c53815c1-80c8-44b8-8a3e-cd69cd601a16 pins current product,
+qualified Watch/Runtime and catalog System source. Its exact revisions currently
+have no matching complete text/compiler coverage; empty trace results do not
+establish absence. Local pinned-source review supplies syntax evidence only.
