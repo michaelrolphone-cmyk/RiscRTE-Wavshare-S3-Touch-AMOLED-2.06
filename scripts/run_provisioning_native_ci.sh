@@ -23,7 +23,8 @@ repos={'runtime':'RiscRTE','system':'RiscRTE-System-Apps','utilities':'RiscRTE-U
 root=Path(sys.argv[2])
 (root/'metadata/source-roles.tsv').write_text(''.join(f'{r}\tmichaelrolphone-cmyk/{repo}\t{p[r+"_revision"]}\n' for r,repo in repos.items()))
 assert p['sdk_revision']=='fff9895c82d744c7237be8847347bdd1b07c6643'
-expected='michaelrolphone-cmyk/'+{'twatch':'RiscRTE-Wavshare-S3-Touch-AMOLED-2.06','waveshare':'RiscRTE-Wavshare-S3-Touch-AMOLED-2.06'}[p['product']]
+assert p['product']=='waveshare'
+expected='michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06'
 assert os.environ['GITHUB_REPOSITORY']==expected
 (root/'metadata/baseline.json').write_text(json.dumps(c))
 with open(os.environ['GITHUB_OUTPUT'],'a') as out:

@@ -57,6 +57,17 @@ class Payloads(unittest.TestCase):
         for n in p.ADDED:
             changed=dict(self.after);changed[n]+=b'x'
             with self.subTest(path=n),self.assertRaises(ValueError):self.verify(changed)
+    def test_resigned_provider_replacement_is_rejected(self):
+        for n in p.ADDED:
+            changed=dict(self.after);changed[n]+=b'x'
+            providers=dict(self.providers);providers[n]=changed[n]
+            with self.subTest(path=n),self.assertRaises(ValueError):
+                p.verify_store(self.before,changed,self.default,self.manifest,providers,self.pins,self.revision,self.firmware)
+    def test_baseline_cannot_be_resigned(self):
+        before=dict(self.before);before['wifi_settings.elf']+=b'x'
+        changed=dict(self.after);changed['wifi_settings.elf']=before['wifi_settings.elf']
+        with self.assertRaises(ValueError):
+            p.verify_store(before,changed,self.default,self.manifest,self.providers,self.pins,self.revision,self.firmware)
     def test_only_home_policy_gains_authority(self):
         before=json.loads(self.before['boot.json']);after=json.loads(self.after['boot.json'])
         retained=copy.deepcopy(after['drivers'][:36])

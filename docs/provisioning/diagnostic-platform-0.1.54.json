@@ -111,6 +111,114 @@
       "target_instructions_executed": false
     }
   },
+  "sanitized_passed": true,
+  "sanitized_results": {
+    "authority_control": {
+      "active_platform_count": 22,
+      "active_store_sha256": "2702eced185c5219c71d7a1f6b41cdc3ec6a9e55be5e99ab92e96f45543aacd4",
+      "app_policy_rows": 32,
+      "candidate_platform_count": 22,
+      "candidate_store_sha256": "8d3ef7df97edc3d35e8be1c3608205f3daf4c5f58c91f8c6d81d6ae85ccc8197",
+      "cohort_validated": true,
+      "cooperative_yields": 209,
+      "elf_count": 64,
+      "error": "",
+      "hardware_calls": 0,
+      "native_composition": {
+        "bounds": {
+          "RISC_APP_POLICY_ROWS": 32,
+          "RISC_APP_REQUIREMENT_ROWS": 32,
+          "RISC_INSTALLED_APP_CAPACITY": 64,
+          "RISC_PLATFORM_CAPACITY": 32,
+          "RISC_PROVIDER_CAPACITY": 40
+        },
+        "file_source_enabled": true,
+        "native_layout": {
+          "marker_address": 1008146462,
+          "marker_bytes": 24,
+          "marker_symbol": "risc_paired_store_abi",
+          "store_abi": 3
+        },
+        "product_profile_sha256": "09139d46447e197b09453ada915327886682ac8b6a3ca1d0e3182c31f62c7d83",
+        "runtime_commit": "51520408a5cfbcb7b8b1bcea482a2e4357224d10",
+        "store_abi": 3
+      },
+      "native_elf_sha256": "73fca29417a4396b118c22ef48af3f3819a11b02c2f58221bdb7948008157362",
+      "prepared": true,
+      "storage_calls": 0,
+      "target_instructions_executed": false
+    },
+    "factory_self": {
+      "active_platform_count": 22,
+      "active_store_sha256": "fba252b161a910394e6a2c20713ee475d6db187d83fc2d1be4e131c7b956598a",
+      "app_policy_rows": 32,
+      "candidate_platform_count": 22,
+      "candidate_store_sha256": "fba252b161a910394e6a2c20713ee475d6db187d83fc2d1be4e131c7b956598a",
+      "cohort_validated": true,
+      "cooperative_yields": 209,
+      "elf_count": 64,
+      "error": "",
+      "hardware_calls": 0,
+      "native_composition": {
+        "bounds": {
+          "RISC_APP_POLICY_ROWS": 32,
+          "RISC_APP_REQUIREMENT_ROWS": 32,
+          "RISC_INSTALLED_APP_CAPACITY": 64,
+          "RISC_PLATFORM_CAPACITY": 32,
+          "RISC_PROVIDER_CAPACITY": 40
+        },
+        "file_source_enabled": true,
+        "native_layout": {
+          "marker_address": 1008146462,
+          "marker_bytes": 24,
+          "marker_symbol": "risc_paired_store_abi",
+          "store_abi": 3
+        },
+        "product_profile_sha256": "09139d46447e197b09453ada915327886682ac8b6a3ca1d0e3182c31f62c7d83",
+        "runtime_commit": "51520408a5cfbcb7b8b1bcea482a2e4357224d10",
+        "store_abi": 3
+      },
+      "native_elf_sha256": "73fca29417a4396b118c22ef48af3f3819a11b02c2f58221bdb7948008157362",
+      "prepared": true,
+      "storage_calls": 0,
+      "target_instructions_executed": false
+    },
+    "rejected_transition": {
+      "active_platform_count": 22,
+      "active_store_sha256": "2702eced185c5219c71d7a1f6b41cdc3ec6a9e55be5e99ab92e96f45543aacd4",
+      "app_policy_rows": 32,
+      "candidate_platform_count": 22,
+      "candidate_store_sha256": "fba252b161a910394e6a2c20713ee475d6db187d83fc2d1be4e131c7b956598a",
+      "cohort_validated": false,
+      "cooperative_yields": 0,
+      "elf_count": 0,
+      "error": "",
+      "hardware_calls": 0,
+      "native_composition": {
+        "bounds": {
+          "RISC_APP_POLICY_ROWS": 32,
+          "RISC_APP_REQUIREMENT_ROWS": 32,
+          "RISC_INSTALLED_APP_CAPACITY": 64,
+          "RISC_PLATFORM_CAPACITY": 32,
+          "RISC_PROVIDER_CAPACITY": 40
+        },
+        "file_source_enabled": true,
+        "native_layout": {
+          "marker_address": 1008146462,
+          "marker_bytes": 24,
+          "marker_symbol": "risc_paired_store_abi",
+          "store_abi": 3
+        },
+        "product_profile_sha256": "09139d46447e197b09453ada915327886682ac8b6a3ca1d0e3182c31f62c7d83",
+        "runtime_commit": "51520408a5cfbcb7b8b1bcea482a2e4357224d10",
+        "store_abi": 3
+      },
+      "native_elf_sha256": "73fca29417a4396b118c22ef48af3f3819a11b02c2f58221bdb7948008157362",
+      "prepared": true,
+      "storage_calls": 0,
+      "target_instructions_executed": false
+    }
+  },
   "scope": "Host fixture sourced from Runtime51520408 with feature selection from released .54 ELF; final .55 composition and .56 native ELF still required",
   "selected_capacity": 32
 }

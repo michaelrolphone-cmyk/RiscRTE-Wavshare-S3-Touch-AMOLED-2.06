@@ -1,8 +1,8 @@
 {
   "elf_count": 62,
-  "factory_asset": "Waveshare-0.1.52-Shared-Default-factory-erases-data-0x0.bin",
+  "factory_asset": "Waveshare-0.1.55-WiFi-Footer-factory-erases-data-0x0.bin",
   "factory_bytes": 16777216,
-  "factory_sha256": "b17b236a9c729da91b8ec709f9b43bbe326296602c34de69f3aa8582741dbd6c",
+  "factory_sha256": "96581ff5d4df7ff1e71b89d936d033af16c37622192fc35fad0df60943352879",
   "files": {
     "alarm-service/driver.elf": {
       "bytes": 20684,
@@ -69,12 +69,12 @@
       "sha256": "d02c27407a5ab4461812e080b98262f49953d72524e8a7878ba8b05568c81934"
     },
     "battery/driver.elf": {
-      "bytes": 5948,
-      "sha256": "7ba073e30bab4a00a9c146af6e6e594ae381729e7102a9eea58e3ba491999127"
+      "bytes": 6268,
+      "sha256": "1834f708fdd7ef725db16a0719b21cd41816cf5b60a867826b017722eb1dd4be"
     },
     "battery/manifest.json": {
-      "bytes": 518,
-      "sha256": "4dea0f5d925771dd64a8e5617f87bfabcbb99d25b0bf3a53db563ce301c14aac"
+      "bytes": 756,
+      "sha256": "50ef52f27f93165e1ebb748b5e5d21cd6d497f2fcf38654b8c19e0db282a34af"
     },
     "ble-hid/driver.elf": {
       "bytes": 125480,
@@ -190,7 +190,7 @@
     },
     "cohort.json": {
       "bytes": 475,
-      "sha256": "8bbebcad2c5748c565a0df109cccc641cde8e0dece35d91ba17783a3d6fd8f04"
+      "sha256": "1bdc200a83fe7dd08c54310853139063e0e61bc295d4f55817ccc16951ceb5e8"
     },
     "contexts.elf": {
       "bytes": 63840,
@@ -510,17 +510,17 @@
     },
     "wifi_settings.elf": {
       "bytes": 169460,
-      "sha256": "7bb9d98ace7cb783e6f85368c0dfd29360b96a635766c6f3f637b6901ae0d6c8"
+      "sha256": "25a5b8c1f36f4c9ea4edf7a6bcae5b890264a646bbbd2bca37e8c153c5233247"
     },
     "wifi_settings.json": {
-      "bytes": 936,
-      "sha256": "b4b5d15fcb784e778e9d20019fbcaeb86691a247bba259e3000bd063b2e51417"
+      "bytes": 1444,
+      "sha256": "fed946946d58f7e9fbb10bad11e49575e0aa3e4f65bb1cec8ab74550a65e91dd"
     }
   },
   "product": "waveshare",
-  "release_tag": "test-shared-default-0.1.52",
+  "release_tag": "test-wifi-footer-0.1.55",
   "schema": 1,
-  "source_revision": "3368c0719597116fcb4b583b4a596f41a79d5263",
-  "store_sha256": "e025d90b35626b60f81a4558b5176b0f5ab2c7880ee37074f3c6a687fce4eb37",
-  "version": "0.1.52"
+  "source_revision": "1606e7070753c87a9ba6160933331dbcc0d50162",
+  "store_sha256": "b1d6915d48884d15fc520deb172d39dc636bc266b9f0ed758e2d4b26fdd3094a",
+  "version": "0.1.55"
 }

@@ -82,3 +82,26 @@ Product build, feed, admission and publication helpers now exist; their release
 mutation tests and linked-layout tests pass locally. Product native compilation,
 final cumulative packing and publication are pending. No hardware acceptance is
 claimed. Previous release recipes and exact Settings remain unchanged.
+
+## Final public baseline audit, 2026-10-17
+
+The exact public 0.1.55 producer is 1606e7070753c87a9ba6160933331dbcc0d50162;
+main merge 118073e5ae2d93b0c4d987b6da0e54475a4eba54 has the identical tree.
+All 21 public assets match GitHub SHA-256 digests and the checksum manifest;
+independent factory extraction confirms its firmware/store binding. The 128-file,
+62-ELF baseline preserves the .54 sleep repairs and adds only the Wi-Fi footer repair.
+The .56 recipe freezes every previous release recipe and preserves all 61 retained
+non-Home ELFs, including Wi-Fi, Settings and Springboard.
+
+Preflight with the exact .55 store plus selected .56 payloads packs 132 files and
+64 ELFs into the unchanged store: 93 free pages, six whole free blocks, meeting
+the four-block reserve. This receipt still uses .55 native firmware identity and
+a placeholder product SHA; the exact .56 native composition is remeasured in CI.
+Fourteen full payload tests, eight transport/publication mutation tests and three
+linked-layout/compile-selection tests pass. The current mounted-SD repair is a
+separate task and is not included in this source closure.
+
+Merged Watch main 53282b569f5f2e2c7f55979c82b2eacad83dde30 CI 38993267445
+artifact 12086840004 independently matches the immutable common Home 5797b757.
+Exact ring source is available via Source Atlas GitHub fallback; the matching
+revision has no complete text/compiler index, so no call-graph completeness is claimed.

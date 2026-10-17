@@ -120,6 +120,7 @@ def expected_cohort(before, p, revision, firmware=None):
 
 
 def compose(before, default, manifest, providers, p, revision, firmware=None):
+    check_baseline(before, baseline_contract(p))
     require(record(default) == {'bytes': p['default_bytes'], 'sha256': p['default_sha256']} and sha(manifest) == p['default_manifest_sha256'], 'Canonical Home differs')
     require(set(providers) == set(ADDED), 'New providers incomplete')
     after = dict(before, **providers)
@@ -132,11 +133,12 @@ def compose(before, default, manifest, providers, p, revision, firmware=None):
 
 
 def verify_store(before, after, default, manifest, providers, p, revision, firmware=None):
+    check_baseline(before, baseline_contract(p))
     require(set(after) - set(before) == set(ADDED) and not set(before) - set(after), 'Inventory changed beyond new providers')
     changed = sorted(n for n in before if before[n] != after[n])
     require(changed == CHANGED, 'Unapproved replacement: ' + repr(changed))
     require(after['default.elf'] == default and after['default.json'] == manifest, 'Home payload changed')
-    require(all(after[n] == providers[n] for n in ADDED), 'Provider payload changed')
+    require(all(after[n] == providers[n] and record(after[n]) == p['providers'][n] for n in ADDED), 'Provider payload changed')
     require(record(default) == {'bytes': p['default_bytes'], 'sha256': p['default_sha256']} and sha(manifest) == p['default_manifest_sha256'], 'Canonical Home identity differs')
     require(json.loads(after['boot.json']) == policy(before, manifest, after)[0], 'Product policy changed')
     require(json.loads(after['cohort.json']) == expected_cohort(before, p, revision, firmware), 'Cohort differs')
