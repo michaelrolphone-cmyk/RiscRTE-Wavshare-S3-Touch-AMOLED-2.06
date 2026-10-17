@@ -136,7 +136,25 @@ def check_qualification(q, p, revision):
         require({t['sanitized'] for t in app['tests']}=={False,True},'External sanitizer matrix missing')
         for test in app['tests']:
             require(test['production_structural_validation'] and test['production_application_admission'] and test['production_removable_image_snapshots']==2 and test['missing_import_rejections']==len(app['imports']) and test['driver_role_rejected'] and test['unsafe_rejected'] and test['malformed_or_truncated_rejections']==4,'Incomplete external admission')
-    require(q['navigation']['passed'] is True and q['navigation']['hardware_tested'] is False,'Production navigation qualification missing')
+    client=q['historical_springboard_client']
+    require(client['passed'] and client['hardware_tested'] is False and client['system_source']=='f31f89636304d202c49884e2e9b2e0b2ec5fb891' and len(client['visible_rows'])==24 and {r['sanitized'] for r in client['results']}=={False,True},'Historical Springboard client proof missing')
+    require(client['retained_springboard_elf_sha256']==q['baseline_contract']['files']['springboard.elf']['sha256'] and client['retained_manifest_sha256']==q['baseline_contract']['files']['springboard.json']['sha256'],'Retained Springboard client identity differs')
+    nav=q['navigation']
+    require(nav['passed'] is True and nav['hardware_tested'] is False and nav['runtime_commit']==p['runtime_revision'],'Production navigation qualification missing')
+    require(nav['external_app_count']==22 and nav['visible_catalog_count']==24 and nav['provider_count']==38 and nav['clock_hidden'] and nav['newly_moved_internal_images_absent']==21,'Navigation graph differs')
+    require(nav['production_runtime_graph_unchanged'] and nav['production_structural_validation'] and nav['production_serial_per_file_installation'] and nav['target_instructions_executed'] is False,'Navigation proof boundary differs')
+    for sanitized in (False,True):
+        tests=[t for t in nav['tests'] if t['sanitized']==sanitized]
+        modes={t['mode']:t for t in tests if 'mode' in t}
+        require(set(modes)=={'normal','no-card','missing','malformed','removed','relocation'},'Navigation failure modes incomplete')
+        for mode,t in modes.items():
+            require(t['catalog_checks']==2 and t['home_invocations']==53 and t['hidden_shim_returns']==2 and t['preference_checks']>0 and t['prior_invocation_preference_reads']>0 and t['app_data_checks']>0,'Navigation/preference observations incomplete')
+            require(t['external_failures_recovered']==(0 if mode=='normal' else 44),'External failure recovery differs')
+        installs={t['scenario']:t for t in tests if 'scenario' in t}
+        require(set(installs)=={'clean','known-lora'},'Per-file install scenarios incomplete')
+        for scenario,t in installs.items():
+            require(t['production_serial_protocol'] and t['namespace']==12 and t['preserved_sentinels']==5 and t['verified_file_bytes']==6226968 and t['hardware_tested'] is False,'Per-file preservation observations incomplete')
+            require((t['create_files'],t['replace_files'],t['verified_prior_hashes'])==((45,45,0) if scenario=='clean' else (42,48,3)),'Explicit create/replace plan differs')
     return lock
 
 

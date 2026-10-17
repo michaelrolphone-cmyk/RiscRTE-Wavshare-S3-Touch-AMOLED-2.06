@@ -12,6 +12,7 @@ python -m pip install pyelftools==0.32
 python "$product/scripts/test_minimal_sd_package.py"
 python "$product/scripts/test_minimal_sd_release.py"
 python "$product/scripts/test_minimal_sd_native_layout.py"
+python "$product/scripts/test_minimal_sd_pair_plans.py"
 python - "$product" "$NATIVE_ROOT" <<'PY'
 import json,os,sys
 from pathlib import Path

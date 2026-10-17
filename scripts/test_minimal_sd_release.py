@@ -27,6 +27,13 @@ class Contracts(unittest.TestCase):
         q['artifacts'].update({n:{'bytes':1,'sha256':'3'*64} for n in release.PAYLOAD})
         test=dict(production_structural_validation=True,production_application_admission=True,production_removable_image_snapshots=2,missing_import_rejections=1,driver_role_rejected=True,unsafe_rejected=True,malformed_or_truncated_rejections=4)
         q['external_apps']=dict(external_app_count=22,apps=[{'imports':['memcpy'],'tests':[dict(test,sanitized=x) for x in (False,True)]} for _ in range(22)],native_elf_sha256='5'*64,runtime_commit=p['runtime_revision'],all_required_capabilities_explicitly_granted=True,target_instructions_executed=False,hardware_tested=False)
+        q['historical_springboard_client']=dict(passed=True,hardware_tested=False,system_source='f31f89636304d202c49884e2e9b2e0b2ec5fb891',visible_rows=[{}]*24,results=[dict(sanitized=x) for x in (False,True)],retained_springboard_elf_sha256=c['files']['springboard.elf']['sha256'],retained_manifest_sha256=c['files']['springboard.json']['sha256'])
+        nav=q['navigation'];nav.update(runtime_commit=p['runtime_revision'],external_app_count=22,visible_catalog_count=24,provider_count=38,clock_hidden=True,newly_moved_internal_images_absent=21,production_runtime_graph_unchanged=True,production_structural_validation=True,production_serial_per_file_installation=True,target_instructions_executed=False,tests=[])
+        for sanitized in (False,True):
+            for mode in ('normal','no-card','missing','malformed','removed','relocation'):
+                nav['tests'].append(dict(sanitized=sanitized,mode=mode,catalog_checks=2,home_invocations=53,hidden_shim_returns=2,preference_checks=1,prior_invocation_preference_reads=1,app_data_checks=1,external_failures_recovered=0 if mode=='normal' else 44))
+            for scenario in ('clean','known-lora'):
+                nav['tests'].append(dict(sanitized=sanitized,scenario=scenario,production_serial_protocol=True,namespace=12,preserved_sentinels=5,verified_file_bytes=6226968,hardware_tested=False,create_files=45 if scenario=='clean' else 42,replace_files=45 if scenario=='clean' else 48,verified_prior_hashes=0 if scenario=='clean' else 3))
         return q,p,revision
     def test_envelope(self):
         q,p,r=self.fixture();self.assertEqual(release.check_qualification(q,p,r),q['input_lock'])
@@ -38,7 +45,7 @@ class Contracts(unittest.TestCase):
          ('preservation','external_files'):44,('preservation','clock_hidden'):False,('preservation','data_mapping_preserved'):False,
          ('packing','empty_blocks'):3,('external_apps','external_app_count'):21,('external_apps','native_elf_sha256'):'0'*64,
          ('external_apps','runtime_commit'):'0'*40,('external_apps','target_instructions_executed'):True,
-         ('navigation','passed'):False,('navigation','hardware_tested'):True,('feed','core_inventory_files'):132,
+         ('navigation','passed'):False,('navigation','visible_catalog_count'):27,('navigation','tests'):[],('navigation','runtime_commit'):'0'*40,('navigation','hardware_tested'):True,('feed','core_inventory_files'):132,
          ('admission','elf_count'):64,('admission','placement_transition','cohort_validated'):False,
          ('admission','unauthorized_namespace_control','cohort_validated'):True,('provisioning','linked_layout','types','platform_slots'):40}
         for path,value in mutations.items():

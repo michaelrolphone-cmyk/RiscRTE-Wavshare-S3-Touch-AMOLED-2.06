@@ -172,6 +172,15 @@ def qualify(args, sources, proof):
     external_proof=qualify_external(sources['runtime'],sources['image_helper'],blobs['firmware_elf'],after,payload,args.native_build/'native-build-evidence/external-apps')
     from qualify_minimal_sd_navigation import qualify as qualify_navigation
     navigation=qualify_navigation(sources['runtime'],after,payload,args.native_build/'native-build-evidence/navigation')
+    client_root=args.native_build/'native-build-evidence/historical-springboard-client'
+    with tempfile.TemporaryDirectory(prefix='wave-client-inputs-') as tmp:
+        internal=Path(tmp)
+        for name,data in after.items():
+            target=internal/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(data)
+        fixture=package.ROOT/'tests/minimal_sd_client'
+        subprocess.run([sys.executable,str(fixture/'qualify.py'),'--internal',str(internal),'--historical-headers',str(fixture/'include'),'--output',str(client_root)],check=True)
+    client=json.loads((client_root/'qualification.json').read_bytes())
+    require(client['passed'] and client['retained_springboard_elf_sha256']==sha(after['springboard.elf']) and len(client['visible_rows'])==24,'Historical Springboard client qualification differs')
     payload_zip=make_archive(payload)
     assets = {'factory-candidate-erases-data-0x0.bin': factory, 'firmware.bin': blobs['firmware_bin'],
               'bootloader.bin': blobs['bootloader'], 'partitions.bin': blobs['partitions'], 'store.bin': packed}
@@ -185,7 +194,7 @@ def qualify(args, sources, proof):
                   input_lock=lock, controlled_build=closure, native=native_proof, native_rebuilt=True, mirrors=mirrors,
                   default=canonical_proof, serial_files=serial_proof, provisioning=provisioning_proof, baseline_contract=contract, preservation=preservation, public_imports=imports,
                   admission=admission, admission_sanitized=admission_sanitized, preservation_software_model=fault_model,
-                  packing=packing, feed=feed, external_apps=external_proof, navigation=navigation, artifacts={n: record(b) for n, b in assets.items()})
+                  packing=packing, feed=feed, external_apps=external_proof, navigation=navigation, historical_springboard_client=client, artifacts={n: record(b) for n, b in assets.items()})
     assets.update({'qualification.json': encoded(report), 'source-lock.json': args.lock.read_bytes(),
                    'source-pins.json': (package.DOCS / 'source-pins.json').read_bytes(), 'default.elf': default, 'default.json': manifest})
     evidence = {'qualification.json': assets['qualification.json'], 'canonical-a.json': (args.first / 'build.json').read_bytes(),

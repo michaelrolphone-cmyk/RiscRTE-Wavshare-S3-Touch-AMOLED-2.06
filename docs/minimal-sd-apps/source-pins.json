@@ -7,7 +7,7 @@
   "drivers_revision": "5890721073ebabd781d5d278e447c761947a5c58",
   "feed_product": "waveshare-s3-touch-amoled-206",
   "feed_url": "https://raw.githubusercontent.com/michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06/provisioning-index/0.1.57/native-packages-v1.json",
-  "finalized": false,
+  "finalized": true,
   "frozen_payload_schema": "908355b0509907c05a6dc47a1ccc8e078d6e23b0",
   "historical_contracts": {
     ".github/workflows/alarm-sleep-release.yml": "41a945c95d790a82fab4223f3e91a94b75ed02a3d73490540dc4e6bf2e0b1b39",
