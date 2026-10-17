@@ -1,0 +1,103 @@
+{
+  "association": {
+    "approved": true,
+    "catalog_revision": 1,
+    "context": {
+      "context_version": "1.0.0",
+      "fixture": false,
+      "hardware_profile": "waveshare",
+      "hardware_revision": "unspecified",
+      "installed_firmware_id": null,
+      "limits": {
+        "container_bytes": 19923653,
+        "inventory_files": 45
+      },
+      "namespaces": [
+        {
+          "case_semantics": "ascii-insensitive",
+          "firmware_id": "test-sd-apps-0.1.59",
+          "forbid_trailing_dot_space": true,
+          "forbidden_characters": ":\\*?\"<>|",
+          "hierarchical": true,
+          "max_component_bytes": 127,
+          "max_file_bytes": 288112,
+          "max_path_bytes": 511,
+          "namespace_id": "12",
+          "operations": [
+            "stat",
+            "get",
+            "mkdir",
+            "create",
+            "replace"
+          ],
+          "writable": true,
+          "write_budget_bytes": 3113484
+        }
+      ],
+      "product_id": "waveshare-esp32-s3-touch-amoled-2.06",
+      "supported_methods": [
+        "esptool-full-0x0"
+      ],
+      "trusted_binding_sha256": [
+        "f4e0ebe14362fdba2bbd7e2f38e490866d8cca1a7cb8e2ec8a27f2cb446b14e3"
+      ],
+      "trusted_consumer_sha256": [
+        "fce52153682dac18c9a225683b660a5a6dc29dfe0e6b88e2bd6f9264fb50cebd"
+      ],
+      "trusted_container_sha256": "e8a12dfd0728609fad9efba6c6cc77820a0568a84684c5e116ef84347db07bfb",
+      "trusted_install_sha256": "f131a95a483bed4daaa24bc95acd21c9fee123e8d906cc71e7a5dfb0d0c130a4",
+      "trusted_manifest_sha256": "1ea14652ae21d9df6040e557bdf26b6e57e4e6078833f2c8136812f75ac20b87"
+    },
+    "firmware_asset": "Waveshare-0.1.59-SD-Apps-factory-erases-data-0x0.bin",
+    "identity": {
+      "id": "RiscRTE-Wavshare-S3-Touch-AMOLED-2.06:test-sd-apps-0.1.59",
+      "repo": "RiscRTE-Wavshare-S3-Touch-AMOLED-2.06",
+      "revision": 1,
+      "tag": "test-sd-apps-0.1.59"
+    },
+    "payload_manifest": {
+      "container": {
+        "asset_name": "Waveshare-0.1.59-SD-Apps-known-lora.zip",
+        "bytes": 19923653,
+        "sha256": "e8a12dfd0728609fad9efba6c6cc77820a0568a84684c5e116ef84347db07bfb"
+      },
+      "manifest": {
+        "asset_name": "Waveshare-0.1.59-SD-Apps-known-lora.json",
+        "bytes": 25781,
+        "sha256": "1ea14652ae21d9df6040e557bdf26b6e57e4e6078833f2c8136812f75ac20b87"
+      },
+      "schema_version": "1.0.0"
+    },
+    "release_revision": 1,
+    "revision": 1,
+    "stale": false
+  },
+  "catalog": {
+    "asset_name": "Waveshare-0.1.59-SD-Apps-factory-erases-data-0x0.bin",
+    "available": true,
+    "bytes": 16777216,
+    "checksum_verified": true,
+    "orchestrated_flash_available": true,
+    "release_id": "RiscRTE-Wavshare-S3-Touch-AMOLED-2.06:test-sd-apps-0.1.59",
+    "sha256": "fba7e95f5487698efe818efc661a6c415e75657842cc13bae11927259a160783"
+  },
+  "handoff_at": "2026-10-17T10:21:27Z",
+  "handoff_message": "Sentinel_bc58c72051588191b2d123a98a694d28",
+  "hardware_tested": false,
+  "historical_physical_failures": [
+    "0.1.57 STAT unavailable/retention",
+    "0.1.58 NS timeout/Home return"
+  ],
+  "merged_source": "18e38e2f6a523d9cde929679a6113d22404ef39a",
+  "native_and_publication": "passed",
+  "native_attempt": 1,
+  "native_run": 39023362842,
+  "physical_cause_attribution": "unconfirmed",
+  "producer": "d0f95bfcfbef90df58f1bd6e8a3cfe5c495ab8eb",
+  "public_asset_count": 35,
+  "publication_attempt": 2,
+  "rhizome_receipt": "https://tasker-workboard.hazy-auk-4334.chatgpt.site/?comment=ae1cb6ef-6c9c-42f6-a405-df9469a31489",
+  "schema": 1,
+  "source_only_delivery_commit": true,
+  "version": "0.1.59"
+}

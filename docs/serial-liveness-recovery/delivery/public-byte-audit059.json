@@ -1,0 +1,912 @@
+{
+  "actual_serial_receipts": {
+    "native_serial_scheduler": {
+      "archived_logs_verified": [
+        {
+          "bytes": 3673,
+          "member": "build-evidence/native-serial-liveness/normal-full-progress.log",
+          "sha256": "c38e2a31a685b8d94215c141518d06d64b2f8b59e3ce48761c20b631f49c9415"
+        },
+        {
+          "bytes": 3675,
+          "member": "build-evidence/native-serial-liveness/normal-full-pace8.log",
+          "sha256": "d99c624e3a8a9ab94ad525855b0eae429938cffce104c2708ba62afac9aeb2e9"
+        },
+        {
+          "bytes": 3677,
+          "member": "build-evidence/native-serial-liveness/normal-full-pace16.log",
+          "sha256": "ee95dca6b16bf30eb0d467d90298ece5e1a43cb8d88f99fe0026748104f4dd7a"
+        },
+        {
+          "bytes": 3677,
+          "member": "build-evidence/native-serial-liveness/normal-full-pace32.log",
+          "sha256": "d99724acf4abe37b78554d7281865bc276a41e74ccd8872718a50438a26d3623"
+        },
+        {
+          "bytes": 950,
+          "member": "build-evidence/native-serial-liveness/normal-full-slow.log",
+          "sha256": "b8c48bc10167f5b2df835c6186f1d04cb253500d3730c5b4b01cec3c5980ec65"
+        },
+        {
+          "bytes": 952,
+          "member": "build-evidence/native-serial-liveness/normal-full-stall.log",
+          "sha256": "e826666a327434955f310033732dbf122defe198b32839b66e92fec08ac57583"
+        },
+        {
+          "bytes": 3673,
+          "member": "build-evidence/native-serial-liveness/sanitized-full-progress.log",
+          "sha256": "c38e2a31a685b8d94215c141518d06d64b2f8b59e3ce48761c20b631f49c9415"
+        },
+        {
+          "bytes": 3675,
+          "member": "build-evidence/native-serial-liveness/sanitized-full-pace8.log",
+          "sha256": "d99c624e3a8a9ab94ad525855b0eae429938cffce104c2708ba62afac9aeb2e9"
+        },
+        {
+          "bytes": 3677,
+          "member": "build-evidence/native-serial-liveness/sanitized-full-pace16.log",
+          "sha256": "ee95dca6b16bf30eb0d467d90298ece5e1a43cb8d88f99fe0026748104f4dd7a"
+        },
+        {
+          "bytes": 3677,
+          "member": "build-evidence/native-serial-liveness/sanitized-full-pace32.log",
+          "sha256": "d99724acf4abe37b78554d7281865bc276a41e74ccd8872718a50438a26d3623"
+        },
+        {
+          "bytes": 950,
+          "member": "build-evidence/native-serial-liveness/sanitized-full-slow.log",
+          "sha256": "b8c48bc10167f5b2df835c6186f1d04cb253500d3730c5b4b01cec3c5980ec65"
+        },
+        {
+          "bytes": 952,
+          "member": "build-evidence/native-serial-liveness/sanitized-full-stall.log",
+          "sha256": "e826666a327434955f310033732dbf122defe198b32839b66e92fec08ac57583"
+        }
+      ],
+      "cases": 12,
+      "complete_wire_trace_verified": true,
+      "hardware_tested": false,
+      "selected_source_custody_verified": 11,
+      "target_instructions_executed": false,
+      "wire_source_custody": {
+        "hardware_tested": false,
+        "product_revision": "d0f95bfcfbef90df58f1bd6e8a3cfe5c495ab8eb",
+        "runtime_revision": "48229bd1593a2e24e95bf4537b495ee615990fd3",
+        "schema": 1,
+        "source_files": {
+          "product": {
+            "scripts/test_native_serial_liveness.py": "36778c51a01671ee794f1e8062c0c14f81d1acb9da72f0a958bc3c2e5f9814e4",
+            "tests/native_serial_liveness/full_transfer_fixture.inc": "47d573b35bee5769f03f2756afcedf275a6e328a8202618e716c915cf75fc72e",
+            "tests/native_serial_liveness/prepare.py": "752383d4e30db18c63af31bde2fb8afa2849acfd043d369b227ed788f120cc49",
+            "tests/native_serial_liveness/sd_fixture.c": "73d07d77305fc85fe840bdd2f42a4ec128bf797fab5e7d0317232e426dc33006"
+          },
+          "runtime": {
+            "src/bootstrap/Runtime.cpp": "9d1fa51f2c04153767cc2eaaf1a2f90ccb8907d41f2543cf50dacbcd9d42394e",
+            "src/runtime/serial/Files.cpp": "97f879319b2436c3975aac521130ee9f8dc37675b9811709b81e93bb8f4457f9",
+            "src/runtime/serial/Files.h": "731133e550b5eec4d7a65c88d3e6846c10ebc7438d45683b477ddd5a9ef0bda4"
+          }
+        },
+        "target_instructions_executed": false
+      }
+    },
+    "serial_stat_boundaries": {
+      "archived_logs_verified": [
+        {
+          "bytes": 51,
+          "member": "build-evidence/serial-stat-home/normal-readiness-active-session.log",
+          "sha256": "8b8180b887782d0f8bd7737dc7d1485f8d6ca2095af9bb83827f96161de0dd57"
+        },
+        {
+          "bytes": 51,
+          "member": "build-evidence/serial-stat-home/normal-readiness-sleep-prepared.log",
+          "sha256": "05b9c2c0c4399c04c620a09750c2940beb1fb490e897dc01dc77cc297a3d4d18"
+        },
+        {
+          "bytes": 50,
+          "member": "build-evidence/serial-stat-home/normal-readiness-owner-refused.log",
+          "sha256": "72b2e5dd8698d46c074fd9639632c8d5ed7b7e009285c9bfd95aadb7baf5c673"
+        },
+        {
+          "bytes": 51,
+          "member": "build-evidence/serial-stat-home/normal-readiness-io-unavailable.log",
+          "sha256": "39d6064b8ad9e5795db2336c8dbe2ca186a775df8f29862e7bf50d25608eba09"
+        },
+        {
+          "bytes": 176,
+          "member": "build-evidence/serial-stat-home/normal-home-unavailable.log",
+          "sha256": "95d3caec1cbf84ff718dc6785a11453157ebaad85b79cf818ff2c24f2604ad92"
+        },
+        {
+          "bytes": 169,
+          "member": "build-evidence/serial-stat-home/normal-home-busy.log",
+          "sha256": "5d157f11aec347c64c2e819982c263d5c3301e7351a0175baa39a26d7f743988"
+        },
+        {
+          "bytes": 113,
+          "member": "build-evidence/serial-stat-home/normal-home-late-retained.log",
+          "sha256": "70f1a676e50ecc32e444272b06d79209c3c4af4643b202532d98913b17c69f41"
+        },
+        {
+          "bytes": 51,
+          "member": "build-evidence/serial-stat-home/sanitized-readiness-active-session.log",
+          "sha256": "8b8180b887782d0f8bd7737dc7d1485f8d6ca2095af9bb83827f96161de0dd57"
+        },
+        {
+          "bytes": 51,
+          "member": "build-evidence/serial-stat-home/sanitized-readiness-sleep-prepared.log",
+          "sha256": "05b9c2c0c4399c04c620a09750c2940beb1fb490e897dc01dc77cc297a3d4d18"
+        },
+        {
+          "bytes": 50,
+          "member": "build-evidence/serial-stat-home/sanitized-readiness-owner-refused.log",
+          "sha256": "72b2e5dd8698d46c074fd9639632c8d5ed7b7e009285c9bfd95aadb7baf5c673"
+        },
+        {
+          "bytes": 51,
+          "member": "build-evidence/serial-stat-home/sanitized-readiness-io-unavailable.log",
+          "sha256": "39d6064b8ad9e5795db2336c8dbe2ca186a775df8f29862e7bf50d25608eba09"
+        },
+        {
+          "bytes": 176,
+          "member": "build-evidence/serial-stat-home/sanitized-home-unavailable.log",
+          "sha256": "95d3caec1cbf84ff718dc6785a11453157ebaad85b79cf818ff2c24f2604ad92"
+        },
+        {
+          "bytes": 169,
+          "member": "build-evidence/serial-stat-home/sanitized-home-busy.log",
+          "sha256": "5d157f11aec347c64c2e819982c263d5c3301e7351a0175baa39a26d7f743988"
+        },
+        {
+          "bytes": 113,
+          "member": "build-evidence/serial-stat-home/sanitized-home-late-retained.log",
+          "sha256": "70f1a676e50ecc32e444272b06d79209c3c4af4643b202532d98913b17c69f41"
+        }
+      ],
+      "cases": 14,
+      "complete_wire_trace_verified": false,
+      "hardware_tested": false,
+      "selected_source_custody_verified": 2,
+      "target_instructions_executed": false,
+      "wire_source_custody": null
+    }
+  },
+  "all_public_asset_digests_verified": true,
+  "baseline": {
+    "factory": {
+      "bytes": 16777216,
+      "sha256": "d4339912684e7f44caa69eb68b8c6e188f21a1150166f4e9c501e516f5f094a0"
+    },
+    "sd_archive": {
+      "bytes": 1786624,
+      "sha256": "f800b5e3de0fb206646c7b00f28a2dc1c56357c677e79d5272fc4c5593bed0d8"
+    },
+    "source_revision": "a4427d9622eedf46715574f94618991ea2cd1400",
+    "store": {
+      "bytes": 5570560,
+      "sha256": "6d0f836c51bfc90fa394ca2a355d26bb542ff7003749623998b21c734995104d"
+    }
+  },
+  "canonical_pair": {
+    "catalog_identity_requires_readback": true,
+    "contract_tests": {
+      "hardware_tested": false,
+      "positive_candidates": 3,
+      "rejection_count": 45,
+      "rejections": [
+        "create:wrong-board",
+        "create:private-ingress",
+        "create:unsupported-method",
+        "create:insufficient-budget",
+        "create:file-ceiling",
+        "create:read-only",
+        "create:name-mode-mismatch",
+        "create:missing-mkdir",
+        "create:payload-first-factory",
+        "create:foreign-owner",
+        "create:traversal",
+        "create:trailing-dot",
+        "create:too-long-path",
+        "create:unknown-field",
+        "create:modified-container-byte",
+        "replace:wrong-board",
+        "replace:private-ingress",
+        "replace:unsupported-method",
+        "replace:insufficient-budget",
+        "replace:file-ceiling",
+        "replace:read-only",
+        "replace:name-mode-mismatch",
+        "replace:missing-mkdir",
+        "replace:payload-first-factory",
+        "replace:foreign-owner",
+        "replace:traversal",
+        "replace:trailing-dot",
+        "replace:too-long-path",
+        "replace:unknown-field",
+        "replace:modified-container-byte",
+        "known-lora:wrong-board",
+        "known-lora:private-ingress",
+        "known-lora:unsupported-method",
+        "known-lora:insufficient-budget",
+        "known-lora:file-ceiling",
+        "known-lora:read-only",
+        "known-lora:name-mode-mismatch",
+        "known-lora:missing-mkdir",
+        "known-lora:payload-first-factory",
+        "known-lora:foreign-owner",
+        "known-lora:traversal",
+        "known-lora:trailing-dot",
+        "known-lora:too-long-path",
+        "known-lora:unknown-field",
+        "known-lora:modified-container-byte"
+      ],
+      "status": "passed"
+    },
+    "expected_catalog_revision": 1,
+    "release_id": 415728828,
+    "reproduced_byte_identical": true,
+    "variants": [
+      "create",
+      "replace",
+      "known-lora"
+    ]
+  },
+  "capacity": {
+    "deleted_pages": 0,
+    "free_blocks": 791,
+    "free_pages": 11869,
+    "occupied_pages": 8531
+  },
+  "catalog_association_or_live_readback_performed": false,
+  "checked_at": "2026-10-17T10:18:56.483089+00:00",
+  "checksums_sha256": "ce5e311345bbe67d2f75abee5e0589aeee2fd7406a08cf25d3c8031d14806be9",
+  "device_accessed": false,
+  "factory": {
+    "bytes": 16777216,
+    "sha256": "fba7e95f5487698efe818efc661a6c415e75657842cc13bae11927259a160783"
+  },
+  "factory_erases_internal_data": true,
+  "feed": {
+    "bytes": 11462,
+    "core_files": 111,
+    "future_remote_immutability_not_proven": true,
+    "git_blob_sha": "0a8d655a6bc73544e5c282fad260c1139c7f27c2",
+    "internal_only": true,
+    "public_bytes_match": true,
+    "sha256": "9a2c14b05c5c2393b2cb72746b4ce44470518f7981b1509d724bb31576a3d982",
+    "url": "https://raw.githubusercontent.com/michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06/provisioning-index/0.1.59/native-packages-v1.json",
+    "version_specific_path": true
+  },
+  "firmware": {
+    "bytes": 1808880,
+    "sha256": "60b48ea0b5b3f56dba1f6b0dfa090aff215eec9c7253b59c57c3e6be0bbbae66"
+  },
+  "full_release_verifier_passed": true,
+  "hardware_tested": false,
+  "independent_factory_extraction": true,
+  "input_readbacks": {
+    "ci_metadata": {
+      "bytes": 17593,
+      "sha256": "3047df4e6b34d9eec538b9935f01e9ddbfdfb0df1bdcd00b96686e946845bc44"
+    },
+    "feed": {
+      "bytes": 11462,
+      "sha256": "9a2c14b05c5c2393b2cb72746b4ce44470518f7981b1509d724bb31576a3d982"
+    },
+    "feed_metadata": {
+      "bytes": 17053,
+      "sha256": "c122f3658de8eb2155d95fc327d08df4f868733636ff1546268f3c616320c7c1"
+    },
+    "metadata": {
+      "bytes": 76525,
+      "sha256": "1a964cbf98c360ba7823b54f9d01551f398c4960a7da66806fe16ad77c4112bb"
+    },
+    "native_job_metadata": {
+      "bytes": 2535,
+      "sha256": "61aa1e399e9e5315665a8adcb920a4bfdd299bf8165ed3906194298f6727898b"
+    },
+    "tag_metadata": {
+      "bytes": 500,
+      "sha256": "e1e5d16152b5a80a20a02632bd8361a798a2fb0bd97703410de7e3b0f5776183"
+    }
+  },
+  "iq": {
+    "allocated_sections": [
+      {
+        "address": 1611653120,
+        "bytes": 92,
+        "name": ".rtc.text"
+      },
+      {
+        "address": 1611653212,
+        "bytes": 4,
+        "name": ".rtc.force_fast"
+      },
+      {
+        "address": 1342177280,
+        "bytes": 2136,
+        "name": ".rtc_noinit"
+      },
+      {
+        "address": 1342179416,
+        "bytes": 36,
+        "name": ".rtc.force_slow"
+      },
+      {
+        "address": 1611661288,
+        "bytes": 24,
+        "name": ".rtc_reserved"
+      },
+      {
+        "address": 1077362688,
+        "bytes": 1028,
+        "name": ".iram0.vectors"
+      },
+      {
+        "address": 1077363716,
+        "bytes": 119459,
+        "name": ".iram0.text"
+      },
+      {
+        "address": 1070104576,
+        "bytes": 104192,
+        "name": ".dram0.dummy"
+      },
+      {
+        "address": 1070208768,
+        "bytes": 32547,
+        "name": ".dram0.data"
+      },
+      {
+        "address": 1070241315,
+        "bytes": 1,
+        "name": ".noinit"
+      },
+      {
+        "address": 1070241320,
+        "bytes": 26600,
+        "name": ".dram0.bss"
+      },
+      {
+        "address": 1107296288,
+        "bytes": 1373248,
+        "name": ".flash.text"
+      },
+      {
+        "address": 1006632992,
+        "bytes": 1376256,
+        "name": ".flash_rodata_dummy"
+      },
+      {
+        "address": 1008009248,
+        "bytes": 256,
+        "name": ".flash.appdesc"
+      },
+      {
+        "address": 1008009504,
+        "bytes": 282080,
+        "name": ".flash.rodata"
+      },
+      {
+        "address": 1008291584,
+        "bytes": 15967,
+        "name": ".flash.rodata_noload"
+      },
+      {
+        "address": 1006632992,
+        "bytes": 1703904,
+        "name": ".ext_ram.dummy"
+      },
+      {
+        "address": 1008336896,
+        "bytes": 27876,
+        "name": ".ext_ram.bss"
+      },
+      {
+        "address": 1077483175,
+        "bytes": 89,
+        "name": ".iram0.text_end"
+      }
+    ],
+    "bank_base": 1070268416,
+    "bank_bytes": 65536,
+    "elf_sha256": "fc414751584a9088e69f87263c62171d3e75ab301dfee02ce9d857b4582b11fe",
+    "heap_start": 1070267920,
+    "iram_alias": 1077542912,
+    "iram_end": 1077483264,
+    "reservation_table": [
+      [
+        1611661288,
+        1611661312
+      ],
+      [
+        1611653120,
+        1611653216
+      ],
+      [
+        1006632960,
+        1040187392
+      ],
+      [
+        1077362688,
+        1077483264
+      ],
+      [
+        1070088192,
+        1070208768
+      ],
+      [
+        1070208768,
+        1070267920
+      ],
+      [
+        1070268416,
+        1070333952
+      ]
+    ],
+    "reservation_table_address": 1008291344,
+    "schema": 1,
+    "scope": "Pre-heap reservation and final linked static-memory proof only; no hardware or RF qualification.",
+    "target_identity": "esp32s3-16mb-waveshare-expanded"
+  },
+  "limits": {
+    "archive_member_bytes": 67108864,
+    "archive_members": 20000,
+    "archive_uncompressed_bytes": 536870912,
+    "canonical_container_bytes": 22020096,
+    "catalog_revision": 1,
+    "generated_file_bytes": 25165824,
+    "hash_chunk_bytes": 1048576,
+    "individual_asset_bytes": 134217728,
+    "json_bytes": 8388608,
+    "public_assets": 35,
+    "scratch_free_required_bytes": 33554432,
+    "subprocess_timeout_seconds": 900,
+    "total_public_bytes": 268435456
+  },
+  "linked_layout": {
+    "package_workspace_allocation": "MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT",
+    "scope": "Linked types and static placement; no physical heap or hardware acceptance",
+    "static_workspaces": {
+      "boot_view": {
+        "address": 1008336896,
+        "bytes": 288,
+        "section": ".ext_ram.bss"
+      },
+      "serial_workspace": {
+        "address": 1008337184,
+        "bytes": 2792,
+        "section": ".ext_ram.bss"
+      }
+    },
+    "types": {
+      "package_workspace_bytes": 15208,
+      "platform_entry_bytes": 120,
+      "platform_slots": 32,
+      "runtime_bytes": 332216
+    }
+  },
+  "native_build_reexecuted": false,
+  "native_ci": {
+    "GITHUB_REF": "refs/heads/release/sd-apps-0.1.59",
+    "GITHUB_REPOSITORY": "michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06",
+    "GITHUB_RUN_ATTEMPT": "1",
+    "GITHUB_RUN_ID": "39023362842",
+    "GITHUB_SHA": "d0f95bfcfbef90df58f1bd6e8a3cfe5c495ab8eb",
+    "GITHUB_WORKFLOW_REF": "michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06/.github/workflows/serial-liveness-native.yml@refs/heads/release/sd-apps-0.1.59",
+    "GITHUB_WORKFLOW_SHA": "d0f95bfcfbef90df58f1bd6e8a3cfe5c495ab8eb"
+  },
+  "native_ci_readback": {
+    "attempt": 1,
+    "conclusion": "success",
+    "html_url": "https://github.com/michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06/actions/runs/39023362842/job/117369424752",
+    "id": 39023362842,
+    "job_id": 117369424752
+  },
+  "navigation": {
+    "cases": 16,
+    "hardware_tested": false,
+    "passed": true
+  },
+  "network_requests_performed": false,
+  "packing": {
+    "config": {
+      "aligned": true,
+      "aligned_obj_ix_tables": false,
+      "block_ix_len": 2,
+      "block_size": 4096,
+      "endianness": "little",
+      "meta_len": 4,
+      "obj_id_len": 2,
+      "obj_name_len": 32,
+      "packed": true,
+      "page_ix_len": 2,
+      "page_size": 256,
+      "span_ix_len": 2,
+      "use_magic": true,
+      "use_magic_len": true
+    },
+    "empty_blocks": 791,
+    "file_count": 111,
+    "generator": "esp-idf-spiffsgen",
+    "generator_sha256": "5779792a4d98a12383233267511735769a201b5c2c79b582186a40c22b7c6466",
+    "image_bytes": 5570560,
+    "independent_round_trip_verified": true,
+    "metadata": "zero",
+    "occupied_blocks": 569,
+    "order": "sorted ASCII path names",
+    "payload_bytes": 2086142,
+    "sha256": "98ccecb7e21fc17f0d6386dc9a66815a2b04c03640384c0ad866be1301b1c9b0",
+    "upstream_commit": "38eeba213aa695aabfd6d89aa9f5078dbe5a94c3"
+  },
+  "pair_checksums_sha256": "9debd3225eed050d8a0e944db99137a007a0c5e695ddf859bf77399df88b6aa8",
+  "preservation": {
+    "all_existing_packaged_assets_retained": true,
+    "changed_store_files": [
+      "cohort.json",
+      "default.elf",
+      "default.json",
+      "installed-apps/driver.elf"
+    ],
+    "clock_hidden": true,
+    "data_mapping_preserved": true,
+    "external_apps": 22,
+    "external_bytes": 3113484,
+    "external_files": 45,
+    "external_files_inventory": {
+      "Apps/alarms/alarms.elf": {
+        "bytes": 153428,
+        "sha256": "7f5cb21cff86d3f993a42dc1e254aa568590aa6488c5217acd6bd899b67b3862"
+      },
+      "Apps/alarms/manifest.json": {
+        "bytes": 790,
+        "sha256": "0977a98cbf3c799ca13a89a9c6adce473b8f7538738c9148b019bcda03c02011"
+      },
+      "Apps/app_store/app_store.elf": {
+        "bytes": 133652,
+        "sha256": "88ad0a2cbe8f701c97bb7ae1aabf003a6a1d9463a5d12638381938d2ec99cf6c"
+      },
+      "Apps/app_store/manifest.json": {
+        "bytes": 890,
+        "sha256": "70b061e9e9e4d8ad5e1c9f746a8050aac383da9cd094f9f61e132876ccbda04e"
+      },
+      "Apps/audio_spectrum/audio_spectrum.elf": {
+        "bytes": 243380,
+        "sha256": "40739fbad6fd30a4f3576e87fc6c59de3e56ca1cf03da9a9ff1f3e5a6febd557"
+      },
+      "Apps/audio_spectrum/manifest.json": {
+        "bytes": 1058,
+        "sha256": "9da67204acf8972424ce08609e427ef3f040a1cafa0ed259895a6b8a3d17117b"
+      },
+      "Apps/battery/battery.elf": {
+        "bytes": 153440,
+        "sha256": "175ed277dea6149f97457a4d44fdf7ab87a63f9024e36e0a2a50553864d19d8c"
+      },
+      "Apps/battery/manifest.json": {
+        "bytes": 793,
+        "sha256": "d02c27407a5ab4461812e080b98262f49953d72524e8a7878ba8b05568c81934"
+      },
+      "Apps/ble_buttons/ble_buttons.elf": {
+        "bytes": 154028,
+        "sha256": "b3f4633d8bc0d0612d6410eae3f41d8c66a0586025f076a26dd0f277cac7232d"
+      },
+      "Apps/ble_buttons/manifest.json": {
+        "bytes": 845,
+        "sha256": "95c2d0e393abffb9323fbb99723ccf419cb05a4fafc72608779ff6ba23369b68"
+      },
+      "Apps/ble_scanner/ble_scanner.elf": {
+        "bytes": 157520,
+        "sha256": "f35588453de3bd03a778fe362625af49e57f7d2efde7d890e8ab10ef778a8b01"
+      },
+      "Apps/ble_scanner/manifest.json": {
+        "bytes": 887,
+        "sha256": "3d0e90790f3e397290ece11fea507a92304b1addf0c565ca0d096993d812c5bf"
+      },
+      "Apps/ble_touchpad/ble_touchpad.elf": {
+        "bytes": 153972,
+        "sha256": "a6518bf99d966b4bfefae02fd3f55a214f0ddc4ca9518090c34ee8506f80778e"
+      },
+      "Apps/ble_touchpad/manifest.json": {
+        "bytes": 848,
+        "sha256": "7ae6d7eeee2a895bdf914652ce9d3b8456c6ed8bb0c02b4405dc7d3f74cbc640"
+      },
+      "Apps/calculator/calculator.elf": {
+        "bytes": 145576,
+        "sha256": "d78c5996376b1980ae9a2491b202c1a5ee414f135de03c161f96becc161e392f"
+      },
+      "Apps/calculator/manifest.json": {
+        "bytes": 803,
+        "sha256": "624d5b8162331e7930ea83dfc43e0ced03950ab4f53564b7fe295546fcca83f1"
+      },
+      "Apps/contexts/contexts.elf": {
+        "bytes": 63840,
+        "sha256": "a3b4b678eeee6a1d5ebc4a605b6c7d8ee176d806bd8ad059815bb4d979a56410"
+      },
+      "Apps/contexts/manifest.json": {
+        "bytes": 678,
+        "sha256": "8e36f941f78f16084c1b4455f4e25c5a6e2a3511f51f4d9a3d22268530af7096"
+      },
+      "Apps/countdown/countdown.elf": {
+        "bytes": 149284,
+        "sha256": "220aff0aedb28dfe4a50d6e57cc49d521381018cc8d0ceaca7bda60efd92b548"
+      },
+      "Apps/countdown/manifest.json": {
+        "bytes": 799,
+        "sha256": "7f3571ae3429bae2baf5eaf43c79e75a64048d872a1f340b8fa121ed9f63d148"
+      },
+      "Apps/file_browser/file_browser.elf": {
+        "bytes": 288112,
+        "sha256": "252f8add6830bd0d84f0ebe0c8ae71bb87a5b50a2e4c9b3fed12e0dd5e7a74f3"
+      },
+      "Apps/file_browser/manifest.json": {
+        "bytes": 1286,
+        "sha256": "42469875467e8453da64faf74991d90760137b97bef7e679792a6b794d541d97"
+      },
+      "Apps/frequency_generator/frequency_generator.elf": {
+        "bytes": 137924,
+        "sha256": "d14c37dc9c0ec736a61fa14ae846dec47525b46da9ad1bb21266d48a663fc87c"
+      },
+      "Apps/frequency_generator/manifest.json": {
+        "bytes": 867,
+        "sha256": "40490fecf44c65b1d23ba068fc2512f2b4caa411844e20c6a5a8ff040680a024"
+      },
+      "Apps/lists/lists.elf": {
+        "bytes": 26352,
+        "sha256": "cfbb592836763f80a98904aa3aaf6a04c9cb1214f447a42e9df2739f5e259f48"
+      },
+      "Apps/lists/manifest.json": {
+        "bytes": 336,
+        "sha256": "e64999c19aa4c2edc69ff78ed721cc182afbb90e0ebfbace063e5890feca9807"
+      },
+      "Apps/lora_messages/lora_messages.elf": {
+        "bytes": 136960,
+        "sha256": "81877ba548ae0c45f4ebbbe71c53753159a4b3a28282ac9ce3c5ef63ad90c0f5"
+      },
+      "Apps/lora_messages/manifest.json": {
+        "bytes": 932,
+        "sha256": "6a07f83bb276c6f662000ffec7fd68c19ed00d4de1889a14e012b5fa09466743"
+      },
+      "Apps/model_viewer/manifest.json": {
+        "bytes": 462,
+        "sha256": "5bec2a79d5afe2e90fb89dcffbdf18d325ebdb348502e10ea9a2a9f51d27f835"
+      },
+      "Apps/model_viewer/model_viewer.elf": {
+        "bytes": 43068,
+        "sha256": "8b4cb6c789afcaa9c6bb6a4d348f9b7b2618baeca70831fd25819f275c1c874d"
+      },
+      "Apps/ota_update/manifest.json": {
+        "bytes": 902,
+        "sha256": "eb8dadcf8e139259b6ee03aa8d6c0ceb90f606f42980b0ef76ef4ac7eb5a32ec"
+      },
+      "Apps/ota_update/ota_update.elf": {
+        "bytes": 133664,
+        "sha256": "45f09839daf9de92bea24bca5c7d8575ffb6eb59d5b29027e092d33b7a18bec9"
+      },
+      "Apps/points_in_time/manifest.json": {
+        "bytes": 854,
+        "sha256": "d1ed3edbb5c709c4860f151f71309b7fe664eb4cc6a957196498a07f575ae118"
+      },
+      "Apps/points_in_time/points_in_time.elf": {
+        "bytes": 175928,
+        "sha256": "16b1cd9bfd84b22adcdfc924ae46f591b1c146dddab82437770ff2d33f87f8aa"
+      },
+      "Apps/stopwatch/manifest.json": {
+        "bytes": 800,
+        "sha256": "4b61ea86b8db1249a9ded940cafa640f196287e46d3a0b7535c569461fb21cc4"
+      },
+      "Apps/stopwatch/stopwatch.elf": {
+        "bytes": 149236,
+        "sha256": "fe7226763463b6f82f06abaee8dc7394cb182ffcd341de8311567322ecda78e4"
+      },
+      "Apps/timecard/manifest.json": {
+        "bytes": 915,
+        "sha256": "f3c077757b1a739634e4d04b7dc07d85683bec290e5e0c22e80e40f55b26a634"
+      },
+      "Apps/timecard/timecard.elf": {
+        "bytes": 169824,
+        "sha256": "bc94c5e4cda24b725e43f7e860bf43a6ebc4387459e06e8c97c7ef41c740667a"
+      },
+      "Apps/usb_sd_transfer/manifest.json": {
+        "bytes": 394,
+        "sha256": "10933f57269e64ccaaa0174fbc25cb1c5a63430dbbc1b51a858a48eebc910268"
+      },
+      "Apps/usb_sd_transfer/usb_sd_transfer.elf": {
+        "bytes": 64808,
+        "sha256": "6cfbd343633677a2498456d2a6664632ed83f2c7e6f966c7cba4349bfbc28e86"
+      },
+      "Apps/watch-bringup/bringup.elf": {
+        "bytes": 9052,
+        "sha256": "ca2e30237ceee4b218faf8ec94ca9286fd97cf7be09d0fce3ca8a2eab88c6216"
+      },
+      "Apps/watch-bringup/manifest.json": {
+        "bytes": 422,
+        "sha256": "51525ccc798256bd0ed55f56dc1b1f56aeb5f2fa93aa24abaf45bae81559efa9"
+      },
+      "Apps/waterfall/manifest.json": {
+        "bytes": 1040,
+        "sha256": "ffe5a2ce5eb94996aeca71327a10afbd2cd38c3482840070873e13aa0c77efff"
+      },
+      "Apps/waterfall/waterfall.elf": {
+        "bytes": 252492,
+        "sha256": "5543af60434887b0d3b63ba0560c6ccc3445cfe4bd9713d154bbb7897e621b5c"
+      },
+      "suite-card.json": {
+        "bytes": 343,
+        "sha256": "3e9c22cfd15605efa78640b86d6a1119be06fd65834b64d84c6b0020f0826cf3"
+      }
+    },
+    "external_max_file_bytes": 288112,
+    "external_payload_byte_identical": true,
+    "factory_erases_internal_data": true,
+    "hardware_tested": false,
+    "internal_apps": 5,
+    "internal_elfs": 43,
+    "internal_files": 111,
+    "internal_providers": 38,
+    "moved_elfs": [],
+    "retained_files": 107,
+    "schema": 1,
+    "target_instructions_executed": false
+  },
+  "public_asset_count": 35,
+  "public_assets": {
+    "PAIR-QUALIFICATION.json": {
+      "bytes": 7971,
+      "sha256": "4844601cd9008cdea8681ff013b5645de54ebaaca045fce44be6b28a488b5628"
+    },
+    "PAIR-SHA256SUMS": {
+      "bytes": 1400,
+      "sha256": "9debd3225eed050d8a0e944db99137a007a0c5e695ddf859bf77399df88b6aa8"
+    },
+    "RELEASE-NOTES.txt": {
+      "bytes": 1757,
+      "sha256": "744a31c237d2bfd6555ea82d39567cace585705878394c7d3bd73f6b289ee119"
+    },
+    "SHA256SUMS": {
+      "bytes": 1757,
+      "sha256": "ce5e311345bbe67d2f75abee5e0589aeee2fd7406a08cf25d3c8031d14806be9"
+    },
+    "TESTING.txt": {
+      "bytes": 2972,
+      "sha256": "47337a5cc43a0797e922112f9bccc2818a41e3dc04e67d84c98c4ef30449dd0f"
+    },
+    "Waveshare-0.1.59-SD-Apps-Evidence.zip": {
+      "bytes": 27842382,
+      "sha256": "e7c44c3042ee3f6867bb825f1b05d52f658c97b7e69288afa1a9bdf1a77a7415"
+    },
+    "Waveshare-0.1.59-SD-Apps-create-context.json": {
+      "bytes": 1385,
+      "sha256": "ff8856f6929c213489285da2a199dc25e2d62190cd83be4999b7d28ac4861763"
+    },
+    "Waveshare-0.1.59-SD-Apps-create-descriptor.json": {
+      "bytes": 395,
+      "sha256": "64baf4b6d6c621741eab773c6ea168d810b60802c86112318b12944dd34059dd"
+    },
+    "Waveshare-0.1.59-SD-Apps-create.json": {
+      "bytes": 25394,
+      "sha256": "dd3d862a482fb4a5a00b55dbe765545fe1b5f9e4cf89a3d35bc685a34d3eb224"
+    },
+    "Waveshare-0.1.59-SD-Apps-create.zip": {
+      "bytes": 19923266,
+      "sha256": "5448de58f2ee8d577ed16cb7052a326282f0fe90a8bb72f1aee3592da8d384a0"
+    },
+    "Waveshare-0.1.59-SD-Apps-factory-erases-data-0x0.bin": {
+      "bytes": 16777216,
+      "sha256": "fba7e95f5487698efe818efc661a6c415e75657842cc13bae11927259a160783"
+    },
+    "Waveshare-0.1.59-SD-Apps-known-lora-context.json": {
+      "bytes": 1385,
+      "sha256": "cab35f4d1d56c1c6aed6f0dd1596184485a3fa7038fd843199c069a4c8b10e4f"
+    },
+    "Waveshare-0.1.59-SD-Apps-known-lora-descriptor.json": {
+      "bytes": 403,
+      "sha256": "a7819d611c82b13cf1e947562ec88b984156b3248beb21ebba4c089c43315c75"
+    },
+    "Waveshare-0.1.59-SD-Apps-known-lora.json": {
+      "bytes": 25781,
+      "sha256": "1ea14652ae21d9df6040e557bdf26b6e57e4e6078833f2c8136812f75ac20b87"
+    },
+    "Waveshare-0.1.59-SD-Apps-known-lora.zip": {
+      "bytes": 19923653,
+      "sha256": "e8a12dfd0728609fad9efba6c6cc77820a0568a84684c5e116ef84347db07bfb"
+    },
+    "Waveshare-0.1.59-SD-Apps-replace-context.json": {
+      "bytes": 1385,
+      "sha256": "ff6f43e6ded2b13e5cff84caadcbae142cbd79e4964b597f89712063262f5723"
+    },
+    "Waveshare-0.1.59-SD-Apps-replace-descriptor.json": {
+      "bytes": 397,
+      "sha256": "8f361d9c447c98b0ab38ef9769b48bb8b9c9b5ed73ab0b8399b05e15c3122f0e"
+    },
+    "Waveshare-0.1.59-SD-Apps-replace.json": {
+      "bytes": 25441,
+      "sha256": "b0f93eb110eaaf8f09bb89529f773b29b2abc435b9152d70e69bfb2a6563f82f"
+    },
+    "Waveshare-0.1.59-SD-Apps-replace.zip": {
+      "bytes": 19923313,
+      "sha256": "f3ac409262dc2537af1ce8543bd0a724d9241cfcd5ac268e58a32546e67b5340"
+    },
+    "bootfs-98ccecb7e21fc17f0d6386dc9a66815a2b04c03640384c0ad866be1301b1c9b0.bin": {
+      "bytes": 5570560,
+      "sha256": "98ccecb7e21fc17f0d6386dc9a66815a2b04c03640384c0ad866be1301b1c9b0"
+    },
+    "bootloader.bin": {
+      "bytes": 22640,
+      "sha256": "1973726bea3d220670a6a9d9daa405e3b1c8dd2b8a5cffaaca01f09f983e85a2"
+    },
+    "ci-provenance.zip": {
+      "bytes": 9308,
+      "sha256": "00021f0c74444bd158da524ec35a22d5c9655abbdfb2032f50f00c0b4b846835"
+    },
+    "default.elf": {
+      "bytes": 554744,
+      "sha256": "f376d722b07c52184cf4cd27df306054920cdf742ccb8bdd4d476a08e35aef54"
+    },
+    "default.json": {
+      "bytes": 1692,
+      "sha256": "4d7e8efbc0b078c5b6f95123ae1b8a71006be8fbea1e900c0c9598e8a2cc3068"
+    },
+    "feed-qualification.json": {
+      "bytes": 1295,
+      "sha256": "dcf0ea02f39ec39924f4f190b45fa895331b6674fcd447f201f1f9440ae1abcd"
+    },
+    "firmware.bin": {
+      "bytes": 1808880,
+      "sha256": "60b48ea0b5b3f56dba1f6b0dfa090aff215eec9c7253b59c57c3e6be0bbbae66"
+    },
+    "native-packages-v1.json": {
+      "bytes": 11462,
+      "sha256": "9a2c14b05c5c2393b2cb72746b4ce44470518f7981b1509d724bb31576a3d982"
+    },
+    "partitions.bin": {
+      "bytes": 3072,
+      "sha256": "d27edcdba637142baa7d91e29b70df47554c22a4f14de303dc6a0cdcc1e25de8"
+    },
+    "qualification.json": {
+      "bytes": 1928378,
+      "sha256": "c95622d05fd2d39fd426ca7bd487bd2533da596de52c5329a1f1c6aa1c163006"
+    },
+    "release.json": {
+      "bytes": 14646,
+      "sha256": "0911dc2d29bdffab3c0c6c91745dfefe1d18cfabcd31c223e300d0cf129e3f11"
+    },
+    "sd-apps.zip": {
+      "bytes": 1786624,
+      "sha256": "f800b5e3de0fb206646c7b00f28a2dc1c56357c677e79d5272fc4c5593bed0d8"
+    },
+    "sd-inventory.json": {
+      "bytes": 6461,
+      "sha256": "7afd042c2ffeaad25e77d02334a281ba95f55184539ff5e24bb980a93fd93a47"
+    },
+    "source-lock.json": {
+      "bytes": 10148,
+      "sha256": "8017fad4daf4dc09b3a3b72c8214cf35e8aad8efc1d8e87791249b3937165949"
+    },
+    "source-pins.json": {
+      "bytes": 41988,
+      "sha256": "ad225132bceb11faedecb1964de83d29d15ae0352a8168df4704ace04aec4e3a"
+    },
+    "store.bin": {
+      "bytes": 5570560,
+      "sha256": "98ccecb7e21fc17f0d6386dc9a66815a2b04c03640384c0ad866be1301b1c9b0"
+    }
+  },
+  "publication_ci_readback": {
+    "attempt": 2,
+    "conclusion": "success",
+    "html_url": "https://github.com/michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06/actions/runs/39023362842",
+    "id": 39023362842
+  },
+  "publisher_retry": "Attempt1 final public download connection reset; only failed publisher job retried with the same native artifact.",
+  "readback_freshness_is_callers_responsibility": true,
+  "release_id": 415728828,
+  "release_url": "https://github.com/michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06/releases/tag/test-sd-apps-0.1.59",
+  "runtime_revision": "48229bd1593a2e24e95bf4537b495ee615990fd3",
+  "schema": 1,
+  "sd_archive_byte_identical": true,
+  "source_revision": "d0f95bfcfbef90df58f1bd6e8a3cfe5c495ab8eb",
+  "store": {
+    "bytes": 5570560,
+    "sha256": "98ccecb7e21fc17f0d6386dc9a66815a2b04c03640384c0ad866be1301b1c9b0"
+  },
+  "target_instructions_executed": false
+}

@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "actual": {
+    "id": "RiscRTE-Wavshare-S3-Touch-AMOLED-2.06:test-sd-apps-0.1.59",
+    "release_id": "415728828",
+    "repository": "michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06",
+    "revision": 1,
+    "source_commit": "d0f95bfcfbef90df58f1bd6e8a3cfe5c495ab8eb",
+    "tag": "test-sd-apps-0.1.59"
+  },
+  "manifest": {
+    "id": "RiscRTE-Wavshare-S3-Touch-AMOLED-2.06:test-sd-apps-0.1.59",
+    "release_id": "415728828",
+    "repository": "michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06",
+    "revision": 1,
+    "source_commit": "d0f95bfcfbef90df58f1bd6e8a3cfe5c495ab8eb",
+    "tag": "test-sd-apps-0.1.59"
+  },
+  "exact_data_readback": true
+}

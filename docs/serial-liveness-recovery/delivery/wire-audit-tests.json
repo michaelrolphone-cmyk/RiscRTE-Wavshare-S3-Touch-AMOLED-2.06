@@ -1,0 +1,23 @@
+{
+  "fixed_source_receipt_sha256": "ceebecb284b2f0545ef2ad8c3a77e670dd77933b8f5c07db9c6d4c87628275ee",
+  "hardware_tested": false,
+  "limits": {
+    "line_bytes": 2048,
+    "log_bytes": 65536,
+    "receipt_bytes": 4096
+  },
+  "negative_control_count": 276,
+  "negative_controls": {
+    "altered_wire_response": 12,
+    "duplicate_exchange": 12,
+    "omitted_exchange": 228,
+    "wrong_cadence": 12,
+    "wrong_case_cadence": 12
+  },
+  "positive_log_inventory_sha256": "2559b7f39ab52578c7812ac69c74b66eef94e9e801c4837a167d32309df1be22",
+  "positive_logs": 12,
+  "public_release_audited": false,
+  "schema": 1,
+  "status": "passed",
+  "target_instructions_executed": false
+}
