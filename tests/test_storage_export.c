@@ -7,7 +7,7 @@ int main(int argc,char**argv){
  const char*mode=argc>1?argv[1]:"normal";
  make_disk();risc_provider_dependency_v1 deps[5];memcpy(deps,deps_,sizeof(deps_));deps[4]=(risc_provider_dependency_v1){RISC_STORAGE_WORKER_CAPABILITY,1,&worker_};
  const risc_storage_volume_api_v1*v=t5_driver_get(2)->capability;
- assert(!risc_storage_volume_sleep(v)); // no invented sleep support
+ assert(risc_storage_volume_sleep(v)); // checked provider-owned close/remount support
  const risc_storage_volume_api_v1_export_prepare*x=risc_storage_volume_export_prepare(v);assert(x);
  assert(start(deps,5)&&!opened_);
  uint64_t t=0,n=0;uint32_t size=0;unsigned before=calls_;

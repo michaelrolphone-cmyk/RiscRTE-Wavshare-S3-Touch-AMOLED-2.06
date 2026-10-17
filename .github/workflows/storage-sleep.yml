@@ -1,0 +1,29 @@
+name: Checked storage sleep transaction
+on:
+  push:
+    branches: [fix/mounted-sd-sleep-20261017, main]
+    paths: ['drivers/storage_sdmmc/**', 'lib/storage_fatfs/**', 'tests/test_storage*', 'scripts/test_storage_sleep.py', '.github/workflows/storage-sleep.yml']
+  pull_request:
+    paths: ['drivers/storage_sdmmc/**', 'lib/storage_fatfs/**', 'tests/test_storage*', 'scripts/test_storage_sleep.py', '.github/workflows/storage-sleep.yml']
+permissions:
+  contents: read
+jobs:
+  host:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE
+          ref: d24f134e44ae547240f7b576d745202d1dbb5ed8
+          path: .runtime
+          persist-credentials: false
+      - run: |
+          mkdir .sdk
+          cp .runtime/test/fixtures/watch/sdk/driver/*.h .sdk/
+          cp .runtime/sdk/{driver,hardware,app}/*.h .sdk/
+          python3 scripts/test_storage_sleep.py --sdk .sdk --support-include include
+          ASAN_OPTIONS=detect_leaks=0 python3 scripts/test_storage_sleep.py --sdk .sdk --support-include include --sanitize

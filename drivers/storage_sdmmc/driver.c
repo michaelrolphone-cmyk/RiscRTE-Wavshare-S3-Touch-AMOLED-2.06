@@ -133,13 +133,39 @@ static bool init_card(void) {
 #define STORAGE_VOLUME_GUARD_ENTER guard_enter
 #define STORAGE_VOLUME_GUARD_LEAVE guard_leave
 #define STORAGE_VOLUME_LABEL "SD card"
+/* Reuse the checked zero-handle sleep transaction. The provider, not the CPU
+ * readiness predicate, owns FAT unmount, transport close and reversible mount.
+ * DAT3 is a static mode-select output and remains high throughout sleep. */
+static bool sleep_transport_commit(void);
+static bool sleep_transport_resume(void);
+#define STORAGE_VOLUME_TRY_COMMIT_POWER_DOWN() sleep_transport_commit()
+#define STORAGE_VOLUME_TRY_RESUME_POWER_DOWN() sleep_transport_resume()
+#if WAVE_SD_ASYNC
+#define STORAGE_VOLUME_SLEEP_UNSAFE() (poisoned || async_adapter.retained || export_state == EXPORT_RETAINED)
+#else
+#define STORAGE_VOLUME_SLEEP_UNSAFE() (poisoned)
+#endif
 #include "../../lib/storage_fatfs/volume.c"
+static bool sleep_transport_commit(void) {
+    /* commit_sleep already unmounted. The legacy terminal prefix may still
+     * have a mounted filesystem; it cannot resume after committing. */
+    if(mounted && f_mount(NULL,"",0)!=FR_OK){poisoned=true;return false;}
+    mounted=false;
+    if(!release_card()){poisoned=true;return false;}
+    return true;
+}
+static bool sleep_transport_resume(void) {
+    /* A missing/unformatted card is clean unavailability, never permission to
+     * format it. Failed close or I/O remains retained through the shared ABI. */
+    (void)init_card();
+    return !poisoned;
+}
 #if WAVE_SD_ASYNC
 #include "Export.h"
 #include "Async.h"
 #endif
 static bool quiesce(void) {
-    if(poisoned)return false;
+    if(poisoned || sleep_state==SLEEP_RETAINED)return false;
 #if WAVE_SD_ASYNC
     if(export_state!=EXPORT_LOCAL||async_adapter.session||async_adapter.operation||async_adapter.retained)return false;
 #endif
@@ -167,7 +193,8 @@ static bool quiesce(void) {
         if(!guard->destroy(guard->context,lock_token))return false;
         lock_token=0;
     }
-    started=mounted=card_ready=io_failed=power_down_prepared=false;
+    started=mounted=card_ready=io_failed=power_down_prepared=power_down_committed=false;
+    sleep_state=SLEEP_ACTIVE;
     return true;
 }
 static bool start(const risc_provider_dependency_v1 *deps,size_t n) {
@@ -193,7 +220,7 @@ static bool start(const risc_provider_dependency_v1 *deps,size_t n) {
     const risc_storage_work_scope_v1 scope={config->pins[3],config->pins[0],config->pins[1],config->pins[2],RISC_SDMMC_MAX_HZ,true};
     if(storage_worker->claim(storage_worker->context,&scope)!=RISC_STORAGE_WORK_OK)return false;
     worker_scope_claimed=true;
-    async_adapter.worker=storage_worker;async_adapter.volume=&api.volume.base;async_adapter.ext=&api.volume;async_adapter.fs=&filesystem_api;async_adapter.native_capacity=fs_native_capacity;
+    async_adapter.worker=storage_worker;async_adapter.volume=&api.terminal.power.volume.base;async_adapter.ext=&api.terminal.power.volume;async_adapter.fs=&filesystem_api;async_adapter.native_capacity=fs_native_capacity;
     if(storage_worker->bind(storage_worker->context,risc_storage_async_execute,&async_adapter)!=RISC_STORAGE_WORK_OK)return false;
     worker_clock=(risc_platform_clock_api_v1){1,sizeof(worker_clock),NULL,worker_now,worker_delay};clock_api=&worker_clock;
 #else
