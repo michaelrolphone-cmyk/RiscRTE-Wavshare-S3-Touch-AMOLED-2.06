@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "compiler": "xtensa-esp-elf-g++ (crosstool-NG esp-15.2.0_20251204) 15.2.0",
+  "flags": [
+    "-std=gnu++17",
+    "-D_GNU_SOURCE=1",
+    "-mlongcalls"
+  ],
+  "baseline": "4b3998f8091d1948a702a281757a1935d401ea4a",
+  "candidate": "48229bd1593a2e24e95bf4537b495ee615990fd3",
+  "baseline_workspace_bytes": 2792,
+  "candidate_workspace_bytes": 2792,
+  "baseline_endpoint_bytes": 1384,
+  "candidate_endpoint_bytes": 1384,
+  "scope": "Target compiler sizeof symbols; final native linked section placement and internal control-state growth require product qualification.",
+  "sha256": {
+    "workspace-size.cpp": "283d079036e62580cffd8bd8f8b9e9707959e5372993327bd03c832fe21aecb9",
+    "workspace-size.o": "ecc0d68904f777ee58bdea28669f8648408af06a2630c4fd847b8cbe2b073803",
+    "workspace-baseline-size.cpp": "0925d33e6f22d9d6f5cbfa5ffb79fbe0d636490c4b51e3775b026c606ab51806",
+    "workspace-baseline-size.o": "557e78887594188c153900a36addf8117bd17c9278a9fadc596dba48e745ac7d",
+    "baseline-Files.h": "aa03f3c523b3010190ea77f8bbea2471a7d1d079758bc6182d9ce23f915a4535"
+  }
+}

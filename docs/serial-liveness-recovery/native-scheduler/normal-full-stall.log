@@ -1,0 +1,14 @@
+CONFIRM_ACTIVE accepted=0 callback=1 strict=0 discovery_safe=1 continuing=1 session=1 pin=1 retained=0
+EXCHANGE op=HELLO elapsed_ms=0 checkpoints=1 continuing=1 session=1 pin=1 pending=0 wire=RTEF1 12345678 1 0 HELLO 48 511 2
+
+EXCHANGE op=NS 0 elapsed_ms=0 checkpoints=1 continuing=1 session=1 pin=1 pending=0 wire=RTEF1 12345678 2 0 NS 2 1 53657269616c2066696c6573
+
+EXCHANGE op=NS 1 elapsed_ms=0 checkpoints=1 continuing=1 session=1 pin=1 pending=0 wire=RTEF1 12345678 3 0 NS 12 1 53442063617264
+
+EXCHANGE op=PATH 0 2f6f6c642e747874 elapsed_ms=0 checkpoints=1 continuing=1 session=1 pin=1 pending=0 wire=RTEF1 12345678 4 0 PATH 8
+
+EXCHANGE op=STAT 12 elapsed_ms=4000 checkpoints=4001 continuing=1 session=0 pin=1 pending=0 wire=RTEF1 12345678 5 -4
+
+CONFIRM_SETTLED accepted=1 strict=1 continuing=0 pin=0
+DISCOVERY_END elapsed_ms=4081 retained=0 exit=1 pinned=0
+FINAL ran=1 retained=0 error= lifecycle_retained=0 exit_safe=1 pinned=0 serial_retained=0

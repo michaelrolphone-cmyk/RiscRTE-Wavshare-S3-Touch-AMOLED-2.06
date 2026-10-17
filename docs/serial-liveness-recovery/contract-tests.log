@@ -1,0 +1,25 @@
+..sssssssss
+----------------------------------------------------------------------
+Ran 11 tests in 0.088s
+
+OK (skipped=9)
+............
+----------------------------------------------------------------------
+Ran 12 tests in 0.354s
+
+OK
+https://example.test/release
+https://example.test/release
+test_complete_linked_type_and_placement (__main__.LinkedLayout.test_complete_linked_type_and_placement) ... ok
+test_exact_runtime_compile_subtree (__main__.LinkedLayout.test_exact_runtime_compile_subtree) ... ok
+test_missing_or_changed_native_layout_rejected (__main__.LinkedLayout.test_missing_or_changed_native_layout_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 1.900s
+
+OK
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.003s
+
+OK

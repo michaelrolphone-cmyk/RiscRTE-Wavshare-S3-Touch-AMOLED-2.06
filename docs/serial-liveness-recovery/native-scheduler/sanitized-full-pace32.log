@@ -1,0 +1,57 @@
+CONFIRM_ACTIVE accepted=0 callback=1 strict=0 discovery_safe=1 continuing=1 session=1 pin=1 retained=0
+EXCHANGE op=HELLO elapsed_ms=0 checkpoints=1 continuing=1 session=1 pin=1 pending=0 wire=RTEF1 12345678 1 0 HELLO 48 511 2
+
+EXCHANGE op=NS 0 elapsed_ms=0 checkpoints=1 continuing=1 session=1 pin=1 pending=0 wire=RTEF1 12345678 2 0 NS 2 1 53657269616c2066696c6573
+
+EXCHANGE op=NS 1 elapsed_ms=0 checkpoints=1 continuing=1 session=1 pin=1 pending=0 wire=RTEF1 12345678 3 0 NS 12 1 53442063617264
+
+EXCHANGE op=PATH 0 2f6f6c642e747874 elapsed_ms=0 checkpoints=1 continuing=1 session=1 pin=1 pending=0 wire=RTEF1 12345678 4 0 PATH 8
+
+EXCHANGE op=STAT 12 elapsed_ms=2592 checkpoints=82 continuing=0 session=0 pin=0 pending=0 wire=RTEF1 12345678 5 0 STAT 6 3
+
+EXCHANGE op=GET 12 elapsed_ms=0 checkpoints=1 continuing=0 session=0 pin=0 pending=1 wire=RTEF1 12345678 6 0 GET 3
+
+EXCHANGE op=READ 0 elapsed_ms=0 checkpoints=1 continuing=0 session=0 pin=0 pending=1 wire=RTEF1 12345678 7 0 READ 3 6f6c64
+
+EXCHANGE op=CLOSE elapsed_ms=0 checkpoints=1 continuing=0 session=0 pin=0 pending=0 wire=RTEF1 12345678 8 0 CLOSE 3f5dd4e5
+
+EXCHANGE op=PUT 12 replace 4 elapsed_ms=0 checkpoints=1 continuing=0 session=0 pin=0 pending=1 wire=RTEF1 12345678 9 0 PUT
+
+EXCHANGE op=WRITE 0 6e657721 elapsed_ms=0 checkpoints=1 continuing=0 session=0 pin=0 pending=1 wire=RTEF1 12345678 10 0 WRITE 4
+
+EXCHANGE op=COMMIT 98b6a988 elapsed_ms=0 checkpoints=1 continuing=0 session=0 pin=0 pending=0 wire=RTEF1 12345678 11 0 COMMIT
+
+EXCHANGE op=GET 12 elapsed_ms=0 checkpoints=1 continuing=0 session=0 pin=0 pending=1 wire=RTEF1 12345678 12 0 GET 4
+
+EXCHANGE op=READ 0 elapsed_ms=0 checkpoints=1 continuing=0 session=0 pin=0 pending=1 wire=RTEF1 12345678 13 0 READ 4 6e657721
+
+EXCHANGE op=CLOSE elapsed_ms=0 checkpoints=1 continuing=0 session=0 pin=0 pending=0 wire=RTEF1 12345678 14 0 CLOSE 98b6a988
+
+EXCHANGE op=PATH 0 2f6e65772e747874 elapsed_ms=0 checkpoints=1 continuing=0 session=0 pin=0 pending=0 wire=RTEF1 12345678 15 0 PATH 8
+
+EXCHANGE op=STAT 12 elapsed_ms=0 checkpoints=1 continuing=0 session=0 pin=0 pending=0 wire=RTEF1 12345678 16 1 STAT 0 0
+
+EXCHANGE op=PUT 12 create 4 elapsed_ms=0 checkpoints=1 continuing=0 session=0 pin=0 pending=1 wire=RTEF1 12345678 17 0 PUT
+
+EXCHANGE op=WRITE 0 6e657721 elapsed_ms=0 checkpoints=1 continuing=0 session=0 pin=0 pending=1 wire=RTEF1 12345678 18 0 WRITE 4
+
+EXCHANGE op=COMMIT 98b6a988 elapsed_ms=0 checkpoints=1 continuing=0 session=0 pin=0 pending=0 wire=RTEF1 12345678 19 0 COMMIT
+
+EXCHANGE op=GET 12 elapsed_ms=0 checkpoints=1 continuing=0 session=0 pin=0 pending=1 wire=RTEF1 12345678 20 0 GET 4
+
+EXCHANGE op=READ 0 elapsed_ms=0 checkpoints=1 continuing=0 session=0 pin=0 pending=1 wire=RTEF1 12345678 21 0 READ 4 6e657721
+
+EXCHANGE op=CLOSE elapsed_ms=0 checkpoints=1 continuing=0 session=0 pin=0 pending=0 wire=RTEF1 12345678 22 0 CLOSE 98b6a988
+
+EXCHANGE op=PATH 0 2f756e72656c617465642e747874 elapsed_ms=0 checkpoints=1 continuing=0 session=0 pin=0 pending=0 wire=RTEF1 12345678 23 0 PATH 14
+
+EXCHANGE op=GET 12 elapsed_ms=0 checkpoints=1 continuing=0 session=0 pin=0 pending=1 wire=RTEF1 12345678 24 0 GET 9
+
+EXCHANGE op=READ 0 elapsed_ms=0 checkpoints=1 continuing=0 session=0 pin=0 pending=1 wire=RTEF1 12345678 25 0 READ 9 756e746f7563686564
+
+EXCHANGE op=CLOSE elapsed_ms=0 checkpoints=1 continuing=0 session=0 pin=0 pending=0 wire=RTEF1 12345678 26 0 CLOSE 74e9fe63
+
+FULL_TRANSFER guarded-replace=1 create=1 readback=1 unrelated-preserved=1
+CONFIRM_SETTLED accepted=1 strict=1 continuing=0 pin=0
+DISCOVERY_END elapsed_ms=2592 retained=0 exit=1 pinned=0
+FINAL ran=1 retained=0 error= lifecycle_retained=0 exit_safe=1 pinned=0 serial_retained=0
