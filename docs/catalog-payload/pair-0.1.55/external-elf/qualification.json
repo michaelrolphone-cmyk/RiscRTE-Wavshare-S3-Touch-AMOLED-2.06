@@ -1,0 +1,211 @@
+{
+  "all_required_capabilities_explicitly_granted": true,
+  "app_level_external_media_end_to_end_tested": false,
+  "compiled_public_exports": {
+    "free": "0x403853a4",
+    "malloc": "0x40385380",
+    "memchr": "0x40001344",
+    "memcmp": "0x4000120c",
+    "memcpy": "0x400011f4",
+    "memset": "0x400011e8",
+    "risc_runtime_get_api": "0x42014b68",
+    "snprintf": "0x4212a080",
+    "strcmp": "0x40001230",
+    "strcpy": "0x40001218",
+    "strlen": "0x40001248"
+  },
+  "delivered_lora_policy": {
+    "grants": [
+      {
+        "api": 1,
+        "capability": "display.output",
+        "instance_id": 5
+      },
+      {
+        "api": 1,
+        "capability": "input.touch.raw",
+        "instance_id": 6
+      },
+      {
+        "api": 1,
+        "capability": "board.battery",
+        "instance_id": 4
+      },
+      {
+        "api": 1,
+        "capability": "storage.key-value",
+        "instance_id": 9
+      },
+      {
+        "api": 1,
+        "capability": "alarm.service",
+        "instance_id": 0
+      },
+      {
+        "api": 1,
+        "capability": "storage.key-value",
+        "instance_id": 1
+      },
+      {
+        "api": 2,
+        "capability": "rtc.clock",
+        "instance_id": 8
+      },
+      {
+        "api": 1,
+        "capability": "net.wifi",
+        "instance_id": 15
+      },
+      {
+        "api": 1,
+        "capability": "bluetooth.hci",
+        "instance_id": 16
+      },
+      {
+        "api": 1,
+        "capability": "motion.accel",
+        "instance_id": 7
+      },
+      {
+        "api": 1,
+        "capability": "telemetry.broadcast",
+        "instance_id": 0
+      },
+      {
+        "api": 1,
+        "capability": "contexts.service",
+        "instance_id": 0
+      },
+      {
+        "api": 1,
+        "capability": "storage.shared-data",
+        "file": "context-fingerprints.cfp",
+        "instance_id": 2
+      },
+      {
+        "api": 1,
+        "capability": "storage.shared-data",
+        "file": "context-fingerprints.cfp",
+        "instance_id": 3
+      },
+      {
+        "api": 1,
+        "capability": "storage.shared-data",
+        "file": "context-rules.ctx",
+        "instance_id": 4
+      },
+      {
+        "api": 1,
+        "capability": "storage.key-value",
+        "instance_id": 3
+      },
+      {
+        "api": 1,
+        "capability": "ui.text-input",
+        "instance_id": 0
+      },
+      {
+        "api": 1,
+        "capability": "input.power-key",
+        "instance_id": 0
+      },
+      {
+        "api": 1,
+        "capability": "power.sleep",
+        "instance_id": 0
+      },
+      {
+        "api": 1,
+        "capability": "display.power",
+        "instance_id": 0
+      },
+      {
+        "api": 1,
+        "capability": "app.catalog",
+        "instance_id": 0
+      }
+    ],
+    "image_source": {
+      "path": "Apps/lora_messages/lora_messages.elf",
+      "volume_instance": 12
+    },
+    "manifest": "lora_messages.json"
+  },
+  "hardware_tested": false,
+  "internal_external_manifest_difference_only_version": true,
+  "lora_elf_bytes": 136960,
+  "lora_elf_sha256": "81877ba548ae0c45f4ebbbe71c53753159a4b3a28282ac9ce3c5ef63ad90c0f5",
+  "native_bin_sha256": "8a7296faf233c47f4a42a5c95e763bd6cdb8204cf88fec2a066e83a0a5390ccb",
+  "native_elf_sha256": "7ba2536bccc8eb8027c0e5d814679779c28afa8b2b3769314e9c12f49902e367",
+  "native_evidence_archive_sha256": "99fc3ab1338f98ba366cd3a82cff92d49d1d244c47c2a9876db5b8b0d7f04f5b",
+  "native_store_abi": {
+    "marker_address": 1008146446,
+    "marker_bytes": 24,
+    "marker_symbol": "risc_paired_store_abi",
+    "store_abi": 3
+  },
+  "optional_lora_ungranted": true,
+  "public_export_count": 51,
+  "published_cohort_closure": {
+    "cohort_validated": true,
+    "elf_count": 62,
+    "evidence_source": "baseline/qualification.json admission and admission_sanitized; all delivered store files digest-verified",
+    "freshly_executed_in_this_checkpoint": false,
+    "normal_and_sanitized": true,
+    "prepared": true,
+    "store_digest": "4c121a1fdcc50846c7231c2a329ffe6df3012574b6232a234ff8dd9e9cb9e315"
+  },
+  "required_capability_count": 17,
+  "runtime_commit": "f410c8592ecb37a520df3f29db8d88234dc7ddc9",
+  "schema": 1,
+  "source_files_sha256": {
+    "lib/elf_loader/src/esp_elf_validate.c": "eae1709151f3daeff27ed4644926cbb3cca6dae661dc2a18c93c622a97540131",
+    "src/bootstrap/RemovableAppImage.h": "40189da8fa55fb10efbc64d5e72db31c065caaee498584018699985e1c6685ca",
+    "src/bootstrap/RuntimeFileImage.h": "bd2740b672e9553101f2e6fb23e576937347072fc5c37f1a29b923c0752ae098",
+    "src/ports/esp32s3/NativeBankStore.cpp": "e5ffc1ad4503bd35bb65f224087dca9a329a6f318581e8e3ed431ef1ffb04457",
+    "src/runtime/packages/ElfAdmission.h": "e10410b569dd4909a82483713871ec3577c8a2be30ee92a63b8ef1ba854824f3",
+    "src/runtime/storage/VolumeImageFiles.h": "5655c690b96c39745b579e21ad410bd35b5e16f3250e17885cb0ca70f66ccc50"
+  },
+  "source_volume_provider": {
+    "boot_row": {
+      "instance_id": 12,
+      "manifest": "sd-volume/manifest.json"
+    },
+    "id": "sdmmc-fatfs",
+    "provides": [
+      {
+        "api": 1,
+        "capability": "storage.volume"
+      }
+    ],
+    "version": "0.2.1"
+  },
+  "target_instructions_executed": false,
+  "target_symbol_resolver_executed": false,
+  "tests": [
+    {
+      "driver_role_rejected": true,
+      "malformed_or_truncated_rejections": 4,
+      "missing_import_rejections": 11,
+      "production_application_admission": true,
+      "production_removable_image_snapshots": 2,
+      "production_structural_validation": true,
+      "sanitized": false,
+      "target_instructions_executed": false,
+      "unsafe_rejected": true,
+      "volume_reads": 3738
+    },
+    {
+      "driver_role_rejected": true,
+      "malformed_or_truncated_rejections": 4,
+      "missing_import_rejections": 11,
+      "production_application_admission": true,
+      "production_removable_image_snapshots": 2,
+      "production_structural_validation": true,
+      "sanitized": true,
+      "target_instructions_executed": false,
+      "unsafe_rejected": true,
+      "volume_reads": 3738
+    }
+  ]
+}

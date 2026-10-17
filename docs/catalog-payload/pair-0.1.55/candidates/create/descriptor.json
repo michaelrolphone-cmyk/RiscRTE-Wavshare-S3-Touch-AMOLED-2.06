@@ -1,0 +1,13 @@
+{
+  "container": {
+    "asset_name": "Waveshare-0.1.55-LoRa-0.1.17-create.zip",
+    "bytes": 16922064,
+    "sha256": "5e69a6efc7aaf250585abf3638bb956314fc19808fefe037814bed8ea0ce06fe"
+  },
+  "manifest": {
+    "asset_name": "Waveshare-0.1.55-LoRa-0.1.17-create.json",
+    "bytes": 5841,
+    "sha256": "f89c885c3dc1671954f7d1105a29c2ba7555e94908bdb15601811c99843d7951"
+  },
+  "schema_version": "1.0.0"
+}

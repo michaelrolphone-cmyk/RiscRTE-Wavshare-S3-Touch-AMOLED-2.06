@@ -1,0 +1,110 @@
+{
+  "firmware_id": "test-wifi-footer-0.1.55",
+  "hardware_profile": "waveshare",
+  "hardware_qualified": false,
+  "hardware_revision": "unspecified",
+  "limits": {
+    "container_bytes": 18000000,
+    "inventory_files": 3
+  },
+  "namespace": {
+    "case_semantics": "ascii-insensitive",
+    "forbid_trailing_dot_space": true,
+    "forbidden_characters": ":\\*?\"<>|",
+    "hierarchical": true,
+    "max_component_bytes": 127,
+    "max_file_bytes": 136960,
+    "max_path_bytes": 511,
+    "namespace_id": "12",
+    "operations": [
+      "stat",
+      "get",
+      "mkdir",
+      "create",
+      "replace"
+    ],
+    "writable": true,
+    "write_budget_bytes": 138235
+  },
+  "policy_semantics": {
+    "container_bytes": "New parser admission ceiling for this 16MiB full image and complete companion; not flash or storage capacity.",
+    "hardware_revision": "Exact source descriptor value, not a physical revision identification or wildcard. Owner must select the matching board profile.",
+    "max_file_bytes": "New release-specific admission ceiling, equal to largest qualified companion file; not provider maximum.",
+    "naming": "Selected from actual linked FatFs implementation and explicit provider valid_path checks, not from a display label. ASCII-only payload avoids Unicode collision assumptions.",
+    "write_budget_bytes": "New release-specific write authorization ceiling for these three files; not a free-space measurement. Live capacity/metadata/reserve verification remains required."
+  },
+  "product_id": "waveshare-esp32-s3-touch-amoled-2.06",
+  "publication_enabled": false,
+  "schema": 1,
+  "source_evidence": [
+    {
+      "path": "hardware/board.json",
+      "revision": "1606e7070753c87a9ba6160933331dbcc0d50162",
+      "role": "product",
+      "sha256": "efcbe4968164ce99971a0babb5774f4b796cbb93695be8b14b8b7363cfa2e416"
+    },
+    {
+      "path": "drivers/storage_sdmmc/driver.c",
+      "revision": "1606e7070753c87a9ba6160933331dbcc0d50162",
+      "role": "product",
+      "sha256": "670bc40c1d8bfa82a161bab0766dd61ded6cafb5c71faff13f319b4d28f58feb"
+    },
+    {
+      "path": "lib/storage_fatfs/volume.c",
+      "revision": "1606e7070753c87a9ba6160933331dbcc0d50162",
+      "role": "product",
+      "sha256": "4f99ec31ad9e7848fdabd3d642e64c24a4facf4c64765d5724fce1ecd8d8e86c"
+    },
+    {
+      "path": "lib/storage_fatfs/fatfs/ff.c",
+      "revision": "1606e7070753c87a9ba6160933331dbcc0d50162",
+      "role": "product",
+      "sha256": "69d24a03aa19a212cb827f978b3de5abcfd7a533a62d97eb0f44381b3fbd75d5"
+    },
+    {
+      "path": "lib/storage_fatfs/fatfs/ffconf.h",
+      "revision": "1606e7070753c87a9ba6160933331dbcc0d50162",
+      "role": "product",
+      "sha256": "760941150f5ed2e0c466db3816e1bfdc86d444fe714445f5e124f95bc9324395"
+    },
+    {
+      "path": "include/RiscStorageVolumeV1.h",
+      "revision": "1606e7070753c87a9ba6160933331dbcc0d50162",
+      "role": "product",
+      "sha256": "d477167a06004640b2c07c05d662c103be6e1b9e4a4d866f6fce13e754ef02f5"
+    },
+    {
+      "path": "src/main.cpp",
+      "revision": "f410c8592ecb37a520df3f29db8d88234dc7ddc9",
+      "role": "runtime",
+      "sha256": "aeb0e256a82c48c5929cf1feb82f3ab2e66239ad97f14cd015c72cf353bb865c"
+    },
+    {
+      "path": "src/ports/esp32s3/NativeSerialStorage.cpp",
+      "revision": "f410c8592ecb37a520df3f29db8d88234dc7ddc9",
+      "role": "runtime",
+      "sha256": "73dbe646121be8795050d608f78807eeb249a84bf4be2ec513fdeccf6504e566"
+    },
+    {
+      "path": "src/runtime/serial/Files.cpp",
+      "revision": "f410c8592ecb37a520df3f29db8d88234dc7ddc9",
+      "role": "runtime",
+      "sha256": "d53dd591eb869030ec7ba621f18b4b600fdc8345750b51496e5cd7d99963c9d1"
+    },
+    {
+      "path": "src/runtime/serial/Files.h",
+      "revision": "f410c8592ecb37a520df3f29db8d88234dc7ddc9",
+      "role": "runtime",
+      "sha256": "aa03f3c523b3010190ea77f8bbea2471a7d1d079758bc6182d9ce23f915a4535"
+    },
+    {
+      "path": "sdk/app/RiscStorageFilesV1.h",
+      "revision": "f410c8592ecb37a520df3f29db8d88234dc7ddc9",
+      "role": "runtime",
+      "sha256": "0699725f95e574a22ef7892416e76a33cd0a57d06b96cc42021e10ba0aeb215b"
+    }
+  ],
+  "supported_methods": [
+    "esptool-full-0x0"
+  ]
+}
