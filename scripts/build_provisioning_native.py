@@ -11,12 +11,94 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import tempfile
 
 import native_idf61_build as controlled
 import native_idf61_candidate as native
 import package_provisioning as package
 from package_alarm_sleep import make_archive
 from package_provisioning import require, sha, record, encoded
+
+
+def linked_provisioning_layout(raw):
+    import io
+    from elftools.elf.elffile import ELFFile
+    elf = ELFFile(io.BytesIO(raw))
+    require(elf.has_dwarf_info(), 'Linked native type evidence missing')
+    types = {}
+    for cu in elf.get_dwarf_info().iter_CUs():
+        name = cu.get_top_DIE().attributes.get('DW_AT_name')
+        unit = name.value.decode() if name else ''
+        if not unit.endswith(('/src/bootstrap/Runtime.cpp', '/src/ports/esp32s3/NativePackageVolume.cpp')):
+            continue
+        for die in cu.iter_DIEs():
+            name = die.attributes.get('DW_AT_name')
+            size = die.attributes.get('DW_AT_byte_size')
+            if not name or not size or die.tag not in ('DW_TAG_class_type', 'DW_TAG_structure_type'):
+                continue
+            parent = die.get_parent()
+            namespace = parent.attributes.get('DW_AT_name') if parent else None
+            namespace = namespace.value if namespace else None
+            if name.value == b'Runtime' and namespace == b'RiscBoot':
+                members = [x for x in die.iter_children() if x.tag == 'DW_TAG_member'
+                    and x.attributes.get('DW_AT_name') and x.attributes['DW_AT_name'].value == b'platforms_']
+                require(len(members) == 1, 'Linked Runtime platform array missing')
+                array = members[0].get_DIE_from_attribute('DW_AT_type')
+                require(array.tag == 'DW_TAG_array_type', 'Unexpected linked platform member type')
+                ranges = [x for x in array.iter_children() if x.tag == 'DW_TAG_subrange_type']
+                require(len(ranges) == 1, 'Unexpected linked platform array rank')
+                bounds = ranges[0].attributes
+                count = bounds['DW_AT_count'].value if 'DW_AT_count' in bounds else bounds['DW_AT_upper_bound'].value + 1
+                entry = array.get_DIE_from_attribute('DW_AT_type').attributes['DW_AT_byte_size'].value
+                types.update(platform_slots=count, platform_entry_bytes=entry, runtime_bytes=size.value)
+            elif name.value == b'Workspace' and unit.endswith('/NativePackageVolume.cpp'):
+                types['package_workspace_bytes'] = size.value
+    require(types.get('platform_slots') == 32 and types.get('package_workspace_bytes') == 15208,
+            'Linked platform capacity or package workspace changed')
+    symbols = elf.get_section_by_name('.symtab')
+    placements = {}
+    for label, suffix, expected_size in (
+        ('boot_view', 'L15bootViewStorageE', 288), ('serial_workspace', 'L16workspaceStorageE', 2792)):
+        rows = [x for x in symbols.iter_symbols() if x.name.endswith(suffix) and isinstance(x['st_shndx'], int)]
+        require(len(rows) == 1 and rows[0]['st_size'] == expected_size, 'Linked workspace differs: ' + label)
+        row = rows[0]; section = elf.get_section(row['st_shndx'])
+        require(section.name == '.ext_ram.bss', 'Workspace escaped retained external memory: ' + label)
+        placements[label] = dict(address=row['st_value'], bytes=row['st_size'], section=section.name)
+    return dict(types=types, static_workspaces=placements,
+                package_workspace_allocation='MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT',
+                scope='Linked types and static placement; no physical heap or hardware acceptance')
+
+
+def provisioning_compile_selection(commands, runtime):
+    import shlex
+    required = ('RISC_NATIVE_PACKAGE_VOLUME=1', 'RISC_NATIVE_PROVISION_REQUEST=1', 'RISC_PLATFORM_CAPACITY=32')
+    source_root = (runtime / 'src').resolve()
+    def source(row):
+        path = Path(row['file'])
+        return path.resolve() if path.is_absolute() else (Path(row['directory']) / path).resolve()
+    selected = [r for r in commands if source(r).is_relative_to(source_root)]
+    require(selected, 'Runtime compilation missing')
+    for row in selected:
+        arguments = row.get('arguments') or shlex.split(row['command'])
+        for flag in required:
+            definitions = [x for x in arguments if x.startswith('-D' + flag.split('=')[0] + '=')]
+            require(definitions == ['-D' + flag], 'Provisioning product flags missing or ambiguous in actual compilation')
+    return required, selected
+
+
+def qualify_provisioning_native(blobs, proof, sources, build):
+    commands = json.loads((build / 'compile_commands.json').read_bytes())
+    required, selected = provisioning_compile_selection(commands, sources['runtime'])
+    names = package.serial_files_product.linked_symbols(blobs['firmware_elf'])
+    for symbol in ('RiscProvisionRequest', 'RiscPackageVolume'):
+        require(any(symbol in n for n in names), 'Provisioning adapter not linked: ' + symbol)
+    linked = linked_provisioning_layout(blobs['firmware_elf'])
+    allocation = (sources['runtime'] / 'src/ports/esp32s3/NativePackageVolume.cpp').read_text()
+    require('heap_caps_malloc(sizeof(Workspace),MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT)' in allocation, 'Package workspace allocator selection changed')
+    for name in ('NativeProvisionRequest.cpp', 'NativePackageVolume.cpp', 'NativePackageVolumeAdmission.cpp'):
+        path = sources['runtime'] / 'src/ports/esp32s3' / name
+        require(any(Path(r['file']).resolve() == path for r in selected), 'Provisioning unit not compiled: ' + name)
+    return {'flags': list(required), 'compiled_runtime_rows': len(selected), 'linked_layout': linked, 'hardware_tested': False}
 
 
 def canonical(args, sources, p):
@@ -51,38 +133,49 @@ def qualify(args, sources, proof):
     # descriptor, board target, physical hooks and partition layout are retained.
     native_contract = json.loads(native.CONTRACT.read_bytes())
     blobs, native_proof = native.verify_native(lock, sources, args.native_build, args.compiler, native_contract, baseline)
-    serial_proof = __import__('serial_files_product').check_native(blobs, native_proof, p['product'], sources['runtime'],
+    serial_proof = package.serial_files_product.check_native(blobs, native_proof, p['product'], sources['runtime'],
         (package.ROOT / 'profiles/native-idf61.cmake').read_text())
     default, manifest, canonical_proof = canonical(args, sources, p)
-    providers = {}
-    for folder, name in ((args.catalog, 'installed-apps'), (args.internal, 'pkg-internal')):
-        elf, description = package.provider_inputs(folder, p, name == 'installed-apps', args.compiler.with_name('xtensa-esp32s3-elf-gcc'))
-        providers.update({name + '/driver.elf': elf, name + '/manifest.json': description})
-    after, mirrors = package.compose(before, default, manifest, providers, p, lock['sources']['product']['revision'], blobs['firmware_bin'])
+    provider_files = {}
+    for folder, name, catalog in ((args.catalog, 'installed-apps', True), (args.internal, 'pkg-internal', False)):
+        elf, description = package.provider_inputs(folder, p, catalog)
+        provider_files.update({name + '/driver.elf': elf, name + '/manifest.json': description})
+    after, mirrors = package.compose(before, default, manifest, provider_files, p, lock['sources']['product']['revision'], blobs['firmware_bin'])
     imports = native.reject_private(after, sources['runtime'])
     packed, packing = build(after, size=0x550000)
     require(build(after, size=0x550000)[0] == packed and read_image(packed, 0x550000) == after, 'Deterministic store round-trip failed')
-    preservation = package.verify_store(before, read_image(packed, 0x550000), default, manifest, providers, p, lock['sources']['product']['revision'], blobs['firmware_bin'])
+    preservation = package.verify_store(before, read_image(packed, 0x550000), default, manifest, provider_files, p, lock['sources']['product']['revision'], blobs['firmware_bin'])
     factory, transition = native.make_images(baseline, blobs['firmware_bin'], blobs['bootloader'], packed)
     require(pair(factory, 0, layout(factory))[1:] == (blobs['firmware_bin'], packed), 'Final factory native/store binding differs')
-    admission = admit_product(sources, blobs['firmware_elf'], after, after, native_proof, sanitized=False)
-    admission_sanitized = admit_product(sources, blobs['firmware_elf'], after, after, native_proof, sanitized=True)
-    rejected_transition = admit_product(sources, blobs['firmware_elf'], before, after, native_proof, sanitized=False, expected_valid=False)
-    from provisioning_qualification import verify_native_provisioning
-    native_provisioning = verify_native_provisioning(blobs, native_proof, sources, p)
-    require(admission['elf_count'] == admission_sanitized['elf_count'] == 64, 'Incomplete product ELF admission')
+    admission = admit_product(sources, blobs['firmware_elf'], before, after, native_proof, sanitized=False, receipt_dir=args.native_build / 'native-build-evidence')
+    admission_sanitized = admit_product(sources, blobs['firmware_elf'], before, after, native_proof, sanitized=True, receipt_dir=args.native_build / 'native-build-evidence')
+    require(admission['elf_count'] == admission_sanitized['elf_count'] == contract['elf_count'] + 2, 'Incomplete product ELF admission')
     fault_model = preservation_model(baseline, transition, contract['factory_sha256'])
+    fault_model.update(scope='byte-range-and-fault-order-only', preserving_transition_eligible=False, namespace_authority_tested=False)
+    provisioning_proof = qualify_provisioning_native(blobs, native_proof, sources, args.native_build)
     controlled.validate_build_proof(proof, sources, args.native_build, args.compiler, lock)
     native.verify_sources(lock, sources)
+    from provisioning_feed import prepare
+    with tempfile.TemporaryDirectory(prefix='wave-qualified-feed-') as tmp:
+        feed_root = Path(tmp) / 'feed'
+        feed = prepare(sources, after, packed, blobs['firmware_bin'], p, feed_root)
+        feed_assets = {name: (feed_root / name).read_bytes() for name in ('native-packages-v1.json',)}
+        for name, row in feed['receipt']['assets'].items():
+            data = (feed_root / 'assets' / name).read_bytes()
+            require(record(data) == {'bytes': row['size'], 'sha256': row['sha256']}, 'Feed asset custody differs')
+            feed_assets[name] = data
+        feed_assets['feed-qualification.json'] = encoded(feed)
     assets = {'factory-candidate-erases-data-0x0.bin': factory, 'firmware.bin': blobs['firmware_bin'],
               'bootloader.bin': blobs['bootloader'], 'partitions.bin': blobs['partitions'], 'store.bin': packed}
-    report = dict(schema=1, status='software-qualified-candidate-hardware-pending', publication_enabled=False,
+    require(not (set(assets) & set(feed_assets)), 'Feed asset name collision')
+    assets.update(feed_assets)
+    report = dict(schema=1, status='software-qualified-candidate-hardware-pending',
                   product=p['product'], version=p['version'], source_revision=lock['sources']['product']['revision'],
                   hardware_tested=False, device_accessed=False, factory_erases_data=True, preserving_update_kit_emitted=False,
-                  input_lock=lock, controlled_build=closure, native=native_proof, native_rebuilt=True, native_provisioning=native_provisioning, rejected_preserving_transition=rejected_transition, mirrors=mirrors,
-                  default=canonical_proof, serial_files=serial_proof, baseline_contract=contract, preservation=preservation, public_imports=imports,
+                  input_lock=lock, controlled_build=closure, native=native_proof, native_rebuilt=True, mirrors=mirrors,
+                  default=canonical_proof, serial_files=serial_proof, provisioning=provisioning_proof, baseline_contract=contract, preservation=preservation, public_imports=imports,
                   admission=admission, admission_sanitized=admission_sanitized, preservation_software_model=fault_model,
-                  packing=packing, artifacts={n: record(b) for n, b in assets.items()})
+                  packing=packing, feed=feed, artifacts={n: record(b) for n, b in assets.items()})
     assets.update({'qualification.json': encoded(report), 'source-lock.json': args.lock.read_bytes(),
                    'source-pins.json': (package.DOCS / 'source-pins.json').read_bytes(), 'default.elf': default, 'default.json': manifest})
     evidence = {'qualification.json': assets['qualification.json'], 'canonical-a.json': (args.first / 'build.json').read_bytes(),
@@ -94,9 +187,6 @@ def qualify(args, sources, proof):
     assets['candidate-evidence.zip'] = make_archive(evidence)
     assets['SHA256SUMS'] = ''.join(sha(b) + '  ' + n + '\n' for n, b in sorted(assets.items())).encode()
     args.output.mkdir(parents=True)
-    from provisioning_feed import build_feed
-    feed = build_feed(sources, after, packed, blobs['firmware_bin'], p, args.output / 'feed')
-    assets['feed-receipt.json'] = encoded(feed)
     for name, data in assets.items(): (args.output / name).write_bytes(data)
     print(p['product'] + ': native source closure, complete default store admission/extraction and preservation model PASS; hardware pending', flush=True)
 
@@ -135,13 +225,19 @@ def main():
         require(executable is not None and Path(executable).is_file(), 'Build tool missing: ' + name)
         path = Path(executable).resolve(); tools[name] = {'path': str(path), **controlled.file_row(path)}
     commands = controlled.build_commands(sources, args.native_build, source_pins['runtime']['revision'], cmake)
-    commands[0] = [arg.replace('profiles/native-idf61.cmake', p['native_profile']) for arg in commands[0]]
+    commands = [[x.replace('profiles/native-idf61.cmake', 'profiles/provisioning-native.cmake') for x in row] for row in commands]
     args.native_build.parent.mkdir(parents=True, exist_ok=True)
     for command in commands: subprocess.run(command, env=env, check=True)
     proof = controlled.collect_build_proof(native, sources, args.native_build, args.compiler, source_pins, commands, env, tools)
     args.lock = args.native_build / 'native-build-evidence/source-lock.json'
     native.freeze(sources, args.native_build, args.compiler, args.lock, p['version'])
     sys.path[:0] = [str(sources['runtime'] / 'scripts'), str(sources['image_helper'] / 'scripts')]
+    custody = args.native_build / 'native-build-evidence/locked-native'
+    custody.mkdir()
+    lock = json.loads(args.lock.read_bytes())
+    for row in lock['native_files'].values():
+        destination = custody / row['path']; destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(native.safe_path(args.native_build, row['path']), destination)
     qualify(args, sources, proof)
 
 

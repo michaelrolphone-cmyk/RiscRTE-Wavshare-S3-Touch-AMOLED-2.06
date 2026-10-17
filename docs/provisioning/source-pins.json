@@ -56,6 +56,24 @@
   "native_profile": "profiles/provisioning-native.cmake",
   "previous_release_profile": "docs/shared-default/history/0.1.51/native-idf61.cmake",
   "product": "waveshare",
+  "providers": {
+    "installed-apps/driver.elf": {
+      "bytes": 85892,
+      "sha256": "e10e8f48e175dc38348d119fb63a2fb29d0eb39762137031c7819ba81e89323e"
+    },
+    "installed-apps/manifest.json": {
+      "bytes": 643,
+      "sha256": "c2558c3f7f90aff674d4063070ca08310b825c392ca1ec98fa484993d0a52f70"
+    },
+    "pkg-internal/driver.elf": {
+      "bytes": 3164,
+      "sha256": "ed994405adad60aad06d297d53dddc613f38739ac0206fc579837ede37882a6b"
+    },
+    "pkg-internal/manifest.json": {
+      "bytes": 287,
+      "sha256": "1ec2aeb0c601c2aad2ce26b0d4cea1f8b87bb3fbd51b2288a8e6d9f6fddd2211"
+    }
+  },
   "publication_enabled": true,
   "release_branch": "release/provisioning-0.1.56",
   "release_tag": "test-provisioning-0.1.56",
@@ -88,6 +106,10 @@
         "writable": true
       }
     ]
+  },
+  "settings": {
+    "bytes": 157124,
+    "sha256": "a7558b3bd2cd0c2a0edee95e4a8a69477a63772e8300e33e8e7332a2558f8d41"
   },
   "system_revision": "bb0cadf3cec3445a64e11513b47b2676f3fdd92d",
   "time_server": "time.cloudflare.com",

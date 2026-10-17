@@ -50,3 +50,35 @@ Source Atlas set c53815c1-80c8-44b8-8a3e-cd69cd601a16 pins current product,
 qualified Watch/Runtime and catalog System source. Its exact revisions currently
 have no matching complete text/compiler coverage; empty trace results do not
 establish absence. Local pinned-source review supplies syntax evidence only.
+
+## 0.1.56 cumulative successor in progress
+
+Version0.1.56/test-provisioning-0.1.56 is reserved after exact tag/catalog conflict
+checks and coordination with the0.1.55 Wi-Fi repair owner. Final0.1.55 public
+assets are the required baseline; older receipts above remain diagnostic history.
+
+The separate shared Watch PR7 head2be519c2047b2323e4d399c1de19b0591dc87c59
+is independently reviewed and passes all three GitHub workflows. Exact-source
+run38992172220 artifact12084993852 independently reproduces the canonical Home
+552616bytes, SHA2565797b757e228f2055f4fda3384659e91830f77ff03a636f9b3f605aeca8ace0d.
+All11140 calendar-ring tuples and1632 full frames remain identical, including
+ASan/UBSan. Common Home a/b and CI bytes match; hardware remains untested.
+
+The updated complete internal core keeps all retained payloads. Only the original
+optional external-only LoRa app remains on SD. The new installed catalog is85892
+bytes and internal adapter3164, with exact loader-section/symbol/relocation proof
+and retained original sidecars. Using the .54 diagnostic input,132 files/64ELFs
+pack into the unchanged0x550000 store with95 free pages and6 whole free blocks.
+The required4-block reserve passes. The bounded production catalog controller
+parses the complete core and queues its exact image URL, size and digest.
+
+The diagnostic source-bound host graph has22 platform tables; capacity32 suffices.
+USB-PHY is selected and diagnostic-source is absent. Factory admission and the
+namespace6-only control admit all64ELFs without hardware/storage calls. The
+preserving transition rejects before ELF loading. Final .56 native CI must repeat
+these checks over exact .55 inputs and verify linked DWARF, IQ and workspaces.
+
+Product build, feed, admission and publication helpers now exist; their release
+mutation tests and linked-layout tests pass locally. Product native compilation,
+final cumulative packing and publication are pending. No hardware acceptance is
+claimed. Previous release recipes and exact Settings remain unchanged.
