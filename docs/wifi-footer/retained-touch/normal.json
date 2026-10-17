@@ -1,0 +1,98 @@
+{
+  "controller_patch_revision": "297c38619a867f6200cc2f605b6193e4394bdfa2",
+  "fixture_revision": "297c38619a867f6200cc2f605b6193e4394bdfa2",
+  "results": [
+    {
+      "case": 0,
+      "passed": true,
+      "profile": "legacy-240x240"
+    },
+    {
+      "case": 1,
+      "passed": true,
+      "profile": "legacy-240x240"
+    },
+    {
+      "case": 2,
+      "passed": true,
+      "profile": "legacy-240x240"
+    },
+    {
+      "case": 3,
+      "passed": true,
+      "profile": "legacy-240x240"
+    },
+    {
+      "case": 0,
+      "passed": true,
+      "profile": "native-240x240"
+    },
+    {
+      "case": 1,
+      "passed": true,
+      "profile": "native-240x240"
+    },
+    {
+      "case": 2,
+      "passed": true,
+      "profile": "native-240x240"
+    },
+    {
+      "case": 3,
+      "passed": true,
+      "profile": "native-240x240"
+    },
+    {
+      "case": 0,
+      "passed": true,
+      "profile": "native-410x502"
+    },
+    {
+      "case": 1,
+      "passed": true,
+      "profile": "native-410x502"
+    },
+    {
+      "case": 2,
+      "passed": true,
+      "profile": "native-410x502"
+    },
+    {
+      "case": 3,
+      "passed": true,
+      "profile": "native-410x502"
+    },
+    {
+      "case": 0,
+      "passed": true,
+      "profile": "native-480x480"
+    },
+    {
+      "case": 1,
+      "passed": true,
+      "profile": "native-480x480"
+    },
+    {
+      "case": 2,
+      "passed": true,
+      "profile": "native-480x480"
+    },
+    {
+      "case": 3,
+      "passed": true,
+      "profile": "native-480x480"
+    }
+  ],
+  "sanitized": false,
+  "scope": "Production controller, renderer and touch adapter; synthetic radio, display, storage and input providers. Hardware untested.",
+  "sha256": {
+    "Apps/wifi_settings_portable.inc": "b8e45810e3529ed0300350fb9ae403059ff5c2bb1653bfb69d5ea25e05726cc3",
+    "lib/PortableApps/include/WatchViewLayout.h": "3585c799dc39eeb451e6669d6b07cc86fe6633456935407cb81dd29e0534ded2",
+    "lib/PortableApps/src/adapter.c": "98f705ebcbe3ea7fdcb270354d93108555b0d96b95eb86c54281d5f35318b249",
+    "lib/PortableApps/src/wifi_nova.inc": "56f5eaa194bc867aa30a0073ae26c652ebcfe4f515056d709a35b85bab2ba323",
+    "test/native_apps/portable_wifi_test.c": "f4edaf3a00a275743c30009765810af2f13202f20e8c875f4884e5b557beb425",
+    "test/native_apps/wifi_watch_touch_test.c": "9d59c46950d3406790f6a1c863689b2ca43bf6c86da4327fe70e232fa06cf4b4"
+  },
+  "source": "96742a20af660808cae6cd3a36eadd12a83a460f",
+  "source_description": "Retained System Apps 96742a20 with only the Wi-Fi footer controller corrected; focused test fixtures copied from merged repair source."
+}

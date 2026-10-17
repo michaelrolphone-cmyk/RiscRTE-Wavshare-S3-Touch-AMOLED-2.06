@@ -70,7 +70,7 @@
   },
   "previous_release_profile": "docs/shared-default/history/0.1.51/native-idf61.cmake",
   "product": "waveshare",
-  "publication_enabled": false,
+  "publication_enabled": true,
   "release_branch": "release/wifi-footer-0.1.55",
   "release_tag": "test-wifi-footer-0.1.55",
   "runtime_revision": "f410c8592ecb37a520df3f29db8d88234dc7ddc9",
