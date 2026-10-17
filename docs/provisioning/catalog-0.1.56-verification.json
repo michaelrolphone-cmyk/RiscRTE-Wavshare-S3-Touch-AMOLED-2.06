@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "checked_at": "2026-10-17T06:05:04Z",
+  "catalog_revision": 1,
+  "release_id": "RiscRTE-Wavshare-S3-Touch-AMOLED-2.06:test-provisioning-0.1.56",
+  "source_revision": "907b9551b0d8208a7f979b0a722a7a47618e0402",
+  "result": {
+    "available": true,
+    "release_id": "RiscRTE-Wavshare-S3-Touch-AMOLED-2.06:test-provisioning-0.1.56",
+    "asset_name": "Waveshare-0.1.56-Provisioning-factory-erases-data-0x0.bin",
+    "bytes": 16777216,
+    "sha256": "b343bf219999b5f801f6fc4b025e61e45224699c2cc89ef7dc9296c54a680ddc",
+    "checksum_verified": true,
+    "orchestrated_flash_available": true
+  },
+  "hardware_tested": false
+}

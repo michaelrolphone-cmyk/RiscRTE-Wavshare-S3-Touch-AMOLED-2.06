@@ -1,4 +1,16 @@
-# Waveshare provisioning source checkpoint
+# Waveshare provisioning delivery and checkpoint history
+
+## Delivered 0.1.56, 2026-10-17
+
+The complete provisioning release is published and independently audited. See
+[DELIVERY-0.1.56.md](DELIVERY-0.1.56.md),
+[public byte audit](public-release-0.1.56-audit.json), and
+[catalog verification](catalog-0.1.56-verification.json).
+Hardware first-start/profile acceptance remains untested. The sections below
+preserve historical preparation observations; their pending states are not the
+current delivery status.
+
+## Historical source checkpoint
 
 Historical checkpoint before the sleep-repair detour. Resumption measurements are recorded below. This is incomplete source preparation, not a runnable release or firmware delivery. No binaries, feeds, release or catalog entry have been published.
 
