@@ -1,0 +1,103 @@
+{
+  "assets": {
+    "RELEASE-NOTES.txt": {
+      "bytes": 1224,
+      "sha256": "7c5b955941f8de5edb06629531cca28d9058ce16edf982b1d45b19c8dcea88ca"
+    },
+    "SHA256SUMS": {
+      "bytes": 1701,
+      "sha256": "87b22f4f9229d54336b0f40d5864d6fa855261573953652f24d68ab7865169e5"
+    },
+    "TESTING.txt": {
+      "bytes": 2916,
+      "sha256": "a307d1e1dad92ab611841b0c578ad6e9db7b490571611aec0ea538cadfb9a4a3"
+    },
+    "Waveshare-0.1.55-WiFi-Footer-Evidence.zip": {
+      "bytes": 13187212,
+      "sha256": "99fc3ab1338f98ba366cd3a82cff92d49d1d244c47c2a9876db5b8b0d7f04f5b"
+    },
+    "Waveshare-0.1.55-WiFi-Footer-factory-erases-data-0x0.bin": {
+      "bytes": 16777216,
+      "sha256": "96581ff5d4df7ff1e71b89d936d033af16c37622192fc35fad0df60943352879"
+    },
+    "bootloader.bin": {
+      "bytes": 22640,
+      "sha256": "ac4faea00b978beceb8b8f0aa8114e699106519c80ef3685bcfc483c9f24d739"
+    },
+    "ci-provenance.zip": {
+      "bytes": 7413,
+      "sha256": "b338f73c85b07d9528e2880a78b4bd1ce4495ad1b677fc4b5cd9ce5ee83c3194"
+    },
+    "default.elf": {
+      "bytes": 617424,
+      "sha256": "9f10c7150cdc175ff5af0dbc1410e455ead4f18868dd56555e10860781103f2f"
+    },
+    "default.json": {
+      "bytes": 1551,
+      "sha256": "0888f82c0f69d48210d94bd9507e359833200d2756a1327323580324f314e3b1"
+    },
+    "firmware.bin": {
+      "bytes": 1773584,
+      "sha256": "8a7296faf233c47f4a42a5c95e763bd6cdb8204cf88fec2a066e83a0a5390ccb"
+    },
+    "partitions.bin": {
+      "bytes": 3072,
+      "sha256": "d27edcdba637142baa7d91e29b70df47554c22a4f14de303dc6a0cdcc1e25de8"
+    },
+    "power-driver.elf": {
+      "bytes": 6268,
+      "sha256": "1834f708fdd7ef725db16a0719b21cd41816cf5b60a867826b017722eb1dd4be"
+    },
+    "power-manifest.json": {
+      "bytes": 756,
+      "sha256": "50ef52f27f93165e1ebb748b5e5d21cd6d497f2fcf38654b8c19e0db282a34af"
+    },
+    "qualification.json": {
+      "bytes": 1480277,
+      "sha256": "d93db5acee3d63de7bf59afb764b433bf90f0d91d3a8ba78b05a6c3d0dbdc724"
+    },
+    "release.json": {
+      "bytes": 14567,
+      "sha256": "064300fd06a6663a78239f4d429a330baf775144b066b5715b4ee3c8ff6dcdc3"
+    },
+    "source-lock.json": {
+      "bytes": 10148,
+      "sha256": "056574f6633c41b6a370439b59b966cd77105242c769667f43fa311e8c34521a"
+    },
+    "source-pins.json": {
+      "bytes": 8010,
+      "sha256": "31659cdd080fe8851f72ef832d68677d33ce961f735c0a13cbf947ce72b48f42"
+    },
+    "store.bin": {
+      "bytes": 5570560,
+      "sha256": "b1d6915d48884d15fc520deb172d39dc636bc266b9f0ed758e2d4b26fdd3094a"
+    },
+    "wifi-build.json": {
+      "bytes": 56607,
+      "sha256": "1c4341e5e38d84d6e8adb94c6cbdd968103c1340f45cb49d7ed513775becdab3"
+    },
+    "wifi_settings.elf": {
+      "bytes": 169460,
+      "sha256": "25a5b8c1f36f4c9ea4edf7a6bcae5b890264a646bbbd2bca37e8c153c5233247"
+    },
+    "wifi_settings.json": {
+      "bytes": 1444,
+      "sha256": "fed946946d58f7e9fbb10bad11e49575e0aa3e4f65bb1cec8ab74550a65e91dd"
+    }
+  },
+  "changes_from_054": [
+    "cohort.json",
+    "wifi_settings.elf",
+    "wifi_settings.json"
+  ],
+  "files_verified": 21,
+  "github_asset_digests_verified": true,
+  "hardware_tested": false,
+  "independent_factory_extraction": true,
+  "release": "https://github.com/michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06/releases/tag/test-wifi-footer-0.1.55",
+  "retained_from_054_elfs": 61,
+  "schema": 1,
+  "source_revision": "1606e7070753c87a9ba6160933331dbcc0d50162",
+  "store_elfs": 62,
+  "store_files": 128
+}

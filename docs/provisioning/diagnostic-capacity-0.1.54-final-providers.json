@@ -1,0 +1,49 @@
+{
+  "capacity": {
+    "deleted_pages": 0,
+    "free_blocks": 6,
+    "free_pages": 95,
+    "occupied_pages": 20305
+  },
+  "diagnostic_baseline": "0.1.54",
+  "mirrors": {
+    "core": "internal-only",
+    "mirror_count": 0,
+    "retained_external_only": [
+      "lora_messages.json"
+    ]
+  },
+  "native_built": false,
+  "packing": {
+    "config": {
+      "aligned": true,
+      "aligned_obj_ix_tables": false,
+      "block_ix_len": 2,
+      "block_size": 4096,
+      "endianness": "little",
+      "meta_len": 4,
+      "obj_id_len": 2,
+      "obj_name_len": 32,
+      "packed": true,
+      "page_ix_len": 2,
+      "page_size": 256,
+      "span_ix_len": 2,
+      "use_magic": true,
+      "use_magic_len": true
+    },
+    "empty_blocks": 6,
+    "file_count": 132,
+    "generator": "esp-idf-spiffsgen",
+    "generator_sha256": "5779792a4d98a12383233267511735769a201b5c2c79b582186a40c22b7c6466",
+    "image_bytes": 5570560,
+    "independent_round_trip_verified": true,
+    "metadata": "zero",
+    "occupied_blocks": 1354,
+    "order": "sorted ASCII path names",
+    "payload_bytes": 5012238,
+    "sha256": "81674b6c5f1c9a74602d681fa6a5b46e9a506ed921b17e32866ff6bfae594231",
+    "upstream_commit": "38eeba213aa695aabfd6d89aa9f5078dbe5a94c3"
+  },
+  "payload_bytes": 5012238,
+  "source_revision_placeholder": true
+}

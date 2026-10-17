@@ -1,0 +1,45 @@
+{
+  "baseline": {
+    "version": "0.1.54",
+    "checksums_sha256": "b5a3b12fa6df2c15d583b52183d912288a7d7a13236757dbfd8648473cff9c03",
+    "payload_bytes": 5011989,
+    "capacity": {
+      "occupied_pages": 20299,
+      "deleted_pages": 0,
+      "free_pages": 101,
+      "free_blocks": 6
+    }
+  },
+  "candidate": {
+    "files": 132,
+    "elf_count": 64,
+    "payload_bytes": 5012618,
+    "mirror_count": 0,
+    "home": {
+      "bytes": 552616,
+      "sha256": "5797b757e228f2055f4fda3384659e91830f77ff03a636f9b3f605aeca8ace0d"
+    },
+    "catalog": {
+      "bytes": 85660,
+      "sha256": "67d8c5b8ceeb3c06490bcb3ba4cb9f41ded0983f91d5fe725f2ae49d9bc2fb60"
+    },
+    "packing": "success",
+    "capacity": {
+      "occupied_pages": 20307,
+      "deleted_pages": 0,
+      "free_pages": 93,
+      "free_blocks": 6
+    },
+    "occupied_pages": 20307,
+    "required_reserve_blocks": 4,
+    "admissible_page_budget": 20340,
+    "occupied_page_deficit": -33,
+    "diagnostic_geometry_not_selected": "0x600000",
+    "free_page_margin_above_required_reserve": 33
+  },
+  "claims": {
+    "native_built": false,
+    "product_version_reserved": false,
+    "candidate_source_revision_placeholder": true
+  }
+}

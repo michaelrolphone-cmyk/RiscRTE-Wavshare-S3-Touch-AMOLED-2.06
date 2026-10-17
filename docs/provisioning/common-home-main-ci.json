@@ -1,0 +1,19 @@
+{
+  "archive_sha256": "4cf0a4b1b1ab76b4f0a7ec7a67d935f0bcb0d357af7e93855c132112da263e44",
+  "artifact_id": 12086840004,
+  "files": {
+    "provisioning/default.elf": {
+      "bytes": 552616,
+      "local_exact_match": true,
+      "sha256": "5797b757e228f2055f4fda3384659e91830f77ff03a636f9b3f605aeca8ace0d"
+    },
+    "provisioning/default.json": {
+      "bytes": 1692,
+      "local_exact_match": true,
+      "sha256": "37be8bc578456c4fff51f2576ac7a657d5ee96fdd3d6a536abaf8db598653e44"
+    }
+  },
+  "run_id": 38993267445,
+  "schema": 1,
+  "source_revision": "53282b569f5f2e2c7f55979c82b2eacad83dde30"
+}

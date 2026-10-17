@@ -1,0 +1,49 @@
+{
+  "baseline": {
+    "version": "0.1.54",
+    "checksums_sha256": "b5a3b12fa6df2c15d583b52183d912288a7d7a13236757dbfd8648473cff9c03",
+    "payload_bytes": 5011989,
+    "capacity": {
+      "occupied_pages": 20299,
+      "deleted_pages": 0,
+      "free_pages": 101,
+      "free_blocks": 6
+    }
+  },
+  "candidate": {
+    "files": 132,
+    "elf_count": 64,
+    "payload_bytes": 5081296,
+    "mirror_count": 62,
+    "home": {
+      "bytes": 610872,
+      "sha256": "b5d8d7b545da737879a1d369160cd4c6eea4cee8876d09ce783cf00560f70231"
+    },
+    "catalog": {
+      "bytes": 85660,
+      "sha256": "67d8c5b8ceeb3c06490bcb3ba4cb9f41ded0983f91d5fe725f2ae49d9bc2fb60"
+    },
+    "packing": "SpiffsFullError: the image size has been exceeded",
+    "occupied_pages": 20583,
+    "required_reserve_blocks": 4,
+    "admissible_page_budget": 20340,
+    "occupied_page_deficit": 243,
+    "diagnostic_geometry_not_selected": "0x600000",
+    "approx_payload_bytes_for_page_deficit": 60993
+  },
+  "claims": {
+    "native_built": false,
+    "product_version_reserved": false,
+    "candidate_source_revision_placeholder": true
+  },
+  "catalog_review": {
+    "metadata_compaction_selected": true,
+    "text_bytes": 71169,
+    "rodata_bytes": 3662,
+    "relocation_bytes": 6972,
+    "gc_sections_probe_bytes": 86548,
+    "existing_oz_lto_probe_bytes": 82756,
+    "baseline_catalog_bytes": 85660,
+    "conclusion": "Flag-only probes do not recover required243pages. No architectural change selected."
+  }
+}

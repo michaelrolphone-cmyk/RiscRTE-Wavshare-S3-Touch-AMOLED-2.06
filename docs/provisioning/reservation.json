@@ -1,0 +1,10 @@
+{
+  "version": "0.1.56",
+  "release_tag": "test-provisioning-0.1.56",
+  "preceding_release": "0.1.55",
+  "coordinated_with_wifi_owner": true,
+  "checked_at": "2026-10-17T01:47:20Z",
+  "matching_github_tags": [],
+  "matching_catalog_releases_including_archived": [],
+  "stage": "preparation; exact .55 released bytes awaited"
+}

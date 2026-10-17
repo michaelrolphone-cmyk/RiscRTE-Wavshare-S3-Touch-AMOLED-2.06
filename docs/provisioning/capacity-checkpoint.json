@@ -1,0 +1,47 @@
+{
+  "baseline_store": {
+    "elf_count": 62,
+    "files": 128,
+    "free_blocks": 6,
+    "free_pages": 103,
+    "occupied_pages": 20297,
+    "partition_bytes": 5570560
+  },
+  "candidate_store": {
+    "elf_count": 64,
+    "files": 132,
+    "mirror_count": 62,
+    "packing_result": "SpiffsFullError: the image size has been exceeded",
+    "payload_bytes": 5095514
+  },
+  "checkpoint_status": "incomplete-source-only",
+  "hardware_tested": false,
+  "inputs": {
+    "Waveshare-0.1.52-Shared-Default-factory-erases-data-0x0.bin": {
+      "bytes": 16777216,
+      "sha256": "b17b236a9c729da91b8ec709f9b43bbe326296602c34de69f3aa8582741dbd6c"
+    },
+    "release.json": {
+      "bytes": 13888,
+      "sha256": "c98902d08e0423807de15ffa1f0cfa5b8190b19490ef1f7c44d4a2e04b6d2a6f"
+    },
+    "store.bin": {
+      "bytes": 5570560,
+      "sha256": "e025d90b35626b60f81a4558b5176b0f5ab2c7880ee37074f3c6a687fce4eb37"
+    }
+  },
+  "native_ci_run": false,
+  "new_catalog": {
+    "compacted_bytes": 85660,
+    "compacted_sha256": "67d8c5b8ceeb3c06490bcb3ba4cb9f41ded0983f91d5fe725f2ae49d9bc2fb60",
+    "original_bytes": 179064,
+    "original_sha256": "cba8c11a3866afe03936ddfaca3386fe5b03fb7a696d2c5ba5a4510545a5041f"
+  },
+  "product_base": "ff558f13c2b97c3d40a3c04d0b9f3d0103fc7038",
+  "release_published": false,
+  "schema": 1,
+  "without_optional_mirrors": {
+    "packing_result": "SpiffsFullError: the image size has been exceeded",
+    "payload_bytes": 5085092
+  }
+}
