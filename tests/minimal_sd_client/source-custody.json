@@ -1,0 +1,43 @@
+{
+  "source": "f31f89636304d202c49884e2e9b2e0b2ec5fb891",
+  "source_url_prefix": "https://github.com/michaelrolphone-cmyk/RiscRTE-System-Apps/blob/f31f89636304d202c49884e2e9b2e0b2ec5fb891/",
+  "files": [
+    {
+      "source_path": "lib/PortableApps/include/PortableAppCatalog.h",
+      "sha256": "8d63e2ce1a3c0847893ed675c4d74ee145c4cfd403ed593ad6efeaa335736944",
+      "initial_local_matches_exact_response": false,
+      "current_local_matches_exact_response": true
+    },
+    {
+      "source_path": "lib/PortableApps/include/PortableOptionalService.h",
+      "sha256": "e8731e97933bd07a27e90cce29eb09566c7f4db0c7af5fd30faf2c7364c9460a",
+      "initial_local_matches_exact_response": false,
+      "current_local_matches_exact_response": true
+    },
+    {
+      "source_path": "lib/PortableApps/include/RiscAppCatalogV1.h",
+      "sha256": "34550d01d90513459ff7f3284681c4c108af9e64d5c20af6ae4696a1c051b0c5",
+      "initial_local_matches_exact_response": false,
+      "current_local_matches_exact_response": true
+    },
+    {
+      "source_path": "lib/NativeApps/include/T5AppApi.h",
+      "sha256": "eb0acebe0b1a151916b9f05afd98025e8e516c251337b8fe48fd3961bd58a981",
+      "initial_local_matches_exact_response": false,
+      "current_local_matches_exact_response": true
+    },
+    {
+      "source_path": "lib/PortableApps/include/RiscRuntimeV1.h",
+      "sha256": "6e114c69b4de04a8faa254d89e92143b11549824f53d63b8e75d7e09cd216387",
+      "initial_local_matches_exact_response": false,
+      "current_local_matches_exact_response": true
+    },
+    {
+      "source_path": "lib/PortableApps/include/RiscKeyValueV1.h",
+      "sha256": "0e73bf29c402be030baf52f5b2b324f5b872549cdf58aa31f45b72bd70977179",
+      "initial_local_matches_exact_response": false,
+      "current_local_matches_exact_response": true
+    }
+  ],
+  "initial_adjustment": "Removed the extra final newline added by patch construction; final rerun uses the byte-exact connector source responses."
+}
