@@ -1,0 +1,2 @@
+mode=2 deadline=0 result=0 stage=6 detail=-1
+test: /tmp/waveshare-sleep-rebound/product/tests/power_home_sleep_fixture.c:57: run: Assertion `!deep_expected&&result==WATCH_SLEEP_WOKE&&restores==1&&light_returns==1' failed.

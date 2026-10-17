@@ -86,19 +86,32 @@ static int32_t result_code(int32_t rc) {
 }
 static int32_t light_for(void *c,uint32_t ms,risc_light_sleep_result_v1 *out) {
     (void)c;
-    if(!started || retained || !prepared || !out || ms>RISC_TIMED_SLEEP_MAX_MS)return RISC_LIGHT_SLEEP_INVALID;
+    if(!started || retained || !prepared || !out || !ms || ms>RISC_TIMED_SLEEP_MAX_MS)return RISC_LIGHT_SLEEP_INVALID;
     if(gpio_api->struct_size<RISC_GPIO_BANK_LIGHT_SLEEP_FOR_V1_SIZE || !gpio_api->light_sleep_for)return RISC_LIGHT_SLEEP_UNSUPPORTED;
     return result_code(gpio_api->light_sleep_for(gpio_api->context,key_claim,config->irq_active_high,ms,out));
 }
-static int32_t light(void *c,risc_light_sleep_result_v1 *out) {return light_for(c,0,out);}
+static int32_t light(void *c,risc_light_sleep_result_v1 *out) {
+    (void)c;
+    if(!started || retained || !prepared || !out)return RISC_LIGHT_SLEEP_INVALID;
+    /* Zero is invalid in the timer suffix. Untimed entry owns a separate ABI
+     * callback and must also work with pre-timer GPIO tables. */
+    if(gpio_api->struct_size<RISC_GPIO_BANK_LIGHT_SLEEP_V1_SIZE || !gpio_api->light_sleep)return RISC_LIGHT_SLEEP_UNSUPPORTED;
+    return result_code(gpio_api->light_sleep(gpio_api->context,key_claim,config->irq_active_high,out));
+}
 static int32_t deep_for(void *c,uint32_t ms) {
     (void)c;
-    if(!started || retained || !prepared || ms>RISC_TIMED_SLEEP_MAX_MS)return RISC_DEEP_SLEEP_INVALID;
+    if(!started || retained || !prepared || !ms || ms>RISC_TIMED_SLEEP_MAX_MS)return RISC_DEEP_SLEEP_INVALID;
     if(gpio_api->struct_size<RISC_GPIO_BANK_DEEP_SLEEP_FOR_V1_SIZE || !gpio_api->deep_sleep_for)return RISC_DEEP_SLEEP_UNSUPPORTED;
     int32_t rc=gpio_api->deep_sleep_for(gpio_api->context,key_claim,config->irq_active_high,ms);
     if(rc==RISC_DEEP_SLEEP_RETAINED)retained=true;return rc;
 }
-static int32_t deep(void *c) {return deep_for(c,0);}
+static int32_t deep(void *c) {
+    (void)c;
+    if(!started || retained || !prepared)return RISC_DEEP_SLEEP_INVALID;
+    if(gpio_api->struct_size<RISC_GPIO_BANK_DEEP_SLEEP_V1_SIZE || !gpio_api->deep_sleep)return RISC_DEEP_SLEEP_UNSUPPORTED;
+    int32_t rc=gpio_api->deep_sleep(gpio_api->context,key_claim,config->irq_active_high);
+    if(rc==RISC_DEEP_SLEEP_RETAINED)retained=true;return rc;
+}
 static int32_t light_set(void *c,uint32_t ms,risc_light_sleep_result_v1 *out) {
     (void)c;
     if(!started || retained || !prepared || !out || ms>RISC_TIMED_SLEEP_MAX_MS)return RISC_LIGHT_SLEEP_INVALID;
