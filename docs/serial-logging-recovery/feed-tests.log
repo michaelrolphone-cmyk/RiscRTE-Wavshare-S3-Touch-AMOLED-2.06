@@ -1,0 +1,21 @@
+{
+  "hardware_tested": false,
+  "positive_cases": 1,
+  "rejection_count": 12,
+  "rejections": [
+    "cohort-sha256",
+    "cohort-size",
+    "cohort-runtime-version",
+    "cohort-layout",
+    "cohort-abi",
+    "cohort-product",
+    "cohort-release",
+    "conflicting-marker",
+    "truncated-marker",
+    "missing-marker",
+    "malformed-version",
+    "changed-native-abi"
+  ],
+  "scope": "Synthetic marker parser tests only; no native release qualification",
+  "status": "passed"
+}
