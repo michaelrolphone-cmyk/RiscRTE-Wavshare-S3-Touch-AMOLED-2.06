@@ -1,0 +1,158 @@
+{
+  "hardware_tested": false,
+  "lifetime": {
+    "cases": [
+      {
+        "build": "normal",
+        "cases": [
+          "cold",
+          "absent-card",
+          "healthy",
+          "disconnect",
+          "failed-close",
+          "failed-write",
+          "failed-release",
+          "failed-prepare",
+          "post-return",
+          "post-failed-close",
+          "default-run"
+        ],
+        "client": {
+          "default_deadline_seconds": 5.0,
+          "max_response_seconds": 0.0003518429984978866,
+          "requests": 103
+        },
+        "guard_cases": [
+          "admission",
+          "default-run",
+          "readiness",
+          "leaked-grant",
+          "leaked-consumer",
+          "undrained-old-session"
+        ],
+        "logs": [
+          {
+            "command": [
+              "bash",
+              "/workspace/shared/serial-lifetime-20261018/test/run_provider_keep_set_test.sh"
+            ],
+            "returncode": 0,
+            "sha256": "34f2f9a2584a00afe902b75c0a8e98bc347c00e9c22846e07b350cf6d8d02629"
+          },
+          {
+            "command": [
+              "bash",
+              "/workspace/shared/serial-lifetime-20261018/test/run_native_serial_lifetime_guards_test.sh"
+            ],
+            "returncode": 0,
+            "sha256": "2da349cc8d5bdd11b07f177d8427e446ba8155d3b4acd53308ff600adc502c5e"
+          },
+          {
+            "command": [
+              "/workspace/shared/wave-stat-successor/venv/bin/python",
+              "/workspace/shared/serial-lifetime-20261018/test/run_native_serial_waveshare_sd_test.py",
+              "--waveshare",
+              "/workspace/shared/stat-observation-recovery/provider",
+              "--output",
+              "/workspace/shared/wave-lifetime-successor/lifetime-local/normal/wave"
+            ],
+            "returncode": 0,
+            "sha256": "665c767e3cc8233454dd49b7374b09925c5cb7c9247f40ea27e071c7939be748"
+          }
+        ],
+        "passed": true,
+        "provider_revision": "e1b2fc8b801b33e3bd6ea30626a8dda9bf2237a6",
+        "sanitized": false,
+        "source_manifest_sha256": "cd3f63c8d01e7112c5a4f351c47d938af781a0ec39c3c62aa072f72a33de77c3"
+      },
+      {
+        "build": "sanitized",
+        "cases": [
+          "cold",
+          "absent-card",
+          "healthy",
+          "disconnect",
+          "failed-close",
+          "failed-write",
+          "failed-release",
+          "failed-prepare",
+          "post-return",
+          "post-failed-close",
+          "default-run"
+        ],
+        "client": {
+          "default_deadline_seconds": 5.0,
+          "max_response_seconds": 0.0007052180008031428,
+          "requests": 103
+        },
+        "guard_cases": [
+          "admission",
+          "default-run",
+          "readiness",
+          "leaked-grant",
+          "leaked-consumer",
+          "undrained-old-session"
+        ],
+        "logs": [
+          {
+            "command": [
+              "bash",
+              "/workspace/shared/serial-lifetime-20261018/test/run_provider_keep_set_test.sh"
+            ],
+            "returncode": 0,
+            "sha256": "34f2f9a2584a00afe902b75c0a8e98bc347c00e9c22846e07b350cf6d8d02629"
+          },
+          {
+            "command": [
+              "bash",
+              "/workspace/shared/serial-lifetime-20261018/test/run_native_serial_lifetime_guards_test.sh"
+            ],
+            "returncode": 0,
+            "sha256": "4d81fb0eb6e9ffebedad6ef50ec3652d901815fd453c376cc722b21f50bd0459"
+          },
+          {
+            "command": [
+              "/workspace/shared/wave-stat-successor/venv/bin/python",
+              "/workspace/shared/serial-lifetime-20261018/test/run_native_serial_waveshare_sd_test.py",
+              "--waveshare",
+              "/workspace/shared/stat-observation-recovery/provider",
+              "--output",
+              "/workspace/shared/wave-lifetime-successor/lifetime-local/sanitized/wave"
+            ],
+            "returncode": 0,
+            "sha256": "67d12d6aef32704723b2f4c4d8a7b1dfce45e36c38474e1ceabab2fda4ec9f6b"
+          }
+        ],
+        "passed": true,
+        "provider_revision": "e1b2fc8b801b33e3bd6ea30626a8dda9bf2237a6",
+        "sanitized": true,
+        "source_manifest_sha256": "c43a2e0cf7c1902be5acfd7a81479b1eac4f4fc25079953c148f738a807dbcd6"
+      }
+    ],
+    "hardware_tested": false,
+    "leak_sanitizer": false,
+    "passed": true,
+    "provider_revision": "e1b2fc8b801b33e3bd6ea30626a8dda9bf2237a6",
+    "runtime_commit": "10cc80bc1ac65d0d2c25e5d182da9e2737721cb1",
+    "runtime_dirty": false,
+    "schema": 1,
+    "scope": "Production source host tests with RAM SD and independent pinned LittleFS; no physical failure-cause claim",
+    "target_instructions_executed": false
+  },
+  "physical_cause_established": false,
+  "provider_delta": {
+    "after_bytes": 85896,
+    "after_sha256": "24f47ad68e0324c2c76375c99cd1b8c8a5013c24d962dcbd9c6a296fe788398c",
+    "before_bytes": 85896,
+    "before_sha256": "34fddd09eae6b9b39cf00d11658a3cb1481c8fd3bc59a87290df04fd314a6e93",
+    "differing_offsets": [
+      79032
+    ],
+    "manifest_byte_identical": true,
+    "only_change": "Single URL version digit 0.1.60 -> 0.1.61"
+  },
+  "runtime_final_test_checkpoint": "7bcac96868bf37c33022e0d1f00997e91f187b02",
+  "runtime_implementation_commit": "10cc80bc1ac65d0d2c25e5d182da9e2737721cb1",
+  "runtime_published_version_checkpoint": "81ad138eb3d7651501c96158c30b68d743653d00",
+  "scope": "Local component checks before native producer publication. Full native SDK build remains required."
+}

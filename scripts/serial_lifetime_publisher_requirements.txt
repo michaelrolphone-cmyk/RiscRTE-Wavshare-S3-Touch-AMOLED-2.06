@@ -1,0 +1,2 @@
+pyelftools==0.32
+jsonschema==4.25.1

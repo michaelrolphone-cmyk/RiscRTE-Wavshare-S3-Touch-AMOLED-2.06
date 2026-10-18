@@ -1,0 +1,11 @@
+{
+  "after_bytes": 85896,
+  "after_sha256": "24f47ad68e0324c2c76375c99cd1b8c8a5013c24d962dcbd9c6a296fe788398c",
+  "before_bytes": 85896,
+  "before_sha256": "34fddd09eae6b9b39cf00d11658a3cb1481c8fd3bc59a87290df04fd314a6e93",
+  "differing_offsets": [
+    79032
+  ],
+  "manifest_byte_identical": true,
+  "only_change": "Single URL version digit 0.1.60 -> 0.1.61"
+}
