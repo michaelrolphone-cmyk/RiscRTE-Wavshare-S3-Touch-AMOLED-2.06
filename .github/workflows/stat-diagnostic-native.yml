@@ -106,6 +106,13 @@ jobs:
         with:
           name: wave-stat-diagnostic-release-${{ github.sha }}
           path: release-assets
+      - name: Prepare isolated publisher dependencies and check all entry points
+        run: |
+          python3 -m venv "$RUNNER_TEMP/wave-release-publisher-venv"
+          "$RUNNER_TEMP/wave-release-publisher-venv/bin/python" -m pip install -r scripts/stat_diagnostic_publisher_requirements.txt
+          echo "$RUNNER_TEMP/wave-release-publisher-venv/bin" >> "$GITHUB_PATH"
+          export PATH="$RUNNER_TEMP/wave-release-publisher-venv/bin:$PATH"
+          python3 scripts/check_stat_diagnostic_publisher_environment.py
       - name: Verify source-bound complete release bytes
         run: python3 scripts/stat_diagnostic_release.py --verify ../release-assets --expected-sha "$EXPECTED_SHA" --source-revision "$GITHUB_SHA"
       - name: Publish or resume exact-source draft; verify every asset before publication

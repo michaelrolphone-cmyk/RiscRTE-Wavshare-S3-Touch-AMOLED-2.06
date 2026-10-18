@@ -6,8 +6,9 @@ root="$RUNNER_TEMP/wave-canonical-pair"
 test ! -e "$root"
 mkdir -p "$root"
 python3 -m venv "$root/venv"
-"$root/venv/bin/python" -m pip install jsonschema==4.25.1
+"$root/venv/bin/python" -m pip install -r scripts/stat_diagnostic_publisher_requirements.txt
 export PATH="$root/venv/bin:$PATH"
+python3 scripts/check_stat_diagnostic_publisher_environment.py
 revision="$(python3 -c 'import json;print(json.load(open("docs/stat-diagnostic-recovery/source-pins.json"))["runtime_revision"])')"
 schema_revision="$(python3 -c 'import json;print(json.load(open("docs/stat-diagnostic-recovery/source-pins.json"))["frozen_payload_schema"])')"
 git init --quiet "$root/runtime"
