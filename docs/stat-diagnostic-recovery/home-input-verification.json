@@ -1,0 +1,20 @@
+{
+  "watch_commit": "5ea25dda1c6c7b254e35ac649c91f357f7fcc6ee",
+  "run_url": "https://github.com/michaelrolphone-cmyk/RiscRTE-Watch/actions/runs/39069979058",
+  "artifact_id": 12114574369,
+  "artifact": {
+    "bytes": 2837874,
+    "sha256": "14560a027c91ce575697e25cff6e48eef83a631d2252dd334290a8604edaba14"
+  },
+  "default": {
+    "bytes": 554752,
+    "sha256": "274f6613c6bcbb443dcf94997f26547790a455e874600f67150e7bb134811a42"
+  },
+  "manifest": {
+    "bytes": 1692,
+    "sha256": "18b9a346a9403e73bd5c85d5ddb61f303bd468cb6794da7d9616a4d738c70145"
+  },
+  "manifest_version": "0.20.2",
+  "software_checks": "Watch main check runs all success",
+  "hardware_tested": false
+}

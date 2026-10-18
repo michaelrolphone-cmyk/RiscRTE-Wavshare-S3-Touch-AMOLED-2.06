@@ -1,0 +1,12 @@
+{
+  "version": "0.1.60",
+  "tag": "test-sd-apps-0.1.60",
+  "branch": "release/sd-apps-0.1.60",
+  "observed_at": "2026-10-18T00:10:56Z",
+  "release_absent": true,
+  "catalog_absent": true,
+  "branch_absent": true,
+  "owner_task": "3fc5653c-3b56-4569-901e-a78310de3785",
+  "installed_user_baseline": "0.1.59",
+  "composition_baseline": "0.1.59"
+}
