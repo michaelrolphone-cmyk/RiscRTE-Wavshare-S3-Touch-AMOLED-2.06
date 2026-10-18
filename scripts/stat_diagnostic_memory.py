@@ -33,7 +33,9 @@ def compare(candidate,baseline,iq,baseline_iq,expected):
         require(candidate['workspaces'][name]['section']==baseline['workspaces'][name]['section'],'Workspace escaped retained placement')
     require(iq['bank_base']==baseline_iq['bank_base'] and iq['bank_bytes']==baseline_iq['bank_bytes']==65536,'Retained IQ bank changed')
     require(iq['heap_start']<=iq['bank_base'] and iq['iram_end']<=iq['iram_alias'],'Final static memory overlaps retained IQ bank')
-    require([iq['bank_base'],iq['bank_base']+iq['bank_bytes']] in iq['reservation_table'],'IQ pre-heap reservation missing')
+    reservations = iq['reservation_table']
+    require(isinstance(reservations, (list, tuple)) and all(isinstance(row, (list, tuple)) and len(row)==2 and all(type(value) is int for value in row) for row in reservations), 'Malformed IQ reservation table')
+    require([tuple(row) for row in reservations].count((iq['bank_base'],iq['bank_base']+iq['bank_bytes']))==1,'IQ pre-heap reservation missing or duplicated')
     deltas={n:candidate['workspaces'][n]['bytes']-baseline['workspaces'][n]['bytes'] for n in expected}
     section_deltas={n:candidate['allocated_sections'].get(n,{'bytes':0})['bytes']-baseline['allocated_sections'].get(n,{'bytes':0})['bytes'] for n in sorted(set(candidate['allocated_sections'])|set(baseline['allocated_sections']))}
     return {'schema':1,'actual_linked_xtensa':True,'candidate':candidate,'baseline':baseline,

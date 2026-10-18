@@ -10,6 +10,17 @@ class Memory(unittest.TestCase):
   return c,baseline['linked'],copy.deepcopy(baseline['iq']),baseline['iq'],e
  def test_target_delta_and_gap(self):
   v=compare(*self.fixture());self.assertEqual(v['workspace_deltas'],{'diagnostic_workspace':192,'serial_state':4,'serial_workspace':8});self.assertEqual(v['internal_gap_before_iq'],496)
+ def test_live_tuple_and_serialized_list_proofs_agree(self):
+  live=list(self.fixture());live[2]['reservation_table']=[tuple(row) for row in live[2]['reservation_table']]
+  self.assertEqual(compare(*live),compare(*self.fixture()))
+ def test_reservation_rejects_duplicate_and_malformed_rows(self):
+  for mutation in ('duplicate','short','bool','string'):
+   a=list(self.fixture());rows=a[2]['reservation_table']
+   if mutation=='duplicate':rows.append([a[2]['bank_base'],a[2]['bank_base']+a[2]['bank_bytes']])
+   elif mutation=='short':rows.append([0])
+   elif mutation=='bool':rows.append([True,2])
+   else:a[2]['reservation_table']='invalid'
+   with self.subTest(mutation=mutation),self.assertRaises(ValueError):compare(*a)
  def test_target_rejects_host_and_custody_and_placement(self):
   for mutation in ['machine','elf','size','section','bank','heap','iram','reservation','locks']:
    a=list(self.fixture())
