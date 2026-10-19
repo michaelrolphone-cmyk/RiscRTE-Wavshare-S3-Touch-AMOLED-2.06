@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "passed": true,
+  "runtime_revision": "921599f2a8c467ff36aecc0b2f98834b729b5d30",
+  "hardware_tested": false,
+  "target_instructions_executed": false,
+  "compiled_runtime_rows": 0,
+  "limits": "Production host control paths; synthetic generic provider/boot eligibility and modeled Settings worker/NVS boundaries. Full native compilation is checked independently; physical timing remains unqualified.",
+  "full_local_proof_sha256": "362e4f2d2a1e50636943ebe56d92d16a39202c24f170e1c8a2f31ca7efd15549",
+  "runs": [
+    {
+      "suite": "mode",
+      "sanitized": false,
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/shared/wave-transfer-mode-20261019/runtime/test/run_native_serial_transfer_mode_test.py",
+        "--output",
+        "/workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal"
+      ],
+      "returncode": 0,
+      "log_sha256": "82cb2ee95ea4bafeb922fa10748e5d7b5baa72f220400bd2e81d97a8f7decbda",
+      "receipt_sha256": "5dc388c26d0a780398d35695bb3fc837dd891282b710aac9789d53a02c8d4030",
+      "receipt": "mode-normal.json"
+    },
+    {
+      "suite": "settings",
+      "sanitized": false,
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/shared/wave-transfer-mode-20261019/runtime/test/run_native_settings_transfer_mode_test.py",
+        "--output",
+        "/workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/settings-normal"
+      ],
+      "returncode": 0,
+      "log_sha256": "ea09b01497c89439f6e2bf7458905d7a6d7338c8e462a95205e41e367945ab5d",
+      "receipt_sha256": "4ab7164eb1bd9d5cca8729c09140da2a389b321a73aff574d3859e24176efabe",
+      "receipt": "settings-normal.json"
+    },
+    {
+      "suite": "mode",
+      "sanitized": true,
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/shared/wave-transfer-mode-20261019/runtime/test/run_native_serial_transfer_mode_test.py",
+        "--output",
+        "/workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-sanitized"
+      ],
+      "returncode": 0,
+      "log_sha256": "ac2ada5b95cab0d2a2d9edb5e465259e3fcfaefe83bcd83be8777454bec292f6",
+      "receipt_sha256": "ccd9ad4a56474ab693d06bc10614499c1cf00b9e50385368fcb9f138fa7c0817",
+      "receipt": "mode-sanitized.json"
+    },
+    {
+      "suite": "settings",
+      "sanitized": true,
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/shared/wave-transfer-mode-20261019/runtime/test/run_native_settings_transfer_mode_test.py",
+        "--output",
+        "/workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/settings-sanitized"
+      ],
+      "returncode": 0,
+      "log_sha256": "ea09b01497c89439f6e2bf7458905d7a6d7338c8e462a95205e41e367945ab5d",
+      "receipt_sha256": "70f60491f5691fa914c67d6e62cf6313b817e3d53a265bda89f48b91a0252423",
+      "receipt": "settings-sanitized.json"
+    }
+  ],
+  "runtime_public_tree_equivalent_revision": "b7803e6d32ce08fb4060730acc5443416b30148c",
+  "final_recipe_validator_requires_native_compile_selection": true
+}

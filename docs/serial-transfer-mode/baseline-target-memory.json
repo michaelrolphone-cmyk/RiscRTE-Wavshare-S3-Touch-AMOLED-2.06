@@ -1,0 +1,253 @@
+{
+  "iq": {
+    "allocated_sections": [
+      {
+        "address": 1611653120,
+        "bytes": 92,
+        "name": ".rtc.text"
+      },
+      {
+        "address": 1611653212,
+        "bytes": 4,
+        "name": ".rtc.force_fast"
+      },
+      {
+        "address": 1342177280,
+        "bytes": 2136,
+        "name": ".rtc_noinit"
+      },
+      {
+        "address": 1342179416,
+        "bytes": 36,
+        "name": ".rtc.force_slow"
+      },
+      {
+        "address": 1611661288,
+        "bytes": 24,
+        "name": ".rtc_reserved"
+      },
+      {
+        "address": 1077362688,
+        "bytes": 1028,
+        "name": ".iram0.vectors"
+      },
+      {
+        "address": 1077363716,
+        "bytes": 119459,
+        "name": ".iram0.text"
+      },
+      {
+        "address": 1070104576,
+        "bytes": 104192,
+        "name": ".dram0.dummy"
+      },
+      {
+        "address": 1070208768,
+        "bytes": 32547,
+        "name": ".dram0.data"
+      },
+      {
+        "address": 1070241315,
+        "bytes": 1,
+        "name": ".noinit"
+      },
+      {
+        "address": 1070241320,
+        "bytes": 26600,
+        "name": ".dram0.bss"
+      },
+      {
+        "address": 1107296288,
+        "bytes": 1376580,
+        "name": ".flash.text"
+      },
+      {
+        "address": 1006632992,
+        "bytes": 1441792,
+        "name": ".flash_rodata_dummy"
+      },
+      {
+        "address": 1008074784,
+        "bytes": 256,
+        "name": ".flash.appdesc"
+      },
+      {
+        "address": 1008075040,
+        "bytes": 282608,
+        "name": ".flash.rodata"
+      },
+      {
+        "address": 1008357648,
+        "bytes": 15967,
+        "name": ".flash.rodata_noload"
+      },
+      {
+        "address": 1006632992,
+        "bytes": 1769440,
+        "name": ".ext_ram.dummy"
+      },
+      {
+        "address": 1008402432,
+        "bytes": 60860,
+        "name": ".ext_ram.bss"
+      },
+      {
+        "address": 1077483175,
+        "bytes": 89,
+        "name": ".iram0.text_end"
+      }
+    ],
+    "bank_base": 1070268416,
+    "bank_bytes": 65536,
+    "elf_sha256": "d3a075cf7d19d1c8591ef750ad296bb93ea8c3a5f97a62e13055189836873cc4",
+    "heap_start": 1070267920,
+    "iram_alias": 1077542912,
+    "iram_end": 1077483264,
+    "reservation_table": [
+      [
+        1611661288,
+        1611661312
+      ],
+      [
+        1611653120,
+        1611653216
+      ],
+      [
+        1006632960,
+        1040187392
+      ],
+      [
+        1077362688,
+        1077483264
+      ],
+      [
+        1070088192,
+        1070208768
+      ],
+      [
+        1070208768,
+        1070267920
+      ],
+      [
+        1070268416,
+        1070333952
+      ]
+    ],
+    "reservation_table_address": 1008357408,
+    "schema": 1,
+    "scope": "Pre-heap reservation and final linked static-memory proof only; no hardware or RF qualification.",
+    "target_identity": "esp32s3-16mb-waveshare-expanded"
+  },
+  "linked": {
+    "allocated_sections": {
+      ".dram0.bss": {
+        "address": 1070241320,
+        "bytes": 26600
+      },
+      ".dram0.data": {
+        "address": 1070208768,
+        "bytes": 32547
+      },
+      ".dram0.dummy": {
+        "address": 1070104576,
+        "bytes": 104192
+      },
+      ".ext_ram.bss": {
+        "address": 1008402432,
+        "bytes": 60860
+      },
+      ".ext_ram.dummy": {
+        "address": 1006632992,
+        "bytes": 1769440
+      },
+      ".flash.appdesc": {
+        "address": 1008074784,
+        "bytes": 256
+      },
+      ".flash.rodata": {
+        "address": 1008075040,
+        "bytes": 282608
+      },
+      ".flash.rodata_noload": {
+        "address": 1008357648,
+        "bytes": 15967
+      },
+      ".flash.text": {
+        "address": 1107296288,
+        "bytes": 1376580
+      },
+      ".flash_rodata_dummy": {
+        "address": 1006632992,
+        "bytes": 1441792
+      },
+      ".iram0.text": {
+        "address": 1077363716,
+        "bytes": 119459
+      },
+      ".iram0.text_end": {
+        "address": 1077483175,
+        "bytes": 89
+      },
+      ".iram0.vectors": {
+        "address": 1077362688,
+        "bytes": 1028
+      },
+      ".noinit": {
+        "address": 1070241315,
+        "bytes": 1
+      },
+      ".rtc.force_fast": {
+        "address": 1611653212,
+        "bytes": 4
+      },
+      ".rtc.force_slow": {
+        "address": 1342179416,
+        "bytes": 36
+      },
+      ".rtc.text": {
+        "address": 1611653120,
+        "bytes": 92
+      },
+      ".rtc_noinit": {
+        "address": 1342177280,
+        "bytes": 2136
+      },
+      ".rtc_reserved": {
+        "address": 1611661288,
+        "bytes": 24
+      }
+    },
+    "elf": {
+      "bytes": 23921448,
+      "sha256": "d3a075cf7d19d1c8591ef750ad296bb93ea8c3a5f97a62e13055189836873cc4"
+    },
+    "machine": "Xtensa32",
+    "workspaces": {
+      "diagnostic_workspace": {
+        "address": 1008439464,
+        "bytes": 7352,
+        "section": ".ext_ram.bss",
+        "symbol": "_ZN15RiscDiagnostics12_GLOBAL__N_1L13replayStorageE"
+      },
+      "live_log_queue": {
+        "address": 1008406680,
+        "bytes": 32784,
+        "section": ".ext_ram.bss",
+        "symbol": "_ZN15RiscDiagnostics12_GLOBAL__N_1L14liveLogStorageE"
+      },
+      "serial_state": {
+        "address": 1070257692,
+        "bytes": 24,
+        "section": ".dram0.bss",
+        "symbol": "_ZN7RiscCpu17NativeSerialFiles12_GLOBAL__N_1L5stateE"
+      },
+      "serial_workspace": {
+        "address": 1008402720,
+        "bytes": 2800,
+        "section": ".ext_ram.bss",
+        "symbol": "_ZN7RiscCpu17NativeSerialFiles12_GLOBAL__N_1L16workspaceStorageE"
+      }
+    }
+  },
+  "source": "Released .63 qualification; baseline only"
+}

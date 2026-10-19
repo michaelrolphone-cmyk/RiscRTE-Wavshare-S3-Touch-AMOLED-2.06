@@ -1,0 +1,897 @@
+$ cc -std=c11 -g -Wall -Wextra -Werror -Wno-missing-field-initializers -fno-omit-frame-pointer -I/workspace/shared/wave-transfer-mode-20261019/runtime -I/workspace/shared/wave-transfer-mode-20261019/runtime/src -I/workspace/shared/wave-transfer-mode-20261019/runtime/sdk/app -I/workspace/shared/wave-transfer-mode-20261019/runtime/sdk/driver -I/workspace/shared/wave-transfer-mode-20261019/runtime/sdk/hardware -I/workspace/shared/wave-transfer-mode-20261019/runtime/lib/ArduinoJson/src -I/workspace/shared/wave-transfer-mode-20261019/runtime/test/drivers/stubs -I/workspace/shared/wave-transfer-mode-20261019/runtime/test/native_sleep_diagnostics_idf6_shim -I/workspace/shared/wave-transfer-mode-20261019/runtime/test/native_platform_shim -shared -fPIC -fvisibility=hidden /workspace/shared/wave-transfer-mode-20261019/runtime/test/fixtures/atomic_key_value_app.c -o /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/default.elf
+EXIT 0
+$ cc -std=c11 -g -Wall -Wextra -Werror -Wno-missing-field-initializers -fno-omit-frame-pointer -I/workspace/shared/wave-transfer-mode-20261019/runtime -I/workspace/shared/wave-transfer-mode-20261019/runtime/src -I/workspace/shared/wave-transfer-mode-20261019/runtime/sdk/app -I/workspace/shared/wave-transfer-mode-20261019/runtime/sdk/driver -I/workspace/shared/wave-transfer-mode-20261019/runtime/sdk/hardware -I/workspace/shared/wave-transfer-mode-20261019/runtime/lib/ArduinoJson/src -I/workspace/shared/wave-transfer-mode-20261019/runtime/test/drivers/stubs -I/workspace/shared/wave-transfer-mode-20261019/runtime/test/native_sleep_diagnostics_idf6_shim -I/workspace/shared/wave-transfer-mode-20261019/runtime/test/native_platform_shim -DATOMIC_APP_CHILD=1 -shared -fPIC -fvisibility=hidden /workspace/shared/wave-transfer-mode-20261019/runtime/test/fixtures/atomic_key_value_app.c -o /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/child.elf
+EXIT 0
+$ c++ -std=c++17 -g -Wall -Wextra -Werror -Wno-missing-field-initializers -fno-omit-frame-pointer -I/workspace/shared/wave-transfer-mode-20261019/runtime -I/workspace/shared/wave-transfer-mode-20261019/runtime/src -I/workspace/shared/wave-transfer-mode-20261019/runtime/sdk/app -I/workspace/shared/wave-transfer-mode-20261019/runtime/sdk/driver -I/workspace/shared/wave-transfer-mode-20261019/runtime/sdk/hardware -I/workspace/shared/wave-transfer-mode-20261019/runtime/lib/ArduinoJson/src -I/workspace/shared/wave-transfer-mode-20261019/runtime/test/drivers/stubs -I/workspace/shared/wave-transfer-mode-20261019/runtime/test/native_sleep_diagnostics_idf6_shim -I/workspace/shared/wave-transfer-mode-20261019/runtime/test/native_platform_shim -DRISC_NATIVE_SERIAL_FILES=1 -DRISC_NATIVE_ESP_IDF=1 -DRISC_TEST_TRANSFER_MODE=1 -rdynamic -no-pie -pthread /workspace/shared/wave-transfer-mode-20261019/runtime/src/bootstrap/Json.cpp /workspace/shared/wave-transfer-mode-20261019/runtime/src/bootstrap/Board.cpp /workspace/shared/wave-transfer-mode-20261019/runtime/src/bootstrap/Runtime.cpp /workspace/shared/wave-transfer-mode-20261019/runtime/src/runtime/streams/AppStreamSessions.cpp /workspace/shared/wave-transfer-mode-20261019/runtime/src/runtime/streams/ProviderQueueHost.cpp /workspace/shared/wave-transfer-mode-20261019/runtime/src/runtime/drivers/ProviderGraphV2.cpp /workspace/shared/wave-transfer-mode-20261019/runtime/src/runtime/drivers/ProviderModuleV2.cpp /workspace/shared/wave-transfer-mode-20261019/runtime/src/runtime/serial/Files.cpp /workspace/shared/wave-transfer-mode-20261019/runtime/src/ports/esp32s3/NativeSerialFiles.cpp /workspace/shared/wave-transfer-mode-20261019/runtime/test/native_serial_transfer_mode_test.cpp -ldl -o /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal live-hello
+MODEL case=live-hello selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=live-hello checkpoint_rc=1 requested=1 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=1 polls=4
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=live-hello violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal live-control-hello
+MODEL case=live-control-hello selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH control app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=live-control-hello checkpoint_rc=1 requested=1 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=1 polls=4
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=live-control-hello violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal malformed-sid
+MODEL case=malformed-sid selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=malformed-sid checkpoint_rc=0 requested=0 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+CONTROL case=malformed-sid no_transfer_intent=1 PASS
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=0 polls=4
+TRANSFER_ENTER app_fini=1 active=0 transitions=0
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=0
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=malformed-sid violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal short-sid
+MODEL case=short-sid selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=short-sid checkpoint_rc=0 requested=0 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+CONTROL case=short-sid no_transfer_intent=1 PASS
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=0 polls=4
+TRANSFER_ENTER app_fini=1 active=0 transitions=0
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=0
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=short-sid violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal zero-sid
+MODEL case=zero-sid selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=zero-sid checkpoint_rc=0 requested=0 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+CONTROL case=zero-sid no_transfer_intent=1 PASS
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=0 polls=4
+TRANSFER_ENTER app_fini=1 active=0 transitions=0
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=0
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=zero-sid violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal wrong-sequence
+MODEL case=wrong-sequence selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=wrong-sequence checkpoint_rc=1 requested=0 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=RTEF1 12345678 2 -10
+CONTROL case=wrong-sequence no_transfer_intent=1 PASS
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=0 polls=4
+TRANSFER_ENTER app_fini=1 active=0 transitions=0
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=0
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=wrong-sequence violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal extra-token
+MODEL case=extra-token selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=extra-token checkpoint_rc=1 requested=0 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=RTEF1 12345678 1 -10
+CONTROL case=extra-token no_transfer_intent=1 PASS
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=0 polls=4
+TRANSFER_ENTER app_fini=1 active=0 transitions=0
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=0
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=extra-token violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal short-frame
+MODEL case=short-frame selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=short-frame checkpoint_rc=0 requested=0 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+CONTROL case=short-frame no_transfer_intent=1 PASS
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=0 polls=4
+TRANSFER_ENTER app_fini=1 active=0 transitions=0
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=0
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=short-frame violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal partial-hello
+MODEL case=partial-hello selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=partial-hello checkpoint_rc=1 requested=0 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+CONTROL case=partial-hello no_transfer_intent=1 PASS
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=0 polls=4
+TRANSFER_ENTER app_fini=1 active=0 transitions=0
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=0
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=partial-hello violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal unframed-hello
+MODEL case=unframed-hello selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=unframed-hello checkpoint_rc=0 requested=0 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+CONTROL case=unframed-hello no_transfer_intent=1 PASS
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=0 polls=4
+TRANSFER_ENTER app_fini=1 active=0 transitions=0
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=0
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=unframed-hello violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal parked-hello
+MODEL case=parked-hello selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=0 polls=3
+TRANSFER_ENTER app_fini=1 active=0 transitions=0
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=0
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=parked-hello violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal pending-pair
+MODEL case=pending-pair selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=1 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=pending-pair checkpoint_rc=1 requested=0 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=RTEF1 12345678 1 -4
+BOOT_GATE refused_before_session=1 provider_calls=0 PASS
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=pending-pair checkpoint_rc=1 requested=1 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=1 polls=5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=pending-pair violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal unconfirmed-boot
+MODEL case=unconfirmed-boot selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=unconfirmed-boot checkpoint_rc=1 requested=0 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=RTEF1 12345678 1 -4
+BOOT_GATE refused_before_session=1 provider_calls=0 PASS
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=unconfirmed-boot checkpoint_rc=1 requested=1 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=1 polls=5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=unconfirmed-boot violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal disconnect-before-park
+MODEL case=disconnect-before-park selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=disconnect-before-park checkpoint_rc=1 requested=1 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=disconnect-before-park checkpoint_rc=0 requested=1 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=disconnect-before-park checkpoint_rc=1 requested=1 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+DISCONNECT pre_park_protocol_cancelled=1 transfer_intent_latched=1 fresh_retry_requested=1 PASS
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=1 polls=6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=disconnect-before-park violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal disconnect-after-return
+MODEL case=disconnect-after-return selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=disconnect-after-return checkpoint_rc=1 requested=1 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=1 polls=4
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=disconnect-after-return violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal late-postqueued
+MODEL case=late-postqueued selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+LAUNCH queued_before_transfer=1 returning_to_real_cleanup=1
+POLL late_hello=1 app_stack_live=0 app_fini=0
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=1 polls=3
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=late-postqueued violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal postqueued-direct
+MODEL case=postqueued-direct selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+LAUNCH queued_before_transfer=1 returning_to_real_cleanup=1
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=1 polls=3
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=postqueued-direct violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal parked-storage-busy
+MODEL case=parked-storage-busy selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH control app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=parked-storage-busy checkpoint_rc=1 requested=1 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=1 polls=4
+DISPATCH control app_stack_live=0 app_fini=1 mode_active=0
+PARKED_READY deferred_while_storage_busy=1 PASS
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=parked-storage-busy violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal idle-keepalive
+MODEL case=idle-keepalive selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=idle-keepalive checkpoint_rc=1 requested=1 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=1 polls=4
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 0 NS 1 1 53796e7468657469632066696c6573
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 3 0 NS 1 1 53796e7468657469632066696c6573
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 4 0 NS 1 1 53796e7468657469632066696c6573
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 5 0 NS 1 1 53796e7468657469632066696c6573
+TIMEOUT keepalive_elapsed_ms=80000 same_sid_preserved=1 dedicated_mode_latched=1 PASS
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 6 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 7 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 8 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 9 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=idle-keepalive violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal idle-expiry
+MODEL case=idle-expiry selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=idle-expiry checkpoint_rc=1 requested=1 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=1 polls=4
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 -10
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 1 0 HELLO 48 511 1
+TIMEOUT idle_sid_expired_at_ms=30000 fresh_hello_required=1 dedicated_mode_latched=1 PASS
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=idle-expiry violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal partial-timeout
+MODEL case=partial-timeout selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=partial-timeout checkpoint_rc=1 requested=1 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=1 polls=4
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 1 0 HELLO 48 511 1
+TIMEOUT partial_request_expired=1 live_handle_closed=1 mode_latched=1 PASS
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=partial-timeout violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal duplicate-hello
+MODEL case=duplicate-hello selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=duplicate-hello checkpoint_rc=1 requested=1 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=1 polls=4
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=duplicate-hello violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal fresh-sid
+MODEL case=fresh-sid selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=fresh-sid checkpoint_rc=1 requested=1 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=1 polls=4
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=fresh-sid violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal failed-shutdown
+MODEL case=failed-shutdown selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=failed-shutdown checkpoint_rc=1 requested=1 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+INJECT native shutdown returns unsafe
+RETENTION failed_native_cleanup=1 app_image_not_finalized=1 no_hello_success=1 no_transfer_activation=1 PASS
+RESULT case=failed-shutdown violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal failed-close
+MODEL case=failed-close selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=failed-close checkpoint_rc=1 requested=1 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=1 polls=4
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+RETENTION failed_provider_close=1 no_close_retry=1 mode_latched=1 PASS
+RESULT case=failed-close violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal legacy-live
+MODEL case=legacy-live selected_mode=0 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=legacy-live checkpoint_rc=1 requested=0 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=1
+WIRE live=RTEF1 12345678 1 0 HELLO 48 511 1
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=0 polls=0
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=0
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=0
+WIRE parked=RTEF1 12345678 2 0 PATH 5
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=0
+WIRE parked=RTEF1 12345678 3 0 GET 6
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=0
+WIRE parked=RTEF1 12345678 4 0 READ 6 616263646566
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=0
+WIRE parked=RTEF1 12345678 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=legacy-live violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal disconnect-active
+MODEL case=disconnect-active selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=disconnect-active checkpoint_rc=1 requested=1 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=1 polls=4
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 2 -10
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 1 0 HELLO 48 511 1
+DISCONNECT active_mode_preserved=1 fresh_session_required=1 PASS
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=disconnect-active violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal fini-admission-deadline
+MODEL case=fini-admission-deadline selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=fini-admission-deadline checkpoint_rc=1 requested=1 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+FINI admission_deadline_crossed=1 logical_ms=4001 first_shutdown_complete=1
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=1 polls=4
+FINI_DEADLINE observed_reply_bytes=20 expected_busy_bytes=20 hello_success=0 mode_active=0
+FINI_DEADLINE busy_reply_survived_cleanup=1 premature_hello_success=0 PASS
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=fini-admission-deadline violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal fini-deadline-disconnect
+MODEL case=fini-deadline-disconnect selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=fini-deadline-disconnect checkpoint_rc=1 requested=1 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+FINI admission_deadline_crossed=1 logical_ms=4001 first_shutdown_complete=1
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=1 polls=4
+FINI_DEADLINE observed_reply_bytes=20 expected_busy_bytes=20 hello_success=0 mode_active=0
+FINI_DEADLINE busy_reply_survived_cleanup=1 genuine_disconnect_discarded_reply=1 PASS
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=fini-deadline-disconnect violations=0 PASS
+EXIT 0
+$ /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal/test /workspace/shared/wave-transfer-mode-20261019/evidence/recipe-transfer-wrapper-1/mode-normal duplicate-after-ready-loss
+MODEL case=duplicate-after-ready-loss selected_mode=1 provider=synthetic loaded_elf=1 boot_predicate=explicit-fixture physical_timing_claim=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+DISPATCH control app_stack_live=0 app_fini=0 mode_active=0
+BOOT explicit_confirmed=1 pending_pair=0 actual_bank_store_qualification=0
+DISPATCH storage app_stack_live=1 app_fini=0 mode_active=0
+LIVE case=duplicate-after-ready-loss checkpoint_rc=1 requested=1 active=0 app_stack_live=1 app_fini=0 runtime_parked=0 hello_success=0
+WIRE live=<empty>
+PARKED app_fini=1 child_entries=0 runtime_parked=1 deferred_request=1 polls=4
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+DISPATCH control app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345678 1 0 HELLO 48 511 1
+DISPATCH control app_stack_live=0 app_fini=1 mode_active=1
+DISPATCH control app_stack_live=0 app_fini=1 mode_active=1
+REPLAY ready_loss_historical_duplicate=1 fresh_sid_withheld_then_busy=1 provider_calls=0 new_mode_transitions=0 PASS
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 1 0 HELLO 48 511 1
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 2 0 PATH 5
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 3 0 GET 6
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 4 0 READ 6 616263646566
+TRANSFER_ENTER app_fini=1 active=1 transitions=1
+DISPATCH storage app_stack_live=0 app_fini=1 mode_active=1
+WIRE parked=RTEF1 12345679 5 0 CLOSE 4b8e39ef
+PARKED_TRANSFER real_runtime_parked=1 generic_provider_read=1 checked_stop=1 PASS
+RESULT case=duplicate-after-ready-loss violations=0 PASS
+EXIT 0
+QUALIFICATION contract PASS

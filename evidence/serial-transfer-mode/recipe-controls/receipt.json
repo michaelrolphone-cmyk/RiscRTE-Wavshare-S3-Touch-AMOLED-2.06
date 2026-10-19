@@ -1,0 +1,151 @@
+{
+  "passed": true,
+  "source_sha256": {
+    ".github/workflows/serial-transfer-native.yml": "f606d381d106dde1385d7d46c94784022fd5ee1bd21d179d5e6600953b3fb230",
+    "docs/serial-transfer-mode/baseline-0.1.63.json": "d9672e11a29693ad93d45b468504ee3bd1695217f64e20bc6796f20a8892a4bc",
+    "docs/serial-transfer-mode/baseline-core-feed.json": "37073b6fc492ccab2237062fb2b695cbaeb0b3d6b0ed9f2a43521f0143d60a48",
+    "docs/serial-transfer-mode/baseline-target-memory.json": "31995b7ba9a4dac94d1f9e71e16ce1cbb60d71dd1889712b5e59581474044b78",
+    "docs/serial-transfer-mode/source-pins.json": "b63a56976170eab9fd4336e7ce29c5d7ab258a155322d9883ba406cd40d4693a",
+    "profiles/serial-transfer-native.cmake": "6eb924c18a760f58e3c7aa48d6965fc6093761f96f5d7e76c7f1095deebddca3",
+    "scripts/build_serial_transfer_inputs.py": "380064231b0b6a11ccca1abbdcaa0e6050556e079d6765f4697a9ca362dd9160",
+    "scripts/build_serial_transfer_native.py": "0e76f17ea6cee7e57542747ac90102392c3ca9a0183f6be324386f141a807701",
+    "scripts/build_serial_transfer_pair.py": "e3e256e49920ab0cc453a891787ac1162137ca086885d0d74cd8f2bb984d2e28",
+    "scripts/check_serial_transfer_publisher_environment.py": "f5a6186db03584208f0e197d9f3143b09dd21830f3144b80cb45edd1b0c3b100",
+    "scripts/package_serial_transfer.py": "554edc8f472b9e849420c3b79e196ea960ce4de3b7d15be9a827cc8b90263ad6",
+    "scripts/publish_serial_transfer_feed.py": "ad5204fd1875b3bffeb228986b569a871cacda0ff872c3f572d5cd602e818579",
+    "scripts/publish_serial_transfer_pair.py": "5c35aa2fc47d6a0542a597aeddab8a697f600513b5622f0fdd47626417b41c63",
+    "scripts/publish_serial_transfer_release.py": "6e08fb482f32bc8bcf2c353848bccc195a16307c69c600c63835f1dd7cd60bb9",
+    "scripts/qualify_serial_transfer_legacy.py": "f2f2878c18963cf08380ffa97bae676da7e9b08cfaafdfe7acfb1c638d72e20d",
+    "scripts/qualify_serial_transfer_logs.py": "c1b1a63cc343cdfc401e4e7427cafe1c96dcb478130cc0208106d10489ec2c72",
+    "scripts/qualify_serial_transfer_runtime.py": "bc1cd27c4580045dfa465f9482596c38dafa9bf6df23d80b466c87338a019d11",
+    "scripts/run_serial_transfer_native_ci.sh": "ab46583ab959def982b80a9cde79472f6ac1080c608d945acc6b7a1ab38dca14",
+    "scripts/run_serial_transfer_pair_publication.sh": "22644640d58416c0d0230f4b1b80e22dacf9a47097ed2438b2c63d37d0e59f4f",
+    "scripts/serial_transfer_feed.py": "4f0c88d73c89fe9de6123662a122caace92fa14a995de546caf3b6235b3ad4fd",
+    "scripts/serial_transfer_memory.py": "c41a945858cf07dbca1d52ffa39336b01d20a88099b11899259fb50da6fa5fd2",
+    "scripts/serial_transfer_qualification.py": "0d42d4a0a520fc6ab27ebbb60da24c24cfef024abc9c13642f6da9cd39ede0db",
+    "scripts/serial_transfer_release.py": "646f813ace4466850584f0901c243c451a0efbc72f9788f1a58e557226fbc146",
+    "scripts/test_serial_transfer_inputs.py": "b98b571b5ace1f25af239155621f972c7906e91ebf1bc6d33d1362b34d14cecb",
+    "scripts/test_serial_transfer_memory.py": "aaff9c1c962b46329f28bb966c80dfd16b658e782ce2311e7b88828a82d5f94a",
+    "scripts/test_serial_transfer_package.py": "c1898ea5ccf36c339edfcfab22702ec35fc3934297ca52843ef81f1a3ee1f9d1",
+    "scripts/test_serial_transfer_pair.py": "2fd7b6c0151ba1b45abc1d339f48f84ed5ef2cb9e0496659013ae8da5f6cf223",
+    "scripts/test_serial_transfer_pair_plans.py": "5417b160f7ef70c94fbc01aa2cda71e6c91ad5aed34cf2c5875e3e0f1e26ee16",
+    "scripts/test_serial_transfer_recipe.py": "c2799e25fa3a2ff27b4d22014d26443a71127374316b0bda08b3a7439da9c45a",
+    "scripts/test_serial_transfer_release.py": "815c70d5a8a2467985f28956e64b07a9e7b688f1a85e680ec893f0626c48bbf2"
+  },
+  "unchanged_during_run": true,
+  "changed_historical_files": [],
+  "commands": [
+    {
+      "command": [
+        "/workspace/shared/wave-stat-successor/venv/bin/python",
+        "/workspace/shared/wave-transfer-mode-20261019/wave/scripts/test_serial_transfer_recipe.py"
+      ],
+      "returncode": 0,
+      "log": "/workspace/shared/wave-transfer-mode-20261019/evidence/recipe-controls-5/0.log",
+      "log_sha256": "e12137efc563f4465212fba471d7b78357f22786d4b5499b5a1e7b9a75714cac"
+    },
+    {
+      "command": [
+        "bash",
+        "-n",
+        "/workspace/shared/wave-transfer-mode-20261019/wave/scripts/run_serial_transfer_native_ci.sh",
+        "/workspace/shared/wave-transfer-mode-20261019/wave/scripts/run_serial_transfer_pair_publication.sh"
+      ],
+      "returncode": 0,
+      "log": "/workspace/shared/wave-transfer-mode-20261019/evidence/recipe-controls-5/1.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "/workspace/shared/wave-stat-successor/venv/bin/python",
+        "/workspace/shared/wave-transfer-mode-20261019/wave/scripts/serial_transfer_feed.py",
+        "--self-test"
+      ],
+      "returncode": 0,
+      "log": "/workspace/shared/wave-transfer-mode-20261019/evidence/recipe-controls-5/2.log",
+      "log_sha256": "b2182a0bbed669519fcb781d75059df2b447c7b6e02f67072ecbef916fa1ef22"
+    },
+    {
+      "command": [
+        "/workspace/shared/wave-stat-successor/venv/bin/python",
+        "/workspace/shared/wave-transfer-mode-20261019/wave/scripts/test_serial_transfer_memory.py"
+      ],
+      "returncode": 0,
+      "log": "/workspace/shared/wave-transfer-mode-20261019/evidence/recipe-controls-5/3.log",
+      "log_sha256": "e118810635968309af494306dffa6d36bf8530decae5bfb5745eb0a18d5fe790"
+    },
+    {
+      "command": [
+        "/workspace/shared/wave-stat-successor/venv/bin/python",
+        "/workspace/shared/wave-transfer-mode-20261019/wave/scripts/test_serial_transfer_pair_plans.py"
+      ],
+      "returncode": 0,
+      "log": "/workspace/shared/wave-transfer-mode-20261019/evidence/recipe-controls-5/4.log",
+      "log_sha256": "603db52fd0016ca5cdcf83b2588160ae92bde08c66ba4c61dfc8a2a74cdb95c9"
+    },
+    {
+      "command": [
+        "/workspace/shared/wave-stat-successor/venv/bin/python",
+        "/workspace/shared/wave-transfer-mode-20261019/wave/scripts/test_serial_transfer_release.py"
+      ],
+      "returncode": 0,
+      "log": "/workspace/shared/wave-transfer-mode-20261019/evidence/recipe-controls-5/5.log",
+      "log_sha256": "53d6304ff4229fbfc01f3b42544ddbbc2f1d7fe6fae1c41e145626683055307d"
+    },
+    {
+      "command": [
+        "/workspace/shared/wave-stat-successor/venv/bin/python",
+        "/workspace/shared/wave-transfer-mode-20261019/wave/scripts/test_serial_transfer_package.py",
+        "--baseline-store",
+        "/workspace/shared/wave-log-successor/public063/store.bin",
+        "--companion",
+        "/workspace/shared/wave-log-successor/public063/sd-apps.zip",
+        "--selected-inputs",
+        "/workspace/shared/wave-transfer-mode-20261019/inputs-successor-3",
+        "-v"
+      ],
+      "returncode": 0,
+      "log": "/workspace/shared/wave-transfer-mode-20261019/evidence/recipe-controls-5/6.log",
+      "log_sha256": "e1b45dfbeb2acf0bfb372cd6a836a11d2cd7a34bc58604f5c74f248e8070b0ea"
+    },
+    {
+      "command": [
+        "/workspace/shared/wave-stat-successor/venv/bin/python",
+        "/workspace/shared/wave-transfer-mode-20261019/wave/scripts/test_serial_transfer_inputs.py",
+        "--selected",
+        "/workspace/shared/wave-transfer-mode-20261019/inputs-successor-3/home-a",
+        "--feature-off",
+        "/workspace/shared/wave-transfer-mode-20261019/inputs-successor-feature-off-1",
+        "--historical-feature-off",
+        "/workspace/shared/wave-transfer-mode-20261019/watch/dist/transfer-target-off",
+        "--previous-selected",
+        "/workspace/shared/wave-transfer-mode-20261019/watch/dist/transfer-target-on",
+        "--receipt",
+        "/workspace/shared/wave-transfer-mode-20261019/evidence/recipe-controls-5/input-controls.json"
+      ],
+      "returncode": 0,
+      "log": "/workspace/shared/wave-transfer-mode-20261019/evidence/recipe-controls-5/7.log",
+      "log_sha256": "0b951e35f55e69c9a917021f22a48248cb8933e05b7df10b4116ae0e0237366c"
+    },
+    {
+      "command": [
+        "/workspace/shared/wave-stat-successor/venv/bin/python",
+        "/workspace/shared/wave-transfer-mode-20261019/wave/scripts/test_serial_logging_package.py"
+      ],
+      "returncode": 0,
+      "log": "/workspace/shared/wave-transfer-mode-20261019/evidence/recipe-controls-5/8.log",
+      "log_sha256": "0f6e82f051a0884d260a0b284b840e931bbec0956a03d58153df2882f30a197e"
+    },
+    {
+      "command": [
+        "/workspace/shared/wave-stat-successor/venv/bin/python",
+        "/workspace/shared/wave-transfer-mode-20261019/wave/scripts/test_serial_logging_release.py"
+      ],
+      "returncode": 0,
+      "log": "/workspace/shared/wave-transfer-mode-20261019/evidence/recipe-controls-5/9.log",
+      "log_sha256": "c626cf6dbed2a24bf4748a1ce1719a4182b0de9c8b430ed10914b06801bb4862"
+    }
+  ],
+  "input_receipt_sha256": "ce05880dcfc96bc0f3d2ba3e6517873dcca1320a16b3bc449563b2cc456b496a",
+  "scope": "Recipe contracts, synthetic rejection envelopes, actual selected Home/catalog input composition and deterministic store round-trip. No native Runtime build, final firmware-bound package, CI release or hardware acceptance."
+}

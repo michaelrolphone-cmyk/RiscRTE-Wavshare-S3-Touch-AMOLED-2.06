@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "selected_home": true,
+  "old_selected_version_refused": true,
+  "feature_off_refused": true,
+  "feature_off_artifacts_identical": true,
+  "source_and_artifact_sha256": {
+    "/workspace/shared/wave-transfer-mode-20261019/inputs-successor-3/home-a/default.elf": "4ab8aaa0293053e5c743f057270d110fb68e43c5b0071b04691e35ebcfed1fa7",
+    "/workspace/shared/wave-transfer-mode-20261019/inputs-successor-3/home-a/build.json": "a78245e96365977819704db3663f07fe8d5842446c31afed98c78b1f93155122",
+    "/workspace/shared/wave-transfer-mode-20261019/inputs-successor-3/home-a/default.json": "8387ddfabc19862a47725bcf9ace0745235ed9a4c9084f05ebcdb0099c84c852",
+    "/workspace/shared/wave-transfer-mode-20261019/inputs-successor-feature-off-1/clock.json": "ee26c7ec19cb41daafa76e455c3bd24ca9a1ee6762fe5cf74cd2ddb321fc0bcd",
+    "/workspace/shared/wave-transfer-mode-20261019/inputs-successor-feature-off-1/default.elf": "01d6e1f845dc34e46ebad9f1646af0c0dafdd98915493557c60f8351cbc299e7",
+    "/workspace/shared/wave-transfer-mode-20261019/inputs-successor-feature-off-1/build.json": "6429a4518ed7b73651805404a5a1a2a12a38677d074ebdb3b8ac534582f8ec91",
+    "/workspace/shared/wave-transfer-mode-20261019/inputs-successor-feature-off-1/clock.elf": "f29065b5a57b88f8fd6c2a328c0865dd2628cc484da30f6c23470a82ae8c87bc",
+    "/workspace/shared/wave-transfer-mode-20261019/inputs-successor-feature-off-1/default.json": "39a41965c0cfbb9d9183a675c39e84b3372d7edced4948e949425dc980c18018",
+    "/workspace/shared/wave-transfer-mode-20261019/watch/dist/transfer-target-off/clock.json": "ee26c7ec19cb41daafa76e455c3bd24ca9a1ee6762fe5cf74cd2ddb321fc0bcd",
+    "/workspace/shared/wave-transfer-mode-20261019/watch/dist/transfer-target-off/default.elf": "01d6e1f845dc34e46ebad9f1646af0c0dafdd98915493557c60f8351cbc299e7",
+    "/workspace/shared/wave-transfer-mode-20261019/watch/dist/transfer-target-off/build.json": "f07a8ad60cb5904efdfaad3f18c72bfc67a6ad33488a752829fb1caa0296ac82",
+    "/workspace/shared/wave-transfer-mode-20261019/watch/dist/transfer-target-off/clock.elf": "f29065b5a57b88f8fd6c2a328c0865dd2628cc484da30f6c23470a82ae8c87bc",
+    "/workspace/shared/wave-transfer-mode-20261019/watch/dist/transfer-target-off/default.json": "39a41965c0cfbb9d9183a675c39e84b3372d7edced4948e949425dc980c18018",
+    "/workspace/shared/wave-transfer-mode-20261019/watch/dist/transfer-target-on/clock.json": "ee26c7ec19cb41daafa76e455c3bd24ca9a1ee6762fe5cf74cd2ddb321fc0bcd",
+    "/workspace/shared/wave-transfer-mode-20261019/watch/dist/transfer-target-on/default.elf": "4ab8aaa0293053e5c743f057270d110fb68e43c5b0071b04691e35ebcfed1fa7",
+    "/workspace/shared/wave-transfer-mode-20261019/watch/dist/transfer-target-on/build.json": "873bd05925329935f6f2276251a659eaf4ae5d5fbb8463d7121cf82462d50a32",
+    "/workspace/shared/wave-transfer-mode-20261019/watch/dist/transfer-target-on/clock.elf": "f29065b5a57b88f8fd6c2a328c0865dd2628cc484da30f6c23470a82ae8c87bc",
+    "/workspace/shared/wave-transfer-mode-20261019/watch/dist/transfer-target-on/default.json": "39a41965c0cfbb9d9183a675c39e84b3372d7edced4948e949425dc980c18018",
+    "/workspace/shared/wave-transfer-mode-20261019/wave/scripts/test_serial_transfer_inputs.py": "b98b571b5ace1f25af239155621f972c7906e91ebf1bc6d33d1362b34d14cecb",
+    "/workspace/shared/wave-transfer-mode-20261019/wave/scripts/build_serial_transfer_inputs.py": "380064231b0b6a11ccca1abbdcaa0e6050556e079d6765f4697a9ca362dd9160"
+  },
+  "limits": "Actual selected and feature-off Home target artifacts; actual Runtime compile selection tested with compiler-command controls, not a full SDK Runtime build."
+}
