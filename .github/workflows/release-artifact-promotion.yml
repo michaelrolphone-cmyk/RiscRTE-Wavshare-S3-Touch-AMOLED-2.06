@@ -1,0 +1,103 @@
+name: Qualified artifact publication
+on:
+  pull_request:
+    paths:
+      - .github/workflows/release-artifact-promotion.yml
+      - scripts/release_artifact_reuse.py
+      - scripts/test_release_artifact_reuse.py
+      - docs/release-artifact-reuse/**
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/release-artifact-promotion.yml
+      - scripts/release_artifact_reuse.py
+      - scripts/test_release_artifact_reuse.py
+      - docs/release-artifact-reuse/**
+  workflow_dispatch:
+    inputs:
+      authorization:
+        description: Committed request path under docs/release-artifact-reuse/requests/
+        required: true
+        type: string
+      publish:
+        description: Publish only if the committed request also authorizes publication
+        type: boolean
+        default: false
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: qualified-artifact-publication-${{ github.repository }}
+  cancel-in-progress: false
+jobs:
+  contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONNOUSERSITE: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Negative controls and preserved producer/publisher contracts
+        run: |
+          python3 scripts/test_release_artifact_reuse.py
+          python3 scripts/test_wifi_footer_release.py
+          python3 scripts/test_provisioning_release.py
+  qualify-real-artifact:
+    needs: contracts
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Verify real immutable artifact without native compilation or publication
+        run: python3 scripts/release_artifact_reuse.py --authorization docs/release-artifact-reuse/requests/wifi-footer-055-qualification.json --workspace "$RUNNER_TEMP/qualified-promotion"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: qualified-publication-proof-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/qualified-promotion/promotion-result.json
+            ${{ runner.temp }}/qualified-promotion/publication-assets/publication-envelope.json
+          if-no-files-found: error
+          retention-days: 30
+  promote:
+    needs: contracts
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.repository == 'michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      actions: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      AUTHORIZATION: ${{ inputs.authorization }}
+      PUBLISH: ${{ inputs.publish }}
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Verify exact producer and optionally publish immutable bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          flags=()
+          if [[ "$PUBLISH" == true ]]; then flags+=(--publish); fi
+          python3 scripts/release_artifact_reuse.py --authorization "$AUTHORIZATION" --workspace "$RUNNER_TEMP/qualified-promotion" "${flags[@]}"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: publication-result-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/qualified-promotion/promotion-result.json
+            ${{ runner.temp }}/qualified-promotion/publication-assets/publication-envelope.json
+          if-no-files-found: error
+          retention-days: 30

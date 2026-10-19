@@ -1,0 +1,16 @@
+{
+  "verified": true,
+  "existing_tag": {
+    "ref": "refs/tags/test-wifi-footer-0.1.55",
+    "node_id": "REF_kwDOVFUle9oAIXJlZnMvdGFncy90ZXN0LXdpZmktZm9vdGVyLTAuMS41NQ",
+    "url": "https://api.github.com/repos/michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06/git/refs/tags/test-wifi-footer-0.1.55",
+    "object": {
+      "sha": "1606e7070753c87a9ba6160933331dbcc0d50162",
+      "type": "commit",
+      "url": "https://api.github.com/repos/michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06/git/commits/1606e7070753c87a9ba6160933331dbcc0d50162"
+    }
+  },
+  "attempted_producer": "30d8c5f75cf809d28fe01d8691ec6fe372856af0",
+  "rejection": "Existing tag source differs",
+  "external_writes": false
+}

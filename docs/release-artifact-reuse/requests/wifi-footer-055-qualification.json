@@ -1,0 +1,14 @@
+{
+  "archive_sha256": "17d8eadb584ecd4a70f8d297b6d5df13faab21719e3ad931b855a4f4083434db",
+  "artifact_id": 12085796024,
+  "checksums_sha256": "636855c1084ca4f732b23630dcb0ab025df62c8c0d08920662240ad82f605b26",
+  "manifest_sha256": "ca99c1e6e1078e2748307623cbcda9b39eab63de11ad8bb7beff8d8eaab177d4",
+  "producer_revision": "30d8c5f75cf809d28fe01d8691ec6fe372856af0",
+  "profile": "wifi-footer-v1",
+  "publication_revision": "1606e7070753c87a9ba6160933331dbcc0d50162",
+  "publish": false,
+  "repository": "michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06",
+  "run_attempt": 1,
+  "run_id": 38991612546,
+  "schema": 1
+}

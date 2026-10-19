@@ -1,0 +1,16 @@
+{
+  "artifact_prefix": "wifi-footer-release-",
+  "audited_revision": "30d8c5f75cf809d28fe01d8691ec6fe372856af0",
+  "build_pins_sha256": "6f05d86e6d83dc395798411c9576ef6d0a64df2cb7c39098d0f48cb6b4c1e5f9",
+  "metadata_paths": [
+    "docs/wifi-footer/retained-touch/README.md",
+    "docs/wifi-footer/retained-touch/normal.json",
+    "docs/wifi-footer/retained-touch/sanitized.json"
+  ],
+  "non_document_tree_sha256": "bb42140df075b876d11c2b40259e048291840364a4b77cdb320a18ba7665637c",
+  "pins_path": "docs/wifi-footer/source-pins.json",
+  "profile": "wifi-footer-v1",
+  "schema": 1,
+  "verifier_path": "scripts/wifi_footer_release.py",
+  "workflow_path": ".github/workflows/wifi-footer-native.yml"
+}
