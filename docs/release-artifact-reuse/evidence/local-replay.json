@@ -1,0 +1,164 @@
+{
+  "asset_count": 21,
+  "build_input_closure": {
+    "audit_sha256": "5461f66f05fb357b5a99065cdd8db8830c5af7d23eb477e32a6b33698a57d8de",
+    "changes": [
+      {
+        "after": {
+          "mode": "100644",
+          "object": "0034f952917a4d668b87865f5c37d46b300f5150",
+          "type": "blob"
+        },
+        "before": null,
+        "path": "docs/wifi-footer/retained-touch/README.md"
+      },
+      {
+        "after": {
+          "mode": "100644",
+          "object": "b1803f3d01492b41b83e07e1502de6d1378eb0b6",
+          "type": "blob"
+        },
+        "before": null,
+        "path": "docs/wifi-footer/retained-touch/normal.json"
+      },
+      {
+        "after": {
+          "mode": "100644",
+          "object": "7c36cfad635289fb151ceba5a575cc5692bdefb3",
+          "type": "blob"
+        },
+        "before": null,
+        "path": "docs/wifi-footer/retained-touch/sanitized.json"
+      },
+      {
+        "after": {
+          "mode": "100644",
+          "object": "5e1f0c34cb2cdeffc6a16556973eb4edaa724a20",
+          "type": "blob"
+        },
+        "before": {
+          "mode": "100644",
+          "object": "4455dd003434e6b767911342630aef18280913da",
+          "type": "blob"
+        },
+        "path": "docs/wifi-footer/source-pins.json"
+      }
+    ],
+    "producer_tree": "32bd1071c47b8e220089e440833ac3e8d1eeae50",
+    "profile": "wifi-footer-v1",
+    "publication_tree": "c60bf111f8511831372c360cf49b517e8b41dd3d",
+    "unchanged_input_closure_sha256": "9f81dc571ce4a3699d70313188a37005b15bf997002f8b4832223c54cf00a2ba"
+  },
+  "child_user_seconds": 0.36346,
+  "cpu_user_seconds": 0.144948,
+  "envelope_note": "local validation before controller source commit; CI supplies the final controller revision",
+  "native_compilation_invoked": false,
+  "producer": {
+    "archive_sha256": "17d8eadb584ecd4a70f8d297b6d5df13faab21719e3ad931b855a4f4083434db",
+    "artifact_id": 12085796024,
+    "checksums_sha256": "636855c1084ca4f732b23630dcb0ab025df62c8c0d08920662240ad82f605b26",
+    "manifest_sha256": "ca99c1e6e1078e2748307623cbcda9b39eab63de11ad8bb7beff8d8eaab177d4",
+    "run_attempt": 1,
+    "run_id": 38991612546
+  },
+  "producer_assets": {
+    "RELEASE-NOTES.txt": {
+      "bytes": 1224,
+      "sha256": "7c5b955941f8de5edb06629531cca28d9058ce16edf982b1d45b19c8dcea88ca"
+    },
+    "SHA256SUMS": {
+      "bytes": 1701,
+      "sha256": "636855c1084ca4f732b23630dcb0ab025df62c8c0d08920662240ad82f605b26"
+    },
+    "TESTING.txt": {
+      "bytes": 2916,
+      "sha256": "a307d1e1dad92ab611841b0c578ad6e9db7b490571611aec0ea538cadfb9a4a3"
+    },
+    "Waveshare-0.1.55-WiFi-Footer-Evidence.zip": {
+      "bytes": 13187435,
+      "sha256": "c6c97623ef3768968abdcf4d46335eff433e0fc7ef70ed0e74181f8247f6de21"
+    },
+    "Waveshare-0.1.55-WiFi-Footer-factory-erases-data-0x0.bin": {
+      "bytes": 16777216,
+      "sha256": "0a4eb0adca2654bea9a6af907e7e145aec7f5e189d165975e63c210e47610ce7"
+    },
+    "bootloader.bin": {
+      "bytes": 22640,
+      "sha256": "40f5184e4154eeee23a830e3f7dcce10cd6fac4b4c739d78266ec8cb893190a6"
+    },
+    "ci-provenance.zip": {
+      "bytes": 7411,
+      "sha256": "ed59332a68c8c97138d97e3af26c48677e78b25552f159dca49a5dafaa89c964"
+    },
+    "default.elf": {
+      "bytes": 617424,
+      "sha256": "9f10c7150cdc175ff5af0dbc1410e455ead4f18868dd56555e10860781103f2f"
+    },
+    "default.json": {
+      "bytes": 1551,
+      "sha256": "0888f82c0f69d48210d94bd9507e359833200d2756a1327323580324f314e3b1"
+    },
+    "firmware.bin": {
+      "bytes": 1773584,
+      "sha256": "241b2abe25d132cb8b49681fd312c7bd160c7fdcde6db4c433d43aa7c5bebc9f"
+    },
+    "partitions.bin": {
+      "bytes": 3072,
+      "sha256": "d27edcdba637142baa7d91e29b70df47554c22a4f14de303dc6a0cdcc1e25de8"
+    },
+    "power-driver.elf": {
+      "bytes": 6268,
+      "sha256": "1834f708fdd7ef725db16a0719b21cd41816cf5b60a867826b017722eb1dd4be"
+    },
+    "power-manifest.json": {
+      "bytes": 756,
+      "sha256": "50ef52f27f93165e1ebb748b5e5d21cd6d497f2fcf38654b8c19e0db282a34af"
+    },
+    "qualification.json": {
+      "bytes": 1480277,
+      "sha256": "ea0041526b3da1ac7d62e21b54867711e4a98a2f8be57a50535226044e7f544c"
+    },
+    "release.json": {
+      "bytes": 14568,
+      "sha256": "ca99c1e6e1078e2748307623cbcda9b39eab63de11ad8bb7beff8d8eaab177d4"
+    },
+    "source-lock.json": {
+      "bytes": 10148,
+      "sha256": "be8582a61ccefae0ec942c8bf76c0816b16b852788c3993fe2f02ca97a801005"
+    },
+    "source-pins.json": {
+      "bytes": 8011,
+      "sha256": "058b0ac52857c50898469bfb399d78eb561a72aa175d07845c1010f7c9fd73ba"
+    },
+    "store.bin": {
+      "bytes": 5570560,
+      "sha256": "2c853b54f446490b1cb12fdb79e82b2ae6a24809aa2f504644a566a5718f3693"
+    },
+    "wifi-build.json": {
+      "bytes": 56607,
+      "sha256": "1c4341e5e38d84d6e8adb94c6cbdd968103c1340f45cb49d7ed513775becdab3"
+    },
+    "wifi_settings.elf": {
+      "bytes": 169460,
+      "sha256": "25a5b8c1f36f4c9ea4edf7a6bcae5b890264a646bbbd2bca37e8c153c5233247"
+    },
+    "wifi_settings.json": {
+      "bytes": 1444,
+      "sha256": "fed946946d58f7e9fbb10bad11e49575e0aa3e4f65bb1cec8ab74550a65e91dd"
+    }
+  },
+  "producer_revision": "30d8c5f75cf809d28fe01d8691ec6fe372856af0",
+  "provider": {
+    "artifact_created_at": "2026-10-17T01:45:00Z",
+    "artifact_expires_at": "2026-11-16T01:44:59Z",
+    "head_branch": "release/wifi-footer-0.1.55",
+    "native_build_and_qualification_seconds": 395.0,
+    "native_job_seconds": 489.0,
+    "repository_id": 1414866299,
+    "workflow_id": 387279639,
+    "workflow_path": ".github/workflows/wifi-footer-native.yml"
+  },
+  "publication_revision": "1606e7070753c87a9ba6160933331dbcc0d50162",
+  "verified": true,
+  "wall_seconds": 0.5596231360104866
+}
