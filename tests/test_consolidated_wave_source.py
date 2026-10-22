@@ -1,0 +1,80 @@
+#!/usr/bin/env python3
+import copy
+import hashlib
+import os
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
+import unittest
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'scripts'))
+import consolidated_wave_source as q
+
+class SourceTrees(unittest.TestCase):
+    def setUp(self):
+        self.base={'production.c':('100644','a'*40)}
+        additions=set(q.INTEGRATION-q.NEW)|{f'original/{i}.txt' for i in range(42)}
+        assert len(additions)==49
+        self.capture=dict(self.base,**{p:('100644','b'*40) for p in additions})
+        self.current=dict(self.capture,**{p:('100644','c'*40) for p in q.NEW})
+    def validate(self):q.validate_trees(self.base,self.capture,self.current)
+    def test_union(self):self.validate()
+    def test_production_change(self):
+        self.current['production.c']=('100644','d'*40)
+        with self.assertRaisesRegex(ValueError,'Preserved source'):self.validate()
+    def test_missing_original(self):
+        self.current.pop('original/0.txt')
+        with self.assertRaisesRegex(ValueError,'Missing'):self.validate()
+    def test_changed_original(self):
+        self.current['original/0.txt']=('100644','d'*40)
+        with self.assertRaisesRegex(ValueError,'Preserved source'):self.validate()
+    def test_extra_source(self):
+        self.current['unapproved.c']=('100644','d'*40)
+        with self.assertRaisesRegex(ValueError,'unadmitted'):self.validate()
+    def test_missing_guard(self):
+        self.current.pop('scripts/consolidated_wave_source.py')
+        with self.assertRaisesRegex(ValueError,'Missing'):self.validate()
+    def test_original_capture_rewrite(self):
+        self.capture['production.c']=('100644','d'*40)
+        with self.assertRaisesRegex(ValueError,'capture changes'):self.validate()
+    def test_integration_symlink(self):
+        self.current['scripts/consolidated_wave_source.py']=('120000','d'*40)
+        with self.assertRaisesRegex(ValueError,'mode'):self.validate()
+
+class WorkingSource(unittest.TestCase):
+    def setUp(self):
+        self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
+        self.root=Path(self.temp.name)
+        self.env={k:v for k,v in os.environ.items() if not k.startswith('GIT_')}
+        self.env.update(GIT_CONFIG_NOSYSTEM='1',GIT_CONFIG_GLOBAL=os.devnull)
+        self.git('init','-q');self.git('config','user.email','test@example.invalid');self.git('config','user.name','Test')
+        self.git('config','maintenance.auto','false');self.git('config','gc.auto','0')
+        (self.root/'file').write_text('original\n');self.git('add','file');self.git('commit','-qm','fixture')
+        self.head=self.git('rev-parse','HEAD').strip()
+    def git(self,*args):return subprocess.check_output(['git','-C',str(self.root),*args],env=self.env,text=True)
+    def test_clean(self):self.assertEqual(q.clean(self.root,self.head),self.head)
+    def test_wrong_head(self):
+        with self.assertRaisesRegex(ValueError,'Wrong source head'):q.clean(self.root,'0'*40)
+    def test_assume_unchanged(self):
+        self.git('update-index','--assume-unchanged','file');(self.root/'file').write_text('wrong\n')
+        with self.assertRaisesRegex(ValueError,'Hidden index'):q.clean(self.root)
+    def test_skip_worktree(self):
+        self.git('update-index','--skip-worktree','file')
+        with self.assertRaisesRegex(ValueError,'Hidden index'):q.clean(self.root)
+    def test_hidden_untracked(self):
+        self.git('config','status.showUntrackedFiles','no');(self.root/'hidden').write_text('wrong')
+        with self.assertRaisesRegex(ValueError,'Dirty'):q.clean(self.root)
+    def test_actual_working_bytes(self):
+        entries=q.inventory(self.root,'HEAD');(self.root/'file').write_text('wrong')
+        with self.assertRaisesRegex(ValueError,'Working source'):q.validate_working(self.root,entries)
+    def test_working_symlink(self):
+        entries=q.inventory(self.root,'HEAD');(self.root/'file').unlink();(self.root/'file').symlink_to('/etc/hosts')
+        with self.assertRaisesRegex(ValueError,'escapes'):q.validate_working(self.root,entries)
+    def test_redirecting_environment_ignored(self):
+        old=os.environ.get('GIT_DIR');os.environ['GIT_DIR']='/not/a/repository'
+        try:self.assertEqual(q.clean(self.root,self.head),self.head)
+        finally:
+            if old is None:os.environ.pop('GIT_DIR',None)
+            else:os.environ['GIT_DIR']=old
+
+if __name__=='__main__':unittest.main()

@@ -104,7 +104,9 @@ class ProductCandidate(unittest.TestCase):
     def test_original_gate_unchanged(self):
         for name in ('scripts/package_serial_transfer.py', 'scripts/build_serial_transfer_pair.py',
                      'scripts/serial_transfer_qualification.py', 'docs/serial-transfer-mode/source-pins.json'):
-            self.assertEqual((ROOT / name).read_bytes(), q.git(ROOT, 'show', q.BASE + ':' + name))
+            from consolidated_wave_source import product_root
+            released = product_root()
+            self.assertEqual((released / name).read_bytes(), q.git(released, 'show', q.BASE + ':' + name))
 
 
 @unittest.skipUnless(os.environ.get('T039_PRODUCT_ARTIFACT'), 'Transported artifact not supplied')

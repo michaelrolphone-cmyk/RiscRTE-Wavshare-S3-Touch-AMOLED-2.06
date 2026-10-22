@@ -99,13 +99,8 @@ def read_tree(root):
 
 
 def source_guard(expected=None):
-    head = git(ROOT, 'rev-parse', 'HEAD').decode().strip()
-    require(expected is None or expected == head, 'Wrong qualification source head')
-    require(not git(ROOT, 'status', '--porcelain').strip(), 'Source checkout must be clean')
-    changes = git(ROOT, 'diff', '--name-status', BASE, head).decode().splitlines()
-    require({r[2:] for r in changes} == ADDITIONS and
-            all(r.startswith('A\t') for r in changes), 'Production sources changed or candidate files missing')
-    return head
+    from consolidated_wave_source import validate
+    return validate(ROOT, expected)
 
 
 def check_repo(path, pin):
@@ -205,7 +200,9 @@ def verify(root, source, receipt_digest):
 def build(args):
     source = source_guard(); pins = read(DOCS / 'source-pins.json')
     out = args.output.resolve(); require(not out.exists(), 'Output must be new')
-    product_pins = read(ROOT / 'docs/serial-transfer-mode/source-pins.json')
+    from consolidated_wave_source import product_root
+    released_product = product_root()
+    product_pins = read(released_product / 'docs/serial-transfer-mode/source-pins.json')
     for name in ('runtime', 'image_helper'):
         check_repo(getattr(args, name), product_pins[name + '_revision'])
     sdk_file = args.sdk / 'components/soc/esp32s3/include/soc/soc_caps.h'
@@ -257,7 +254,8 @@ def build(args):
          'full_admission': [], 'ci': {k: os.environ.get(k) for k in
              ('GITHUB_RUN_ID', 'GITHUB_RUN_ATTEMPT', 'GITHUB_SHA', 'GITHUB_REPOSITORY')},
          'limits': 'Host full boot/cohort policy and compiled-native ELF admission only; no target instructions, allocation feasibility, device, radio or physical outcomes.'}
-    sources = {'runtime': args.runtime, 'product': ROOT, 'image_helper': args.image_helper, 'sdk': args.sdk}
+    sources = {'runtime': args.runtime, 'product': released_product, 'image_helper': args.image_helper, 'sdk': args.sdk}
+    sys.path.insert(0, str(released_product / 'scripts'))
     try:
         from serial_transfer_qualification import admit_product
         for sanitized in (False, True):

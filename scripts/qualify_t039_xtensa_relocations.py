@@ -55,13 +55,8 @@ def git(root, *args):
 
 
 def source_guard(expected=None):
-    head = git(ROOT, 'rev-parse', 'HEAD')
-    require(not git(ROOT, 'status', '--porcelain'), 'Dirty source checkout')
-    require(expected is None or expected == head, 'Wrong source head')
-    changes = git(ROOT, 'diff', '--name-status', PARENT, head).splitlines()
-    require(changes and all(r.startswith('A\t') and r[2:] in ADDITIONS for r in changes),
-            'Only additive relocation qualification files are permitted above unchanged PR26')
-    return head
+    from consolidated_wave_source import validate
+    return validate(ROOT, expected)
 
 
 def elf(data):

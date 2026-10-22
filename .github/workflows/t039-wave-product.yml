@@ -3,7 +3,7 @@ on:
   push:
     branches: [work/t039-wave-product-candidate-20261022]
   pull_request:
-    paths: ['scripts/qualify_t039_wave_product.py', 'tests/test_t039_wave_product.py', 'docs/t039/product-candidate/**', '.github/workflows/t039-wave-product.yml']
+    paths: ['scripts/qualify_t039_wave_product.py', 'tests/test_t039_wave_product.py', 'docs/t039/product-candidate/**', 'scripts/consolidated_wave_source.py', 'docs/consolidation/**', '.github/workflows/t039-wave-product.yml']
 permissions:
   contents: read
   actions: read
@@ -33,6 +33,12 @@ jobs:
           ref: 74f7491dc470b92dfa41fce41bf0c500f3714a94
           path: .source/image-helper
           persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06
+          ref: 07cb64541edc54dc88de65e98a619b59b16a82bc
+          path: .source/released-product
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -41,9 +47,9 @@ jobs:
       - name: Candidate custody and original product contracts
         run: |
           python -m unittest discover -s tests -p test_t039_wave_product.py -v
-          python scripts/test_serial_transfer_recipe.py
-          python scripts/test_serial_transfer_package.py
-          python scripts/test_serial_transfer_pair_plans.py
+          python .source/released-product/scripts/test_serial_transfer_recipe.py
+          python .source/released-product/scripts/test_serial_transfer_package.py
+          python .source/released-product/scripts/test_serial_transfer_pair_plans.py
       - name: Fetch exact published baseline and PR98 transported candidate
         env:
           GH_TOKEN: ${{ github.token }}
