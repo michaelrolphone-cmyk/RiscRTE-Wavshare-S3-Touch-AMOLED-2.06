@@ -77,7 +77,12 @@ def clean(root, expected=None):
             'Dirty source checkout')
     head = git(root, 'rev-parse', 'HEAD').decode().strip()
     require(expected is None or head == expected, 'Wrong source head')
-    validate_working(root, inventory(root, 'HEAD'))
+    current = inventory(root, 'HEAD')
+    validate_working(root, current)
+    # Only byte-verified root output rules may exclude untracked inputs.
+    exclusions = ['--exclude-from='+str(root/'.gitignore')] if '.gitignore' in current else []
+    require(not git(root, 'ls-files', '--others', *exclusions).strip(),
+            'Untracked or locally ignored source entry')
     return head
 
 

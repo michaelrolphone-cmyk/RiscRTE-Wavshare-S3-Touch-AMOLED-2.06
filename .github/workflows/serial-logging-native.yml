@@ -29,7 +29,7 @@ jobs:
       version: ${{ steps.build.outputs.version }}
       checksums_sha256: ${{ steps.build.outputs.checksums_sha256 }}
     env:
-      GITHUB_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      SOURCE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
       PYTHONDONTWRITEBYTECODE: '1'
       PYTHONNOUSERSITE: '1'
       CCACHE_DISABLE: '1'
@@ -54,6 +54,10 @@ jobs:
           git -C "$NATIVE_ROOT/sources/product" fetch --no-tags origin "$GITHUB_SHA"
           git -C "$NATIVE_ROOT/sources/product" checkout --quiet --detach FETCH_HEAD
           test "$(git -C "$NATIVE_ROOT/sources/product" rev-parse HEAD)" = "$GITHUB_SHA"
+          # Preserve actual Actions merge/workflow identities. The evaluated
+          # merge must contain exactly the selected source head's tree.
+          git -C "$NATIVE_ROOT/sources/product" fetch --no-tags origin "$SOURCE_HEAD_SHA"
+          test "$(git -C "$NATIVE_ROOT/sources/product" rev-parse HEAD^{tree})" = "$(git -C "$NATIVE_ROOT/sources/product" rev-parse FETCH_HEAD^{tree})"
       - name: Build exact native product and qualify complete provisioning store and core feed
         id: build
         run: bash "$NATIVE_ROOT/sources/product/scripts/run_serial_logging_native_ci.sh"

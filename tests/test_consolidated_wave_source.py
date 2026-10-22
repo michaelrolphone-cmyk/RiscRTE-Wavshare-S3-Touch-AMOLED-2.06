@@ -64,6 +64,24 @@ class WorkingSource(unittest.TestCase):
     def test_hidden_untracked(self):
         self.git('config','status.showUntrackedFiles','no');(self.root/'hidden').write_text('wrong')
         with self.assertRaisesRegex(ValueError,'Dirty'):q.clean(self.root)
+    def test_local_info_exclude_cannot_hide_source(self):
+        (self.root/'.git/info/exclude').write_text('hidden.h\n')
+        (self.root/'hidden.h').write_text('source')
+        with self.assertRaisesRegex(ValueError,'locally ignored'):q.clean(self.root)
+    def test_untracked_nested_ignore_cannot_hide_source(self):
+        (self.root/'nested').mkdir()
+        (self.root/'nested/.gitignore').write_text('*\n')
+        (self.root/'nested/hidden.h').write_text('source')
+        with self.assertRaisesRegex(ValueError,'locally ignored'):q.clean(self.root)
+    def test_tracked_output_exclusion_allowed(self):
+        (self.root/'.gitignore').write_text('/build/\n')
+        self.git('add','.gitignore');self.git('commit','-qm','outputs')
+        (self.root/'build').mkdir();(self.root/'build/generated.h').write_text('output')
+        q.clean(self.root)
+    def test_untracked_root_ignore_cannot_hide_source(self):
+        (self.root/'.gitignore').write_text('*\n')
+        (self.root/'hidden.h').write_text('source')
+        with self.assertRaisesRegex(ValueError,'locally ignored'):q.clean(self.root)
     def test_actual_working_bytes(self):
         entries=q.inventory(self.root,'HEAD');(self.root/'file').write_text('wrong')
         with self.assertRaisesRegex(ValueError,'Working source'):q.validate_working(self.root,entries)
@@ -76,5 +94,14 @@ class WorkingSource(unittest.TestCase):
         finally:
             if old is None:os.environ.pop('GIT_DIR',None)
             else:os.environ['GIT_DIR']=old
+
+class WorkflowSource(unittest.TestCase):
+    def test_actual_actions_identity_and_exact_tree(self):
+        text=(q.ROOT/'.github/workflows/serial-logging-native.yml').read_text()
+        self.assertNotIn('      GITHUB_SHA:',text)
+        self.assertIn('SOURCE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}',text)
+        self.assertIn('rev-parse HEAD^{tree}',text)
+        self.assertIn('rev-parse FETCH_HEAD^{tree}',text)
+        self.assertIn('= "$GITHUB_SHA"',text)
 
 if __name__=='__main__':unittest.main()
