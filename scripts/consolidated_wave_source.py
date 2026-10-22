@@ -16,7 +16,8 @@ NEW = {'scripts/consolidated_wave_source.py', 'tests/test_consolidated_wave_sour
 INTEGRATION = NEW | {'scripts/qualify_t039_wave_product.py',
     'scripts/qualify_t039_xtensa_relocations.py', 'tests/test_t039_wave_product.py',
     '.github/workflows/t039-wave-product.yml', '.github/workflows/t039-xtensa-relocation.yml',
-    'scripts/package_serial_logging.py', '.github/workflows/serial-logging-native.yml'}
+    'scripts/package_serial_logging.py', 'scripts/package_serial_lifetime.py',
+    '.github/workflows/serial-logging-native.yml'}
 
 
 def require(ok, message):

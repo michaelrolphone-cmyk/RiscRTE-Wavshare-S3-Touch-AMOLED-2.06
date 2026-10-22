@@ -7,13 +7,16 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'scripts'))
 import consolidated_wave_source as q
 
 class SourceTrees(unittest.TestCase):
     def setUp(self):
         self.base={'production.c':('100644','a'*40)}
-        additions=set(q.INTEGRATION-q.NEW)|{f'original/{i}.txt' for i in range(42)}
+        self.base['scripts/package_serial_lifetime.py']=('100644','a'*40)
+        integrations=set(q.INTEGRATION-q.NEW)-set(self.base)
+        additions=integrations|{f'original/{i}.txt' for i in range(49-len(integrations))}
         assert len(additions)==49
         self.capture=dict(self.base,**{p:('100644','b'*40) for p in additions})
         self.current=dict(self.capture,**{p:('100644','c'*40) for p in q.NEW})
@@ -40,6 +43,26 @@ class SourceTrees(unittest.TestCase):
     def test_integration_symlink(self):
         self.current['scripts/consolidated_wave_source.py']=('120000','d'*40)
         with self.assertRaisesRegex(ValueError,'mode'):self.validate()
+
+class HistoricalLifetime(unittest.TestCase):
+    def test_historical_lifetime_contracts_keep_original_hashes(self):
+        import package_serial_lifetime as lifetime
+        with mock.patch.object(q, 'validate', return_value='f'*40) as admission:
+            pins=lifetime.pins()
+        admission.assert_called_once_with(lifetime.ROOT)
+        self.assertEqual(len(pins['historical_contracts']),240)
+        self.assertEqual(pins['baseline_source'],'049d3c932fa6683b2a8614abf0b46a881bf23cfb')
+        # Both historical source trees retain all240 original recipe digests.
+        for path,digest in pins['historical_contracts'].items():
+            self.assertEqual(hashlib.sha256(q.git(q.ROOT,'show',pins['baseline_source']+':'+path)).hexdigest(),digest)
+    def test_changed_historical_recipe_rejected(self):
+        import package_serial_lifetime as lifetime
+        with mock.patch.object(q,'validate',return_value='f'*40), mock.patch.object(q,'git',return_value=b'changed'):
+            with self.assertRaisesRegex(ValueError,'Historical recipe changed'):lifetime.pins()
+    def test_unadmitted_current_checkout_rejected(self):
+        import package_serial_lifetime as lifetime
+        with mock.patch.object(q,'validate',side_effect=ValueError('Dirty source checkout')):
+            with self.assertRaisesRegex(ValueError,'Dirty source checkout'):lifetime.pins()
 
 class WorkingSource(unittest.TestCase):
     def setUp(self):
