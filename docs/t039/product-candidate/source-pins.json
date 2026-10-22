@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "status": "unreleased-software-candidate",
+  "product": "waveshare-esp32-s3-touch-amoled-2.06",
+  "baseline_source": "07cb64541edc54dc88de65e98a619b59b16a82bc",
+  "baseline_release_id": 416874415,
+  "baseline_release_tag": "test-sd-apps-0.1.64",
+  "baseline_assets": {
+    "firmware.bin": {
+      "bytes": 1813968,
+      "sha256": "5ec69a6a3cf3db0442f5e40785f6193ce473c066e21044b349e643400ceefbef"
+    },
+    "qualification.json": {
+      "bytes": 3039957,
+      "sha256": "eb1cce9c3f1ec673b86ce4b1fd7a296a44ed265609f69a2e8c962fe672af58e1"
+    },
+    "sd-apps.zip": {
+      "bytes": 1786624,
+      "sha256": "f800b5e3de0fb206646c7b00f28a2dc1c56357c677e79d5272fc4c5593bed0d8"
+    },
+    "source-lock.json": {
+      "bytes": 10148,
+      "sha256": "9aebcad24bc9ca25d2e4d279212f7ce895a8132cb31d6fc14e96d246b0843fe7"
+    },
+    "store.bin": {
+      "bytes": 5570560,
+      "sha256": "0d6a414a15ad34c92cc3d5a511b601fa2cbc1e1c7ba6b1b29e9c18b8ec596f93"
+    },
+    "Waveshare-0.1.64-SD-Apps-Evidence.zip": {
+      "bytes": 56225266,
+      "sha256": "42d6e19189255c71588f0761f2902db3f41cef0ac7107241771be14fb26e8e94"
+    }
+  },
+  "utilities_source": "7ef8a9341380b04ab6446dd34ff2743c0a80a80f",
+  "utilities_artifact_id": 12391275097,
+  "utilities_archive_sha256": "2dc46055c8c35fbcb263f14fb090d8f275e964beb03fd75504feb58d41476fdf",
+  "candidate_version": "0.1.31",
+  "candidate_elf": {
+    "bytes": 277552,
+    "sha256": "d4aab6b836056119d01d383ab55c3d480c2d4ba15762f6eef9d149956cfd6258"
+  },
+  "candidate_manifest": {
+    "bytes": 1301,
+    "sha256": "c3e354af072be1747473a50f3b1f339ab20b37040915919830ddaa5ac408bd59"
+  },
+  "runtime_revision": "b7803e6d32ce08fb4060730acc5443416b30148c",
+  "image_source": {
+    "volume_instance": 12,
+    "path": "Apps/ble_buttons/ble_buttons.elf"
+  },
+  "owner": "waveshare-boot-owned-external-apps",
+  "boot_policy_changes": false,
+  "firmware_publication": false,
+  "hardware_qualified": false
+}
