@@ -1,0 +1,90 @@
+name: T039 Waveshare product candidate
+on:
+  push:
+    branches: [work/t039-wave-product-candidate-20261022]
+  pull_request:
+    paths: ['scripts/qualify_t039_wave_product.py', 'tests/test_t039_wave_product.py', 'docs/t039/product-candidate/**', '.github/workflows/t039-wave-product.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  product-admission:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      ASAN_OPTIONS: detect_leaks=0
+      UBSAN_OPTIONS: halt_on_error=1
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE
+          ref: b7803e6d32ce08fb4060730acc5443416b30148c
+          path: .source/runtime
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-T-Watch-S3
+          ref: 74f7491dc470b92dfa41fce41bf0c500f3714a94
+          path: .source/image-helper
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install host parser dependency
+        run: python -m pip install pyelftools==0.32
+      - name: Candidate custody and original product contracts
+        run: |
+          python -m unittest discover -s tests -p test_t039_wave_product.py -v
+          python scripts/test_serial_transfer_recipe.py
+          python scripts/test_serial_transfer_package.py
+          python scripts/test_serial_transfer_pair_plans.py
+      - name: Fetch exact published baseline and PR98 transported candidate
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p .source/release .source/sdk/components/soc/esp32s3/include/soc
+          base=https://github.com/michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06/releases/download/test-sd-apps-0.1.64
+          for name in store.bin sd-apps.zip source-lock.json qualification.json; do
+            curl --fail --location --retry 2 "$base/$name" --output ".source/release/$name"
+          done
+          curl --fail --location --retry 2 "$base/Waveshare-0.1.64-SD-Apps-Evidence.zip" --output .source/release/evidence.zip
+          curl --fail --location --retry 2 https://raw.githubusercontent.com/espressif/esp-idf/fff9895c82d744c7237be8847347bdd1b07c6643/components/soc/esp32s3/include/soc/soc_caps.h --output .source/sdk/components/soc/esp32s3/include/soc/soc_caps.h
+          gh api repos/michaelrolphone-cmyk/RiscRTE-Utilities/actions/artifacts/12391275097/zip > .source/utilities-pr98.zip
+      - name: Compose complete namespaces and run full released Runtime admission
+        id: qualification
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          python scripts/qualify_t039_wave_product.py build --baseline .source/release --runtime .source/runtime --image-helper .source/image-helper --sdk .source/sdk --utilities-archive .source/utilities-pr98.zip --output dist/t039-wave-product 2>&1 | tee dist/t039-wave-product.log
+      - name: Record independent producer receipt digest
+        if: always()
+        id: receipt
+        run: |
+          test -f dist/t039-wave-product/qualification.json
+          echo "sha256=$(sha256sum dist/t039-wave-product/qualification.json | cut -d ' ' -f 1)" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: t039-wave-product-${{ github.event.pull_request.head.sha || github.sha }}
+          path: |
+            dist/t039-wave-product/
+            dist/t039-wave-product.log
+          include-hidden-files: true
+          retention-days: 14
+          if-no-files-found: error
+      - uses: actions/download-artifact@v4
+        if: always() && steps.receipt.outcome == 'success'
+        with:
+          name: t039-wave-product-${{ github.event.pull_request.head.sha || github.sha }}
+          path: ${{ runner.temp }}/t039-wave-transported
+      - name: Verify transported artifact against producer digest and exact head
+        if: always() && steps.receipt.outcome == 'success'
+        run: |
+          python scripts/qualify_t039_wave_product.py verify --artifact "$RUNNER_TEMP/t039-wave-transported/t039-wave-product" --source-sha "${{ github.event.pull_request.head.sha || github.sha }}" --receipt-sha256 "${{ steps.receipt.outputs.sha256 }}"

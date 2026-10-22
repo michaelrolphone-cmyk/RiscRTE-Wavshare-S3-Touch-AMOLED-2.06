@@ -51,5 +51,6 @@
   "owner": "waveshare-boot-owned-external-apps",
   "boot_policy_changes": false,
   "firmware_publication": false,
-  "hardware_qualified": false
+  "hardware_qualified": false,
+  "sdk_gpio_header_sha256": "843a2ae552eef850442bc748fcf3f807626b25d34eada462805bc24f827ba96e"
 }
