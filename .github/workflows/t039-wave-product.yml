@@ -88,3 +88,4 @@ jobs:
         if: always() && steps.receipt.outcome == 'success'
         run: |
           python scripts/qualify_t039_wave_product.py verify --artifact "$RUNNER_TEMP/t039-wave-transported/t039-wave-product" --source-sha "${{ github.event.pull_request.head.sha || github.sha }}" --receipt-sha256 "${{ steps.receipt.outputs.sha256 }}"
+          T039_PRODUCT_ARTIFACT="$RUNNER_TEMP/t039-wave-transported/t039-wave-product" T039_PRODUCT_RECEIPT_SHA256="${{ steps.receipt.outputs.sha256 }}" python -m unittest discover -s tests -p test_t039_wave_product.py -v

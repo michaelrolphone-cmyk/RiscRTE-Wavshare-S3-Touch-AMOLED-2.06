@@ -3,6 +3,8 @@
 import copy
 import importlib.util
 import json
+import os
+import shutil
 from pathlib import Path
 import sys
 import tempfile
@@ -103,6 +105,43 @@ class ProductCandidate(unittest.TestCase):
         for name in ('scripts/package_serial_transfer.py', 'scripts/build_serial_transfer_pair.py',
                      'scripts/serial_transfer_qualification.py', 'docs/serial-transfer-mode/source-pins.json'):
             self.assertEqual((ROOT / name).read_bytes(), q.git(ROOT, 'show', q.BASE + ':' + name))
+
+
+@unittest.skipUnless(os.environ.get('T039_PRODUCT_ARTIFACT'), 'Transported artifact not supplied')
+class TransportControls(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name) / 'artifact'
+        shutil.copytree(os.environ['T039_PRODUCT_ARTIFACT'], self.root)
+        self.source = q.git(ROOT, 'rev-parse', 'HEAD').decode().strip()
+        self.digest = os.environ['T039_PRODUCT_RECEIPT_SHA256']
+
+    def verify(self):
+        return q.verify(self.root, self.source, self.digest)
+
+    def test_transport_good(self):
+        self.assertEqual(self.verify()['status'], 'host-product-admission-qualified')
+
+    def test_transport_wrong_head(self):
+        self.source = '0' * 40
+        with self.assertRaisesRegex(ValueError, 'source head'): self.verify()
+
+    def test_transport_wrong_receipt(self):
+        self.digest = '0' * 64
+        with self.assertRaisesRegex(ValueError, 'Receipt digest'): self.verify()
+
+    def test_transport_tampered_elf(self):
+        with (self.root / 'candidate/external' / q.ELF).open('ab') as f: f.write(b'x')
+        with self.assertRaisesRegex(ValueError, 'artifact changed'): self.verify()
+
+    def test_transport_missing_file(self):
+        (self.root / 'candidate/store/boot.json').unlink()
+        with self.assertRaisesRegex(ValueError, 'artifact changed'): self.verify()
+
+    def test_transport_extra_file(self):
+        (self.root / 'unrecorded').write_text('extra')
+        with self.assertRaisesRegex(ValueError, 'artifact changed'): self.verify()
 
 
 if __name__ == '__main__':

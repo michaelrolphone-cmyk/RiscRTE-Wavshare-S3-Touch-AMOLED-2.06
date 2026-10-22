@@ -110,7 +110,7 @@ def source_guard(expected=None):
 
 def check_repo(path, pin):
     require(git(path, 'rev-parse', 'HEAD').decode().strip() == pin and
-            not git(path, 'status', '--porcelain', '--untracked-files=no').strip(),
+            not git(path, 'status', '--porcelain').strip(),
             'Dependency pin or tracked sources changed: ' + str(path))
 
 
@@ -146,7 +146,8 @@ def verify(root, source, receipt_digest):
     source_guard(source)
     require(sha((root / RECEIPT).read_bytes()) == receipt_digest, 'Receipt digest mismatch')
     q = read(root / RECEIPT)
-    require(q['source_commit'] == source and q['baseline_source'] == BASE,
+    require(q['source_commit'] == source and q['baseline_source'] == BASE and
+            q['source_tree'] == git(ROOT, 'rev-parse', 'HEAD^{tree}').decode().strip(),
             'Source identity changed')
     require(q['artifact_inventory'] == inventory(root), 'Transported artifact changed')
     require((root / 'CANDIDATE_ONLY.txt').read_text() == NOTICE, 'Candidate notice changed')
@@ -163,25 +164,39 @@ def verify(root, source, receipt_digest):
     require(q['consumer_runtime'] == pins['runtime_revision'], 'Wrong consumer Runtime')
     require(q['status'] in ('host-product-admission-qualified', 'consumer-rejected', 'qualification-blocked'), 'Unknown result')
     if q['status'] == 'host-product-admission-qualified':
+        require([r['sanitized'] for r in q['full_admission']] == [False, True],
+                'Distinct normal and sanitized full admission required')
         for row in q['full_admission']:
             require(row['prepared'] and row['cohort_validated'] and row['elf_count'] == 43 and
                     row['app_policy_rows'] == 32 and row['active_platform_count'] == 22 and
                     row['candidate_platform_count'] == 22 and not row['hardware_calls'] and
                     not row['storage_calls'], 'Full real consumer admission missing')
             negative = row['unauthorized_namespace_control']
-            require(not negative['cohort_validated'] and negative['expected_rejection'],
+            require(not negative['cohort_validated'] and negative['expected_rejection'] and
+                    negative['prepared'] and negative['elf_count'] == 0 and
+                    not negative['hardware_calls'] and not negative['storage_calls'],
                     'Existing namespace rejection gate missing')
         require(len(q['full_admission']) == 2 and q['external_admission']['external_app_count'] == 22,
                 'Incomplete normal/sanitized product admission')
-        app = next(a for a in q['external_admission']['apps'] if a['id'] == 'ble_buttons')
-        require(app['elf'] == pins['candidate_elf'] and len(app['tests']) == 2,
-                'Candidate ELF not structurally admitted by selected native consumer')
-        for t in app['tests']:
-            require(t['production_application_admission'] and t['production_structural_validation'] and
-                    t['driver_role_rejected'] and t['unsafe_rejected'] and
-                    t['missing_import_rejections'] == len(app['imports']) and
-                    t['production_removable_image_snapshots'] == 2,
-                    'External ELF rejection/snapshot controls missing')
+        external_proof = q['external_admission']
+        require(external_proof['runtime_commit'] == pins['runtime_revision'] and
+                external_proof['native_elf_sha256'] == q['native_elf']['sha256'],
+                'External admission uses another consumer')
+        require(len(external_proof['apps']) == 22 and
+                {r['path'] for r in external_proof['apps']} ==
+                {n for n in payload if n.endswith('.elf')}, 'External app coverage differs')
+        for app in external_proof['apps']:
+            require(app['elf'] == record(payload[app['path']]) and
+                    [t['sanitized'] for t in app['tests']] == [False, True],
+                    'External bytes or normal/sanitized evidence differ')
+            for t in app['tests']:
+                require(t['production_application_admission'] and t['production_structural_validation'] and
+                        t['driver_role_rejected'] and t['unsafe_rejected'] and
+                        t['missing_import_rejections'] == len(app['imports']) and
+                        t['malformed_or_truncated_rejections'] == 4 and
+                        t['production_removable_image_snapshots'] == 2 and
+                        not t['target_instructions_executed'],
+                        'External ELF rejection/snapshot controls missing')
     else:
         require(q.get('failure') and (root / 'consumer-rejection.txt').is_file(), 'Rejection evidence missing')
     return q
@@ -253,7 +268,7 @@ def build(args):
         q['external_admission'] = qualify(args.runtime, args.image_helper, native, after, payload,
                                          out / 'external-admission')
         q['status'] = 'host-product-admission-qualified'
-    except (ValueError, subprocess.CalledProcessError) as e:
+    except (ValueError, subprocess.SubprocessError, ImportError, OSError) as e:
         # Never relabel a real refusal as success or alter grants to get a pass.
         q['status'] = ('consumer-rejected' if isinstance(e, ValueError) and
             str(e).startswith('Production cohort admission failed:') else 'qualification-blocked')
