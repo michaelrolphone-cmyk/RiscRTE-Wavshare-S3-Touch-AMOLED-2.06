@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import copy
 import hashlib
+import json
 import os
 from pathlib import Path
 import subprocess
@@ -126,5 +127,99 @@ class WorkflowSource(unittest.TestCase):
         self.assertIn('rev-parse HEAD^{tree}',text)
         self.assertIn('rev-parse FETCH_HEAD^{tree}',text)
         self.assertIn('= "$GITHUB_SHA"',text)
+    def test_pr_output_cannot_enter_publish_job(self):
+        text=(q.ROOT/'.github/workflows/serial-logging-native.yml').read_text()
+        self.assertIn("if: github.event_name == 'push' && needs.native.outputs.publication_enabled == 'true'",text)
+        self.assertIn("github.event_name == 'pull_request' && 'qualification' || 'release'",text)
+        shell=(q.ROOT/'scripts/run_serial_logging_native_ci.sh').read_text()
+        self.assertIn("value=False if k=='publication_enabled' and os.environ.get('GITHUB_EVENT_NAME')=='pull_request'",shell)
+        self.assertIn('transport_mode+=(--qualification-only)',shell)
+
+class CIIdentity(unittest.TestCase):
+    def setUp(self):
+        import serial_logging_release as release
+        self.release=release
+        self.revision='a'*40
+        self.p=dict(product='waveshare',release_branch='release/sd-apps-0.1.63',publication_enabled=True)
+        self.repo='michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06'
+        self.ci=dict(GITHUB_REPOSITORY=self.repo,GITHUB_SHA=self.revision,GITHUB_WORKFLOW_SHA=self.revision,
+            GITHUB_REF='refs/pull/28/merge',GITHUB_EVENT_NAME='pull_request',GITHUB_RUN_ID='123',GITHUB_RUN_ATTEMPT='1',
+            GITHUB_HEAD_REF='consolidate/native-qualification-20261022',GITHUB_BASE_REF='main',SOURCE_HEAD_SHA='b'*40)
+        self.ci['GITHUB_WORKFLOW_REF']=self.repo+'/.github/workflows/serial-logging-native.yml@'+self.ci['GITHUB_REF']
+        patcher=mock.patch.object(q,'validate',return_value=self.revision)
+        self.admission=patcher.start();self.addCleanup(patcher.stop)
+        patcher=mock.patch.object(q,'git',return_value=b'equal-tree\n')
+        self.git=patcher.start();self.addCleanup(patcher.stop)
+    def test_qualification_preserves_real_merge_identity(self):
+        self.release.verify_ci_identity(self.ci,self.p,self.revision,True)
+        self.admission.assert_called_once_with(self.release.package.ROOT)
+        self.assertEqual(self.git.call_args_list,[mock.call(self.release.package.ROOT,'rev-parse',self.revision+'^{tree}'),
+            mock.call(self.release.package.ROOT,'rev-parse',self.ci['SOURCE_HEAD_SHA']+'^{tree}')])
+    def test_default_release_rejects_pr(self):
+        with self.assertRaisesRegex(ValueError,'Unexpected CI source branch'):
+            self.release.verify_ci_identity(self.ci,self.p,self.revision)
+        self.admission.assert_not_called()
+    def test_default_release_retains_both_legacy_branches(self):
+        for ref in ('refs/heads/provision/product-integration-053','refs/heads/'+self.p['release_branch']):
+            ci=dict(self.ci,GITHUB_REF=ref,GITHUB_WORKFLOW_REF=self.repo+'/.github/workflows/serial-logging-native.yml@'+ref)
+            self.release.verify_ci_identity(ci,self.p,self.revision)
+        self.admission.assert_not_called()
+    def test_wrong_pr_identities_rejected(self):
+        changes={'GITHUB_REPOSITORY':'other/repo','GITHUB_SHA':'c'*40,'GITHUB_WORKFLOW_SHA':'c'*40,
+            'GITHUB_REF':'refs/heads/main','GITHUB_EVENT_NAME':'push','GITHUB_HEAD_REF':'other-branch',
+            'GITHUB_BASE_REF':'other-base','SOURCE_HEAD_SHA':'not-a-commit',
+            'GITHUB_WORKFLOW_REF':self.repo+'/.github/workflows/other.yml@refs/pull/28/merge',
+            'GITHUB_RUN_ID':'0','GITHUB_RUN_ATTEMPT':'0'}
+        for key,value in changes.items():
+            with self.subTest(key=key),self.assertRaises(ValueError):
+                self.release.verify_ci_identity(dict(self.ci,**{key:value}),self.p,self.revision,True)
+    def test_changed_merge_tree_rejected(self):
+        self.git.side_effect=[b'merge-tree\n',b'other-source-tree\n']
+        with self.assertRaisesRegex(ValueError,'merge/source tree differs'):
+            self.release.verify_ci_identity(self.ci,self.p,self.revision,True)
+    def test_wrong_admitted_checkout_rejected(self):
+        self.admission.return_value='c'*40
+        with self.assertRaisesRegex(ValueError,'checkout differs'):
+            self.release.verify_ci_identity(self.ci,self.p,self.revision,True)
+    def test_dirty_current_source_rejected(self):
+        self.admission.side_effect=ValueError('Dirty source checkout')
+        with self.assertRaisesRegex(ValueError,'Dirty source checkout'):
+            self.release.verify_ci_identity(self.ci,self.p,self.revision,True)
+
+class TransportMode(unittest.TestCase):
+    def test_qualification_is_explicit_and_never_publishable(self):
+        import serial_logging_release as release
+        p={'publication_enabled':True}
+        row={'qualification_only':True,'publication_enabled':False}
+        release.check_transport_mode(row,p,True)
+        for candidate,mode in [(row,False),({'publication_enabled':False},False),
+                (dict(row,publication_enabled=True),True),({'publication_enabled':False},True),
+                (dict(row,qualification_only=1),True)]:
+            with self.subTest(row=candidate,mode=mode),self.assertRaises(ValueError):
+                release.check_transport_mode(candidate,p,mode)
+        release.check_transport_mode({'publication_enabled':True},p)
+    def test_default_publishers_reject_qualification_before_external_mutation(self):
+        import serial_logging_release as release
+        import publish_serial_logging_release as publisher
+        import publish_serial_logging_feed as feed
+        import build_serial_logging_pair as pair
+        p={'publication_enabled':True,'release_tag':'synthetic-release'}
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            (root/'qualification.json').write_text('{}')
+            (root/'release.json').write_text(json.dumps({'qualification_only':True,'publication_enabled':False}))
+            (root/'SHA256SUMS').write_text('synthetic guard fixture, not build evidence\n')
+            with mock.patch.object(release.package,'pins',return_value=p),mock.patch.object(feed,'pins',return_value=p), \
+                    mock.patch.object(pair,'pins',return_value=p),mock.patch.object(pair,'release_identity',return_value='a'*40), \
+                    mock.patch.object(release,'release_names',return_value=(set(),{})), \
+                    mock.patch.object(release,'check_directory',return_value={}), \
+                    mock.patch.object(publisher,'gh') as gh, mock.patch.object(feed,'object_json') as api, \
+                    mock.patch.object(feed,'find_release') as find:
+                metadata=root/'metadata.json';metadata.write_text('{}')
+                for action in (lambda:publisher.publish(root,'digest','a'*40),
+                               lambda:feed.publish(root,'digest','a'*40),
+                               lambda:pair.build(root,metadata,root,root,root/'output')):
+                    with self.assertRaisesRegex(ValueError,'Transport qualification mode differs'):action()
+                gh.assert_not_called();api.assert_not_called();find.assert_not_called()
 
 if __name__=='__main__':unittest.main()

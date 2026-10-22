@@ -17,6 +17,7 @@ INTEGRATION = NEW | {'scripts/qualify_t039_wave_product.py',
     'scripts/qualify_t039_xtensa_relocations.py', 'tests/test_t039_wave_product.py',
     '.github/workflows/t039-wave-product.yml', '.github/workflows/t039-xtensa-relocation.yml',
     'scripts/package_serial_logging.py', 'scripts/package_serial_lifetime.py',
+    'scripts/serial_logging_release.py', 'scripts/run_serial_logging_native_ci.sh',
     '.github/workflows/serial-logging-native.yml'}
 
 

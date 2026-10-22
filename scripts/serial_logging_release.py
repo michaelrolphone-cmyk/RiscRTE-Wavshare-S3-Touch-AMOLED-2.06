@@ -326,16 +326,42 @@ def release_names(p, q):
 CI_FILES = {'ci-run.json', 'workflow.yml', 'baseline-release.json', 'baseline-tag.json', 'compiler-version.txt', 'iq-linked.json'}
 
 
-def verify_ci_provenance(path, p, revision, native_proof):
+def verify_ci_identity(ci, p, revision, qualification_only=False):
+    """Keep release admission strict; separately bind nonpublishable PR proof."""
+    repo = 'michaelrolphone-cmyk/' + PRODUCTS[p['product']][0]
+    require(ci['GITHUB_REPOSITORY'] == repo and ci['GITHUB_SHA'] == revision and ci['GITHUB_WORKFLOW_SHA'] == revision, 'CI source identity differs')
+    if qualification_only:
+        require(ci.get('GITHUB_EVENT_NAME') == 'pull_request'
+                and re.fullmatch(r'refs/pull/[1-9][0-9]*/merge', ci['GITHUB_REF']), 'Qualification requires an actual PR merge ref')
+        require(ci.get('GITHUB_HEAD_REF') == 'consolidate/native-qualification-20261022'
+                and ci.get('GITHUB_BASE_REF') == 'main', 'Unexpected qualification branch')
+        head = ci.get('SOURCE_HEAD_SHA')
+        require(isinstance(head, str) and re.fullmatch('[0-9a-f]{40}', head), 'Qualification source head missing')
+        from consolidated_wave_source import validate, git
+        require(validate(package.ROOT) == revision, 'Qualification checkout differs')
+        require(git(package.ROOT, 'rev-parse', revision+'^{tree}')
+                == git(package.ROOT, 'rev-parse', head+'^{tree}'), 'Qualification merge/source tree differs')
+    else:
+        require(ci['GITHUB_REF'] in ('refs/heads/provision/product-integration-053', 'refs/heads/' + p['release_branch']), 'Unexpected CI source branch')
+    require(ci['GITHUB_WORKFLOW_REF'] == repo + '/.github/workflows/serial-logging-native.yml@' + ci['GITHUB_REF'], 'CI workflow identity differs')
+    require(all(re.fullmatch('[1-9][0-9]*', ci[k]) for k in ('GITHUB_RUN_ID', 'GITHUB_RUN_ATTEMPT')), 'CI run identity missing')
+
+
+def check_transport_mode(release, p, qualification_only=False):
+    # A verifier/publisher must opt into qualification explicitly. Never infer
+    # the permission mode from an untrusted output's own classification.
+    require(release.get('qualification_only', False) is qualification_only, 'Transport qualification mode differs')
+    expected = False if qualification_only else p['publication_enabled']
+    require(release['publication_enabled'] is expected, 'Transport publication permission differs')
+
+
+def verify_ci_provenance(path, p, revision, native_proof, qualification_only=False):
     members = archive_members(path)
     require(set(members) == CI_FILES, 'CI provenance inventory differs')
     repo = 'michaelrolphone-cmyk/' + PRODUCTS[p['product']][0]
     with zipfile.ZipFile(path) as z:
         ci = decode(z.read('ci-run.json'))
-        require(ci['GITHUB_REPOSITORY'] == repo and ci['GITHUB_SHA'] == revision and ci['GITHUB_WORKFLOW_SHA'] == revision, 'CI source identity differs')
-        require(ci['GITHUB_REF'] in ('refs/heads/provision/product-integration-053', 'refs/heads/' + p['release_branch']), 'Unexpected CI source branch')
-        require(ci['GITHUB_WORKFLOW_REF'] == repo + '/.github/workflows/serial-logging-native.yml@' + ci['GITHUB_REF'], 'CI workflow identity differs')
-        require(all(re.fullmatch('[1-9][0-9]*', ci[k]) for k in ('GITHUB_RUN_ID', 'GITHUB_RUN_ATTEMPT')), 'CI run identity missing')
+        verify_ci_identity(ci, p, revision, qualification_only)
         require(z.read('workflow.yml') == (package.ROOT / '.github/workflows/serial-logging-native.yml').read_bytes(), 'Published workflow snapshot differs')
         c = package.baseline_contract(p); tag = decode(z.read('baseline-tag.json')); baseline = decode(z.read('baseline-release.json'))
         require(tag['ref'] == 'refs/tags/' + c['release_tag'] and tag['object']['type'] == 'commit' and tag['object']['sha'] == c['source_revision'], 'Baseline tag provenance differs')
@@ -347,12 +373,16 @@ def verify_ci_provenance(path, p, revision, native_proof):
         require(iq == native_proof['radio_iq'], 'CI/qualified IQ proof differs')
         target = decode((package.ROOT / 'docs/native-idf61/released-baseline.json').read_bytes())['target']
         require(iq['schema'] == 1 and iq['target_identity'] == target and re.fullmatch('[0-9a-f]{64}', iq['elf_sha256']), 'Final IQ link qualification missing')
-    return {'repository': repo, 'run_id': int(ci['GITHUB_RUN_ID']), 'run_attempt': int(ci['GITHUB_RUN_ATTEMPT']),
+    result = {'repository': repo, 'run_id': int(ci['GITHUB_RUN_ID']), 'run_attempt': int(ci['GITHUB_RUN_ATTEMPT']),
             'source_revision': revision, 'firmware_elf_sha256': iq['elf_sha256'], 'workflow_sha256': sha((package.ROOT / '.github/workflows/serial-logging-native.yml').read_bytes())}
+    if qualification_only:
+        result.update(qualification_only=True, source_head_revision=ci['SOURCE_HEAD_SHA'], ci_ref=ci['GITHUB_REF'])
+    return result
 
 
 def transport(args):
     p = package.pins(final=True)
+    qualification_only = getattr(args, 'qualification_only', False)
     clean_source(package.ROOT, args.source_revision)
     q = validate_candidate(args.candidate, p, args.source_revision)
     require(not args.output.exists(), 'Release output must be new')
@@ -399,8 +429,13 @@ def transport(args):
     import tempfile
     with tempfile.TemporaryDirectory() as temp:
         provenance = Path(temp) / 'ci-provenance.zip'; provenance.write_bytes(files['ci-provenance.zip'])
-        ci_proof = verify_ci_provenance(provenance, p, args.source_revision, q['native'])
+        ci_proof = verify_ci_provenance(provenance, p, args.source_revision, q['native'], qualification_only)
         require(ci_proof['firmware_elf_sha256'] == q['input_lock']['native_files']['firmware_elf']['sha256'], 'CI IQ/firmware ELF binding differs')
+    if qualification_only:
+        notes = ('NONPUBLISHABLE PR QUALIFICATION ONLY. Not a firmware release or installation guide.\n'
+                 'Actual PR merge/workflow identities and exact source-head tree are verified.\n'
+                 'All native, candidate, baseline, extraction and transport checks remain required.\n'
+                 'No device was accessed; hardware acceptance remains unverified.\n')
     files['RELEASE-NOTES.txt'] = notes.encode()
     files['TESTING.txt'] = (notes + '\nHardware checks:\n'
         '1. Back up device data, then flash the factory image at offset 0x0 only if erasure is acceptable. After flashing, reset, reconnect on Home, then transfer and verify files in that order.\n'
@@ -413,31 +448,36 @@ def transport(args):
         '8. Repeat serial STAT during native settings maintenance and after Home return; record serial response, retention diagnostics, and recovery.\n'
         '9. Check binary and empty files, nested sibling preservation, interrupted writes and AppData isolation. No boot-bank namespace may be writable.\n'
         'Report the device, firmware version, steps, expected and actual result, and serial logs for failures.\n').encode()
+    if qualification_only:
+        files['TESTING.txt'] = notes.encode()
     release = dict(schema=1, repository='michaelrolphone-cmyk/' + repository, product=p['product'], version=p['version'],
-        source_revision=args.source_revision, release_tag=p['release_tag'], publication_enabled=p['publication_enabled'],
+        source_revision=args.source_revision, release_tag=p['release_tag'], publication_enabled=False if qualification_only else p['publication_enabled'],
         native_rebuilt=True, hardware_tested=False, device_accessed=False, factory_erases_data=True,
         preserving_update_kit_emitted=False, default_sha256=p['default_sha256'], default_manifest_sha256=p['default_manifest_sha256'],
         changed_store_files=q['preservation']['changed_store_files'], source_lock=q['input_lock'], qualification_sha256=sha(files['qualification.json']),
         final_factory_default_extracted=True, ci=ci_proof, artifacts={n: record(b) for n, b in sorted(files.items())})
+    if qualification_only:
+        release['qualification_only'] = True
     files['release.json'] = encoded(release)
     files['SHA256SUMS'] = ''.join(sha(b) + '  ' + n + '\n' for n, b in sorted(files.items())).encode()
     args.output.mkdir(parents=True)
     for name, data in files.items(): (args.output / name).write_bytes(data)
-    verify_output(args.output, sha(files['SHA256SUMS']), args.source_revision)
-    print('Same-run native release transport and final factory extraction PASS; hardware not tested')
+    verify_output(args.output, sha(files['SHA256SUMS']), args.source_revision, qualification_only)
+    print('Same-run native '+('nonpublishable qualification' if qualification_only else 'release')+' transport and final factory extraction PASS; hardware not tested')
 
 
-def verify_output(root, expected_sha, revision):
+def verify_output(root, expected_sha, revision, qualification_only=False):
     p = package.pins(final=True)
     require((root / 'qualification.json').is_file(), 'Qualification missing')
     q = decode((root / 'qualification.json').read_bytes())
     names, renamed = release_names(p, q)
     rows = check_directory(root, expected_sha, names)
     release = decode((root / 'release.json').read_bytes())
+    check_transport_mode(release, p, qualification_only)
     require(release['schema'] == 1 and release['repository'] == 'michaelrolphone-cmyk/' + PRODUCTS[p['product']][0], 'Release repository/schema differs')
     require(set(release['artifacts']) == set(rows) - {'release.json'}, 'Release inventory differs')
     require(release['source_revision'] == revision and release['version'] == p['version'] and release['product'] == p['product']
-            and release['release_tag'] == p['release_tag'] and release['publication_enabled'] is p['publication_enabled'], 'Release identity differs')
+            and release['release_tag'] == p['release_tag'], 'Release identity differs')
     for key, value in {'native_rebuilt': True, 'hardware_tested': False, 'device_accessed': False,
                        'factory_erases_data': True, 'preserving_update_kit_emitted': False, 'final_factory_default_extracted': True}.items():
         require(release[key] is value, 'Release limit differs: ' + key)
@@ -445,7 +485,7 @@ def verify_output(root, expected_sha, revision):
             and release['default_manifest_sha256'] == p['default_manifest_sha256'], 'Release scope differs')
     for name, row in release['artifacts'].items(): require(record((root / name).read_bytes()) == row, 'Released bytes changed')
     q = validate_candidate_payloads(root, p, revision, renamed)
-    require(release['ci'] == verify_ci_provenance(root / 'ci-provenance.zip', p, revision, q['native']), 'Release CI binding differs')
+    require(release['ci'] == verify_ci_provenance(root / 'ci-provenance.zip', p, revision, q['native'], qualification_only), 'Release CI binding differs')
     require(release['ci']['firmware_elf_sha256'] == q['input_lock']['native_files']['firmware_elf']['sha256'], 'Released CI IQ/firmware binding differs')
     require(release['source_lock'] == q['input_lock'] and release['qualification_sha256'] == sha((root / 'qualification.json').read_bytes()), 'Release qualification binding differs')
     require(sha((root / 'default.elf').read_bytes()) == p['default_sha256'] and sha((root / 'default.json').read_bytes()) == p['default_manifest_sha256'], 'Released default differs')
@@ -456,12 +496,13 @@ if __name__ == '__main__':
     parser.add_argument('--source-revision', required=True)
     parser.add_argument('--verify', type=Path)
     parser.add_argument('--expected-sha')
+    parser.add_argument('--qualification-only', action='store_true', help='Verify nonpublishable consolidation PR output; not accepted by release publishers')
     for name in ('candidate', 'runtime', 'image-helper', 'baseline', 'output', 'metadata'): parser.add_argument('--' + name, type=Path)
     args = parser.parse_args()
     require(__debug__, 'Validation cannot be disabled')
     if args.verify:
         require(args.expected_sha is not None, 'Expected checksum custody required')
-        verify_output(args.verify, args.expected_sha, args.source_revision)
+        verify_output(args.verify, args.expected_sha, args.source_revision, args.qualification_only)
     else:
         require(all(getattr(args, n) is not None for n in ('candidate', 'runtime', 'image_helper', 'baseline', 'output', 'metadata')), 'Complete same-run input set required')
         transport(args)

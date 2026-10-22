@@ -64,7 +64,7 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: success()
         with:
-          name: wave-serial-logging-release-${{ github.sha }}
+          name: wave-serial-logging-${{ github.event_name == 'pull_request' && 'qualification' || 'release' }}-${{ github.sha }}
           path: ${{ env.NATIVE_ROOT }}/release/
           if-no-files-found: error
           retention-days: 30
@@ -89,7 +89,7 @@ jobs:
           compression-level: 0
   publish:
     needs: native
-    if: needs.native.outputs.publication_enabled == 'true' && github.repository == 'michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06' && github.ref == format('refs/heads/{0}', needs.native.outputs.release_branch)
+    if: github.event_name == 'push' && needs.native.outputs.publication_enabled == 'true' && github.repository == 'michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06' && github.ref == format('refs/heads/{0}', needs.native.outputs.release_branch)
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:

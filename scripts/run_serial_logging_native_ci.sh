@@ -33,8 +33,10 @@ assert os.environ['GITHUB_REPOSITORY']==expected
 (root/'metadata/baseline.json').write_text(json.dumps(c))
 with open(os.environ['GITHUB_OUTPUT'],'a') as out:
  for k in ('product','version','release_tag','release_branch','publication_enabled'):
-  print(k+'='+str(p[k]).lower() if isinstance(p[k],bool) else k+'='+str(p[k]),file=out)
-keys=('GITHUB_REPOSITORY','GITHUB_SHA','GITHUB_REF','GITHUB_RUN_ID','GITHUB_RUN_ATTEMPT','GITHUB_WORKFLOW_REF','GITHUB_WORKFLOW_SHA')
+  value=False if k=='publication_enabled' and os.environ.get('GITHUB_EVENT_NAME')=='pull_request' else p[k]
+  print(k+'='+str(value).lower() if isinstance(value,bool) else k+'='+str(value),file=out)
+keys=('GITHUB_REPOSITORY','GITHUB_SHA','GITHUB_REF','GITHUB_RUN_ID','GITHUB_RUN_ATTEMPT','GITHUB_WORKFLOW_REF','GITHUB_WORKFLOW_SHA',
+      'GITHUB_EVENT_NAME','GITHUB_HEAD_REF','GITHUB_BASE_REF','SOURCE_HEAD_SHA')
 (root/'metadata/ci-run.json').write_text(json.dumps({k:os.environ.get(k) for k in keys},sort_keys=True,indent=2)+'\n')
 PY
 clone_source() {
@@ -96,7 +98,9 @@ target="$(python -c "import json; print(json.load(open('$product/docs/native-idf
 python "$NATIVE_ROOT/sources/runtime/scripts/native_idf_iq_link.py" verify \
  --elf "$NATIVE_ROOT/build/riscrte_native.elf" --target "$target" --output "$NATIVE_ROOT/metadata/iq-linked.json"
 
-python "$product/scripts/serial_logging_release.py" --source-revision "$GITHUB_SHA" \
+transport_mode=()
+if [[ "${GITHUB_EVENT_NAME:-}" == pull_request ]]; then transport_mode+=(--qualification-only); fi
+python "$product/scripts/serial_logging_release.py" "${transport_mode[@]}" --source-revision "$GITHUB_SHA" \
  --candidate "$NATIVE_ROOT/candidate" --runtime "$NATIVE_ROOT/sources/runtime" --image-helper "$NATIVE_ROOT/sources/image_helper" \
  --baseline "$NATIVE_ROOT/inputs/released-factory.bin" --metadata "$NATIVE_ROOT/metadata" --output "$NATIVE_ROOT/release"
 checksums_sha256="$(sha256sum "$NATIVE_ROOT/release/SHA256SUMS" | cut -d' ' -f1)"
