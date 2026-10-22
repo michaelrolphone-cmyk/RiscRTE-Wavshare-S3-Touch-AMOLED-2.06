@@ -27,8 +27,10 @@ def pins(final=False):
             p['release_branch'] == 'release/sd-apps-' + p['version'], 'Release destination differs')
     require(p['feed_url'].endswith('/provisioning-index/' + p['version'] + '/native-packages-v1.json'), 'Core feed must match exact native product version')
     require(p.get('publication_authorized') is True, 'Publication scope missing')
+    from consolidated_wave_source import historical_contract, validate
+    validate(ROOT)
     for path, digest in p['historical_contracts'].items():
-        require(sha((ROOT / path).read_bytes()) == digest, 'Historical recipe changed: ' + path)
+        historical_contract(path, digest)
     for role in ('watch', 'system', 'utilities', 'drivers', 'sdk', 'image_helper'):
         require(re.fullmatch('[0-9a-f]{40}', p[role + '_revision']), 'Exact source revision missing: ' + role)
     if final:

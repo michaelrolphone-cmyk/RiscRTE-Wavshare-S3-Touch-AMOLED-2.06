@@ -1,0 +1,110 @@
+{
+  "actual_sdk_irq": false,
+  "hardware_tested": false,
+  "input_sha256": {
+    "src/diagnostics/LiveLogQueue.h": "c3f7e4b4d8f5c01e5db36107acde88a0ff567dc1d5f4c44be18d4e4b8ff7da09",
+    "src/ports/esp32s3/NativePlatform.cpp": "c39688bbf0638ed857d274585099f71448312edd741502cb7e050e1ac853c540",
+    "src/ports/esp32s3/NativeSerialFiles.cpp": "d8f676d94c2c566872073abf7fcdc051deac310cc9cb03bc35ad79dad1ef5d52",
+    "src/ports/esp32s3/SleepDiagnostics.cpp": "b5351160e6ae17911b35e3a619303b1c101131ddb0ab062277ad96e249e8c3aa",
+    "src/runtime/serial/Files.cpp": "58710f76e46b15867a4b6fe62854f39fe8a86389794d4a90614add969af2ff2a",
+    "test/native_log_retention_test.cpp": "37c7315b8ce6a39bc633bd3dc253c03ed53b2aa34d6f8bd904b1285b5605dd96",
+    "test/run_native_log_retention_test.sh": "bd676260372351580f2f16570701b2f42245c337533e37229b030acad9bfc992"
+  },
+  "profiles": [
+    {
+      "cases": [
+        "long-line",
+        "full-tx-ingress",
+        "partial-priority",
+        "disconnected-burst",
+        "reconnect-partial",
+        "queue-wrap",
+        "foreign-owner",
+        "recovery-retention",
+        "overflow"
+      ],
+      "command": [
+        "bash",
+        "/workspace/shared/native-log-retention-20261018/test/run_native_log_retention_test.sh"
+      ],
+      "external": false,
+      "log_file": "log-0-0.txt",
+      "log_sha256": "a7770809d31266e42b4906952cf5d2a6accc016233457d66e5a4c1e3fc7ed6cf",
+      "returncode": 0,
+      "sanitized": false
+    },
+    {
+      "cases": [
+        "long-line",
+        "full-tx-ingress",
+        "partial-priority",
+        "disconnected-burst",
+        "reconnect-partial",
+        "queue-wrap",
+        "foreign-owner",
+        "recovery-retention",
+        "overflow"
+      ],
+      "command": [
+        "bash",
+        "/workspace/shared/native-log-retention-20261018/test/run_native_log_retention_test.sh"
+      ],
+      "external": false,
+      "log_file": "log-0-1.txt",
+      "log_sha256": "a7770809d31266e42b4906952cf5d2a6accc016233457d66e5a4c1e3fc7ed6cf",
+      "returncode": 0,
+      "sanitized": true
+    },
+    {
+      "cases": [
+        "long-line",
+        "full-tx-ingress",
+        "partial-priority",
+        "disconnected-burst",
+        "reconnect-partial",
+        "queue-wrap",
+        "foreign-owner",
+        "recovery-retention",
+        "overflow"
+      ],
+      "command": [
+        "bash",
+        "/workspace/shared/native-log-retention-20261018/test/run_native_log_retention_test.sh"
+      ],
+      "external": true,
+      "log_file": "log-1-0.txt",
+      "log_sha256": "df09733109d46fd2e02e055ad041ed7d18df29e675e559514997fcf9dfd4d5e5",
+      "returncode": 0,
+      "sanitized": false
+    },
+    {
+      "cases": [
+        "long-line",
+        "full-tx-ingress",
+        "partial-priority",
+        "disconnected-burst",
+        "reconnect-partial",
+        "queue-wrap",
+        "foreign-owner",
+        "recovery-retention",
+        "overflow"
+      ],
+      "command": [
+        "bash",
+        "/workspace/shared/native-log-retention-20261018/test/run_native_log_retention_test.sh"
+      ],
+      "external": true,
+      "log_file": "log-1-1.txt",
+      "log_sha256": "df09733109d46fd2e02e055ad041ed7d18df29e675e559514997fcf9dfd4d5e5",
+      "returncode": 0,
+      "sanitized": true
+    }
+  ],
+  "runtime_revision": "b2c04612b90bc2622dde730ccb32ba1c6ad35174",
+  "source_equivalence": {
+    "fixture_pin_override": "Only local wrapper verification uses local commit; CI runs the frozen public revision.",
+    "identical_tree": "af986c5f9b1d8f6766ab0d0245cebe9e97b7e009",
+    "local_commit": "b2c04612b90bc2622dde730ccb32ba1c6ad35174",
+    "published_commit": "0aab2fd3b03b4190d638e23c79a465afeecf5dfb"
+  }
+}

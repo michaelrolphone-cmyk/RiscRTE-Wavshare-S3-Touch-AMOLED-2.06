@@ -1,0 +1,453 @@
+{
+  "base": "31ef3e34ffafddd4bb1a6ff4ed6e0f91236f6bb8",
+  "base_tree": "ddf9414ea238c6e82b863aa5fd257c9972a86022",
+  "inputs": [
+    {
+      "path": ".github/workflows/serial-logging-native.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5d16c999f1f3b04c9977c6f097ec73ed4e177508",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "docs/serial-logging-recovery/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d194ed9831e0c9a10663fdcde9d5136243269780",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "docs/serial-logging-recovery/baseline-0.1.62.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8496678145c0bc0c03ad789e01b91d0a9a9a3b79",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "docs/serial-logging-recovery/baseline-core-feed.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9cc36b2913a812b9c7f59932513f98b62669162b",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "docs/serial-logging-recovery/baseline-target-memory.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "db5738436b8f0d2c1fba9b1195814089af865b7b",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "docs/serial-logging-recovery/feed-tests.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2d4fb59577947d565a671d4ea3d7cb2fbd81d1c6",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "docs/serial-logging-recovery/local-log-qualifier.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b34608daec22622894769a5ec2387d3f16063d38",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "docs/serial-logging-recovery/log-0-0.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d0732b4322b47ad93b617a14a49198870a0a03de",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "docs/serial-logging-recovery/log-0-1.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d0732b4322b47ad93b617a14a49198870a0a03de",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "docs/serial-logging-recovery/log-1-0.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6bfa62bbfb13f8c6619096eed056e38b885b2129",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "docs/serial-logging-recovery/log-1-1.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6bfa62bbfb13f8c6619096eed056e38b885b2129",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "docs/serial-logging-recovery/log-qualifier.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d81895a63e7d588538e84139b224b5615c11b2df",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "docs/serial-logging-recovery/memory-tests.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0e9142c210427f015ebf926beb7d131e3e6b4108",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "docs/serial-logging-recovery/package-tests.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "496f48fc6e6ee2e5b5c742ad5f6b05e101ca30d3",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "docs/serial-logging-recovery/pair-tests.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9d56df05801c796ac38416069852aac5e2137bc5",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "docs/serial-logging-recovery/provider-url-delta.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7fd217e93078e57bf46109769b35b0310b0410f3",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "docs/serial-logging-recovery/release-tests-final.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a10dce9bdfd51c00b53224f854b22411ae49ffd6",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "docs/serial-logging-recovery/source-pins.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b3d32eec35ee7e101b452c5766c1a77b4e8ff43b",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "scripts/build_serial_logging_inputs.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5678219f6b6958045f7db099fb5d3daeb0609b4b",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "scripts/build_serial_logging_native.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b6c639ff4ee5b201894bcfd21cc4ce9b9dc33fdf",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "scripts/build_serial_logging_pair.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0d5a50904332955cc28910b6571dbc9a50bfe7e1",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "scripts/check_serial_logging_publisher_environment.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "67adcce886ffad017dc7acf8302d29b3aceb38ed",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "scripts/package_serial_logging.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d2a05a80893586623387186e4f3e73c532290954",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "scripts/publish_serial_logging_feed.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ceb2b5fdd70b667590b3ae710ce3615111af2d07",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "scripts/publish_serial_logging_pair.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "290c706ae0e71d8b7f7728569d7b66c6fa6cffb7",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "scripts/publish_serial_logging_release.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "efe9774f2863742a4c9cd4e4a7f549307c72ad47",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "scripts/qualify_native_log_retention.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6e28769fc512d7fb8022fa11ffc9a548bc6ab195",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "scripts/qualify_serial_logging_runtime.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fb80897408708a0b534298815c96abae7e9f4b51",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "scripts/run_serial_logging_native_ci.sh",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "810c3d3cc5646db46c9dc4b7e15d376dada9cb93",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "scripts/run_serial_logging_pair_publication.sh",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "73adff1bb3e89945b8885b45dc13f4dbe9db87ec",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "scripts/serial_logging_feed.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5e573ce58dd64d179cf589828fcfc0e5766672be",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "scripts/serial_logging_memory.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "610349cfbbe8a80804c740cbb102c222debae93d",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "scripts/serial_logging_qualification.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f8c5d73f897ee3323d421d3b0ce3106cfd13b07a",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "scripts/serial_logging_release.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "770870edf8a7af50e32df0e670fdc03d0929fd50",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "scripts/test_serial_logging_memory.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "99fe305dd79763d17fbb7e8db6540dbdc5cd31e0",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "scripts/test_serial_logging_package.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "519891097512451d73fcbd276c34705e6271ec0d",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "scripts/test_serial_logging_pair.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8bc6bcb90b036b20422d6ff9cb1e535c9f1c380f",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "scripts/test_serial_logging_pair_plans.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0772a7d862fca3570734abf4811021ca0334ee85",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": "scripts/test_serial_logging_release.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ca294585128e2f85995f25ad6e06ef028a7ac1b0",
+      "pr": 22,
+      "head": "f42a6e07133c599a22acfaa8b8a0672ff996dc1b",
+      "base": "9a98e763d783d795fc441b50adabe80d03341ed8"
+    },
+    {
+      "path": ".github/workflows/t039-wave-product.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "28bc9a98a7026e8aa79d943f5bf28e7e63a4d840",
+      "pr": 26,
+      "head": "30ef8d4fbe7bf63072c72988e3711880672d1196",
+      "base": "07cb64541edc54dc88de65e98a619b59b16a82bc"
+    },
+    {
+      "path": "docs/t039/product-candidate/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fdc4442527b4c61a4dd9971e83643d2b8312972a",
+      "pr": 26,
+      "head": "30ef8d4fbe7bf63072c72988e3711880672d1196",
+      "base": "07cb64541edc54dc88de65e98a619b59b16a82bc"
+    },
+    {
+      "path": "docs/t039/product-candidate/source-pins.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "62f862891b3c54892d9df9ca751d3976c4f9c0ec",
+      "pr": 26,
+      "head": "30ef8d4fbe7bf63072c72988e3711880672d1196",
+      "base": "07cb64541edc54dc88de65e98a619b59b16a82bc"
+    },
+    {
+      "path": "scripts/qualify_t039_wave_product.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "123e98febf8ddd3fb72336234c4354c43915d99e",
+      "pr": 26,
+      "head": "30ef8d4fbe7bf63072c72988e3711880672d1196",
+      "base": "07cb64541edc54dc88de65e98a619b59b16a82bc"
+    },
+    {
+      "path": "tests/test_t039_wave_product.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "82212993031a72233418025d396cd461f9bd5d0a",
+      "pr": 26,
+      "head": "30ef8d4fbe7bf63072c72988e3711880672d1196",
+      "base": "07cb64541edc54dc88de65e98a619b59b16a82bc"
+    },
+    {
+      "path": ".github/workflows/t039-xtensa-relocation.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5e77ee6b6b4989676a49dc467b25b6ae2cb27add",
+      "pr": 27,
+      "head": "dc814d894c9e1c12e335af620537db75841eccfe",
+      "base": "30ef8d4fbe7bf63072c72988e3711880672d1196"
+    },
+    {
+      "path": "docs/t039/relocation/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "65d31fce10cf136a655aec7757c1964be858a775",
+      "pr": 27,
+      "head": "dc814d894c9e1c12e335af620537db75841eccfe",
+      "base": "30ef8d4fbe7bf63072c72988e3711880672d1196"
+    },
+    {
+      "path": "scripts/qualify_t039_xtensa_relocations.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f64106fa44b92fad92e14000ab3fb7e10ee2077d",
+      "pr": 27,
+      "head": "dc814d894c9e1c12e335af620537db75841eccfe",
+      "base": "30ef8d4fbe7bf63072c72988e3711880672d1196"
+    },
+    {
+      "path": "tests/t039-relocation/runner.c",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1d2529366d949c543e0e14d088671f5945599fba",
+      "pr": 27,
+      "head": "dc814d894c9e1c12e335af620537db75841eccfe",
+      "base": "30ef8d4fbe7bf63072c72988e3711880672d1196"
+    },
+    {
+      "path": "tests/test_t039_xtensa_relocations.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "08034d8ea0df20907330c62a2187bdb0a6131d99",
+      "pr": 27,
+      "head": "dc814d894c9e1c12e335af620537db75841eccfe",
+      "base": "30ef8d4fbe7bf63072c72988e3711880672d1196"
+    }
+  ],
+  "capture": "788cfa532e06fb9661412dd3df174adc16daac3c",
+  "replacement": "PR28",
+  "release_published": false,
+  "hardware_qualified": false,
+  "qualification_dependency": "07cb64541edc54dc88de65e98a619b59b16a82bc",
+  "integration": "Exact main-plus-49-source custody; pinned released-product helpers; historical recipe validation stays on its immutable source; PR native validation without publication."
+}

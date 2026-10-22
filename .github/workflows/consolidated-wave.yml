@@ -1,0 +1,43 @@
+name: Consolidated Waveshare source contracts
+on:
+  pull_request:
+  push:
+    branches: [consolidate/native-qualification-20261022]
+permissions:
+  contents: read
+jobs:
+  source-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: michaelrolphone-cmyk/RiscRTE-Wavshare-S3-Touch-AMOLED-2.06
+          ref: 07cb64541edc54dc88de65e98a619b59b16a82bc
+          path: .source/released-product
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pyelftools==0.32
+      - name: Verify exact original source coverage and current checkout
+        run: |
+          python scripts/consolidated_wave_source.py
+          python -m unittest discover -s tests -p test_consolidated_wave_source.py -v
+      - name: Run logging, release-boundary, candidate and relocation controls
+        run: |
+          python scripts/test_serial_logging_memory.py
+          python scripts/test_serial_logging_package.py
+          python scripts/test_serial_logging_release.py
+          python scripts/test_serial_logging_pair_plans.py
+          python scripts/serial_logging_feed.py --self-test
+          python -m unittest discover -s tests -p test_t039_wave_product.py -v
+          python -m unittest discover -s tests -p test_t039_xtensa_relocations.py -v
+          python scripts/consolidated_wave_source.py

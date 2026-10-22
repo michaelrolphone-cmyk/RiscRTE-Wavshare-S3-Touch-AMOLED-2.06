@@ -1,0 +1,15 @@
+{
+  "after": {
+    "bytes": 85896,
+    "sha256": "79ec386e4601b81ae05ee9533ce0a8989c90e9beed5ed9cbc72aaae86118e270"
+  },
+  "before": {
+    "bytes": 85896,
+    "sha256": "245cf33567d44424c0dd5943ffced601a91c9eb06fd5980aa9b73dbdcaade140"
+  },
+  "differing_offsets": [
+    79032
+  ],
+  "manifest_byte_identical": true,
+  "only_change": "Core-feed URL version digit0.1.62 to0.1.63"
+}
