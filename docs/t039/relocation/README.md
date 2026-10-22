@@ -42,7 +42,7 @@ candidate archive inputs. Fetch `soc.h` and `esp_idf_version.h` from SDK commit
 Install pyelftools 0.32. Run from a clean committed checkout:
 
 ```sh
-python scripts/qualify_t039_xtensa_relocations.py \
+python scripts/qualify_t039_xtensa_relocations.py build \
   --baseline .source/release --runtime .source/runtime \
   --image-helper .source/image-helper --utilities-archive .source/utilities-pr98.zip \
   --sdk-headers .source/sdk-headers --output dist/t039-xtensa-relocation
@@ -51,3 +51,16 @@ python scripts/qualify_t039_xtensa_relocations.py \
 The receipt records passed/failed state and exact source. Initial publication
 is source-only until exact-head CI has completed. No merge, release, tags,
 firmware publication, device/radio actions or policy widening is authorized.
+
+## Explicit host boundaries
+
+The import resolver bridge performs lookup in the actual released public-export
+table. It is not a test of the production default resolver implementation. The
+production ordinary-scope hooks execute in one modeled RTOS task. Privileged
+inventory, concurrency and image-pressure reclamation are not qualified here.
+ASan instrumentation is enabled for production function bodies, with explicit
+requested-allocation redzones. Global instrumentation alone is disabled for the
+ordinary-scope translation unit so unused privileged tables can be garbage
+collected by the linker. Mappings have reserved PROT_NONE guard pages and
+normal-mode tail-canary checks. Local ptrace environments may disable LSan only
+with an explicit recorded flag; CI must run with leak detection enabled.

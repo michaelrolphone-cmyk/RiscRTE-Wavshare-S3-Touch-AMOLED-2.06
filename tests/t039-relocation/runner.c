@@ -18,12 +18,16 @@
 #include "esp_heap_caps.h"
 #include "soc/soc.h"
 #include "released_exports.h"
+#if defined(__SANITIZE_ADDRESS__)
+#include <sanitizer/asan_interface.h>
+#endif
 
 extern bool esp_elf_validate_file(const uint8_t *, size_t);
 struct allocation { void *pointer; size_t requested, mapped; };
 static struct allocation blocks[4096];
 static unsigned live, calls, fail_at, fail_cache, cache_writes, cache_invalidates;
 static unsigned snapshots, peak_live;
+static bool reader_fail_after_copy;
 static size_t live_bytes, peak_bytes;
 static int relocation_result;
 static TickType_t ticks;
@@ -46,9 +50,9 @@ void *heap_caps_malloc(size_t size, unsigned caps) {
             if (blocks[i].pointer && at < (uintptr_t)blocks[i].pointer + blocks[i].mapped + 4096 &&
                 (uintptr_t)blocks[i].pointer < at + mapped + 4096) { overlap = 1; break; }
         if (overlap) continue;
-        p = mmap((void *)at, mapped, PROT_READ | PROT_WRITE,
+        p = mmap((void *)at, mapped + 4096, PROT_NONE,
                  MAP_PRIVATE | MAP_ANONYMOUS | MAP_FIXED_NOREPLACE, -1, 0);
-        if (p != MAP_FAILED) break;
+        if (p != MAP_FAILED) { assert(!mprotect(p, mapped, PROT_READ | PROT_WRITE)); break; }
         assert(errno == EEXIST); /* Unsupported/unavailable addressing is a failure. */
     }
     assert(p != MAP_FAILED && (uintptr_t)p + mapped <= UINT32_MAX);
@@ -57,7 +61,13 @@ void *heap_caps_malloc(size_t size, unsigned caps) {
         ++live; live_bytes += size;
         if (live > peak_live) peak_live = live;
         if (live_bytes > peak_bytes) peak_bytes = live_bytes;
-        memset(p, 0xa5, mapped); /* BSS must be zeroed by production, not allocator. */
+        #if defined(__SANITIZE_ADDRESS__)
+        __asan_unpoison_memory_region(p, mapped);
+#endif
+        memset(p, 0xa5, mapped);
+#if defined(__SANITIZE_ADDRESS__)
+        __asan_poison_memory_region((char *)p + size, mapped - size);
+#endif /* BSS must be zeroed by production, not allocator. */
         return p;
     }
     abort();
@@ -67,7 +77,11 @@ void heap_caps_free(void *p) {
     for (unsigned i = 0; i < 4096; ++i) if (blocks[i].pointer == p) {
         assert(live && live_bytes >= blocks[i].requested);
         --live; live_bytes -= blocks[i].requested;
-        assert(munmap(p, blocks[i].mapped) == 0);
+        #if defined(__SANITIZE_ADDRESS__)
+        __asan_unpoison_memory_region(p, blocks[i].mapped);
+#endif
+        for (size_t j = blocks[i].requested; j < blocks[i].mapped; ++j) assert(((uint8_t *)p)[j] == 0xa5);
+        assert(munmap(p, blocks[i].mapped + 4096) == 0);
         memset(&blocks[i], 0, sizeof(blocks[i])); return;
     }
     abort(); /* Includes duplicate frees and foreign pointers. */
@@ -107,7 +121,9 @@ static int snapshot(void *context, const char *path, elf_file_t *file) {
     if (!copy) { errno = ENOMEM; return -1; }
     memcpy(copy, source->data, source->size);
     if (!esp_elf_validate_file(copy, source->size)) { esp_elf_free(copy); errno = EINVAL; return -1; }
-    file->payload = copy; file->size = source->size; return 0;
+    file->payload = copy; file->size = source->size;
+    if (reader_fail_after_copy) { esp_elf_free(copy); errno = EIO; return -1; } /* Failure owns cleanup, stale output ignored. */
+    return 0;
 }
 static struct dlmod_slist_t *open_instance(struct input *source) {
     relocation_result = INT32_MIN;
@@ -160,12 +176,19 @@ int main(int argc, char **argv) {
     assert(cache_writes && cache_writes == cache_invalidates);
     memset((void *)first->elf->sec[ELF_SEC_BSS].addr, 0x6c, first->elf->sec[ELF_SEC_BSS].size);
     memset((void *)first->elf->sec[ELF_SEC_DATA].addr, 0x6d, first->elf->sec[ELF_SEC_DATA].size);
+    const unsigned retained = live; const size_t retained_bytes = live_bytes;
+    for (unsigned i = 1; i <= success_calls; ++i) {
+        fail_at = calls + i; assert(!open_instance(&source)); fail_at = 0;
+        assert(live == retained && live_bytes == retained_bytes && dlmod_validate_handle(first));
+    }
+    missing = required_imports[0]; assert(!open_instance(&source)); missing = NULL;
+    assert(live == retained && live_bytes == retained_bytes && dlmod_validate_handle(first));
     struct dlmod_slist_t *second = open_instance(&source); assert(second && second != first);
     assert(second->elf != first->elf && second->elf->ptext != first->elf->ptext && second->elf->pdata != first->elf->pdata);
     dump(second, "second");
     for (size_t i = 0; i < first->elf->sec[ELF_SEC_BSS].size; ++i)
         assert(((uint8_t *)first->elf->sec[ELF_SEC_BSS].addr)[i] == 0x6c);
-    assert(!dlclose(first)); assert(!dlmod_validate_handle(first));
+    assert(!dlclose(first)); assert(!dlmod_validate_handle(first)); assert(dlclose(first) == -1);
     dump(second, "second-after-close"); assert(!dlclose(second)); empty();
     struct dlmod_slist_t *again = open_instance(&source); assert(again); dump(again, "reloaded");
     assert(!dlclose(again)); empty();
@@ -174,6 +197,7 @@ int main(int argc, char **argv) {
         calls = 0; fail_at = i; failed(&source, INT32_MIN); ++allocation_failures;
     }
     fail_at = 0;
+    reader_fail_after_copy = true; failed(&source, INT32_MIN); reader_fail_after_copy = false;
     unsigned import_failures = 0;
     for (unsigned i = 0; i < sizeof(required_imports)/sizeof(required_imports[0]); ++i) {
         missing = required_imports[i]; failed(&source, -ENOSYS); ++import_failures;
@@ -203,9 +227,9 @@ int main(int argc, char **argv) {
     again = open_instance(&source); assert(again); dump(again, "after-failures"); assert(!dlclose(again)); empty();
     char path[1024]; snprintf(path, sizeof(path), "%s/controls.json", output); f = fopen(path, "w"); assert(f);
     fprintf(f, "{\"allocation_failures\":%u,\"missing_import_failures\":%u,\"real_relocation_failures\":3,"
-            "\"cache_backend_failures\":2,\"snapshots\":%u,\"peak_host_requested_bytes\":%zu,"
+            "\"reader_cleanup_failures\":1,\"failed_second_allocation_cases\":%u,\"cache_backend_failures\":2,\"snapshots\":%u,\"peak_host_requested_bytes\":%zu,"
             "\"peak_live_allocations\":%u,\"host_pointer_bytes\":%zu,\"remaining_allocations\":%u,"
-            "\"target_instructions_executed\":false}\n", allocation_failures, import_failures, snapshots,
+            "\"target_instructions_executed\":false}\n", allocation_failures, import_failures, success_calls, snapshots,
             peak_bytes, peak_live, sizeof(void *), live);
     assert(!fclose(f)); free(source.data);
     puts("PASS: production Xtensa relocation, reader ownership, fresh independent instances and all cleanup controls");
