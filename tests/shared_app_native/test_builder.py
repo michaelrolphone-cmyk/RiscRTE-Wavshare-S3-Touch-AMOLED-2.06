@@ -115,4 +115,55 @@ class Builder(unittest.TestCase):
         self.assertIn('feed_emitted=False',text)
         self.assertIn('factory-candidate-erases-data',text)
 
+class BootloaderPreservation(unittest.TestCase):
+    def setUp(self):
+        baseline=bytearray(b'\xff'*0x1000000)
+        baseline[:4]=b'BOOT';baseline[0x7000:0x7004]=b'KEEP'
+        baseline[0x8000:0x8004]=b'PART';baseline[0x9000:0x9004]=b'DATA'
+        self.baseline=bytes(baseline)
+        self.contract={'factory':b.record(self.baseline),'bootloader':b.record(b'BOOT'),
+                       'partitions':b.record(b'PART')}
+        self.firmware=b'new firmware';self.store=b'new store'
+    def native_images(self, baseline, firmware, bootloader, packed):
+        self.assertEqual(bootloader,b'BOOT')
+        out=bytearray(baseline);out[0x10000:0x10000+len(firmware)]=firmware
+        out[0x2f0000:0x2f0000+len(packed)]=packed;out[0xff2000:0xff2004]=b'BANK'
+        transition=bytes(out);out[:0x8000]=bootloader+b'\xff'*(0x8000-len(bootloader))
+        return bytes(out),transition
+    def call(self):
+        return b.preserved_native_images(self.baseline,self.firmware,self.store,self.contract)
+    def test_retains_entire_released_prefix_and_ranges(self):
+        with patch.object(b.native,'make_images',side_effect=self.native_images):
+            factory,transition,boot=self.call()
+        self.assertEqual(factory,transition);self.assertEqual(boot,b'BOOT')
+        self.assertEqual(factory[:0x10000],self.baseline[:0x10000])
+        for start,end in ((0x270000,0x2f0000),(0x840000,0xff2000),(0xff3000,0x1000000)):
+            self.assertEqual(factory[start:end],self.baseline[start:end])
+        self.assertEqual(factory[0xff2000:0xff2004],b'BANK')
+    def test_rejects_baseline_hash(self):
+        self.contract['factory']['sha256']='0'*64
+        with self.assertRaisesRegex(ValueError,'factory'):self.call()
+    def test_rejects_bootloader_hash(self):
+        self.contract['bootloader']['sha256']='0'*64
+        with self.assertRaisesRegex(ValueError,'bootloader'):self.call()
+    def test_rejects_bootloader_length(self):
+        for size in (True,0,0x8001):
+            self.contract['bootloader']['bytes']=size
+            with self.subTest(size=size),self.assertRaisesRegex(ValueError,'length'):self.call()
+    def test_rejects_partition_hash(self):
+        self.contract['partitions']['sha256']='0'*64
+        with self.assertRaisesRegex(ValueError,'partition'):self.call()
+    def test_rejects_protected_range_mutations(self):
+        for offset in (0,0x7000,0x8000,0x9000,0x270000,0x840000,0xff3000):
+            def mutated(*args):
+                factory,transition=self.native_images(*args);x=bytearray(transition);x[offset]^=1
+                return factory,bytes(x)
+            with self.subTest(offset=offset),patch.object(b.native,'make_images',side_effect=mutated),self.assertRaisesRegex(ValueError,'Protected'):
+                self.call()
+    def test_output_bootloader_is_released_not_rebuilt(self):
+        import inspect
+        text=inspect.getsource(b.qualify)
+        self.assertIn("'bootloader.bin': released_bootloader",text)
+        self.assertIn("'rebuilt_evidence_only': record(blobs['bootloader'])",text)
+
 if __name__=='__main__':unittest.main(argv=[sys.argv[0],*remaining])

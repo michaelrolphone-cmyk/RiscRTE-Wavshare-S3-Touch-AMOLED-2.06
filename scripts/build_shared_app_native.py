@@ -47,6 +47,30 @@ def canonical(args, sources, p):
     return elf, manifest, receipt
 
 
+def preserved_native_images(baseline, firmware, packed, contract):
+    """Keep the released bootloader/NVS prefix; only app/store/bank may change."""
+    require(record(baseline) == {k: contract['factory'][k] for k in ('bytes', 'sha256')},
+            'Exact released factory required for bootloader preservation')
+    require(len(baseline) == 0x1000000, 'Retained factory layout differs')
+    size = contract['bootloader']['bytes']
+    require(type(size) is int and 0 < size <= 0x8000, 'Invalid released bootloader length')
+    released_bootloader = baseline[:size]
+    require(record(released_bootloader) == {k: contract['bootloader'][k] for k in ('bytes', 'sha256')},
+            'Released bootloader digest differs')
+    part_size = contract['partitions']['bytes']
+    require(type(part_size) is int and 0 < part_size <= 0x1000, 'Invalid released partition length')
+    require(record(baseline[0x8000:0x8000 + part_size]) ==
+            {k: contract['partitions'][k] for k in ('bytes', 'sha256')}, 'Released partition digest differs')
+    _, transition = native.make_images(baseline, firmware, released_bootloader, packed)
+    # make_images' transition is the checked original-bootloader form. Do not
+    # return its factory result, which rewrites bootloader padding to 0xff.
+    require(len(transition) == len(baseline), 'Factory length changed')
+    for start, end in ((0, 0x10000), (0x270000, 0x2f0000),
+                       (0x840000, 0xff2000), (0xff3000, 0x1000000)):
+        require(transition[start:end] == baseline[start:end], 'Protected released factory range changed')
+    return transition, transition, released_bootloader
+
+
 def qualify(args, sources, proof):
     from read_only_spiffs import read_image
     from prepare_preserving_update import layout, pair
@@ -87,7 +111,8 @@ def qualify(args, sources, proof):
     packed, packing = build(after, size=0x550000)
     require(build(after, size=0x550000)[0] == packed and read_image(packed, 0x550000) == after,
             'Deterministic store round-trip failed')
-    factory, transition = native.make_images(baseline, blobs['firmware_bin'], blobs['bootloader'], packed)
+    factory, transition, released_bootloader = preserved_native_images(
+        baseline, blobs['firmware_bin'], packed, contract)
     require(pair(factory, 0, layout(factory))[1:] == (blobs['firmware_bin'], packed), 'Factory binding differs')
     evidence = args.native_build / 'native-build-evidence'
     admission = admit_product(sources, blobs['firmware_elf'], before, after, native_proof, sanitized=False, receipt_dir=evidence)
@@ -110,7 +135,7 @@ def qualify(args, sources, proof):
     controlled.validate_build_proof(proof, sources, args.native_build, args.compiler, lock)
     native.verify_sources(lock, sources)
     assets = {'factory-candidate-erases-data-0x0.bin': factory, 'firmware.bin': blobs['firmware_bin'],
-              'bootloader.bin': blobs['bootloader'], 'partitions.bin': blobs['partitions'], 'store.bin': packed,
+              'bootloader.bin': released_bootloader, 'partitions.bin': blobs['partitions'], 'store.bin': packed,
               'sd-apps.zip': args.companion.read_bytes(), 'default.elf': default, 'default.json': manifest}
     require(record(assets['sd-apps.zip']) == {k: contract['external_archive'][k] for k in ('bytes', 'sha256')},
             'Companion archive changed during qualification')
@@ -118,6 +143,11 @@ def qualify(args, sources, proof):
         source_revision=lock['sources']['product']['revision'], hardware_tested=False, device_accessed=False,
         published=False, feed_emitted=False, factory_erases_data=True, preserving_update_kit_emitted=False,
         input_lock=lock, controlled_build=closure, native=native_proof, native_rebuilt=True,
+        bootloader_preservation={'delivered': record(released_bootloader),
+            'rebuilt_evidence_only': record(blobs['bootloader']),
+            'released_prefix_bytes': 0x10000, 'released_prefix_sha256': sha(baseline[:0x10000]),
+            'factory_prefix_sha256': sha(factory[:0x10000]),
+            'partition_table_byte_identical': True},
         default=home_proof, serial_files=serial, provisioning=provisioning, transfer_mode=transfer,
         target_memory=target_memory, baseline_contract=contract, preservation=preservation,
         public_imports=imports, admission=admission, admission_sanitized=admission_san,
