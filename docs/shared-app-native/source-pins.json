@@ -1,0 +1,34 @@
+{
+  "drivers_revision": "5890721073ebabd781d5d278e447c761947a5c58",
+  "home": {
+    "elf": {
+      "bytes": 564768,
+      "sha256": "8810b1bd9b43089f097ea8b5e231e6c62f6fafe55f364cdeb0833b01cf2f0f58"
+    },
+    "manifest": {
+      "bytes": 1692,
+      "sha256": "92d4dbc4418086f6ece07ba8141b6b78b5a40ef090a167530ae8ded1ccb0cf84"
+    },
+    "version": "0.23.2"
+  },
+  "image_helper_revision": "74f7491dc470b92dfa41fce41bf0c500f3714a94",
+  "product": "waveshare",
+  "profile": "profiles/serial-transfer-native.cmake",
+  "publication_enabled": false,
+  "purpose": "Published-only native Runtime/Home integration; preserve all released applications/providers and policies. Not Spectrum app delivery.",
+  "runtime_revision": "0052d1fc42e9cfc82d626c5a247d460919c87935",
+  "runtime_version": "0.4.18",
+  "schema": 1,
+  "sdk_revision": "fff9895c82d744c7237be8847347bdd1b07c6643",
+  "selected_product_revision": "07cb64541edc54dc88de65e98a619b59b16a82bc",
+  "system_revision": "bb0cadf3cec3445a64e11513b47b2676f3fdd92d",
+  "target_workspace_bytes": {
+    "diagnostic_workspace": 7352,
+    "live_log_queue": 32784,
+    "serial_state": 32,
+    "serial_workspace": 2800
+  },
+  "utilities_revision": "4fdcad2495c33fe63f5f6faca9b11ced3c739a5b",
+  "version": "0.1.65",
+  "watch_revision": "1c31856c06f6288fb9fb586f05185711596e963e"
+}
